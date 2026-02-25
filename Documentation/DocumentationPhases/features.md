@@ -90,3 +90,41 @@ Wichtig um die Kernfunktionen der Verwaltung und Bearbeitung von Daten zu visual
 - Level neu rechnen, bei XP Update
 ### Delete
 - keine
+
+## 6. **Streak-System**
+
+### CREATE
+- Streak starten / überschreiben wenn Streak regel erfüllt (zb. 1 Task pro Tag)
+### READ
+- Aktuelle Streak anzeigen
+- Beste Streak anzeigen
+### Update 
+- Streak erhöhen 
+- Streak zurücksetzen
+### Delete
+Streak Daten löschen
+
+## 7. **Kategorien**
+
+### CREATE
+- Kategorie erstellen (Arbeit, Schule usw.)
+### READ
+- Kategorien anzeigen
+- Anzahl Task pro Kategorie
+### Update 
+- Kategorie umbenennen
+### Delete
+- Kategorie löschen
+
+## 8. **Badges**
+
+### CREATE
+- Badge definieren
+- Badge erteilen bei Regel erfüllung (zb. 30 Tage Streak)
+### READ
+- erreichte Badges anzeigen
+- gesperrte Badges anzeigen
+### Update 
+- Badge von gesperrt auf freigeschaltet ändern
+### Delete
+- Badge entfernen
