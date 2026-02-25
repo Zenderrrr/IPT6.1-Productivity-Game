@@ -51,3 +51,42 @@ Wichtig um die Kernfunktionen der Verwaltung und Bearbeitung von Daten zu visual
 ### Delete
 - Task löschen
 - Erledigten Task archivieren
+
+## 3. **TaskLog**
+
+### CREATE
+- Eintrag erstellen, wenn Task abgeschlossen wird
+### READ
+- Verlauf anzeigen
+- Produktivität pro Tag abrufen
+### Update 
+- keine
+### Delete
+- Einzelne Logs löschen (im Admin)
+
+## 4. **XP-System**
+
+### CREATE
+- XP Element erstellen bei:
+    - Task erledigt
+    - Streak getroffen
+    - Level Up
+### READ
+- Gesammte XP berechnen
+- XP verlauf anzeigen
+### Update 
+- XP neu berechnen (bei Updates)
+### Delete
+- XP Elemente entfernen (als Admin)
+
+## 5. **Level-System**
+
+### CREATE
+- Levelgrenzen definieren
+### READ
+- Aktuelles Level berechnen
+- Fortschrittsbalken anzeigen
+### Update 
+- Level neu rechnen, bei XP Update
+### Delete
+- keine
