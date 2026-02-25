@@ -13,10 +13,41 @@ Wichtig um die Kernfunktionen der Verwaltung und Bearbeitung von Daten zu visual
 ## 1. **User (Benutzerinteraktionen)**
 
 ### CREATE
-
+- Benutzer registrieren
+- Default-User beim ersten Start erstellen
 ### READ
-
+- Benutzerprofil anzeigen
+- XP, Level, Streak anzeigen
+- Badges anzeigen
 ### Update 
-
+- Benutzername ändern
+- Passwort ändern
+- Theme / Einstellungen ändern
 ### Delete
+- Benutzer löschen
+- Account zurücksetzen
 
+## 2. **Tasks (Grund- / Kernfunktion)**
+
+### CREATE
+- Task erstellen
+    - Titel
+    - Beschreibung
+    - Schwierigkeit
+    - Dauer
+    - Kategorie
+    - Fälligkeitsdatum
+### READ
+- Task-Liste anzeigen
+- Filter:
+    - offen / erledigt
+    - Kategorie
+    - Zeitraum
+- Detailansicht eines Tasks
+### Update 
+- Task bearbeiten
+- Schwierigkeit anpassen
+- Kategorie ändern
+### Delete
+- Task löschen
+- Erledigten Task archivieren
