@@ -1,6 +1,7 @@
 # USE-Cases
 
 ## Use-Case Unterteilung
+
 - 1. Core Use-Cases
 - 2. Gamification Use-Cases
 - 3. Analyse- und Statistik Use-Cases
@@ -8,10 +9,12 @@
 
 ## Core Use-Cases
 
-### Benutzer 
+### Benutzer
+
 #### UC-01: Benutzer registrieren
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -20,11 +23,12 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:  
+Nachbedingungen:
 
-#### US-02: Benutzer einloggen
+#### UC-02: Benutzer einloggen
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -33,12 +37,14 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen: 
+Nachbedingungen:
 
-### Task 
+### Task
+
 #### UC-03: Task erstellen
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -47,11 +53,12 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:  
+Nachbedingungen:
 
-#### US-04: Task bearbeiten
+#### UC-04: Task bearbeiten
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -60,11 +67,12 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen: 
+Nachbedingungen:
 
-#### US-04: Task löschen
+#### UC-05: Task löschen
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -73,11 +81,12 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen: 
+Nachbedingungen:
 
-#### US-05: Task erledigen
+#### UC-06: Task erledigen
+
 Akteuer:
-    
+
 Beschreibung:
 
 Vorbedingenen:
@@ -86,9 +95,10 @@ Hauptablauf:
 
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen: 
+Nachbedingungen:
 
 ## Gamification Use-Cases
+<<<<<<< HEAD
 
 ### XP-System
 
@@ -110,3 +120,5 @@ Nachbedingungen:
 #### UC-08: XP anzeigen
 
 
+=======
+>>>>>>> d4ff27c79022595f5b245476665e53fe98bd072f
