@@ -8,7 +8,8 @@
 
 ## Core Use-Cases
 
-### UC-01: Benutzer registrieren
+### Benutzer 
+#### UC-01: Benutzer registrieren
 Akteuer:
     
 Beschreibung:
@@ -21,7 +22,60 @@ Alternativablauf (nur falls notwendig):
 
 Nachbedingungen:  
 
-### US-02: Benutzer einloggen
+#### US-02: Benutzer einloggen
+Akteuer:
+    
+Beschreibung:
+
+Vorbedingenen:
+
+Hauptablauf:
+
+Alternativablauf (nur falls notwendig):
+
+Nachbedingungen: 
+
+### Task 
+#### UC-03: Task erstellen
+Akteuer:
+    
+Beschreibung:
+
+Vorbedingenen:
+
+Hauptablauf:
+
+Alternativablauf (nur falls notwendig):
+
+Nachbedingungen:  
+
+#### US-04: Task bearbeiten
+Akteuer:
+    
+Beschreibung:
+
+Vorbedingenen:
+
+Hauptablauf:
+
+Alternativablauf (nur falls notwendig):
+
+Nachbedingungen: 
+
+#### US-04: Task löschen
+Akteuer:
+    
+Beschreibung:
+
+Vorbedingenen:
+
+Hauptablauf:
+
+Alternativablauf (nur falls notwendig):
+
+Nachbedingungen: 
+
+#### US-05: Task erledigen
 Akteuer:
     
 Beschreibung:
@@ -35,3 +89,5 @@ Alternativablauf (nur falls notwendig):
 Nachbedingungen: 
 
 ## Gamification Use-Cases
+
+
