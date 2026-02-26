@@ -37,17 +37,27 @@ Nachbedingungen: Benutzerkonto existiert im System.
 
 #### UC-02: Benutzer einloggen
 
-Akteuer:
+Akteuer: Benutzer
 
-Beschreibung:
+Beschreibung: Benutzer meldet sich mit seinen Zugangsdaten an.
 
-Vorbedingenen:
+Vorbedingenen: Benutzerkonto existiert. Benutzer ist nicht eingeloggt.
 
 Hauptablauf:
 
+1. Benutzer öffnet die Login-Seite.
+2. Benutzer gibt Login-Daten ein.
+3. Benutzer klickt auf „Login“.
+4. System prüft die Zugangsdaten.
+5. System erstellt eine Session / JWT und loggt den Benutzer ein.
+6. System öffnet das Dashboard.
+
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:
+- A1: Falsche Zugangsdaten -> System zeigt Fehlermeldung.
+- A2: Account gesperrt / nicht gefunden -> System zeigt Fehlermeldung.
+
+Nachbedingungen: Benutzer ist eingeloggt und kann Tasks verwalten.
 
 ### Task
 
