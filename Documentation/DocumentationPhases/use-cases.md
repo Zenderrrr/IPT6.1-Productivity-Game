@@ -133,17 +133,28 @@ Nachbedingungen: Task ist entfernt (oder als gelöscht markiert) und nicht mehr 
 
 #### UC-06: Task erledigen
 
-Akteuer:
+Akteuer: Benutzer
 
-Beschreibung:
+Beschreibung: Benutzer markiert eine Task als „erledigt“. System vergibt XP, aktualisiert Streak und berechnet Level neu.
 
-Vorbedingenen:
+Vorbedingenen: Benutzer ist eingeloggt. Task existiert, gehört dem Benutzer und ist „offen“.
 
 Hauptablauf:
 
+1. Benutzer klickt bei einer offenen Task auf „Erledigt“.
+2. System setzt Task-Status auf „erledigt“ und speichert Abschlussdatum/-zeit.
+3. System erstellt einen TaskLog-Eintrag (Completion Event).
+4. System berechnet XP für die Task und addiert diese zu `totalXP`.
+5. System aktualisiert die Streak (siehe Streak-Regeln: heute/gestern/Lücke).
+6. System berechnet Level aus `totalXP` neu.
+7. System zeigt aktualisierte Werte (XP, Level, Streak) im UI an.
+
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:
+- A1: Task war bereits erledigt -> System macht keine doppelte Vergabe (idempotent), zeigt Status an.
+- A2: Speichern/DB Fehler -> System zeigt Fehlermeldung, Task bleibt unverändert.
+
+Nachbedingungen: Task ist erledigt, XP/Level/Streak sind konsistent aktualisiert und der Abschluss ist im Verlauf sichtbar.
 
 ## Gamification Use-Cases
 
