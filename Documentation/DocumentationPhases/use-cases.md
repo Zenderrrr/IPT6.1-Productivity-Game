@@ -90,4 +90,23 @@ Nachbedingungen:
 
 ## Gamification Use-Cases
 
+### XP-System
+
+#### UC-07: XP berechnen
+Akteur: System
+    
+Beschreibung:
+Das System berechnet automatisch die XP was eine Aufgabe enthält, wenn diese als erledigt markiert wird.
+
+Vorbedingenen:
+- 
+
+Hauptablauf:
+
+Alternativablauf (nur falls notwendig):
+
+Nachbedingungen: 
+
+#### UC-08: XP anzeigen
+
 
