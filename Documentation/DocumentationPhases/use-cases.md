@@ -63,17 +63,26 @@ Nachbedingungen: Benutzer ist eingeloggt und kann Tasks verwalten.
 
 #### UC-03: Task erstellen
 
-Akteuer:
+Akteuer: Benutzer
 
-Beschreibung:
+Beschreibung: Benutzer erstellt einen neuen Task mit Metadaten (Schwierigkeit, Dauer, Kategorie, Fälligkeitsdatum).
 
-Vorbedingenen:
+Vorbedingenen: Benutzer ist eingeloggt.
 
 Hauptablauf:
 
+1. Benutzer öffnet „Task erstellen“.
+2. Benutzer füllt Pflichtfelder aus und optional weitere Felder.
+3. Benutzer speichert den Task.
+4. System validiert Eingaben.
+5. System speichert Task als „offen“.
+6. System zeigt den Task in der Task-Liste an.
+
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:
+- A1: Pflichtfeld fehlt/ungültig -> System zeigt Fehlermeldung, Task wird nicht gespeichert.
+
+Nachbedingungen: Neuer Task existiert und ist in der Liste sichtbar.
 
 #### UC-04: Task bearbeiten
 
