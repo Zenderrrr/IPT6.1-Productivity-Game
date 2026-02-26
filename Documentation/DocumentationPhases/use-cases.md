@@ -86,17 +86,27 @@ Nachbedingungen: Neuer Task existiert und ist in der Liste sichtbar.
 
 #### UC-04: Task bearbeiten
 
-Akteuer:
+Akteuer: Benutzer
 
-Beschreibung:
+Beschreibung: Benutzer passt einen bestehenden Task an (Titel, Beschreibung, Schwierigkeit, Dauer, Kategorie, Fälligkeitsdatum)
 
-Vorbedingenen:
+Vorbedingenen: Benutzer ist eingeloggt. Task existiert und gehört dem Benutzer.
 
 Hauptablauf:
 
+1. Benutzer öffnet einen Task.
+2. Benutzer klickt „Bearbeiten“.
+3. Benutzer ändert Felder.
+4. Benutzer speichert.
+5. System validiert Eingaben.
+6. System speichert Änderungen.
+7. System zeigt aktualisierte Task-Daten an.
+
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:
+- A1: Eingaben ungültig -> System zeigt Fehlermeldung.
+
+Nachbedingungen: Task ist aktualisiert gespeichert.
 
 #### UC-05: Task löschen
 
