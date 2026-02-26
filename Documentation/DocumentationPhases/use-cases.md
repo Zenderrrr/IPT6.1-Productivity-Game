@@ -110,17 +110,26 @@ Nachbedingungen: Task ist aktualisiert gespeichert.
 
 #### UC-05: Task löschen
 
-Akteuer:
+Akteuer: Benutzer
 
-Beschreibung:
+Beschreibung: Benutzer löscht einen bestehenden Task.
 
-Vorbedingenen:
+Vorbedingenen: Benutzer ist eingeloggt. Task existiert und gehört dem Benutzer.
 
 Hauptablauf:
 
+1. Benutzer öffnet Task-Detail oder Task-Liste.
+2. Benutzer wählt „Löschen“.
+3. System fragt optional nach Bestätigung.
+4. Benutzer bestätigt.
+5. System löscht den Task (oder markiert ihn als gelöscht/archiviert je nach Konzept).
+6. System aktualisiert die Task-Liste.
+
 Alternativablauf (nur falls notwendig):
 
-Nachbedingungen:
+- A1: Benutzer bricht Bestätigung ab -> keine Änderungen.
+
+Nachbedingungen: Task ist entfernt (oder als gelöscht markiert) und nicht mehr normal sichtbar.
 
 #### UC-06: Task erledigen
 
