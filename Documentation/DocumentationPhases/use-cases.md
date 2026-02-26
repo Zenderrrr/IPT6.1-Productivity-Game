@@ -118,7 +118,3 @@ Alternativablauf (nur falls notwendig):
 Nachbedingungen: 
 
 #### UC-08: XP anzeigen
-
-
-=======
->>>>>>> d4ff27c79022595f5b245476665e53fe98bd072f
