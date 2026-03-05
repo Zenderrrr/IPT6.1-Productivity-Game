@@ -158,25 +158,159 @@ Nachbedingungen: Task ist erledigt, XP/Level/Streak sind konsistent aktualisiert
 
 ## Gamification Use-Cases
 
-<<<<<<< HEAD
-
 ### XP-System
 
-#### UC-07: XP berechnen
+## UC-07: XP berechnen
 
-Akteur: System
+**Akteur:** System
 
-Beschreibung:
-Das System berechnet automatisch die XP was eine Aufgabe enthält, wenn diese als erledigt markiert wird.
+**Trigger:** Task wird abgeschlossen (zb. durch „UC-06: Task als erledigt markieren“)
 
-Vorbedingenen:
+### Beschreibung:
 
--
+Das System berechnet automatisch XP für den Benutzer basierend auf den Eigenschaften der erledigten Task und schreibt diese gut.
 
-Hauptablauf:
+### Vorbedingungen:
 
-Alternativablauf (nur falls notwendig):
+- Benutzer existiert und ist identifizierbar (User-ID vorhanden).
+- Eine Task wurde erfolgreich als „erledigt“ gespeichert (TaskLog vorhanden oder wird erstellt).
+- Task hat gültige Parameter (zb. Schwierigkeit, Dauer).
+- XP-Regeln/Formel sind im System definiert.
 
-Nachbedingungen:
+### Hauptablauf:
 
-#### UC-08: XP anzeigen
+1. System erkennt den Task-Abschluss (Event/Trigger).
+2. System lädt Task-Daten (Schwierigkeit, Dauer, ggf. Kategorie).
+3. System berechnet XP anhand der XP-Regel.
+4. System speichert ein **XPEvent** (UserId, TaskId, XP, Timestamp, Reason).
+5. System aktualisiert **Gesamt-XP** des Benutzers (zb. in User-Profil oder als berechneter Wert).
+6. System speichert Änderungen in der Datenbank.
+
+### Alternativablauf :
+
+* **A1: Ungültige Task-Daten** (Schwierigkeit/Dauer fehlt oder ausserhalb Bereich)
+  -> System bricht ab, protokolliert Fehler, keine XP-Gutschrift.
+* **A2: Datenbankfehler beim Speichern**
+  -> System geht zurück (Transaction), meldet Fehler an aufrufenden Prozess.
+
+### Nachbedingungen:
+
+- XP wurden korrekt berechnet und gutgeschrieben.
+- Ein XPEvent ist persistent gespeichert.
+- Gesamt-XP ist konsistent aktualisiert.
+
+---
+
+## UC-08: XP anzeigen
+
+**Akteur:** Benutzer
+
+### Beschreibung:
+
+Der Benutzer sieht seine aktuelle XP sowie die XP bis zum nächsten Level.
+
+### Vorbedingungen:
+
+- Benutzer ist eingeloggt.
+- XP-Daten sind vorhanden (Gesamt-XP oder XPEvents).
+- Level-Regeln sind definiert.
+
+### Hauptablauf:
+
+1. Benutzer öffnet Profil/Dashboard/Statusbereich.
+2. System lädt Gesamt-XP des Benutzers.
+3. System berechnet (oder lädt) aktuelles Level.
+4. System berechnet XP bis zum nächsten Level.
+5. System zeigt an:
+
+   - Aktuelle XP (Gesamt-XP)
+   - XP bis zum nächsten Level (Differenz)
+
+### Alternativablauf :
+
+- **A1: Keine XP vorhanden (Neuer User)**
+  -> System zeigt 0 XP und volle XP bis zum nächsten Level.
+- **A2: Datenbankfehler**
+  -> System zeigt Fehlermeldung/Placeholder („Daten konnten nicht geladen werden“).
+
+### Nachbedingungen:
+
+- Benutzer sieht aktuelle XP und die Distanz zum nächsten Level.
+
+---
+
+## UC-09: Streak aktualisieren
+
+**Akteur:** System
+
+**Trigger:** Erste Task wird abgeschlossen in einem bestimmten Zeitraum (TaskLog wird erstellt)
+
+### Beschreibung:
+
+Das System erhöht die Streak um 1, wenn der Benutzer an einem **neuen Tag** mindestens eine Task erledigt.
+
+### Vorbedingungen:
+
+- Benutzer existiert.
+- Task-Abschluss wurde gespeichert (Zeitpunkt bekannt).
+- Streak-Status des Benutzers ist gespeichert (CurrentStreak, LastStreakDate o.ä.).
+
+### Hauptablauf:
+
+1. System erhält das Abschlussdatum der Task (zb. `CompletedAt`).
+2. System lädt Streak-Daten des Benutzers (letztes Streak-Datum, aktuelle Streak).
+3. System prüft:
+
+   - Wenn `CompletedAt` **am selben Datum** wie `LastStreakDate` -> keine Änderung.
+   - Wenn `CompletedAt` **ein neuer Kalendertag** ist -> Streak +1.
+4. System setzt `LastStreakDate` auf das Abschlussdatum.
+5. System speichert Streak-Daten in der Datenbank.
+
+### Alternativablauf :
+
+- **A1: Kein Streak-Datensatz vorhanden (Erstmalig)**
+  -> System erstellt Streak-Daten, setzt Streak = 1, LastStreakDate = heute.
+- **A2: Datenbankfehler**
+  -> System bricht ab und protokolliert Fehler.
+
+### Nachbedingungen:
+
+- Streak ist korrekt aktualisiert (oder unverändert, wenn schon für heute gezählt).
+- LastStreakDate ist konsistent gespeichert.
+
+---
+
+## UC-10: Streak zurücksetzen
+
+**Akteur:** System
+
+**Trigger:** Tageswechsel / App-Start / Dashboard-Aufruf
+
+### Beschreibung:
+
+Wenn der Benutzer an einem Tag **keine** Task abschliesst, setzt das System die Streak gemäss Regel zurück (auf 0).
+
+### Vorbedingungen:
+
+- Streak-Daten existieren (CurrentStreak, LastStreakDate).
+- Das System kann „heute“ bestimmen (Datum).
+
+### Hauptablauf:
+
+1. System lädt Streak-Daten des Benutzers.
+2. System vergleicht `LastStreakDate` mit dem heutigen Datum.
+3. System prüft: Wenn seit `LastStreakDate` **mindestens 1 Tag ohne Abschluss** vergangen ist (Regel: „gestern keine Task“) -> Reset.
+4. System setzt `CurrentStreak = 0`.
+5. System speichert die aktualisierten Streak-Daten.
+
+### Alternativablauf :
+
+- **A1: Streak ist bereits 0**
+  -> System macht nichts.
+- **A2: LastStreakDate ist leer (Neuer User)**
+  -> System setzt Streak auf 0.
+
+### Nachbedingungen:
+
+- Streak ist zurückgesetzt, wenn die Bedingungen erfüllt sind.
+- Streak-Daten bleiben konsistent.
