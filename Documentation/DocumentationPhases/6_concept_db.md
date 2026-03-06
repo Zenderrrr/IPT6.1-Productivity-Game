@@ -4,15 +4,15 @@
 
 ### User
 
-| Attribute        | Datentyp   | Schlüsseltyp |
-| ---------------- | ---------- | ------------ |
-| id               | UUID / INT | PK           |
-| userBadge.id               | UUID / INT | FK → UserBadge.id          |
-| username         | VARCHAR    | UQ           |
-| email            | VARCHAR    | UQ           |
-| password_hash    | VARCHAR    | -            |
-| created_at       | TIMESTAMP  | -            |
-| updated_at       | TIMESTAMP  | -            |
+| Attribute     | Datentyp   | Schlüsseltyp      |
+| ------------- | ---------- | ----------------- |
+| id            | UUID / INT | PK                |
+| userBadge_id  | UUID / INT | FK → UserBadge.id |
+| username      | VARCHAR    | UQ                |
+| email         | VARCHAR    | UQ                |
+| password_hash | VARCHAR    | -                 |
+| created_at    | TIMESTAMP  | -                 |
+| updated_at    | TIMESTAMP  | -                 |
 
 ---
 
@@ -63,21 +63,20 @@
 
 ### UserStats
 
-| Attribute        | Datentyp   | Schlüsseltyp           |
-| ---------------- | ---------- | ---------------------- |
-| id               | UUID / INT | PK                     |
+| Attribute        | Datentyp   | Schlüsseltyp      |
+| ---------------- | ---------- | ----------------- |
+| id               | UUID / INT | PK                |
 | user_id          | UUID / INT | FK → User.id (UQ) |
-| total_xp         | INT        | -                      |
-| tasks_done       | INT        | -                      |
-| tasks_open       | INT        | -                      |
-| total_time_min   | INT        | -                      |
-| streak_count     | INT        | -                      |
-| best_streak      | INT        | -                      |
-| streak_last_date | DATE       | -                      |
-| last_active_at   | TIMESTAMP  | -                      |
-| created_at       | TIMESTAMP  | -                      |
-| updated_at       | TIMESTAMP  | -                      |
-
+| total_xp         | INT        | -                 |
+| tasks_done       | INT        | -                 |
+| tasks_open       | INT        | -                 |
+| total_time_min   | INT        | -                 |
+| streak_count     | INT        | -                 |
+| best_streak      | INT        | -                 |
+| streak_last_date | DATE       | -                 |
+| last_active_at   | TIMESTAMP  | -                 |
+| created_at       | TIMESTAMP  | -                 |
+| updated_at       | TIMESTAMP  | -                 |
 
 ---
 
@@ -106,14 +105,14 @@
 
 ### Badge
 
-| Attribute   | Datentyp   | Schlüsseltyp |
-| ----------- | ---------- | ------------ |
-| id          | UUID / INT | PK           |
-| userBadge.id          | UUID / INT | FK → UserBadge.id           |
-| name        | VARCHAR    | UQ           |
-| description | TEXT       | -            |
-| rule_type   | VARCHAR    | -            |
-| rule_value  | INT        | -            |
-| created_at  | TIMESTAMP  | -            |
+| Attribute    | Datentyp   | Schlüsseltyp      |
+| ------------ | ---------- | ----------------- |
+| id           | UUID / INT | PK                |
+| userBadge_id | UUID / INT | FK → UserBadge.id |
+| name         | VARCHAR    | UQ                |
+| description  | TEXT       | -                 |
+| rule_type    | VARCHAR    | -                 |
+| rule_value   | INT        | -                 |
+| created_at   | TIMESTAMP  | -                 |
 
 ---
