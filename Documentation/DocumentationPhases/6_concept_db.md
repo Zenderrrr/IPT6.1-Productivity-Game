@@ -22,7 +22,6 @@
 | ------------ | ---------- | --------------------------- |
 | id           | UUID / INT | PK                          |
 | user_id      | UUID / INT | FK → User.id                |
-| category_id  | UUID / INT | FK → Category.id (nullable) |
 | title        | VARCHAR    | -                           |
 | description  | TEXT       | -                           |
 | difficulty   | SMALLINT   | -                           |
@@ -40,7 +39,6 @@
 | Attribute  | Datentyp   | Schlüsseltyp |
 | ---------- | ---------- | ------------ |
 | id         | UUID / INT | PK           |
-| user_id    | UUID / INT | FK → User.id |
 | task_id    | UUID / INT | FK → Task.id |
 | action     | VARCHAR    | -            |
 | xp_awarded | INT        | -            |
@@ -108,7 +106,6 @@
 | Attribute    | Datentyp   | Schlüsseltyp      |
 | ------------ | ---------- | ----------------- |
 | id           | UUID / INT | PK                |
-| userBadge_id | UUID / INT | FK → UserBadge.id |
 | name         | VARCHAR    | UQ                |
 | description  | TEXT       | -                 |
 | rule_type    | VARCHAR    | -                 |
