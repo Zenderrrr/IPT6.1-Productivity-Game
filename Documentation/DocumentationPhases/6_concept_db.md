@@ -39,7 +39,6 @@
 | Attribute  | Datentyp   | Schlüsseltyp |
 | ---------- | ---------- | ------------ |
 | id         | UUID / INT | PK           |
-| user_id    | UUID / INT | FK → User.id |
 | task_id    | UUID / INT | FK → Task.id |
 | action     | VARCHAR    | -            |
 | xp_awarded | INT        | -            |
