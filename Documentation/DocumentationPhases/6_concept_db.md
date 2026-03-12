@@ -22,7 +22,6 @@
 | ------------ | ---------- | --------------------------- |
 | id           | UUID / INT | PK                          |
 | user_id      | UUID / INT | FK → User.id                |
-| category_id  | UUID / INT | FK → Category.id (nullable) |
 | title        | VARCHAR    | -                           |
 | description  | TEXT       | -                           |
 | difficulty   | SMALLINT   | -                           |
