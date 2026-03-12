@@ -107,7 +107,6 @@
 | Attribute    | Datentyp   | Schlüsseltyp      |
 | ------------ | ---------- | ----------------- |
 | id           | UUID / INT | PK                |
-| userBadge_id | UUID / INT | FK → UserBadge.id |
 | name         | VARCHAR    | UQ                |
 | description  | TEXT       | -                 |
 | rule_type    | VARCHAR    | -                 |
