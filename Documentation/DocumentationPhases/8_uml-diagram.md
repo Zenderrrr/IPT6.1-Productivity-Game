@@ -38,7 +38,7 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 #### Attribute
 | Sicherbarkeit | Name | Typ | Beschreibung |
-| --- | --- | --- |
+| ---- | ---- | ---- | ---- |
 | + | Id | Int | Primäreschlüssel |
 | + | Username | String | Benutzername |
 | + | Email | String | E-Mail |
