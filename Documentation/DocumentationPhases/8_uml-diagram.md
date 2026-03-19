@@ -38,6 +38,7 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 #### Attribute
 | Sicherbarkeit | Name | Typ | Beschreibung |
+| --- | --- | --- |
 | + | Id | Int | Primäreschlüssel |
 | + | Username | String | Benutzername |
 | + | Email | String | E-Mail |
@@ -67,6 +68,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 - User 1 -- N XPEvent
 - User 1 -- 1 UserStats
 - User 1 -- N UserBadge
+
+---
 
 ### Task
 
@@ -108,6 +111,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 - Task 1 -- N TaskLog
 - Task 1 -- N XPEvent
 
+---
+
 ### Category
 
 #### Attribute
@@ -136,6 +141,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 - Category N -- 1 User
 - Category 1 -- N Task
 
+---
+
 ### TaskLog
 
 #### Attribute
@@ -162,6 +169,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 #### Beziehungen
 - TaskLog N -- 1 User
 - TaskLog N -- 1 Task
+
+---
 
 ### XpEvent
 
@@ -190,6 +199,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 #### Beziehungen
 - XPEvent N -- 1 User
 - XPEvent N -- C Task
+
+---
 
 ### UserStats
 
@@ -231,6 +242,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 #### Beziehungen
 - UserStats 1 -- 1 User
 
+---
+
 ### Badge
 
 #### Attribute
@@ -257,6 +270,8 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 #### Beziehungen
 - Badge 1 -- N UserBadge
+
+---
 
 ### UserBadge
 
