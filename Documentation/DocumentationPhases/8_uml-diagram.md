@@ -45,7 +45,6 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 | + | PasswordHash | String | Passwort-Hash |
 | + | CreatedAt | DateTime | Erstellungsdatum |
 | + | UpdatedAt | DateTime | Letzte Änderung |
-| ---- | ---- | ---- | ---- |
 
 #### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
@@ -297,3 +296,65 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 #### Beziehungen
 - UserBadge N -- 1 User
 - UserBadge N -- 1 Badge
+
+## Repositories
+
+### TaskRepository
+
+#### Attribute
+| Sicherbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+
+#### Methoden
+| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| ------------ | -------------------------------------------- | ----------- | -------------------------- |
+
+
+#### Beziehungen
+
+---
+
+### XPEventRepository
+
+#### Attribute
+| Sicherbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+
+#### Methoden
+| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| ------------ | -------------------------------------------- | ----------- | -------------------------- |
+
+
+#### Beziehungen
+
+---
+
+### UserStatsRepository
+
+#### Attribute
+| Sicherbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+
+#### Methoden
+| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| ------------ | -------------------------------------------- | ----------- | -------------------------- |
+
+
+#### Beziehungen
+
+---
