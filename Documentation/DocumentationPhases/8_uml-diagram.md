@@ -299,62 +299,120 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 ## Repositories
 
+### IRepository<T>
+
+#### Typ
+`<<interface>>`
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetById(int id) | T? | Lädt einen Datensatz anhand seiner ID |
+| + | Insert(T entity) | int | Speichert einen neuen Datensatz und gibt die erzeugte ID zurück |
+| + | Update(T entity) | void | Aktualisiert einen bestehenden Datensatz |
+| + | Delete(int id) | void | Löscht einen Datensatz anhand seiner ID |
+
+#### Beziehungen
+- TaskRepository ---> IRepository
+- XPEventRepository ---> IRepository
+- UserStatsRepository ---> IRepository
+
+---
+
 ### TaskRepository
 
 #### Attribute
-| Sicherbarkeit | Name | Typ | Beschreibung |
+| Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
-
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`Task`) |
 
 #### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
+| + | TaskRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
 
 #### Methoden
-| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | -------------------------------------------- | ----------- | -------------------------- |
-
+| + | GetById(int id) | Task? | Lädt eine Task anhand ihrer ID |
+| + | GetAllByUserId(int userId) | List<Task> | Lädt alle Tasks eines Benutzers |
+| + | GetOpenByUserId(int userId) | List<Task> | Lädt alle offenen Tasks eines Benutzers |
+| + | GetCompletedByUserId(int userId) | List<Task> | Lädt alle erledigten Tasks eines Benutzers |
+| + | Insert(Task task) | int | Speichert eine neue Task und gibt die erzeugte ID zurück |
+| + | Update(Task task) | void | Aktualisiert eine bestehende Task |
+| + | Delete(int id) | void | Löscht eine Task anhand ihrer ID |
+| + | Exists(int id) | bool | Prüft, ob eine Task mit dieser ID existiert |
+| + | UpdateStatus(int taskId, string status, DateTime? completedAt) | void | Aktualisiert Status und Abschlusszeitpunkt einer Task |
+| + | CountOpenTasks(int userId) | int | Zählt alle offenen Tasks eines Benutzers |
+| + | CountCompletedTasks(int userId) | int | Zählt alle erledigten Tasks eines Benutzers |
 
 #### Beziehungen
+- TaskRepository 1 -- 1 DatabaseConnection
+- TaskRepository 1 -- N Task
 
 ---
 
 ### XPEventRepository
 
 #### Attribute
-| Sicherbarkeit | Name | Typ | Beschreibung |
+| Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
-
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`XPEvent`) |
 
 #### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
+| + | XPEventRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
 
 #### Methoden
-| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | -------------------------------------------- | ----------- | -------------------------- |
-
+| + | GetById(int id) | XPEvent? | Lädt ein XPEvent anhand seiner ID |
+| + | GetAllByUserId(int userId) | List<XPEvent> | Lädt alle XPEvents eines Benutzers |
+| + | GetAllByTaskId(int taskId) | List<XPEvent> | Lädt alle XPEvents einer bestimmten Task |
+| + | Insert(XPEvent xpEvent) | int | Speichert ein neues XPEvent und gibt die erzeugte ID zurück |
+| + | Delete(int id) | void | Löscht ein XPEvent anhand seiner ID |
+| + | GetTotalXpByUserId(int userId) | int | Berechnet die Gesamt-XP eines Benutzers |
+| + | ExistsForTask(int taskId, string reason) | bool | Prüft, ob für eine Task bereits ein XPEvent mit gleichem Grund existiert |
+| + | GetRecentByUserId(int userId, int limit) | List<XPEvent> | Lädt die letzten XPEvents eines Benutzers |
 
 #### Beziehungen
+- XPEventRepository 1 -- 1 DatabaseConnection
+- XPEventRepository 1 -- N XPEvent
 
 ---
 
 ### UserStatsRepository
 
 #### Attribute
-| Sicherbarkeit | Name | Typ | Beschreibung |
+| Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
-
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`UserStats`) |
 
 #### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
+| + | UserStatsRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
 
 #### Methoden
-| Sichtbarkeit | Definition                                     | Rückgabetyp | Beschreibung               |
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | -------------------------------------------- | ----------- | -------------------------- |
-
+| + | GetById(int id) | UserStats? | Lädt UserStats anhand der ID |
+| + | GetByUserId(int userId) | UserStats? | Lädt die Statistiken eines bestimmten Benutzers |
+| + | Insert(UserStats stats) | int | Speichert neue UserStats und gibt die erzeugte ID zurück |
+| + | Update(UserStats stats) | void | Aktualisiert bestehende UserStats |
+| + | ExistsByUserId(int userId) | bool | Prüft, ob für einen Benutzer bereits UserStats existieren |
+| + | UpdateTotalXp(int userId, int totalXp) | void | Aktualisiert die Gesamt-XP eines Benutzers |
+| + | UpdateStreak(int userId, int streakCount, int bestStreak, DateTime? streakLastDate) | void | Aktualisiert die Streak-Daten eines Benutzers |
+| + | UpdateTaskCounters(int userId, int tasksDone, int tasksOpen) | void | Aktualisiert die Anzahl offener und erledigter Tasks |
+| + | UpdateLastActive(int userId, DateTime lastActiveAt) | void | Aktualisiert den Zeitpunkt der letzten Aktivität |
+| + | DeleteByUserId(int userId) | void | Löscht die UserStats eines Benutzers |
 
 #### Beziehungen
+- UserStatsRepository 1 -- 1 DatabaseConnection
+- UserStatsRepository 1 -- 1 UserStats 
 
 ---
