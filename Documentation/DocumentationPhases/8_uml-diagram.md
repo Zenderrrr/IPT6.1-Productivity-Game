@@ -416,3 +416,188 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 - UserStatsRepository 1 -- 1 UserStats 
 
 ---
+
+## Services (Business-Logik)
+
+### TaskService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _taskRepository | TaskRepository | Repository für Task-Datenzugriffe |
+| - | _userStatsRepository | UserStatsRepository | Repository für Statistikdaten, z.B. offene/erledigte Tasks |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | TaskService(TaskRepository taskRepository, UserStatsRepository userStatsRepository) | Initialisiert den Service mit den benötigten Repositories |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetTaskById(int id) | Task? | Lädt eine Task anhand ihrer ID |
+| + | GetTasksByUserId(int userId) | List<Task> | Lädt alle Tasks eines Benutzers |
+| + | CreateTask(Task task) | int | Validiert und erstellt eine neue Task |
+| + | UpdateTask(Task task) | void | Validiert und aktualisiert eine bestehende Task |
+| + | DeleteTask(int id) | void | Löscht eine Task |
+| + | GetOpenTasksByUserId(int userId) | List<Task> | Lädt alle offenen Tasks eines Benutzers |
+| + | GetCompletedTasksByUserId(int userId) | List<Task> | Lädt alle erledigten Tasks eines Benutzers |
+
+#### Beziehungen
+- TaskService 1 -- 1 TaskRepository
+- TaskService 1 -- 1 UserStatsRepository
+- TaskService 1 -- N Task
+
+---
+
+### TaskCompletionService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _taskRepository | TaskRepository | Zugriff auf Task-Daten |
+| - | _xpService | XPService | Berechnet und vergibt XP |
+| - | _streakService | StreakService | Aktualisiert Streaks |
+| - | _levelService | LevelService | Berechnet das aktuelle Level |
+| - | _badgeService | BadgeService | Prüft und vergibt Badges |
+| - | _userStatsRepository | UserStatsRepository | Aktualisiert UserStats |
+| - | _xpEventRepository | XPEventRepository | Speichert XPEvents |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | TaskCompletionService(TaskRepository taskRepository, XPService xpService, StreakService streakService, LevelService levelService, BadgeService badgeService, UserStatsRepository userStatsRepository, XPEventRepository xpEventRepository) | Initialisiert den Orchestrierungs-Service |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CompleteTask(int taskId, int userId) | void | Markiert eine Task als erledigt und führt alle Folgeaktionen aus |
+| + | CanCompleteTask(int taskId, int userId) | bool | Prüft, ob die Task gültig abgeschlossen werden kann |
+| + | IsAlreadyCompleted(int taskId) | bool | Prüft, ob eine Task bereits erledigt ist |
+
+#### Beziehungen
+- TaskCompletionService 1 -- 1 TaskRepository
+- TaskCompletionService 1 -- 1 XPService
+- TaskCompletionService 1 -- 1 StreakService
+- TaskCompletionService 1 -- 1 LevelService
+- TaskCompletionService 1 -- 1 BadgeService
+- TaskCompletionService 1 -- 1 UserStatsRepository
+- TaskCompletionService 1 -- 1 XPEventRepository
+
+---
+
+### XPService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _xpEventRepository | XPEventRepository | Speichert XP-Verlauf |
+| - | _userStatsRepository | UserStatsRepository | Aktualisiert Gesamt-XP |
+| - | _xpStrategy | IXpCalculationStrategy | Berechnet XP anhand der aktuellen Regel |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | XPService(XPEventRepository xpEventRepository, UserStatsRepository userStatsRepository, IXpCalculationStrategy xpStrategy) | Initialisiert den XP-Service mit Repository und Strategy |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateXP(Task task, int streakCount) | int | Berechnet XP für eine Task |
+| + | AwardXP(int userId, Task task, int streakCount, string reason) | int | Berechnet und vergibt XP an einen Benutzer |
+| + | GetTotalXP(int userId) | int | Gibt die Gesamt-XP eines Benutzers zurück |
+| + | HasXPEventForTask(int taskId, string reason) | bool | Prüft, ob für diese Task bereits XP vergeben wurden |
+
+#### Beziehungen
+- XPService 1 -- 1 XPEventRepository
+- XPService 1 -- 1 UserStatsRepository
+- XPService 1 -- 1 IXpCalculationStrategy
+- XPService 1 -- N XPEvent
+
+---
+
+### StreakService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _userStatsRepository | UserStatsRepository | Zugriff auf UserStats |
+| - | _streakStrategy | IStreakRuleStrategy | Enthält die fachliche Streak-Regel |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | StreakService(UserStatsRepository userStatsRepository, IStreakRuleStrategy streakStrategy) | Initialisiert den Streak-Service |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | UpdateStreak(int userId, DateTime completedAt) | void | Aktualisiert die Streak nach einem Task-Abschluss |
+| + | ResetStreakIfNeeded(int userId, DateTime today) | void | Setzt die Streak zurück, falls eine Lücke entstanden ist |
+| + | GetCurrentStreak(int userId) | int | Gibt die aktuelle Streak zurück |
+| + | GetBestStreak(int userId) | int | Gibt die beste bisherige Streak zurück |
+
+#### Beziehungen
+- StreakService 1 -- 1 UserStatsRepository
+- StreakService 1 -- 1 IStreakRuleStrategy
+- StreakService 1 -- 1 UserStats
+
+---
+
+### LevelService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _levelStrategy | ILevelStrategy | Enthält die Formel für Level und Progress |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | LevelService(ILevelStrategy levelStrategy) | Initialisiert den Level-Service mit einer Level-Strategie |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetLevel(int totalXP) | int | Berechnet das aktuelle Level |
+| + | GetProgressToNextLevel(int totalXP) | double | Berechnet den Fortschritt zum nächsten Level |
+| + | GetXpForNextLevel(int totalXP) | int | Berechnet die noch fehlenden XP bis zum nächsten Level |
+
+#### Beziehungen
+- LevelService 1 -- 1 ILevelStrategy
+
+---
+
+### BadgeService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _userStatsRepository | UserStatsRepository | Liefert Statistikdaten für Badge-Prüfungen |
+| - | _badgeRepository | BadgeRepository | Lädt definierte Badges |
+| - | _userBadgeRepository | UserBadgeRepository | Speichert vergebene Badges |
+| - | _badgeRules | List<IBadgeRule> | Liste aller Badge-Regeln |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, List<IBadgeRule> badgeRules) | Initialisiert den Badge-Service |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CheckAndAwardBadges(int userId) | List<Badge> | Prüft alle Regeln und vergibt neue Badges |
+| + | HasBadge(int userId, int badgeId) | bool | Prüft, ob ein Benutzer ein Badge bereits besitzt |
+| + | GetUnlockedBadges(int userId) | List<Badge> | Lädt alle bereits freigeschalteten Badges |
+| + | GetAvailableBadges() | List<Badge> | Lädt alle definierten Badges |
+
+#### Beziehungen
+- BadgeService 1 -- 1 UserStatsRepository
+- BadgeService 1 -- 1 BadgeRepository
+- BadgeService 1 -- 1 UserBadgeRepository
+- BadgeService 1 -- N IBadgeRule
+- BadgeService 1 -- N Badge
+
+---
+
+
