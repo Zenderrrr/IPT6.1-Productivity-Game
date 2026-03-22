@@ -600,4 +600,209 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 ---
 
+## Strategies
 
+### IXpCalculationStrategy
+
+#### Typ
+`<<interface>>`
+
+#### Zweck
+Definiert die Berechnungsregel für XP. Dadurch kann die XP-Formel ausgetauscht werden, ohne den `XPService` zu ändern.
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateXP(Task task, int streakCount) | int | Berechnet die XP für eine abgeschlossene Task anhand von Schwierigkeit, Dauer und Streak |
+| + | GetBonusMultiplier(int streakCount) | double | Gibt den Bonus-Multiplikator für die aktuelle Streak zurück |
+
+#### Beziehungen
+- XPService 1 -- 1 IXpCalculationStrategy
+
+---
+
+### IStreakRuleStrategy
+
+#### Typ
+`<<interface>>`
+
+#### Zweck
+Definiert die Regel, wie eine Streak aktualisiert oder zurückgesetzt wird. Dadurch können verschiedene Streak-Systeme umgesetzt werden.
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateNewStreak(UserStats stats, DateTime completedAt) | int | Berechnet den neuen Streak-Wert nach einem Task-Abschluss |
+| + | ShouldResetStreak(UserStats stats, DateTime today) | bool | Prüft, ob die Streak wegen einer Unterbrechung zurückgesetzt werden muss |
+
+#### Beziehungen
+- StreakService 1 -- 1 IStreakRuleStrategy
+
+---
+
+### ILevelStrategy
+
+#### Typ
+`<<interface>>`
+
+#### Zweck
+Definiert die Formel zur Berechnung von Level und Fortschritt. Dadurch kann die Level-Kurve flexibel ausgetauscht werden.
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateLevel(int totalXP) | int | Berechnet das aktuelle Level anhand der Gesamt-XP |
+| + | CalculateProgressToNextLevel(int totalXP) | double | Berechnet den Fortschritt zum nächsten Level als Wert zwischen 0 und 1 |
+
+#### Beziehungen
+- LevelService 1 -- 1 ILevelStrategy
+
+---
+
+### IBadgeRule
+
+#### Typ
+`<<interface>>`
+
+#### Zweck
+Definiert eine einzelne Badge-Regel. Dadurch kann jede Badge-Bedingung als eigene Regel implementiert werden.
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | IsUnlocked(UserStats stats, Badge badge) | bool | Prüft, ob ein Badge anhand der UserStats freigeschaltet werden soll |
+| + | GetRuleType() | string | Gibt den Typ der Regel zurück, z.B. `streak`, `xp`, `tasks_done` |
+
+#### Beziehungen
+- BadgeService 1 -- N IBadgeRule
+
+---
+
+## Strategy-Implementierungen
+
+### DefaultXpCalculationStrategy
+
+#### Typ
+`implements IXpCalculationStrategy`
+
+#### Zweck
+Standard-Implementierung für die XP-Berechnung basierend auf Schwierigkeit, Dauer und Streak-Bonus.
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _streakBonusFactor | double | Prozentualer Bonus pro Streak-Tag |
+| - | _temporaryBonusFactor | double | Zusätzlicher Bonusfaktor, z.B. für spezielle Belohnungen |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | DefaultXpCalculationStrategy() | Initialisiert die Standardwerte für die XP-Berechnung |
+| + | DefaultXpCalculationStrategy(double streakBonusFactor, double temporaryBonusFactor) | Initialisiert benutzerdefinierte Bonusfaktoren |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateXP(Task task, int streakCount) | int | Berechnet die XP einer Task anhand der Standardformel |
+| + | GetBonusMultiplier(int streakCount) | double | Berechnet den Bonus-Multiplikator für die aktuelle Streak |
+
+#### Beziehungen
+- DefaultXpCalculationStrategy 1 -- 1 IXpCalculationStrategy
+- XPService 1 -- 1 DefaultXpCalculationStrategy
+
+---
+
+### DefaultStreakRuleStrategy
+
+#### Typ
+`implements IStreakRuleStrategy`
+
+#### Zweck
+Standard-Implementierung für das Streak-System: mindestens 1 erledigte Task pro Tag erhöht die Streak.
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _maxGapDays | int | Anzahl erlaubter Lückentage, bevor die Streak zurückgesetzt wird |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | DefaultStreakRuleStrategy() | Initialisiert die Standardregel mit täglicher Aktivität |
+| + | DefaultStreakRuleStrategy(int maxGapDays) | Initialisiert eine benutzerdefinierte Lückenregel |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateNewStreak(UserStats stats, DateTime completedAt) | int | Berechnet die neue Streak anhand des letzten Aktivitätstags |
+| + | ShouldResetStreak(UserStats stats, DateTime today) | bool | Prüft, ob die Streak wegen einer Lücke zurückgesetzt werden muss |
+
+#### Beziehungen
+- DefaultStreakRuleStrategy 1 -- 1 IStreakRuleStrategy
+- StreakService 1 -- 1 DefaultStreakRuleStrategy
+
+---
+
+### QuadraticLevelStrategy
+
+#### Typ
+`implements ILevelStrategy`
+
+#### Zweck
+Standard-Implementierung für das Level-System mit quadratisch steigender XP-Kurve.
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _baseXp | int | Basiswert für die quadratische Level-Berechnung |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | QuadraticLevelStrategy() | Initialisiert die Standard-Levelkurve |
+| + | QuadraticLevelStrategy(int baseXp) | Initialisiert die Levelkurve mit benutzerdefiniertem Basiswert |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CalculateLevel(int totalXP) | int | Berechnet das Level aus den Gesamt-XP |
+| + | CalculateProgressToNextLevel(int totalXP) | double | Berechnet den Fortschritt zum nächsten Level |
+| + | GetXpThresholdForLevel(int level) | int | Berechnet die XP-Grenze für ein bestimmtes Level |
+
+#### Beziehungen
+- QuadraticLevelStrategy 1 -- 1 ILevelStrategy
+- LevelService 1 -- 1 QuadraticLevelStrategy
+
+---
+
+### StreakBadgeRule
+
+#### Typ
+`implements IBadgeRule`
+
+#### Zweck
+Konkrete Badge-Regel, die ein Badge freischaltet, wenn eine bestimmte Streak erreicht wurde.
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _requiredStreak | int | Benötigte Streak für die Badge-Freischaltung |
+| - | _ruleType | string | Typ der Regel, standardmässig `streak` |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | StreakBadgeRule() | Initialisiert die Standard-Streak-Regel |
+| + | StreakBadgeRule(int requiredStreak) | Initialisiert die Regel mit benutzerdefiniertem Grenzwert |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | IsUnlocked(UserStats stats, Badge badge) | bool | Prüft, ob die aktuelle Streak des Users für das Badge ausreicht |
+| + | GetRuleType() | string | Gibt den Regeltyp `streak` zurück |
+
+#### Beziehungen
+- StreakBadgeRule 1 -- 1 IBadgeRule
+- BadgeService 1 -- N StreakBadgeRule
+
+---
