@@ -806,3 +806,38 @@ Konkrete Badge-Regel, die ein Badge freischaltet, wenn eine bestimmte Streak err
 - BadgeService 1 -- N StreakBadgeRule
 
 ---
+
+### DatabaseConnection
+
+#### Typ
+`Singleton`
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _instance | DatabaseConnection | Speichert die einzige Instanz der Klasse |
+| - | _connectionString | string | Speichert den Verbindungspfad zur SQLite-Datenbank |
+| - | _connection | SQLiteConnection | Repräsentiert die aktive SQLite-Verbindung |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| - | DatabaseConnection(string connectionString) | Privater Konstruktor, damit keine Instanz von aussen erstellt werden kann |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetInstance(string connectionString) | DatabaseConnection | Gibt die einzige Instanz der Klasse zurück oder erstellt sie beim ersten Aufruf |
+| + | Open() | void | Öffnet die SQLite-Verbindung |
+| + | Close() | void | Schliesst die SQLite-Verbindung |
+| + | GetConnection() | SQLiteConnection | Gibt die aktuelle SQLite-Verbindung zurück |
+| + | ExecuteNonQuery(string sql) | void | Führt SQL-Befehle ohne Rückgabewert aus, z.B. INSERT, UPDATE, DELETE |
+| + | ExecuteScalar(string sql) | object? | Führt eine SQL-Abfrage aus, die genau einen Wert zurückliefert |
+| + | TestConnection() | bool | Prüft, ob die Verbindung zur Datenbank erfolgreich hergestellt werden kann |
+
+#### Beziehungen
+- DatabaseConnection 1 -- N TaskRepository
+- DatabaseConnection 1 -- N XPEventRepository
+- DatabaseConnection 1 -- N UserStatsRepository
+
+---
