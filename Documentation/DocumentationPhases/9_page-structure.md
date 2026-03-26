@@ -1,7 +1,7 @@
 # Page Structure
 Wir legen in der Seitenstruktur fest, welche Seiten wir für die Website benötigen und bestimmen danach welche Funktion und Nutzen diese erfüllen. Das wird die Grundstruktur für die Entwicklung der Website sein, um genau zu wissen, was entwickelt werden muss und wozu es dient.
 
-## Pages
+## Pages (Kernfunktion)
 
 ### Homepage
 **Zweck**:
@@ -100,3 +100,39 @@ Wir legen in der Seitenstruktur fest, welche Seiten wir für die Website benöti
 - Passwort ändern
 - Account löschen / zurücksetzen
 - Theme einstellungen (optional)
+
+## Zusätzliche Pages
+
+### Statistiken
+**Zweck**:
+- Analyse der Produktivität und des Nutzerverhaltens
+
+**Funktion**:
+- Visualisierung der erledigten Tasks über Zeit
+- Aufzeigen von Trends und Mustern (z. B. aktive Tage)
+- Unterstützung bei der Selbstreflexion
+
+**Inhalt**:
+- Diagramme
+- Gesamtanzahl erledigter Tasks
+- Produktivitätsverlauf
+- Filter
+    - Zeitraum (Woche, Monat, etc.)
+
+### Badges
+
+**Zweck**:
+- Gibt Motivation durch Belohnungen und Ziele.
+
+**Funktion**:
+- Anzeige von erreichten Erfolgen
+- Darstellung von Fortschritt zu neuen Badges
+- Förderung langfristiger Nutzung
+
+**Inhalt**:
+- Liste freigeschalteter Badges
+- Liste gesperrter Badges
+- Badge-Details:
+    - Name
+    - Beschreibung
+    - Freischalt-Bedingung (z. B. 7 Tage Streak)
