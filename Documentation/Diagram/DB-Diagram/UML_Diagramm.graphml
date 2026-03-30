@@ -35,6 +35,8 @@
 		<y:SharedData>
 			<yjs:Color x:Key="1" value="#FF607D8B"/>
 			<yjs:CssFill x:Key="2" cssString="#a3f1bb"/>
+			<yjs:Color x:Key="3" value="#FF4CAF50"/>
+			<yjs:CssFill x:Key="4" cssString="#a3f1bb"/>
 		</y:SharedData>
 	</data>
 	<graph id="G" edgedefault="directed">
@@ -82,7 +84,7 @@
 		<node id="n1">
 			<data key="d0">2</data>
 			<data key="d5">
-				<y:RectD X="-484.25" Y="-816.3125" Width="692.7485715690312" Height="439.625"/>
+				<y:RectD X="-477.25" Y="-824.0625" Width="692.7485715690312" Height="439.625"/>
 			</data>
 			<data key="d7">
 				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
@@ -125,7 +127,7 @@
 		<node id="n2">
 			<data key="d0">3</data>
 			<data key="d5">
-				<y:RectD X="293.5" Y="-816.3125" Width="288.1725079460883" Height="278"/>
+				<y:RectD X="-878.3143506268835" Y="-421.8125" Width="288.1725079460883" Height="278"/>
 			</data>
 			<data key="d7">
 				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
@@ -158,7 +160,7 @@
 		<node id="n3">
 			<data key="d0">4</data>
 			<data key="d5">
-				<y:RectD X="640.75" Y="-816.3125" Width="358.0928624165575" Height="262"/>
+				<y:RectD X="-938.5490557242365" Y="-75.25" Width="358.0928624165575" Height="262"/>
 			</data>
 			<data key="d7">
 				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
@@ -190,7 +192,7 @@
 		<node id="n4">
 			<data key="d0">5</data>
 			<data key="d5">
-				<y:RectD X="304.7047648767102" Y="-490.75" Width="377.3472328400109" Height="262"/>
+				<y:RectD X="-553.0452351232898" Y="-311" Width="377.3472328400109" Height="262"/>
 			</data>
 			<data key="d7">
 				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
@@ -222,7 +224,7 @@
 		<node id="n5">
 			<data key="d0">6</data>
 			<data key="d5">
-				<y:RectD X="813" Y="-490.75" Width="250" Height="294"/>
+				<y:RectD X="-97.4375" Y="-299.25" Width="288.1725079460882" Height="486"/>
 			</data>
 			<data key="d7">
 				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
@@ -245,7 +247,646 @@
 								</x:Array>
 							</uml:UMLClassModel.attributes>
 							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ UserStats()]]></sys:String>
+									<sys:String><![CDATA[+ UserStats(int userId)]]></sys:String>
+									<sys:String>---------------------</sys:String>
+									<sys:String><![CDATA[+ AddXP(int amount): void]]></sys:String>
+									<sys:String><![CDATA[+ IncrementTasksDone(): void]]></sys:String>
+									<sys:String><![CDATA[+ DecrementTasksOpen(): void]]></sys:String>
+									<sys:String><![CDATA[+ AddDuration(int durationMin): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateStreak(DateTime today): void]]></sys:String>
+									<sys:String><![CDATA[+ ResetStreak(): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateLastActive(DateTime timestamp): void]]></sys:String>
+									<sys:String><![CDATA[+ ValidateData(): bool]]></sys:String>
+									<sys:String><![CDATA[+ UpdateDate(): void]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n6">
+			<data key="d0">7</data>
+			<data key="d5">
+				<y:RectD X="-960.2582482212714" Y="237.4375" Width="401.5112474106275" Height="278"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="Badge" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[+ Id: pint]]></sys:String>
+									<sys:String><![CDATA[+ Name: string]]></sys:String>
+									<sys:String><![CDATA[+ Description: string]]></sys:String>
+									<sys:String><![CDATA[+ RuleType: string]]></sys:String>
+									<sys:String><![CDATA[+ RuleValue: int]]></sys:String>
+									<sys:String><![CDATA[+ CreatedAt: DateTime]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ Badge()]]></sys:String>
+									<sys:String><![CDATA[+ Badge(string name, string description, string ruleType, int ruleValue)]]></sys:String>
+									<sys:String>------------------------------------------</sys:String>
+									<sys:String><![CDATA[+ UpdateRule(string ruleType, int ruleValue): void]]></sys:String>
+									<sys:String><![CDATA[+ ValidateData() bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n7">
+			<data key="d0">8</data>
+			<data key="d5">
+				<y:RectD X="-525.5413636008157" Y="-13.8125" Width="349.8433613175368" Height="230"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="UserBadge" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[+ Id: int]]></sys:String>
+									<sys:String><![CDATA[+ UserId: int]]></sys:String>
+									<sys:String><![CDATA[+ Badgeid: int]]></sys:String>
+									<sys:String><![CDATA[+ AwaredAt: DateTime]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ UserBadge()]]></sys:String>
+									<sys:String><![CDATA[+ UserBadge(int userId, int badgeId, DateTime awardedAt)]]></sys:String>
+									<sys:String>-------------------------------------</sys:String>
+									<sys:String><![CDATA[+ ValidateData(): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n8">
+			<data key="d0">9</data>
+			<data key="d5">
+				<y:RectD X="800" Y="-728.0625" Width="250" Height="166"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 3}" highlightFill="{y:GraphMLReference 4}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="IRepository" attributesOpen="false" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
 								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ GetById(int id): T?]]></sys:String>
+									<sys:String><![CDATA[+ Insert(T entity): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(T entity): void]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n9">
+			<data key="d0">10</data>
+			<data key="d5">
+				<y:RectD X="352.8156160598171" Y="-824.0625" Width="404.61733944939704" Height="342"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="TaskRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ TaskRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>-------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): Task?]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetOpenByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetCompletedByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ Insert(Task task): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(Task task): void]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+									<sys:String><![CDATA[+ Exists(int id): bool]]></sys:String>
+									<sys:String><![CDATA[+ UpdateStatus(int taskId, string status, DateTime? completedAt): void]]></sys:String>
+									<sys:String><![CDATA[+ CountOpenTasks(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ CountCompletedTasks(int userId): int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n10">
+			<data key="d0">11</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="346.16838499407004" Y="-452.25" Width="342.278520803075" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="XPEventRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ XPEventRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>---------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): XPEvent?]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByTaskId(int taskId): List]]></sys:String>
+									<sys:String><![CDATA[+ Insert(XPEvent xpEvent): int]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+									<sys:String><![CDATA[+ GetTotalXpByUserId(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ ExistsForTask(int taskId, string reason): bool]]></sys:String>
+									<sys:String><![CDATA[+ GetRecentByUserId(int userId, int limit): List]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n11">
+			<data key="d0">12</data>
+			<data key="d5">
+				<y:RectD X="747.9918094732639" Y="-458.25" Width="520.1771054969396" Height="326"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="UserStatsRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ UserStatsRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>--------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): UserStats?]]></sys:String>
+									<sys:String><![CDATA[+ GetByUserId(int userId): UserStats?]]></sys:String>
+									<sys:String><![CDATA[+ Insert(UserStats stats): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(UserStats stats): void]]></sys:String>
+									<sys:String><![CDATA[+ ExistsByUserId(int userId): bool]]></sys:String>
+									<sys:String><![CDATA[+ UpdateTotalXp(int userId, int totalXp): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateStreak(int userId, int streakCount, int bestStreak, DateTime? streakLastDate): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateTaskCounters(int userId, int tasksDone, int tasksOpen): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateLastActive(int userId, DateTime lastActiveAt): void]]></sys:String>
+									<sys:String><![CDATA[+ DeleteByUserId(int userId): void]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n12">
+			<data key="d0">13</data>
+			<data key="d5">
+				<y:RectD X="2266.418596832723" Y="-778.40625" Width="505.7154203203798" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="TaskService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _taskRepository: TaskRepository]]></sys:String>
+									<sys:String><![CDATA[- _userStatsRepository: UserStatsRepository]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ TaskService(TaskRepository taskRepository, UserStatsRepository userStatsRepository)]]></sys:String>
+									<sys:String>-----------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetTaskById(int id): Task?]]></sys:String>
+									<sys:String><![CDATA[+ GetTasksByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ CreateTask(Task task): int]]></sys:String>
+									<sys:String><![CDATA[+ UpdateTask(Task task): void]]></sys:String>
+									<sys:String><![CDATA[+ DeleteTask(int id): void]]></sys:String>
+									<sys:String><![CDATA[+ GetOpenTasksByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetCompletedTasksByUserId(int userId): List]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n13">
+			<data key="d0">14</data>
+			<data key="d5">
+				<y:RectD X="1488.125" Y="-464.25" Width="1365.8506813423267" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="TaskCompletionService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _taskRepository: TaskRepository]]></sys:String>
+									<sys:String><![CDATA[- _xpService: XPService]]></sys:String>
+									<sys:String><![CDATA[- _streakService: StreakService]]></sys:String>
+									<sys:String><![CDATA[- _levelService: LevelService]]></sys:String>
+									<sys:String><![CDATA[- _badgeService: BadgeService]]></sys:String>
+									<sys:String><![CDATA[- _userStatsRepository: UserStatsRepository]]></sys:String>
+									<sys:String><![CDATA[- _xpEventRepository: XPEventRepository]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+  	TaskCompletionService(TaskRepository taskRepository, XPService xpService, StreakService streakService, LevelService levelService, BadgeService badgeService, UserStatsRepository userStatsRepository, XPEventRepository xpEventRepository)]]></sys:String>
+									<sys:String>-----------------------------------------------------------</sys:String>
+									<sys:String><![CDATA[+ CompleteTask(int taskId, int userId): void]]></sys:String>
+									<sys:String><![CDATA[+ CanCompleteTask(int taskId, int userId): bool]]></sys:String>
+									<sys:String><![CDATA[+ IsAlreadyCompleted(int taskId): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n14">
+			<data key="d0">15</data>
+			<data key="d5">
+				<y:RectD X="1507.875" Y="-948.5625" Width="729.2701424784934" Height="246"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="XPService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _xpEventRepository: XPEventRepository]]></sys:String>
+									<sys:String><![CDATA[- _userStatsRepository: UserStatsRepository]]></sys:String>
+									<sys:String><![CDATA[- _xpStrategy: IXpCalculationStrategy]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ XPService(XPEventRepository xpEventRepository, UserStatsRepository userStatsRepository, IXpCalculationStrategy xpStrategy)]]></sys:String>
+									<sys:String>----------------------------------------------</sys:String>
+									<sys:String><![CDATA[+ CalculateXP(Task task, int streakCount): int]]></sys:String>
+									<sys:String><![CDATA[+ AwardXP(int userId, Task task, int streakCount, string reason): int]]></sys:String>
+									<sys:String><![CDATA[+ GetTotalXP(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ HasXPEventForTask(int taskId, string reason): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n15">
+			<data key="d0">17</data>
+			<data key="d5">
+				<y:RectD X="1474.25" Y="-136.75" Width="539.1142038813869" Height="230"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="StreakService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _userStatsRepository: UserStatsRepository]]></sys:String>
+									<sys:String><![CDATA[- _streakStrategy: IStreakRuleStrategy]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ StreakService(UserStatsRepository userStatsRepository, IStreakRuleStrategy streakStrategy)]]></sys:String>
+									<sys:String>-----------------------------------</sys:String>
+									<sys:String><![CDATA[+ UpdateStreak(int userId, DateTime completedAt): void]]></sys:String>
+									<sys:String><![CDATA[+ ResetStreakIfNeeded(int userId, DateTime today): void]]></sys:String>
+									<sys:String><![CDATA[+ GetCurrentStreak(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ GetBestStreak(int userId): int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n16">
+			<data key="d0">18</data>
+			<data key="d5">
+				<y:RectD X="1515.125" Y="-682.40625" Width="286.16859683272276" Height="198"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="LevelService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _levelStrategy: ILevelStrategy]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ LevelService(ILevelStrategy levelStrategy)]]></sys:String>
+									<sys:String>-----------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetLevel(int totalXP): int]]></sys:String>
+									<sys:String><![CDATA[+ GetProgressToNextLevel(int totalXP): double]]></sys:String>
+									<sys:String><![CDATA[+ GetXpForNextLevel(int totalXP): int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n17">
+			<data key="d0">19</data>
+			<data key="d5">
+				<y:RectD X="2052.5" Y="-136.75" Width="871.3318168474548" Height="262"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="BadgeService" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _userStatsRepository: UserStatsRepository]]></sys:String>
+									<sys:String><![CDATA[- _badgeRepository: BadgeRepository]]></sys:String>
+									<sys:String><![CDATA[- _userBadgeRepository: UserBadgeRepository]]></sys:String>
+									<sys:String><![CDATA[- _badgeRules: List]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, List badgeRules)]]></sys:String>
+									<sys:String>--------------------------------</sys:String>
+									<sys:String><![CDATA[+ CheckAndAwardBadges(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ HasBadge(int userId, int badgeId): bool]]></sys:String>
+									<sys:String><![CDATA[+ GetUnlockedBadges(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetAvailableBadges(): List]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n18">
+			<data key="d0">20</data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="390.875" Y="152.625" Width="273.47705785644047" Height="134"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 3}" highlightFill="{y:GraphMLReference 4}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="IXpCalculationStrategy" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ CalculateXP(Task task, int streakCount): int]]></sys:String>
+									<sys:String><![CDATA[+ GetBonusMultiplier(int streakCount): double]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n19">
+			<data key="d0">21</data>
+			<data key="d5">
+				<y:RectD X="675.16" Y="152.63" Width="395" Height="134"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 3}" highlightFill="{y:GraphMLReference 4}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="IStreakRuleStrategy" attributesOpen="false" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ CalculateNewStreak(UserStats stats, DateTime completedAt): int]]></sys:String>
+									<sys:String><![CDATA[+ ShouldResetStreak(UserStats stats, DateTime today): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n20">
+			<data key="d0">22</data>
+			<data key="d5">
+				<y:RectD X="390.875" Y="320.25" Width="386.5820018304014" Height="134"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 3}" highlightFill="{y:GraphMLReference 4}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="ILevelStrategy" attributesOpen="false" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ CalculateLevel(int totalXP): int]]></sys:String>
+									<sys:String><![CDATA[+ CalculateProgressToNextLevel(int totalXP): double]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n21">
+			<data key="d0">23</data>
+			<data key="d5">
+				<y:RectD X="798.81" Y="320.25" Width="301" Height="134"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 3}" highlightFill="{y:GraphMLReference 4}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="IBadgeRule" attributesOpen="false" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ IsUnlocked(UserStats stats, Badge badge): bool]]></sys:String>
+									<sys:String><![CDATA[+ GetRuleType(): string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n22">
+			<data key="d0">24</data>
+			<data key="d5">
+				<y:RectD X="1429" Y="236.75" Width="513.2802608348416" Height="214"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="DefaultXpCalculationStrategy" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _streakBonusFactor: double]]></sys:String>
+									<sys:String><![CDATA[- _temporaryBonusFactor: double]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ DefaultXpCalculationStrategy()]]></sys:String>
+									<sys:String><![CDATA[+ DefaultXpCalculationStrategy(double streakBonusFactor, double temporaryBonusFactor)]]></sys:String>
+									<sys:String>--------------------------------------------------------</sys:String>
+									<sys:String><![CDATA[+ CalculateXP(Task task, int streakCount): int]]></sys:String>
+									<sys:String><![CDATA[+ GetBonusMultiplier(int streakCount): double]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n23">
+			<data key="d0">25</data>
+			<data key="d5">
+				<y:RectD X="1426.4375" Y="470.25" Width="386.5820018304014" Height="198"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="DefaultStreakRuleStrategy" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _maxGapDays: int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ DefaultStreakRuleStrategy()]]></sys:String>
+									<sys:String><![CDATA[+ DefaultStreakRuleStrategy(int maxGapDays)]]></sys:String>
+									<sys:String>-------------------------------------------</sys:String>
+									<sys:String><![CDATA[+ CalculateNewStreak(UserStats stats, DateTime completedAt): int]]></sys:String>
+									<sys:String><![CDATA[+ ShouldResetStreak(UserStats stats, DateTime today): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n24">
+			<data key="d0">26</data>
+			<data key="d5">
+				<y:RectD X="1858.875" Y="470.25" Width="310.2156983693051" Height="214"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="QuadraticLevelStrategy" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _baseXp: int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ QuadraticLevelStrategy()]]></sys:String>
+									<sys:String><![CDATA[+ QuadraticLevelStrategy(int baseXp)]]></sys:String>
+									<sys:String>------------------------------------</sys:String>
+									<sys:String><![CDATA[+ CalculateLevel(int totalXP): int]]></sys:String>
+									<sys:String><![CDATA[+ CalculateProgressToNextLevel(int totalXP): double]]></sys:String>
+									<sys:String><![CDATA[+ GetXpThresholdForLevel(int level): int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n25">
+			<data key="d0">27</data>
+			<data key="d5">
+				<y:RectD X="2015.5" Y="236.75" Width="296.8562094068945" Height="214"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="StreakBadgeRule" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _requiredStreak: int]]></sys:String>
+									<sys:String><![CDATA[- _ruleType: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ StreakBadgeRule()]]></sys:String>
+									<sys:String><![CDATA[+ StreakBadgeRule(int requiredStreak)]]></sys:String>
+									<sys:String>--------------------------------</sys:String>
+									<sys:String><![CDATA[+ IsUnlocked(UserStats stats, Badge badge): bool]]></sys:String>
+									<sys:String><![CDATA[+ GetRuleType(): string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n26">
+			<data key="d0">28</data>
+			<data key="d5">
+				<y:RectD X="2231.375" Y="470.25" Width="354.3020792157388" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="DatabaseConnection" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _instance: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _connectionString: string]]></sys:String>
+									<sys:String><![CDATA[- _connection: SQLiteConnection]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[- DatabaseConnection(string connectionString)]]></sys:String>
+									<sys:String>----------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetInstance(string connectionString): DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[+ Open(): void]]></sys:String>
+									<sys:String><![CDATA[+ Close(): void]]></sys:String>
+									<sys:String><![CDATA[+ GetConnection(): SQLiteConnection]]></sys:String>
+									<sys:String><![CDATA[+ ExecuteNonQuery(string sql): void]]></sys:String>
+									<sys:String><![CDATA[+ ExecuteScalar(string sql): object?]]></sys:String>
+									<sys:String><![CDATA[+ TestConnection(): bool]]></sys:String>
+								</x:Array>
 							</uml:UMLClassModel.operations>
 						</uml:UMLClassModel>
 					</uml:UMLNodeStyle.model>
