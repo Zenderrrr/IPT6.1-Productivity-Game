@@ -10,8 +10,8 @@
 | username      | VARCHAR(50)  | UQ           |
 | email         | VARCHAR(50)  | UQ           |
 | password_hash | VARCHAR(255) | -            |
-| created_at    | TIMESTAMP    | -            |
-| updated_at    | TIMESTAMP    | -            |
+| created_at    | DATE         | -            |
+| updated_at    | DATE         | -            |
 
 ---
 
