@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Created by yFiles for HTML 3.0.0.5-->
+<graphml xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml.html/2.0/ygraphml.xsd " xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:yca="http://www.yworks.com/xml/yfiles-compat-arrows/1.0" xmlns:ycns="http://www.yworks.com/xml/yfiles-compat-node-styles/1.0" xmlns:yjs2="http://www.yworks.com/xml/yfiles-for-html/2.0/xaml" xmlns:template-styles="http://www.yworks.com/demos/template-node-style/3.0" xmlns:demostyle2="http://www.yworks.com/yFilesHTML/demos/FlatDemoStyle/2.0" xmlns:demostyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoStyle/1.0" xmlns:icon-style="http://www.yworks.com/yed-live/icon-style/1.0" xmlns:bpmn="http://www.yworks.com/xml/yfiles-bpmn/2.0" xmlns:demotablestyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoTableStyle/1.0" xmlns:uml="http://www.yworks.com/yFilesHTML/demos/UMLDemoStyle/1.0" xmlns:GraphvizNodeStyle="http://www.yworks.com/yFilesHTML/graphviz-node-style/1.0" xmlns:Vue3jsNodeStyle="http://www.yworks.com/demos/yfiles-vue-node-style/3.0" xmlns:explorer-style="http://www.yworks.com/data-explorer/1.0" xmlns:yx="http://www.yworks.com/xml/yfiles-common/4.0" xmlns:y="http://www.yworks.com/xml/yfiles-common/3.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/3.0" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:yjs="http://www.yworks.com/xml/yfiles-for-html/3.0/xaml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<key id="d0" for="node" attr.type="int" attr.name="zOrder" y:attr.uri="http://www.yworks.com/xml/yfiles-z-order/1.0/zOrder"/>
+	<key id="d1" for="node" attr.type="boolean" attr.name="Expanded" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/Expanded">
+		<default>true</default>
+	</key>
+	<key id="d2" for="node" attr.type="string" attr.name="url"/>
+	<key id="d3" for="node" attr.type="string" attr.name="description"/>
+	<key id="d4" for="node" attr.name="NodeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeLabels"/>
+	<key id="d5" for="node" attr.name="NodeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeGeometry"/>
+	<key id="d6" for="all" attr.name="UserTags" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/UserTags"/>
+	<key id="d7" for="node" attr.name="NodeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeStyle"/>
+	<key id="d8" for="node" attr.name="NodeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/NodeViewState"/>
+	<key id="d9" for="edge" attr.type="string" attr.name="url"/>
+	<key id="d10" for="edge" attr.type="string" attr.name="description"/>
+	<key id="d11" for="edge" attr.name="EdgeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeLabels"/>
+	<key id="d12" for="edge" attr.name="EdgeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeGeometry"/>
+	<key id="d13" for="edge" attr.name="EdgeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeStyle"/>
+	<key id="d14" for="edge" attr.name="EdgeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/EdgeViewState"/>
+	<key id="d15" for="port" attr.name="PortLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLabels"/>
+	<key id="d16" for="port" attr.name="PortLocationParameter" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLocationParameter">
+		<default>
+			<x:Static Member="y:FreeNodePortLocationModel.NodeCenterAnchored"/>
+		</default>
+	</key>
+	<key id="d17" for="port" attr.name="PortStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortStyle">
+		<default>
+			<x:Static Member="y:VoidPortStyle.Instance"/>
+		</default>
+	</key>
+	<key id="d18" for="port" attr.name="PortViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/PortViewState"/>
+	<key id="d19" attr.name="SharedData" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/SharedData"/>
+	<data key="d19">
+		<y:SharedData>
+			<yjs:Color x:Key="1" value="#FF607D8B"/>
+			<yjs:CssFill x:Key="2" cssString="#a3f1bb"/>
+			<yjs:Arrow x:Key="3" fill="BLACK" type="NONE"/>
+			<yjs:PolylineEdgeStyle x:Key="4" targetArrow="{y:GraphMLReference 3}" sourceArrow="{y:GraphMLReference 3}">
+				<yjs:PolylineEdgeStyle.stroke>
+					<yjs:Stroke>
+						<yjs:Stroke.fill>
+							<yjs:CssFill cssString="#000000"/>
+						</yjs:Stroke.fill>
+					</yjs:Stroke>
+				</yjs:PolylineEdgeStyle.stroke>
+			</yjs:PolylineEdgeStyle>
+			<yjs:Arrow x:Key="5" fill="BLACK" type="NONE"/>
+			<yjs:PolylineEdgeStyle x:Key="6" targetArrow="{y:GraphMLReference 5}" sourceArrow="{y:GraphMLReference 5}">
+				<yjs:PolylineEdgeStyle.stroke>
+					<yjs:Stroke thickness="0.75">
+						<yjs:Stroke.fill>
+							<yjs:CssFill cssString="#000000"/>
+						</yjs:Stroke.fill>
+					</yjs:Stroke>
+				</yjs:PolylineEdgeStyle.stroke>
+			</yjs:PolylineEdgeStyle>
+		</y:SharedData>
+	</data>
+	<graph id="G" edgedefault="directed">
+		<data key="d6">
+			<y:Json>{"version":"2.0.0","origin":"yed-live","theme":{"name":"light","version":"1.0.0"}}</y:Json>
+		</data>
+		<node id="n0">
+			<data key="d0">9</data>
+			<data key="d5">
+				<y:RectD X="-2371.808019996096" Y="-3430.567930046479" Width="250" Height="166"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF4CAF50">
+					<uml:UMLNodeStyle.highlightFill>
+						<yjs:CssFill cssString="#a3f1bb"/>
+					</uml:UMLNodeStyle.highlightFill>
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="interface" constraint="" className="IRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array/>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ GetById(int id): T?]]></sys:String>
+									<sys:String><![CDATA[+ Insert(T entity): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(T entity): void]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.005952380952380931"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9940476190476191"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9940476190476191"/>
+				</data>
+			</port>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9940476190476191"/>
+				</data>
+			</port>
+		</node>
+		<node id="n1">
+			<data key="d0">10</data>
+			<data key="d5">
+				<y:RectD X="-1198.688821595042" Y="-2571.8620900232395" Width="404.61733944939704" Height="342"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="TaskRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ TaskRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>-------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): Task?]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetOpenByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetCompletedByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ Insert(Task task): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(Task task): void]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+									<sys:String><![CDATA[+ Exists(int id): bool]]></sys:String>
+									<sys:String><![CDATA[+ UpdateStatus(int taskId, string status, DateTime? completedAt): void]]></sys:String>
+									<sys:String><![CDATA[+ CountOpenTasks(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ CountCompletedTasks(int userId): int]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0029069767441860517"/>
+				</data>
+			</port>
+			<port name="p2"/>
+			<port name="p3"/>
+			<port name="p4"/>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.0024593146995504633,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n2">
+			<data key="d0">11</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="-3684.6799274982204" Y="-2539.8620900232404" Width="389.7527091010702" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="XPEventRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ XPEventRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>---------------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): XPEvent?]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByUserId(int userId): List]]></sys:String>
+									<sys:String><![CDATA[+ GetAllByTaskId(int taskId): List]]></sys:String>
+									<sys:String><![CDATA[+ Insert(XPEvent xpEvent): int]]></sys:String>
+									<sys:String><![CDATA[+ Delete(int id): void]]></sys:String>
+									<sys:String><![CDATA[+ GetTotalXpByUserId(int userId): int]]></sys:String>
+									<sys:String><![CDATA[+ ExistsForTask(int taskId, string reason): bool]]></sys:String>
+									<sys:String><![CDATA[+ GetRecentByUserId(int userId, int limit): List]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0033783783783783994"/>
+				</data>
+			</port>
+			<port name="p2"/>
+			<port name="p3"/>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.002552630720268456,0.5"/>
+				</data>
+			</port>
+			<port name="p5"/>
+			<port name="p6">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.9974473692797304,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n3">
+			<data key="d0">12</data>
+			<data key="d5">
+				<y:RectD X="-2506.8965727445657" Y="-2571.86209002324" Width="520.1771054969396" Height="326"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="UserStatsRepository" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _dbConnection: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _tableName: string]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[+ UserStatsRepository(DatabaseConnection dbConnection)]]></sys:String>
+									<sys:String>--------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetById(int id): UserStats?]]></sys:String>
+									<sys:String><![CDATA[+ GetByUserId(int userId): UserStats?]]></sys:String>
+									<sys:String><![CDATA[+ Insert(UserStats stats): int]]></sys:String>
+									<sys:String><![CDATA[+ Update(UserStats stats): void]]></sys:String>
+									<sys:String><![CDATA[+ ExistsByUserId(int userId): bool]]></sys:String>
+									<sys:String><![CDATA[+ UpdateTotalXp(int userId, int totalXp): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateStreak(int userId, int streakCount, int bestStreak, DateTime? streakLastDate): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateTaskCounters(int userId, int tasksDone, int tasksOpen): void]]></sys:String>
+									<sys:String><![CDATA[+ UpdateLastActive(int userId, DateTime lastActiveAt): void]]></sys:String>
+									<sys:String><![CDATA[+ DeleteByUserId(int userId): void]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0030487804878048808"/>
+				</data>
+			</port>
+			<port name="p2"/>
+			<port name="p3"/>
+			<port name="p4"/>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0030487804878048252"/>
+				</data>
+			</port>
+			<port name="p6">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.9980849409338843,0.5"/>
+				</data>
+			</port>
+			<port name="p7"/>
+			<port name="p8">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.0019150590661157763,0.5"/>
+				</data>
+			</port>
+			<port name="p9">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9969512195121951"/>
+				</data>
+			</port>
+		</node>
+		<node id="n4">
+			<data key="d0">28</data>
+			<data key="d5">
+				<y:RectD X="-2423.959059603965" Y="-1649.317930046479" Width="354.3020792157388" Height="294"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="DatabaseConnection" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array>
+									<sys:String><![CDATA[- _instance: DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[- _connectionString: string]]></sys:String>
+									<sys:String><![CDATA[- _connection: SQLiteConnection]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array>
+									<sys:String><![CDATA[- DatabaseConnection(string connectionString)]]></sys:String>
+									<sys:String>----------------------------------</sys:String>
+									<sys:String><![CDATA[+ GetInstance(string connectionString): DatabaseConnection]]></sys:String>
+									<sys:String><![CDATA[+ Open(): void]]></sys:String>
+									<sys:String><![CDATA[+ Close(): void]]></sys:String>
+									<sys:String><![CDATA[+ GetConnection(): SQLiteConnection]]></sys:String>
+									<sys:String><![CDATA[+ ExecuteNonQuery(string sql): void]]></sys:String>
+									<sys:String><![CDATA[+ ExecuteScalar(string sql): object?]]></sys:String>
+									<sys:String><![CDATA[+ TestConnection(): bool]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9966216216216216"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9966216216216216"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9966216216216216"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0033783783783783994"/>
+				</data>
+			</port>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0033783783783783994"/>
+				</data>
+			</port>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.0033783783783783994"/>
+				</data>
+			</port>
+		</node>
+		<edge id="e0" source="n3" target="n0" sourceport="p1" targetport="p4">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="4"/>
+			</data>
+		</edge>
+		<edge id="e1" source="n2" target="n0" sourceport="p1" targetport="p3">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="4"/>
+			</data>
+		</edge>
+		<edge id="e2" source="n1" target="n0" sourceport="p1" targetport="p2">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="4"/>
+			</data>
+		</edge>
+		<edge id="e3" source="n2" target="n4" sourceport="p6" targetport="p5">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="6"/>
+			</data>
+		</edge>
+		<edge id="e4" source="n1" target="n4" sourceport="p5" targetport="p4">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="6"/>
+			</data>
+		</edge>
+		<edge id="e5" source="n3" target="n4" sourceport="p9" targetport="p3">
+			<data key="d13">
+				<y:GraphMLReference ResourceKey="6"/>
+			</data>
+		</edge>
+	</graph>
+</graphml>
