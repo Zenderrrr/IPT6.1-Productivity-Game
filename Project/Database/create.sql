@@ -1,3 +1,5 @@
+-- SQLite
+
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE User (
