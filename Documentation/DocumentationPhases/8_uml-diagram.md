@@ -13,7 +13,7 @@ Wir beschreiben hier das Design des C# Backend's mit den Architektur entscheidun
 Repräsentieren Tabellen/Datensätze in SQLite: `User`, `Task`, `Category`, `TaskLog`, `XPEvent`, `UserStats`, `Badge`, `UserBadge`.
 
 ### Repositories (Datenzugriff)
-Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. `TaskRepository`, `XPEventRepository`, `UserStatsRepository`).
+Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `TaskRepository`, `XPEventRepository`, `UserStatsRepository`, `UserRepository`, `BadgeRepository`).
 
 ### Services (Business-Logik)
 - `TaskService` (CRUD)
@@ -166,7 +166,6 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 | +            | ValidateData() | bool        | Prüft Logdaten |
 
 #### Beziehungen
-- TaskLog N -- 1 User
 - TaskLog N -- 1 Task
 
 ---
@@ -196,7 +195,6 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 | +            | Validate() | bool        | Prüft Eventdaten |
 
 #### Beziehungen
-- XPEvent N -- 1 User
 - XPEvent N -- C Task
 
 ---
@@ -417,6 +415,113 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 ---
 
+### UserRepository
+
+#### Attribute
+
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`User`) |
+
+#### Konstruktoren
+
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | UserRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
+
+#### Methoden
+
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetById(int id) | User? | Lädt einen Benutzer anhand seiner ID |
+| + | GetByUsername(string username) | User? | Lädt einen Benutzer anhand seines Benutzernamens |
+| + | GetByEmail(string email) | User? | Lädt einen Benutzer anhand seiner E-Mail |
+| + | Insert(User user) | int | Speichert einen neuen Benutzer und gibt die erzeugte ID zurück |
+| + | Update(User user) | void | Aktualisiert Benutzerdaten |
+| + | Delete(int id) | void | Löscht einen Benutzer anhand seiner ID |
+| + | ExistsByUsername(string username) | bool | Prüft, ob ein Benutzername bereits existiert |
+| + | ExistsByEmail(string email) | bool | Prüft, ob eine E-Mail bereits existiert |
+| + | UpdatePassword(int userId, string passwordHash) | void | Aktualisiert den Passwort-Hash eines Benutzers |
+
+#### Beziehungen
+
+- UserRepository 1 -- 1 DatabaseConnection
+- UserRepository 1 -- N User
+- UserRepository ---> IRepository
+
+---
+
+### BadgeRepository
+
+#### Attribute
+
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`Badge`) |
+
+#### Konstruktoren
+
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | BadgeRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
+
+#### Methoden
+
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetById(int id) | Badge? | Lädt ein Badge anhand seiner ID |
+| + | GetAll() | List<Badge> | Lädt alle definierten Badges |
+| + | GetByRuleType(string ruleType) | List<Badge> | Lädt alle Badges eines bestimmten Regeltyps |
+| + | Insert(Badge badge) | int | Speichert ein neues Badge und gibt die erzeugte ID zurück |
+| + | Update(Badge badge) | void | Aktualisiert ein bestehendes Badge |
+| + | Delete(int id) | void | Löscht ein Badge anhand seiner ID |
+| + | ExistsByName(string name) | bool | Prüft, ob ein Badge mit diesem Namen bereits existiert |
+
+#### Beziehungen
+
+- BadgeRepository 1 -- 1 DatabaseConnection
+- BadgeRepository 1 -- N Badge
+- BadgeRepository ---> IRepository
+
+---
+
+### UserBadgeRepository
+
+#### Attribute
+
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`UserBadge`) |
+
+#### Konstruktoren
+
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | UserBadgeRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
+
+#### Methoden
+
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetById(int id) | UserBadge? | Lädt einen UserBadge anhand der ID |
+| + | GetByUserId(int userId) | List<UserBadge> | Lädt alle Badges eines Benutzers |
+| + | GetByBadgeId(int badgeId) | List<UserBadge> | Lädt alle Benutzer eines bestimmten Badges |
+| + | Insert(UserBadge userBadge) | int | Speichert ein neues UserBadge |
+| + | Delete(int id) | void | Löscht ein UserBadge |
+| + | Exists(int userId, int badgeId) | bool | Prüft, ob ein Benutzer ein bestimmtes Badge bereits besitzt |
+
+#### Beziehungen
+
+- UserBadgeRepository 1 -- 1 DatabaseConnection
+- UserBadgeRepository 1 -- N UserBadge
+- UserBadgeRepository 1 -- N BadgeService
+- UserBadgeRepository ---> IRepository
+
+---
+
 ## Services (Business-Logik)
 
 ### TaskService
@@ -513,6 +618,7 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 - XPService 1 -- 1 UserStatsRepository
 - XPService 1 -- 1 IXpCalculationStrategy
 - XPService 1 -- N XPEvent
+- XPService 1 -- 1 TaskCompletionService
 
 ---
 
@@ -565,6 +671,7 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln (z.B. 
 
 #### Beziehungen
 - LevelService 1 -- 1 ILevelStrategy
+- LevelService 1 -- 1 TaskCompletionService
 
 ---
 
