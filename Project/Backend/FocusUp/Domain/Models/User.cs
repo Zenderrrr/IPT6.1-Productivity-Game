@@ -1,13 +1,10 @@
 ﻿using System;
 
-public class User
+public class User : BaseModel
 {
-    public int Id;
-    public string Username;
-    public string Email;
-    public string PasswordHash;
-    public DateTime CreatedAt;
-    public DateTime UpdatedAt;
+    public string Username { get; private set; }
+    public string Email { get; private set; }
+    public string PasswordHash { get; private set; }
 
     public User()
 	{
@@ -20,23 +17,32 @@ public class User
         PasswordHash = passwordHash;
     }
 
+    internal void SetId(int id)
+    {
+        Id = id;
+    }
+
     public void UpdateProfile(string username, string email)
     {
-        throw new NotImplementedException();
+        Username = username;
+        Email = email;
     }
 
     public void ChangePassword(string newPasswordHash)
     {
-        throw new NotImplementedException(); 
+        PasswordHash = newPasswordHash;
     }
 
-    public bool ValidateData()
+    public override bool ValidateData()
     {
-        throw new NotImplementedException(); 
+        return
+            !string.IsNullOrWhiteSpace(Username) &&
+            !string.IsNullOrWhiteSpace(Email) &&
+            !string.IsNullOrWhiteSpace(PasswordHash);
     }
 
-    public void UpdateData()
+    public override void UpdateDate()
     {
-        throw new NotImplementedException(); 
+        UpdatedAt = DateTime.Now;
     }
 }

@@ -1,22 +1,20 @@
-using System
-
-public class Task
+using System;
+using static FocusUp.Domain.Enums.TaskStatus;
+public class Task : BaseModel
 {
-    public int Id;
-    public int UserId;
-    public int? CategoryId;
-    public string Title;
-    public string Description;
-    public int Difficulty;
-    public int DurationMin;
-    public DateTime? DueDate;
-    public string Status;
-    public DateTime? CompletedAt;
-    public DateTime CreatedAt;
-    public DateTime UpdatedAt;
+    public int UserId { get; }
+    public int? CategoryId { get; private set; }
+    public string Title { get; private set; }
+    public string Description { get; private set; }
+    public int Difficulty { get; private set; }
+    public int DurationMin { get; private set; }
+    public DateTime? DueDate { get; private set; }
+    public FocusUp.Domain.Enums.TaskStatus Status { get; private set; }
+    public DateTime? CompletedAt { get; private set; }
 
     public Task()
     {
+        Status = Open;
     }
 
     public Task(int userId, string title, string desciption, int difficulty, int? categoryId = null, DateTime? dueDate = null)
@@ -27,35 +25,54 @@ public class Task
         Difficulty = difficulty;
         CategoryId = categoryId;
         DueDate = dueDate;
+
+        Status = Open;
+    }
+
+    internal void SetId(int id)
+    {
+        Id = id;
     }
 
     public void MarkAsCompleted()
     {
-        throw new NotImplementedException();
+        Status = Done;
+        CompletedAt = DateTime.Now;
     }
 
     public void Reopen()
     {
-        throw new NotImplementedException(); 
+        Status = Open;
+        CompletedAt = null;
     }
 
     public void UpdateDetails(string title, string description, int difficulty, int durationMin, int? categoryId, DateTime? dueDate)
     {
-        throw new NotImplementedException();
+        Title = title;
+        Description = description;
+        Difficulty = difficulty;
+        DurationMin = durationMin;
+        CategoryId = categoryId;
+        DueDate = dueDate;
     }
 
     public bool IsCompleted()
     {
-        throw new NotImplementedException(); 
+        return Status == Done;
     }
 
-    public bool ValidateData()
+    public override bool ValidateData()
     {
-        throw new NotImplementedException();
+        return
+            !int.IsNegative(UserId) &&
+            !string.IsNullOrWhiteSpace(Title) &&
+            !string.IsNullOrWhiteSpace(Description) &&
+            !int.IsNegative(Difficulty) &&
+            !int.IsNegative(DurationMin);
     }
 
-    public void UpdateData()
+    public override void UpdateDate()
     {
-        throw new NotImplementedException(); 
+        UpdatedAt = DateTime.Now;
     }
 }
