@@ -119,8 +119,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\BadgeRepository.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAgwCgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T23:13:10.548Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T23:13:10.548Z"
             },
             {
               "$type": "Document",
@@ -132,8 +131,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\UserRepository.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAwwDAAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T23:06:38.974Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T23:06:38.974Z"
             },
             {
               "$type": "Document",
@@ -145,8 +143,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\UserStatsRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:58:27.464Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:58:27.464Z"
             },
             {
               "$type": "Document",
@@ -158,8 +155,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\XPEventRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:52:37.982Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:52:37.982Z"
             },
             {
               "$type": "Document",
@@ -171,8 +167,7 @@
               "RelativeToolTip": "Infrastructure\\Data\\DatabaseConnection.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:28:22.957Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:28:22.957Z"
             },
             {
               "$type": "Document",
@@ -184,8 +179,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\BaseRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:27:07.659Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:27:07.659Z"
             },
             {
               "$type": "Document",
@@ -197,8 +191,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\TaskRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:26:02.32Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:26:02.32Z"
             },
             {
               "$type": "Document",
@@ -210,8 +203,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\IRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T22:20:33.835Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T22:20:33.835Z"
             },
             {
               "$type": "Document",
@@ -319,8 +311,7 @@
               "RelativeToolTip": "Domain\\Models\\UserBadge.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T20:05:45.599Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-04T20:05:45.599Z"
             },
             {
               "$type": "Document",
@@ -357,10 +348,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-04T15:02:48.836Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
