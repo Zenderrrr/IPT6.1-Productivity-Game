@@ -1,4 +1,5 @@
 using System;
+using FocusUp.Domain.Enums;
 
 public class TaskRepository : BaseRepository<Task>
 {
@@ -46,7 +47,7 @@ public class TaskRepository : BaseRepository<Task>
         throw new NotImplementedException();
     }
 
-    public void UpdateStatus(int taskId, string status, DateTime? completedAt)
+    public void UpdateStatus(int taskId, FocusUp.Domain.Enums.TaskStatus status, DateTime? completedAt)
     {
         throw new NotImplementedException();
     }
