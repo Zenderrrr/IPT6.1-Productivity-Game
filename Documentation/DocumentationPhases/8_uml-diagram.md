@@ -522,6 +522,41 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 
 ---
 
+### TaskLogRepository
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`TaskLog`) |
+
+---
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | TaskLogRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
+
+---
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | -------------------------------------------- | ----------- | -------------------------- |
+| + | GetById(int id) | TaskLog? | Lädt einen TaskLog anhand seiner ID |
+| + | GetAllByUserId(int userId) | List<TaskLog> | Lädt alle Logs eines Benutzers |
+| + | GetAllByTaskId(int taskId) | List<TaskLog> | Lädt alle Logs einer bestimmten Task |
+| + | Insert(TaskLog log) | int | Speichert einen neuen TaskLog und gibt die erzeugte ID zurück |
+| + | Delete(int id) | void | Löscht einen TaskLog anhand seiner ID |
+| + | GetRecentByUserId(int userId, int limit) | List<TaskLog> | Lädt die letzten Logs eines Benutzers (für Dashboard/Statistiken) |
+
+---
+
+#### Beziehungen
+- TaskLogRepository 1 -- 1 DatabaseConnection  
+- TaskLogRepository 1 -- N TaskLog
+
+---
+
 ## Services (Business-Logik)
 
 ### TaskService
