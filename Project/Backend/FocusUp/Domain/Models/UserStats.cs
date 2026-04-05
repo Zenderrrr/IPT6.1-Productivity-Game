@@ -32,7 +32,7 @@ public class UserStats : BaseModel
         IncrementTasksDone();
         DecrementTasksOpen();
         AddDuration(durationMin);
-        UpdateStreak(today);
+        IncrementStreak(today);
         UpdateLastActive(today);
         UpdateDate();
     }
@@ -92,17 +92,23 @@ public class UserStats : BaseModel
             TotalTimeMin -= durationMin;
     }
 
-    private void UpdateStreak(DateTime today)
+    public bool ShouldResetStreak(DateTime today, int gapDays)
     {
         if (StreakLastDate == null)
-            ResetStreak();
-        else if (StreakLastDate == today)
-            return;
-        else if (StreakLastDate == today.AddDays(-1))
-            StreakCount++;
-        else
-            ResetStreak();
+            return false;
 
+        if (StreakLastDate == today)
+            return false;
+
+        if (StreakLastDate >= today.AddDays(-gapDays))
+            return false;
+
+        return true;
+    }
+
+    public void IncrementStreak(DateTime today)
+    {
+        StreakCount++;
         StreakLastDate = today;
     }
 
