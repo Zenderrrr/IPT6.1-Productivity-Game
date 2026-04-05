@@ -26,9 +26,8 @@ public class UserStats : BaseModel
         Id = id;
     }
 
-    public void ApplyTaskCompletion(int amount, int durationMin, DateTime today)
+    public void ApplyTaskCompletion(int durationMin, DateTime today)
     {
-        AddXp(amount);
         IncrementTasksDone();
         DecrementTasksOpen();
         AddDuration(durationMin);
@@ -58,9 +57,8 @@ public class UserStats : BaseModel
         TotalTimeMin += durationMin;
     }
 
-    public void RemoveTaskCompletion(int amount, int durationMin, DateTime today)
+    public void RemoveTaskCompletion(int durationMin, DateTime today)
     {
-        RemoveXp(amount);
         DecrementTasksDone();
         IncrementTasksOpen();
         RemoveDuration(durationMin);
