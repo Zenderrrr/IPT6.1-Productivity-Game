@@ -13,39 +13,18 @@ namespace FocusUp.Application.Services
             _userStatsRepository = userStatsRepository;
         }
 
-        public Task? GetTaskById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Task? GetTaskById(int id) => _taskRepository.GetById(id);
 
-        public List<Task> GetTaskByUserId(int userId)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Task> GetTaskByUserId(int userId) => _taskRepository.GetAllByUserId(userId);
 
-        public int CreateTask(Task task)
-        {
-            throw new NotImplementedException();
-        }
+        public int CreateTask(Task task) => _taskRepository.Insert(task);
 
-        public void UpdateTask(Task task)
-        {
-            throw new NotImplementedException();
-        }
+        public void UpdateTask(Task task) => _taskRepository.Update(task);
 
-        public void DeleteTask(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public void DeleteTask(int id) => _taskRepository.Delete(id);
 
-        public List<Task> GetOpenTasksByUserId(int userId)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Task> GetOpenTasksByUserId(int userId) => _taskRepository.GetOpenByUserId(userId);
 
-        public List<Task> GetCompletedTasksByUserId(int userId)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Task> GetCompletedTasksByUserId(int userId) => _taskRepository.GetCompletedByUserId(userId);
     }
 }
