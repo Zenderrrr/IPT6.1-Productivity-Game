@@ -5,14 +5,10 @@ namespace FocusUp.Application.Strategies
 {
     public class DefaultXpCalculationStrategy : IXpCalculationStrategy
     {
-        private double _streakBonusFactor = 0.02;
-        private double _temporaryBonusFactor = 0.05;
+        private readonly double _streakBonusFactor;
+        private readonly double _temporaryBonusFactor;
 
-        public DefaultXpCalculationStrategy()
-        {
-        }
-
-        public DefaultXpCalculationStrategy(double streakBonusFactor, double temporaryBonusFactor)
+        public DefaultXpCalculationStrategy(double streakBonusFactor = 0.02, double temporaryBonusFactor = 0.05)
         {
             _streakBonusFactor = streakBonusFactor;
             _temporaryBonusFactor = temporaryBonusFactor;
@@ -28,9 +24,6 @@ namespace FocusUp.Application.Strategies
             return (int)Math.Floor(baseXP + timeBonus + streakBonus + temporaryBonus);
         }
 
-        public double GetBonusMultiplier(int streakCount)
-        {
-            return streakCount * _streakBonusFactor;
-        }
+        public double GetBonusMultiplier(int streakCount) => streakCount * _streakBonusFactor;
     }
 }
