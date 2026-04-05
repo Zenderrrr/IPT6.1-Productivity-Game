@@ -3,24 +3,21 @@ using Microsoft.Data.Sqlite;
 
 public class DatabaseConnection
 {
-    private DatabaseConnection _instance;
+    private static DatabaseConnection _instance;
     private string _connectionString;
     private SqliteConnection _connection;
 
     private DatabaseConnection(string connectionString)
     {
         _connectionString = connectionString;
+        _connection = new SqliteConnection(_connectionString);
     }
 
     // sets the connection string and sets the sqlite connection
-    public DatabaseConnection GetInstance(string connectionString)
+    public static DatabaseConnection GetInstance(string connectionString)
     {
         if(_instance == null)
-        {
             _instance = new DatabaseConnection(connectionString);
-            _connection = new SqliteConnection(_connectionString);
-        }
-
         return _instance;
     }
 
