@@ -1,3 +1,4 @@
+using FocusUp.Domain.Enums;
 using System;
 
 public class XpEvent : BaseModel
@@ -5,13 +6,13 @@ public class XpEvent : BaseModel
     public int UserId { get; }
     public int? TaskId { get; }
     public int Amount { get; }
-    public string Reason { get; }
+    public RewardReason Reason { get; }
 
     public XpEvent()
     {
     }
 
-    public XpEvent(int userId, int amount, string reason, int? taskId = null)
+    public XpEvent(int userId, int amount, RewardReason reason, int? taskId = null)
     {
         UserId = userId;
         TaskId = taskId;
@@ -28,8 +29,7 @@ public class XpEvent : BaseModel
     {
         return
             !int.IsNegative(UserId) &&
-            !int.IsNegative(Amount) &&
-            !string.IsNullOrWhiteSpace(Reason);
+            !int.IsNegative(Amount);
     }
 
 }
