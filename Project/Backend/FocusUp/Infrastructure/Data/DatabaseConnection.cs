@@ -16,25 +16,15 @@ public class DatabaseConnection
     // sets the connection string and sets the sqlite connection
     public static DatabaseConnection GetInstance(string connectionString)
     {
-        if(_instance == null)
-            _instance = new DatabaseConnection(connectionString);
+        _instance ??= new DatabaseConnection(connectionString);
         return _instance;
     }
 
-    public void Open()
-    {
-        _connection.Open();
-    }
+    public void Open() => _connection.Open();
 
-    public void Close()
-    {
-        _connection.Close();
-    }
+    public void Close() => _connection.Close();
 
-    public SqliteConnection GetConnection()
-    {
-        return _connection;
-    }
+    public SqliteConnection GetConnection() => _connection;
 
     // Execute commands without return values (Insert, Update, Delete)
     public void ExecuteNonQuery(string sql)
