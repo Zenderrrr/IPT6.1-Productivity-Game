@@ -8,7 +8,7 @@ public class UserRepository : BaseRepository<User>
 
     public override User? GetById(int id)
     {
-        return base.GetById(id);
+        throw new NotImplementedException();
     }
 
     public User? GetByUsername(string username)

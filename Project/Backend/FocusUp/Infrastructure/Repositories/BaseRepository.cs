@@ -2,8 +2,8 @@ using System;
 
 public abstract class BaseRepository<T> : IRepository<T>
 {
-    private DatabaseConnection _dbConnection;
-    private string _tableName;
+    protected DatabaseConnection _dbConnection;
+    protected string _tableName;
 
     protected BaseRepository(DatabaseConnection dbConnection, string tableName)
     {
