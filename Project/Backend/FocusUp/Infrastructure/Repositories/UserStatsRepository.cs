@@ -11,7 +11,7 @@ public class UserStatsRepository : BaseRepository<UserStats>
         return base.GetById(id);
     }
 
-    public UserStats? GetByUserId()
+    public UserStats? GetByUserId(int userId)
     {
         throw new NotImplementedException();
     }
