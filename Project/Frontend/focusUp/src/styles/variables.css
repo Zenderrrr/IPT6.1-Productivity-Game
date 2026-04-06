@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root{
+  --primary-color: #14B8A6;
+  --secondary-color: #0EA5E9;
+  --background-color: #F1F5F9;
+  --surface-color: #FFFFFF;
+  --text-color: #0F172A;
+  --accent-color: #84CC16;
+
+  --font-family: "Figtree";
+}
