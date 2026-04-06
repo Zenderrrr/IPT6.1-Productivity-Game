@@ -16,7 +16,7 @@ namespace FocusUp.Application.Strategies
 
         public int CalculateXP(Task task, int streakCount)
         {
-            double baseXP = task.Difficulty;
+            double baseXP = (int)task.Difficulty * 10;
             double timeBonus = task.DurationMin / 3;
             double streakBonus = (baseXP + timeBonus) * GetBonusMultiplier(streakCount);
             double temporaryBonus = (baseXP + timeBonus + streakBonus) * _temporaryBonusFactor;
