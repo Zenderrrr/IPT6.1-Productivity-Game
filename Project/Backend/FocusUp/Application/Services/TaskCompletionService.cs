@@ -44,7 +44,7 @@ namespace FocusUp.Application.Services
                 throw new TaskAlreadyCompletedException(taskId);
 
             task.MarkAsCompleted();
-            _taskRepository.UpdateStatus(taskId, Done, completedAt);
+            _taskRepository.UpdateStatus(taskId, Completed, completedAt);
 
             _streakService.UpdateStreak(userId, completedAt);
             int currentStreak = _streakService.GetCurrentStreak(userId);

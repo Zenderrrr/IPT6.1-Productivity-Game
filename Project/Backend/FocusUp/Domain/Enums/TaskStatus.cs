@@ -6,7 +6,7 @@ namespace FocusUp.Domain.Enums
     {
         Open,
         InProgress,
-        Done,
+        Completed,
         Archived
     }
 }

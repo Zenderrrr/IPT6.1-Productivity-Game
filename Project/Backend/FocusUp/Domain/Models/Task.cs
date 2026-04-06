@@ -14,7 +14,7 @@ public class Task : BaseModel
     public DateTime? CompletedAt { get; private set; }
 
     public Task() => Status = Open;
-    public Task(int userId, string title, string desciption, TaskDifficultyType difficulty, int? categoryId = null, DateTime? dueDate = null)
+    public Task(int userId, string title, string desciption, TaskDifficultyType difficulty, int durationMin, FocusUp.Domain.Enums.TaskStatus status , int? categoryId = null, DateTime? dueDate = null)
     {
         UserId = userId;
         Title = title;
@@ -22,13 +22,15 @@ public class Task : BaseModel
         Difficulty = difficulty;
         CategoryId = categoryId;
         DueDate = dueDate;
-
-        Status = Open;
+        DurationMin = durationMin;
+        Status = status;
     }
+
+    public void SetCompletedAt(DateTime? dateTime) => CompletedAt = dateTime;
 
     public void MarkAsCompleted()
     {
-        Status = Done;
+        Status = Completed;
         CompletedAt = DateTime.Now;
     }
 
@@ -48,7 +50,7 @@ public class Task : BaseModel
         DueDate = dueDate;
     }
 
-    public bool IsCompleted() => Status == Done;
+    public bool IsCompleted() => Status == Completed;
 
     public override bool ValidateData()
     {
