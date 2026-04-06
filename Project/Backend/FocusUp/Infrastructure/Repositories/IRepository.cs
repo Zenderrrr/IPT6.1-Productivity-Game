@@ -1,9 +1,12 @@
 using System;
 
-public interface IRepository<T>
+namespace FocusUp.Infrastructure.Repositories
 {
-    T? GetById(int id);
-    int Insert(T entity);
-    void Update(T entity);
-    void Delete(int id);
+    public interface IRepository<T>
+    {
+        T? GetById(int id);
+        int Insert(T entity);
+        void Update(T entity);
+        void Delete(int id);
+    }
 }
