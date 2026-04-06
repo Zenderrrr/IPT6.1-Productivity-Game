@@ -4,9 +4,8 @@ namespace FocusUp.Domain.Enums
 {
     public enum TaskDifficultyType
     {
-        easy = 1,
-        middle = 2,
-        hard = 3,
-        veryHard = 4,
+        Easy = 1,
+        Medium = 2,
+        Hard = 3,
     }
 }
