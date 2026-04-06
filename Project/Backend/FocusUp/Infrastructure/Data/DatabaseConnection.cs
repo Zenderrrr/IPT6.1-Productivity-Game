@@ -34,11 +34,35 @@ public class DatabaseConnection
         cmd.ExecuteNonQuery();
     }
 
+    public void ExecuteNonQuery(string sql, string parameterName, object? parameterValue)
+    {
+        var cmd = _connection.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue(parameterName, parameterValue);
+        cmd.ExecuteNonQuery();
+    }
+
     // Execute commands with one return value or null
     public object? ExecuteScalar(string sql)
     {
         var cmd = _connection.CreateCommand();
         cmd.CommandText = sql;
+        return cmd.ExecuteScalar();
+    }
+
+    /// <summary>
+    /// Execute commands as a scalar function.
+    /// </summary>
+    /// <param name="sql">sql command</param>
+    /// <param name="parameterName">name of the parameter</param>
+    /// <param name="parameterValue">value of the parameter</param>
+    /// <returns>Returns a object if no return value then null</returns>
+    public object? ExecuteScalar(string sql, string parameterName, object? parameterValue)
+    {
+        var cmd = _connection.CreateCommand();
+        cmd.CommandText = sql;
+        cmd.Parameters.AddWithValue(parameterName, parameterValue ?? DBNull.Value);
+
         return cmd.ExecuteScalar();
     }
 
