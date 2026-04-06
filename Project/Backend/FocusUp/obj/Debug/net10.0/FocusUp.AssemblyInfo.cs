@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FocusUp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50143fd4f4e22e505951a90ae58f49fd23d5967a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b39e7f15d7672410aeca697433880b4bf235a6e")]
 [assembly: System.Reflection.AssemblyProductAttribute("FocusUp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FocusUp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
