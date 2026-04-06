@@ -3,12 +3,12 @@ using System;
 public class UserStats : BaseModel
 {
     public int UserId { get; private set; }
-    public int TotalXp { get; private set; } = 0;
-    public int TasksDone { get; private set; } = 0;
-    public int TasksOpen { get; private set; } = 0;
-    public int TotalTimeMin { get; private set; } = 0;
-    public int StreakCount { get; private set; } = 0;
-    public int BestStreak {  get; private set; } = 0;
+    public int TotalXp { get; private set; }
+    public int TasksDone { get; private set; }
+    public int TasksOpen { get; private set; }
+    public int TotalTimeMin { get; private set; }
+    public int StreakCount { get; private set; }
+    public int BestStreak {  get; private set; }
     public DateTime? StreakLastDate;
     public DateTime? LastActiveAt;
 
@@ -19,11 +19,25 @@ public class UserStats : BaseModel
     public UserStats(int userId)
     {
         UserId = userId;
+
+        TotalXp = 0;
+        TasksDone = 0;
+        TasksOpen = 0;
+        TotalTimeMin = 0;
+        StreakCount = 0;
+        BestStreak = 0;
     }
 
-    internal void SetId(int id)
+    public UserStats(int userId, int totalXp, int tasksDone, int tasksOpen, int totalTimeMin, int streakCount, int bestStreak, DateTime? streakLastDate = null, DateTime? lastActiveAt = null)
     {
-        Id = id;
+        UserId = userId;
+        TotalXp = totalXp;
+        TasksDone = tasksDone;
+        TotalTimeMin = totalTimeMin;
+        StreakCount = streakCount;
+        BestStreak = bestStreak;
+        StreakLastDate = streakLastDate;
+        LastActiveAt = lastActiveAt;
     }
 
     public void ApplyTaskCompletion(int durationMin, DateTime today)
