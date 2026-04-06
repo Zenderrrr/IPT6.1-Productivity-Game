@@ -96,17 +96,6 @@ namespace FocusUp.Infrastructure.Repositories
             cmd.ExecuteNonQuery();
         }
 
-        public override void Delete(int id)
-        {
-            var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
-
-            cmd.CommandText = $"DELETE FROM {_tableName} WHERE id = @id";
-            cmd.Parameters.AddWithValue("@id", id);
-
-            cmd.ExecuteNonQuery();
-        }
-
         public bool ExistsByName(string name)
         {
             var connection = _dbConnection.GetConnection();
