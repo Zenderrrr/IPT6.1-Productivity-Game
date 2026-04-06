@@ -20,16 +20,10 @@ public class XpEvent : BaseModel
         Reason = reason;
     }
 
-    internal void SetId(int id)
-    {
-        Id = id;
-    }
-
     public override bool ValidateData()
     {
         return
             !int.IsNegative(UserId) &&
             !int.IsNegative(Amount);
     }
-
 }
