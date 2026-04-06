@@ -1,4 +1,5 @@
 ﻿using FocusUp.Application.Strategies.Interfaces;
+using FocusUp.Infrastructure.Repositories;
 using System;
 
 namespace FocusUp.Application.Services

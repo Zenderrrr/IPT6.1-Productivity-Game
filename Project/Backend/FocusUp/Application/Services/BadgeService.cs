@@ -1,6 +1,7 @@
 ﻿using FocusUp.Application.Strategies.Interfaces;
 using FocusUp.Common.Exceptions;
 using FocusUp.Domain.Enums;
+using FocusUp.Infrastructure.Repositories;
 using System;
 
 namespace FocusUp.Application.Services

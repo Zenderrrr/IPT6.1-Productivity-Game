@@ -1,5 +1,6 @@
 ﻿using FocusUp.Application.Strategies.Interfaces;
 using FocusUp.Domain.Enums;
+using FocusUp.Infrastructure.Repositories;
 using System;
 
 namespace FocusUp.Application.Services
