@@ -20,11 +20,6 @@ public class Badge : BaseModel
         RuleValue = ruleValue;
     }
 
-    internal void SetId(int id)
-    {
-        Id = id;
-    }
-
     public void Rename(string newName)
     {
         Name = newName;

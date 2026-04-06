@@ -19,17 +19,12 @@ public class TaskLog : BaseModel
         Action = action;
         XpAwarded = xpAwarded;
     }
-    internal void SetId(int id)
-    {
-        Id = id;
-    }
 
     public override bool ValidateData()
     {
         return
             !int.IsNegative(UserId) &&
             !int.IsNegative(TaskId) &&
-            !string.IsNullOrWhiteSpace(Action) &&
             !int.IsNegative(XpAwarded);
     }
 }
