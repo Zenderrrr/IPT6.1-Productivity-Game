@@ -28,7 +28,13 @@ namespace FocusUp.Infrastructure.Repositories
         }
         public virtual void Delete(int id)
         {
-            throw new NotImplementedException();
+            var connection = _dbConnection.GetConnection();
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $"DELETE FROM {_tableName} WHERE id = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
         }
     }
 }
