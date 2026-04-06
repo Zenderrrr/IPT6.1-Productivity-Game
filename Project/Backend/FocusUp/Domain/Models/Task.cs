@@ -1,3 +1,4 @@
+using FocusUp.Domain.Enums;
 using System;
 using static FocusUp.Domain.Enums.TaskStatus;
 public class Task : BaseModel
@@ -6,18 +7,14 @@ public class Task : BaseModel
     public int? CategoryId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public int Difficulty { get; private set; }
+    public TaskDifficultyType Difficulty { get; private set; }
     public int DurationMin { get; private set; }
     public DateTime? DueDate { get; private set; }
     public FocusUp.Domain.Enums.TaskStatus Status { get; private set; }
     public DateTime? CompletedAt { get; private set; }
 
-    public Task()
-    {
-        Status = Open;
-    }
-
-    public Task(int userId, string title, string desciption, int difficulty, int? categoryId = null, DateTime? dueDate = null)
+    public Task() => Status = Open;
+    public Task(int userId, string title, string desciption, TaskDifficultyType difficulty, int? categoryId = null, DateTime? dueDate = null)
     {
         UserId = userId;
         Title = title;
@@ -27,11 +24,6 @@ public class Task : BaseModel
         DueDate = dueDate;
 
         Status = Open;
-    }
-
-    internal void SetId(int id)
-    {
-        Id = id;
     }
 
     public void MarkAsCompleted()
@@ -46,7 +38,7 @@ public class Task : BaseModel
         CompletedAt = null;
     }
 
-    public void UpdateDetails(string title, string description, int difficulty, int durationMin, int? categoryId, DateTime? dueDate)
+    public void UpdateDetails(string title, string description, TaskDifficultyType difficulty, int durationMin, int? categoryId, DateTime? dueDate)
     {
         Title = title;
         Description = description;
@@ -56,10 +48,7 @@ public class Task : BaseModel
         DueDate = dueDate;
     }
 
-    public bool IsCompleted()
-    {
-        return Status == Done;
-    }
+    public bool IsCompleted() => Status == Done;
 
     public override bool ValidateData()
     {
@@ -67,12 +56,8 @@ public class Task : BaseModel
             !int.IsNegative(UserId) &&
             !string.IsNullOrWhiteSpace(Title) &&
             !string.IsNullOrWhiteSpace(Description) &&
-            !int.IsNegative(Difficulty) &&
             !int.IsNegative(DurationMin);
     }
 
-    public override void UpdateDate()
-    {
-        UpdatedAt = DateTime.Now;
-    }
+    public override void UpdateDate() => UpdatedAt = DateTime.Now;
 }
