@@ -103,6 +103,18 @@ CREATE TABLE UserBadge (
     UNIQUE (user_id, badge_id)
 );
 
+CREATE TABLE UserRefreshToken (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    token_hash VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    revoked_at DATETIME,
+    
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
+
 -- INDEXES
 CREATE INDEX idx_user_email ON User(email);
 
