@@ -44,7 +44,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(UserStats userStats)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (user_id)
                                  VALUES (@user_id);
@@ -53,7 +53,24 @@ namespace FocusUp.Infrastructure.Repositories
             cmd.Parameters.AddWithValue("@user_id", userStats.UserId);
 
             var id = cmd.ExecuteScalar();
+            userStats.SetId(Convert.ToInt32(id));
+            return Convert.ToInt32(id);
+        }
 
+        public int Insert(UserStats userStats, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+
+            cmd.Transaction = transaction;
+
+            cmd.CommandText = $@"INSERT INTO {_tableName} (user_id)
+                                 VALUES (@user_id);
+                                 SELECT last_insert_rowid()";
+
+            cmd.Parameters.AddWithValue("@user_id", userStats.UserId);
+
+            var id = cmd.ExecuteScalar();
+            userStats.SetId(Convert.ToInt32(id));
             return Convert.ToInt32(id);
         }
 
