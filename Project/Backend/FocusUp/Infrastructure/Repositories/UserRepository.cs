@@ -77,6 +77,25 @@ namespace FocusUp.Infrastructure.Repositories
             return Convert.ToInt32(id);
         }
 
+        public int Insert(User user, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+
+            cmd.Transaction = transaction;
+
+            cmd.CommandText = $@"INSERT INTO {_tableName} (username, email, password_hash)
+                                 VALUES (@username, @email, @password_hash);
+                                 SELECT last_insert_rowid()";
+
+            cmd.Parameters.AddWithValue("@username", user.Username);
+            cmd.Parameters.AddWithValue("@email", user.Email);
+            cmd.Parameters.AddWithValue("@password_hash", user.PasswordHash);
+
+            var id = cmd.ExecuteScalar();
+
+            return Convert.ToInt32(id);
+        }
+
         public override void Update(User user)
         {
             var connection = _dbConnection.GetConnection();
