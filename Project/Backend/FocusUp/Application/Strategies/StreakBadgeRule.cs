@@ -6,9 +6,9 @@ namespace FocusUp.Application.Strategies
 {
     public class StreakBadgeRule : IBadgeRule
     {
-        private readonly BadgeRuleType _ruleType;
+        private readonly BadgeRuleType _ruleType = BadgeRuleType.Streak;
 
-        public StreakBadgeRule(BadgeRuleType ruleType) => _ruleType = ruleType;
+        public StreakBadgeRule() { }
 
         public bool IsUnlocked(UserStats stats, Badge badge) => stats.StreakCount >= badge.RuleValue;
 
