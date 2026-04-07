@@ -24,7 +24,11 @@ public class DatabaseConnection
 
     public void Close() => _connection.Close();
 
-    public SqliteConnection GetConnection() => _connection;
+    public SqliteConnection GetConnection()
+    {   
+        Open();
+        return _connection;
+    }
 
     // Execute commands without return values (Insert, Update, Delete)
     public void ExecuteNonQuery(string sql)
