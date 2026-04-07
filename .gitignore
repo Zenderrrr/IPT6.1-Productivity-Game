@@ -1,2 +1,34 @@
 ~$*
-*.sqlite
+
+
+# Build
+bin/
+obj/
+
+publish/
+dist/
+
+# User / IDE
+.vs/
+*.user
+*.suo
+
+# Rider / JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets und Config
+appsettings.Development.json
+appsettings.Local.json
+.env
+
