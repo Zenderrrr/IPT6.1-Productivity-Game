@@ -13,12 +13,12 @@ namespace FocusUp.Application.Services
         private readonly UserBadgeRepository _userBadgeRepository;
         private readonly List<IBadgeRule> _badgeRules;
 
-        public BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, List<IBadgeRule> badgeRules)
+        public BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, IEnumerable<IBadgeRule> badgeRules)
         {
             _userStatsRepository = userStatsRepository;
             _userBadgeRepository = userBadgeRepository;
             _badgeRepository = badgeRepository;
-            _badgeRules = badgeRules;
+            _badgeRules = badgeRules.ToList();
         }
 
         public List<Badge> CheckAndAwardBadges(int userId)
