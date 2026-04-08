@@ -1,9 +1,12 @@
 using FocusUp.Domain.Enums;
 using System;
 
-public class UserNotFoundException : Exception
+namespace FocusUp.Common.Exceptions
 {
-    public UserNotFoundException(int userId) : base($"User from User ID {userId} was not found.")
+    public class UserNotFoundException : Exception
     {
+        public UserNotFoundException(int userId) : base($"User from User ID {userId} was not found.")
+        {
+        }
     }
 }
