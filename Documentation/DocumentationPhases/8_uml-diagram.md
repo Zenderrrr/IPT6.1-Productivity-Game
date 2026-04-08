@@ -559,19 +559,19 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 
 ## Services (Business-Logik)
 
-# TaskLogService
+### TaskLogService
 
-## Attribute
+#### Attribute
 | Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
 | - | _taskLogRepository | TaskLogRepository | Zugriff auf TaskLog-Daten |
 
-## Konstruktoren
+#### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
 | + | TaskLogService(TaskLogRepository taskLogRepository) | Initialisiert den Service |
 
-## Methoden
+#### Methoden
 | Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | ---------- | ----------- | ------------ |
 | + | CreateLog(int taskId, string action, int xpAwarded) | int | Erstellt einen neuen TaskLog-Eintrag |
@@ -579,25 +579,25 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 | + | GetLogsByTaskId(int taskId) | List<TaskLog> | Gibt alle Logs einer Task zurück |
 | + | GetRecentLogs(int userId, int limit) | List<TaskLog> | Gibt die neuesten Logs zurück |
 
-## Beziehungen
+#### Beziehungen
 - TaskLogService 1 -- 1 TaskLogRepository
 - TaskLogService 1 -- N TaskLog
 
 ---
 
-# XPEventService
+### XPEventService
 
-## Attribute
+#### Attribute
 | Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
 | - | _xpEventRepository | XPEventRepository | Zugriff auf XPEvent-Daten |
 
-## Konstruktoren
+#### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
 | + | XPEventService(XPEventRepository xpEventRepository) | Initialisiert den Service |
 
-## Methoden
+#### Methoden
 | Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | ---------- | ----------- | ------------ |
 | + | CreateXPEvent(int userId, int amount, string reason, int? taskId = null) | int | Erstellt ein XPEvent |
@@ -606,27 +606,27 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 | + | GetRecentXPEvents(int userId, int limit) | List<XPEvent> | Gibt die neuesten XPEvents zurück |
 | + | GetTotalXP(int userId) | int | Berechnet die gesamten XP eines Users |
 
-## Beziehungen
+#### Beziehungen
 - XPEventService 1 -- 1 XPEventRepository
 - XPEventService 1 -- N XPEvent
 
 ---
 
-# UserStatsService
+### UserStatsService
 
-## Attribute
+#### Attribute
 | Sichtbarkeit | Name | Typ | Beschreibung |
 | ---- | ---- | ---- | ---- |
 | - | _userStatsRepository | UserStatsRepository | Zugriff auf UserStats |
 | - | _xpEventRepository | XPEventRepository | Für XP-Berechnung |
 | - | _taskRepository | TaskRepository | Für Task-Zählungen |
 
-## Konstruktoren
+#### Konstruktoren
 | Sichtbarkeit | Definition | Beschreibung |
 | --- | --- | --- |
 | + | UserStatsService(UserStatsRepository userStatsRepository, XPEventRepository xpEventRepository, TaskRepository taskRepository) | Initialisiert den Service |
 
-## Methoden
+#### Methoden
 | Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
 | ------------ | ---------- | ----------- | ------------ |
 | + | GetUserStats(int userId) | UserStats? | Gibt die Stats eines Users zurück |
@@ -638,7 +638,7 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 | + | UpdateLastActive(int userId) | void | Aktualisiert letzte Aktivität |
 | + | InitializeUserStats(int userId) | int | Erstellt Stats für neuen User |
 
-## Beziehungen
+#### Beziehungen
 - UserStatsService 1 -- 1 UserStatsRepository
 - UserStatsService 1 -- 1 XPEventRepository
 - UserStatsService 1 -- 1 TaskRepository
