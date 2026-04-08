@@ -1,8 +1,11 @@
 using System;
 
-public class TaskAlreadyCompletedException : Exception
+namespace FocusUp.Common.Exceptions
 {
-    public TaskAlreadyCompletedException(int taskId) : base($"Task with ID {taskId} is already completed.")
+    public class TaskAlreadyCompletedException : Exception
     {
+        public TaskAlreadyCompletedException(int taskId) : base($"Task with ID {taskId} is already completed.")
+        {
+        }
     }
 }
