@@ -317,6 +317,37 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 
 ---
 
+### CategoryRepository
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _dbConnection | DatabaseConnection | Verwaltet den Zugriff auf die SQLite-Datenbank |
+| - | _tableName | string | Speichert den Namen der Tabelle (`Category`) |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | CategoryRepository(DatabaseConnection dbConnection) | Initialisiert das Repository mit einer Datenbankverbindung |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetById(int id) | Category? | Lädt eine Kategorie anhand ihrer ID |
+| + | GetAllByUserId(int userId) | List<Category> | Lädt alle Kategorien eines Benutzers |
+| + | Insert(Category category) | int | Speichert eine neue Kategorie und gibt die erzeugte ID zurück |
+| + | Update(Category category) | void | Aktualisiert eine bestehende Kategorie |
+| + | Delete(int id) | void | Löscht eine Kategorie anhand ihrer ID |
+| + | Exists(int id) | bool | Prüft, ob eine Kategorie mit dieser ID existiert |
+| + | ExistsByName(int userId, string name) | bool | Prüft, ob ein Benutzer bereits eine Kategorie mit diesem Namen hat |
+
+#### Beziehungen
+- CategoryRepository 1 -- 1 DatabaseConnection
+- CategoryRepository 1 -- N Category
+- CategoryRepository ---> IRepository
+
+---
+
 ### TaskRepository
 
 #### Attribute
@@ -558,6 +589,67 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 ---
 
 ## Services (Business-Logik)
+
+### UserService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _userRepository | UserRepository | Repository für User-Datenzugriffe |
+| - | _userStatsRepository | UserStatsRepository | Erstellt und verwaltet die UserStats eines Benutzers |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | UserService(UserRepository userRepository, UserStatsRepository userStatsRepository, IPasswordHasher passwordHasher) | Initialisiert den Service mit den benötigten Abhängigkeiten |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetUserById(int id) | User? | Lädt einen Benutzer anhand seiner ID |
+| + | GetUserByUsername(string username) | User? | Lädt einen Benutzer anhand seines Benutzernamens |
+| + | GetUserByEmail(string email) | User? | Lädt einen Benutzer anhand seiner E-Mail |
+| + | UpdateProfile(int userId, string username, string email) | void | Aktualisiert Benutzername und E-Mail eines Benutzers |
+| + | ChangePassword(int userId, string newPassword) | void | Hasht ein neues Passwort und speichert es |
+| + | DeleteUser(int userId) | void | Löscht einen Benutzer und zugehörige Daten |
+| + | UsernameExists(string username) | bool | Prüft, ob ein Benutzername bereits existiert |
+| + | EmailExists(string email) | bool | Prüft, ob eine E-Mail bereits existiert |
+
+#### Beziehungen
+- UserService 1 -- 1 UserRepository
+- UserService 1 -- 1 UserStatsRepository
+- UserService 1 -- 1 IPasswordHasher
+- UserService 1 -- N User
+
+---
+
+### CategoryService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _categoryRepository | CategoryRepository | Repository für Category-Datenzugriffe |
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | CategoryService(CategoryRepository categoryRepository) | Initialisiert den Service mit dem CategoryRepository |
+
+#### Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetCategoryById(int id) | Category? | Lädt eine Kategorie anhand ihrer ID |
+| + | GetCategoriesByUserId(int userId) | List<Category> | Lädt alle Kategorien eines Benutzers |
+| + | CreateCategory(Category category) | int | Validiert und erstellt eine neue Kategorie |
+| + | UpdateCategory(Category category) | void | Validiert und aktualisiert eine bestehende Kategorie |
+| + | DeleteCategory(int id) | void | Löscht eine Kategorie |
+| + | CategoryExistsByName(int userId, string name) | bool | Prüft, ob der Kategoriename für den Benutzer bereits existiert |
+
+#### Beziehungen
+- CategoryService 1 -- 1 CategoryRepository
+- CategoryService 1 -- N Category
+
+---
 
 ### TaskLogService
 
