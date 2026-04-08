@@ -15,26 +15,22 @@ public class Category : BaseModel
         Color = color;
     }
 
-    internal void SetId(int id)
-    {
-        Id = id;
-    }
+    public void Rename(string newName) => Name = newName;
 
-    public void Rename(string newName)
-    {
-        Name = newName;
-    }
-
-    public void ChangeColor(string newColor)
-    {
-        Color = newColor;
-    }
+    public void ChangeColor(string newColor) => Color = newColor;
 
     public override bool ValidateData()
     {
-        return
-            !int.IsNegative(UserId) &&
-            !string.IsNullOrWhiteSpace(Name) &&
-            !string.IsNullOrWhiteSpace(Color);
+        if(int.IsNegative(UserId))
+            return false;
+
+        if(string.IsNullOrWhiteSpace(Name))
+            return false;
+
+        if(string.IsNullOrWhiteSpace(Color))
+            return false;
+
+        return Color.Length == 7 &&
+            Color[0] == '#';
     }
 }
