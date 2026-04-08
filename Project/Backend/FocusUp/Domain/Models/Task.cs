@@ -57,7 +57,6 @@ public class Task : BaseModel
         return
             !int.IsNegative(UserId) &&
             !string.IsNullOrWhiteSpace(Title) &&
-            !string.IsNullOrWhiteSpace(Description) &&
             !int.IsNegative(DurationMin);
     }
 
