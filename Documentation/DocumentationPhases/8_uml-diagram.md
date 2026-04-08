@@ -559,6 +559,93 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 
 ## Services (Business-Logik)
 
+# TaskLogService
+
+## Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _taskLogRepository | TaskLogRepository | Zugriff auf TaskLog-Daten |
+
+## Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | TaskLogService(TaskLogRepository taskLogRepository) | Initialisiert den Service |
+
+## Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CreateLog(int taskId, string action, int xpAwarded) | int | Erstellt einen neuen TaskLog-Eintrag |
+| + | GetLogsByUserId(int userId) | List<TaskLog> | Gibt alle Logs eines Users zurück |
+| + | GetLogsByTaskId(int taskId) | List<TaskLog> | Gibt alle Logs einer Task zurück |
+| + | GetRecentLogs(int userId, int limit) | List<TaskLog> | Gibt die neuesten Logs zurück |
+
+## Beziehungen
+- TaskLogService 1 -- 1 TaskLogRepository
+- TaskLogService 1 -- N TaskLog
+
+---
+
+# XPEventService
+
+## Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _xpEventRepository | XPEventRepository | Zugriff auf XPEvent-Daten |
+
+## Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | XPEventService(XPEventRepository xpEventRepository) | Initialisiert den Service |
+
+## Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | CreateXPEvent(int userId, int amount, string reason, int? taskId = null) | int | Erstellt ein XPEvent |
+| + | GetXPEventsByUserId(int userId) | List<XPEvent> | Gibt alle XPEvents eines Users zurück |
+| + | GetXPEventsByTaskId(int taskId) | List<XPEvent> | Gibt alle XPEvents einer Task zurück |
+| + | GetRecentXPEvents(int userId, int limit) | List<XPEvent> | Gibt die neuesten XPEvents zurück |
+| + | GetTotalXP(int userId) | int | Berechnet die gesamten XP eines Users |
+
+## Beziehungen
+- XPEventService 1 -- 1 XPEventRepository
+- XPEventService 1 -- N XPEvent
+
+---
+
+# UserStatsService
+
+## Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _userStatsRepository | UserStatsRepository | Zugriff auf UserStats |
+| - | _xpEventRepository | XPEventRepository | Für XP-Berechnung |
+| - | _taskRepository | TaskRepository | Für Task-Zählungen |
+
+## Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | UserStatsService(UserStatsRepository userStatsRepository, XPEventRepository xpEventRepository, TaskRepository taskRepository) | Initialisiert den Service |
+
+## Methoden
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetUserStats(int userId) | UserStats? | Gibt die Stats eines Users zurück |
+| + | UpdateAfterTaskCompletion(int userId, int durationMin, int xpGained) | void | Aktualisiert Stats nach Task-Abschluss |
+| + | IncrementTasksDone(int userId) | void | Erhöht erledigte Tasks |
+| + | DecrementTasksOpen(int userId) | void | Verringert offene Tasks |
+| + | AddXP(int userId, int amount) | void | Fügt XP hinzu |
+| + | AddDuration(int userId, int durationMin) | void | Fügt Zeit hinzu |
+| + | UpdateLastActive(int userId) | void | Aktualisiert letzte Aktivität |
+| + | InitializeUserStats(int userId) | int | Erstellt Stats für neuen User |
+
+## Beziehungen
+- UserStatsService 1 -- 1 UserStatsRepository
+- UserStatsService 1 -- 1 XPEventRepository
+- UserStatsService 1 -- 1 TaskRepository
+- UserStatsService 1 -- 1 UserStats
+
+---
+
 ### TaskService
 
 #### Attribute
