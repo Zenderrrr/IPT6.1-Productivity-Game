@@ -2,6 +2,7 @@
 using FocusUp.Domain.Enums;
 using FocusUp.Infrastructure.Repositories;
 using System;
+using FocusUp.Common.Exceptions;
 
 namespace FocusUp.Application.Services
 {
