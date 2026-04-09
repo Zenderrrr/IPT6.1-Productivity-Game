@@ -7,24 +7,22 @@ namespace FocusUp.Application.Services
     {
         private readonly ILevelStrategy _levelStrategy;
 
-        public LevelService(ILevelStrategy levelStrategy)
-        {
-            _levelStrategy = levelStrategy;
-        }
+        public LevelService(ILevelStrategy levelStrategy) => _levelStrategy = levelStrategy;
 
-        public int GetLevel(int totalXP)
-        {
-            throw new NotImplementedException();
-        }
+        public int GetLevel(int totalXP) => _levelStrategy.CalculateLevel(totalXP);
 
-        public double GetProgressToNextLevel(int totalXP)
-        {
-            throw new NotImplementedException();
-        }
+        public double GetProgressToNextLevel(int totalXP) => _levelStrategy.CalculateProgressToNextLevel(totalXP);
 
         public int GetXpForNextLevel(int totalXP)
         {
-            throw new NotImplementedException();
+            int level = GetLevel(totalXP);
+            return 100 * (int)Math.Pow((level - 1), 2);
+        }
+
+        public int GetXpCurrent(int totalXP)
+        {
+            int level = GetLevel(totalXP);
+            return 100 * (int)Math.Pow(level, 2);
         }
     }
 }
