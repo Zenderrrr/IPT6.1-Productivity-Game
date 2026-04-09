@@ -590,6 +590,46 @@ Bei Entities mit CRUD Features werden Repos gebraucht um diese zu Kapseln ( `Tas
 
 ## Services (Business-Logik)
 
+### StatsService
+
+#### Attribute
+| Sichtbarkeit | Name | Typ | Beschreibung |
+| ---- | ---- | ---- | ---- |
+| - | _userStatsRepository | UserStatsRepository | Zugriff auf UserStats-Verlauf |
+| - | _taskLogRepository | TaskLogRepository | Zugriff auf Task-Verlauf |
+| - | _xpEventRepository | XPEventRepository | Zugriff auf XP-Verlauf |
+
+---
+
+#### Konstruktoren
+| Sichtbarkeit | Definition | Beschreibung |
+| --- | --- | --- |
+| + | StatsService(UserStatsRepository userStatsRepository, TaskLogRepository taskLogRepository, XPEventRepository xpEventRepository) | Initialisiert den Service mit benötigten Repositories |
+
+---
+
+#### Methoden
+
+| Sichtbarkeit | Definition | Rückgabetyp | Beschreibung |
+| ------------ | ---------- | ----------- | ------------ |
+| + | GetStats(int userId, string? range, DateTime? from, DateTime? to) | StatsDto | Liefert aggregierte Statistikdaten für einen bestimmten Zeitraum |
+| - | ResolvePeriod(string? range, DateTime? from, DateTime? to) | (DateTime from, DateTime to) | Bestimmt den effektiven Zeitraum basierend auf Range oder expliziten Daten |
+| + | GetProductivity(int userId, string? range, DateTime? from, DateTime? to) | List<ProductivityDto> | Liefert Zeitreihen-Daten (Tasks, XP, Zeit) |
+| + | GetTaskLogs(int userId, int limit) | List<TaskLog> | Liefert die letzten TaskLogs |
+| + | GetXpEvents(int userId, int limit) | List<XPEvent> | Liefert die letzten XPEvents |
+
+---
+
+#### Beziehungen
+
+- StatsService 1 -- 1 StatsRepository
+- StatsService 1 -- 1 TaskLogRepository
+- StatsService 1 -- 1 XPEventRepository
+- StatsService 1 -- N TaskLog
+- StatsService 1 -- N XPEvent
+
+---
+
 ### UserService
 
 #### Attribute
