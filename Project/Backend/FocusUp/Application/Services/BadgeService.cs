@@ -21,6 +21,18 @@ namespace FocusUp.Application.Services
             _badgeRules = badgeRules.ToList();
         }
 
+        public Badge? GetBadgeById(int id) => _badgeRepository.GetById(id);
+
+        public void UpdateBadge(Badge badge) => _badgeRepository.Update(badge);
+
+        public int CreateBadge(Badge badge) => _badgeRepository.Insert(badge);
+
+        public void DeleteBadge(int id) => _badgeRepository.Delete(id);
+
+        public bool ExistsBadgeByName(string name) => _badgeRepository.ExistsByName(name);
+
+        public List<Badge> GetBadgesByRuleType(BadgeRuleType badgeRuleType) => _badgeRepository.GetByRuleType(badgeRuleType);
+
         public List<Badge> CheckAndAwardBadges(int userId)
         {
             DateTime awardedAt = DateTime.Now;
@@ -71,6 +83,21 @@ namespace FocusUp.Application.Services
                 awardedBadges.Add(badge);
             }
             return awardedBadges;
+        }
+
+        public List<Badge> GetLockedBadges(int userId)
+        {
+            var badges = GetAvailableBadges();
+            List<Badge> lockedBadges = new();
+
+            var userBadges = _userBadgeRepository.GetByUserId(userId);
+            foreach (var badge in badges)
+            {
+                bool hasBadge = HasBadge(userBadges, badge.Id);
+                if (hasBadge) continue;
+                lockedBadges.Add(badge);
+            }
+            return lockedBadges;
         }
 
         public List<Badge> GetAvailableBadges() => _badgeRepository.GetAll();
