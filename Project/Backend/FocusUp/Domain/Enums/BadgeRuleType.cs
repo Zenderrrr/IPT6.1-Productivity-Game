@@ -4,8 +4,10 @@ namespace FocusUp.Domain.Enums
 {
     public enum BadgeRuleType
     {
-        Streak,
-        XP,
-        TasksDone,
+        streak,
+        xp,
+        tasks_completed,
+        time_logged,
+        xp_total,
     }
 }
