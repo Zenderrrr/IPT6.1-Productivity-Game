@@ -320,5 +320,55 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+    <section class="white-section steps-section">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-kicker">How it works</div>
+          <h2 class="section-title centered-title">Three simple steps</h2>
+          <p class="section-description centered-description">
+            Get started in minutes. No complicated setup — just open the app and begin.
+          </p>
+        </div>
+
+        <div class="steps-timeline"></div>
+
+        <div class="steps-grid">
+          <div v-for="(step, index) in steps" :key="step.title" class="step-card">
+            <div class="step-number">{{ index + 1 }}</div>
+            <h3 class="step-title">{{ step.title }}</h3>
+            <p class="step-text">{{ step.text }}</p>
+
+            <div class="step-preview">
+              <template v-if="index === 0">
+                <div class="preview-input">Add a new task <span>+</span></div>
+                <div class="preview-row"><span>Morning workout</span><span>+50 XP</span></div>
+                <div class="preview-row"><span>Deep work session</span><span>+60 XP</span></div>
+              </template>
+
+              <template v-else-if="index === 1">
+                <div class="preview-row strong">
+                  <span>Morning workout</span><span>+50 XP</span>
+                </div>
+                <div class="preview-row strong">
+                  <span>Deep work session</span><span>+80 XP</span>
+                </div>
+                <div class="preview-earned">+130 XP earned today</div>
+              </template>
+
+              <template v-else>
+                <div class="levelup-card">
+                  <div class="levelup-star">★</div>
+                  <div class="levelup-label">Level up</div>
+                  <div class="levelup-value">Level 15</div>
+                  <div class="levelup-track">
+                    <div class="levelup-fill"></div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
