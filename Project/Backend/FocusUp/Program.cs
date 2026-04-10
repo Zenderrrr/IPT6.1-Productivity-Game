@@ -97,19 +97,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
 
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine("AUTH FAILED: " + context.Exception.ToString());
-                return System.Threading.Tasks.Task.CompletedTask;
-            },
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine("TOKEN VALID");
-                return System.Threading.Tasks.Task.CompletedTask;
-            }
-        };
+        //options.Events = new JwtBearerEvents
+        //{
+        //    OnAuthenticationFailed = context =>
+        //    {
+        //        Console.WriteLine("AUTH FAILED: " + context.Exception.ToString());
+        //        return System.Threading.Tasks.Task.CompletedTask;
+        //    },
+        //    OnTokenValidated = context =>
+        //    {
+        //        Console.WriteLine("TOKEN VALID");
+        //        return System.Threading.Tasks.Task.CompletedTask;
+        //    }
+        //};
     });
 
 builder.Services.AddAuthorization();
