@@ -13,13 +13,13 @@ namespace FocusUp.Application.Services
 
         public double GetProgressToNextLevel(int totalXP) => _levelStrategy.CalculateProgressToNextLevel(totalXP);
 
-        public int GetXpForNextLevel(int totalXP)
+        public int GetXpCurrentLevel(int totalXP)
         {
             int level = GetLevel(totalXP);
             return 100 * (int)Math.Pow((level - 1), 2);
         }
 
-        public int GetXpCurrent(int totalXP)
+        public int GetXpForNextLevel(int totalXP)
         {
             int level = GetLevel(totalXP);
             return 100 * (int)Math.Pow(level, 2);
