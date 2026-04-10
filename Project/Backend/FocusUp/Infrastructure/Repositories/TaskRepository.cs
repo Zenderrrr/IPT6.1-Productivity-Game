@@ -188,6 +188,71 @@ namespace FocusUp.Infrastructure.Repositories
             return Convert.ToInt32(count);
         }
 
+        public int CountCompletedTasks(int userId, DateTime from, DateTime to)
+        {
+            var connection = _dbConnection.GetConnection();
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"SELECT COUNT(*) AS 'Count' FROM {_tableName}
+                                 WHERE user_id = @user_id AND status = '{Completed.ToString()}' AND (completed_at BETWEEN @from AND @to)";
+            cmd.Parameters.AddWithValue("@user_id", userId);
+            cmd.Parameters.AddWithValue("@from", from);
+            cmd.Parameters.AddWithValue("@to", to);
+
+            var count = cmd.ExecuteScalar();
+
+            return Convert.ToInt32(count);
+        }
+
+        public int SumDurationByPeriod(int userId, DateTime from, DateTime to)
+        {
+            var connection = _dbConnection.GetConnection();
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"SELECT SUM(duration_min) FROM {_tableName}
+                                 WHERE user_id = @user_id AND status = '{Completed.ToString()}' AND (completed_at BETWEEN @from AND @to)";
+            cmd.Parameters.AddWithValue("@user_id", userId);
+            cmd.Parameters.AddWithValue("@from", from);
+            cmd.Parameters.AddWithValue("@to", to);
+
+            var duration = cmd.ExecuteScalar();
+
+            if(duration == null || duration == DBNull.Value)
+                return 0;
+
+            return Convert.ToInt32(duration);
+        }
+
+        public List<(DateTime date, int durationMin)> SumDurationPerDay(int userId, DateTime from, DateTime to)
+        {
+            List<DateOnly> days = new();
+            for (int i = 0; i < (to.Date - from.Date).Days + 1; i++)
+                days.Add(DateOnly.FromDateTime(from.Date.AddDays(i)));
+
+            List<(DateTime date, int durationMin)> durationPerDayList = new();
+            foreach (var day in days)
+            {
+                int durationMin = SumDurationByPeriod(userId, day.ToDateTime(new TimeOnly(0, 0, 0)), day.ToDateTime(TimeOnly.MaxValue));
+                durationPerDayList.Add((day.ToDateTime(new TimeOnly(0, 0, 0)), durationMin));
+            }
+            return durationPerDayList;
+        }
+
+        public List<(DateTime date, int count)> GetCompletedTasksPerDay(int userId, DateTime from, DateTime to)
+        {
+            List<DateOnly> days = new();
+            for (int i = 0; i < (to.Date - from.Date).Days + 1; i++)
+                days.Add(DateOnly.FromDateTime(from.Date.AddDays(i)));
+
+            List<(DateTime date, int count)> completedTaskList = new();
+            foreach (var day in days)
+            {
+                int taskCount = CountCompletedTasks(userId, day.ToDateTime(new TimeOnly(0, 0, 0)), day.ToDateTime(TimeOnly.MaxValue));
+                completedTaskList.Add((day.ToDateTime(new TimeOnly(0, 0, 0)), taskCount));
+            }
+            return completedTaskList;
+        }
+
         private static Task MapToTask(SqliteDataReader reader)
         {
             int categoryId = reader.GetOrdinal("category_id");
