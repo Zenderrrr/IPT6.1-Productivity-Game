@@ -1,5 +1,6 @@
 using FocusUp.Domain.Enums;
 using System;
+using System.Text.Json.Serialization;
 
 public class Badge : BaseModel
 {

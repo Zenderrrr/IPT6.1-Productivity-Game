@@ -6,7 +6,7 @@ namespace FocusUp.Application.Strategies
 {
     public class StreakBadgeRule : IBadgeRule
     {
-        private readonly BadgeRuleType _ruleType = BadgeRuleType.Streak;
+        private readonly BadgeRuleType _ruleType = BadgeRuleType.streak;
 
         public StreakBadgeRule() { }
 
