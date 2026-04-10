@@ -16,7 +16,7 @@ namespace FocusUp.Infrastructure.Repositories
 
             var cmd = connection.CreateCommand();
 
-            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, created_at, user_id FROM {_tableName} 
+            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
                                 WHERE {_tableName}.id = @id";
             cmd.Parameters.AddWithValue("@id", id);
@@ -34,7 +34,7 @@ namespace FocusUp.Infrastructure.Repositories
             var connection = _dbConnection.GetConnection();
             var cmd = connection.CreateCommand();
 
-            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, created_at, user_id FROM {_tableName} 
+            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
                                 WHERE user_id = @user_id";
             cmd.Parameters.AddWithValue("@user_id", userId);
@@ -52,7 +52,7 @@ namespace FocusUp.Infrastructure.Repositories
             var connection = _dbConnection.GetConnection();
             var cmd = connection.CreateCommand();
 
-            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, created_at, user_id FROM {_tableName} 
+            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
                                 WHERE task_id = @task_id";
             cmd.Parameters.AddWithValue("@task_id", taskId);
@@ -88,10 +88,10 @@ namespace FocusUp.Infrastructure.Repositories
             var connection = _dbConnection.GetConnection();
             var cmd = connection.CreateCommand();
 
-            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, created_at, user_id FROM {_tableName}
+            cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, {_tableName}.created_at, user_id FROM {_tableName}
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
                                 WHERE Task.user_id = @user_id
-                                ORDER BY created_at DESC
+                                ORDER BY {_tableName}.created_at DESC
                                 LIMIT {limit}";
             cmd.Parameters.AddWithValue("@user_id", userId);
 
