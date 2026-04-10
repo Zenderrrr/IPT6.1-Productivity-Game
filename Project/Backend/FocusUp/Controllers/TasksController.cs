@@ -18,17 +18,15 @@ namespace FocusUp.Controllers
     public class TasksController : ControllerBase
     {
         private readonly TaskCompletionService _taskCompletionService;
-        private readonly UserRepository _userRepository;
         private readonly TaskService _taskService;
 
-        public TasksController(TaskCompletionService taskCompletionService, UserRepository userRepository, TaskService taskService)
+        public TasksController(TaskCompletionService taskCompletionService, TaskService taskService)
         {
             _taskCompletionService = taskCompletionService;
-            _userRepository = userRepository;
             _taskService = taskService;
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public IActionResult GetAllTasks()
         {
             if (!TryGetUserId(out int userId))
@@ -44,7 +42,7 @@ namespace FocusUp.Controllers
                 return NotFound();
             } catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("An unexpected error has occurred.");
             }
         }
 
@@ -72,7 +70,7 @@ namespace FocusUp.Controllers
             }
         }
 
-        [HttpPost("")]
+        [HttpPost]
         public IActionResult CreateTask([FromBody] CreateTaskRequest createTaskRequest)
         {
             if (createTaskRequest == null)
@@ -189,7 +187,7 @@ namespace FocusUp.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("An unexpected error has occurred.");
             }
         }
 
