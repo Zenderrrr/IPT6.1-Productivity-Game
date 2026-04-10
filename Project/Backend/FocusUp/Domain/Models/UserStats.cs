@@ -45,7 +45,6 @@ public class UserStats : BaseModel
         IncrementTasksDone();
         DecrementTasksOpen();
         AddDuration(durationMin);
-        IncrementStreak(today);
         UpdateLastActive(today);
         UpdateDate();
     }
@@ -122,6 +121,15 @@ public class UserStats : BaseModel
     {
         StreakCount++;
         StreakLastDate = today;
+    }
+
+    public void SetStreak(int currentStreak, DateTime completedAt)
+    {
+        StreakCount = currentStreak;
+        StreakLastDate = completedAt;
+
+        if(currentStreak > BestStreak)
+            BestStreak = currentStreak;
     }
 
     public void ResetStreak()
