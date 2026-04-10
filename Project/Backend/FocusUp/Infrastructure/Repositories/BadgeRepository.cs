@@ -113,15 +113,18 @@ namespace FocusUp.Infrastructure.Repositories
 
         private static Badge MapToBadge(SqliteDataReader reader)
         {
+            int descriptionId = reader.GetOrdinal("description");
+            string? description = reader.IsDBNull(descriptionId) ? null : reader.GetString(descriptionId);
+
             Badge badge = new Badge(
                 reader.GetString(reader.GetOrdinal("name")),
-                reader.GetString(reader.GetOrdinal("description")),
+                description ?? "",
                 Enum.Parse<BadgeRuleType>(reader.GetString(reader.GetOrdinal("rule_type"))),
                 reader.GetInt32(reader.GetOrdinal("rule_value"))
                 );
 
             badge.SetId(reader.GetInt32(reader.GetOrdinal("id")));
-            badge.SetCreatedAt(reader.GetDateTime(reader.GetOrdinal("created_at")));
+            badge.SetCreatedAt(DateTime.Parse(reader["created_at"].ToString()!));
 
             return badge;
         }
