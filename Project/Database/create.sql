@@ -39,7 +39,7 @@ CREATE TABLE Task (
     FOREIGN KEY (category_id) REFERENCES Category(id) ON DELETE SET NULL,
 
     CHECK (difficulty IN ('Easy', 'Medium', 'Hard') OR difficulty IS NULL),
-    CHECK (status IN ('Pending', 'In Progress', 'Completed')),
+    CHECK (status IN ('Open', 'InProgress', 'Completed', 'Archived')),
     CHECK (duration_min IS NULL OR duration_min >= 0)
 );
 
