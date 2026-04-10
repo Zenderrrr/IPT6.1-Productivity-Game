@@ -25,7 +25,16 @@ namespace FocusUp.Controllers
 
             try
             {
-                var categories = _categoryService.GetCategoriesByUser(userId);
+                var categories = _categoryService.GetCategoriesByUser(userId).Select(c =>
+                        new CategoryDto
+                        {
+                            Id = c.Id,
+                            UserId = c.UserId,
+                            Name = c.Name,
+                            Color = c.Color,
+                            CreatedAt = c.CreatedAt
+                        }
+                    );
 
                 return Ok(categories);
             }
