@@ -88,9 +88,63 @@ namespace FocusUp.Infrastructure.Repositories
             cmd.CommandText = $@"SELECT SUM(amount) AS 'TotalXP' FROM {_tableName}
                                  WHERE user_id = @user_id";
 
+            cmd.Parameters.AddWithValue("@user_id", userId);
             var amount = cmd.ExecuteScalar();
 
             return Convert.ToInt32(amount);
+        }
+
+        public int GetTotalXpByUserId(int userId, DateTime from, DateTime to)
+        {
+            var connection = _dbConnection.GetConnection();
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"SELECT SUM(amount) AS 'TotalXP' FROM {_tableName}
+                                 WHERE user_id = @user_id AND (created_at BETWEEN @from AND @to)";
+            cmd.Parameters.AddWithValue("@user_id", userId);
+            cmd.Parameters.AddWithValue("@from", from);
+            cmd.Parameters.AddWithValue("@to", to);
+
+            var amount = cmd.ExecuteScalar();
+
+            if (amount == null || amount == DBNull.Value)
+                return 0;
+
+            return Convert.ToInt32(amount);
+        }
+
+        public List<(DateTime date, int xp)> GetXpPerDay(int userId, DateTime from, DateTime to)
+        {
+            var connection = _dbConnection.GetConnection();
+            var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"SELECT DATE(created_at) AS date, SUM(amount) AS xp FROM {_tableName}
+                                 WHERE user_id = @user_id AND (created_at BETWEEN @from AND @to)
+                                 GROUP BY DATE(created_at)
+                                 ORDER BY date";
+            cmd.Parameters.AddWithValue("@user_id", userId);
+            cmd.Parameters.AddWithValue("@from", from);
+            cmd.Parameters.AddWithValue("@to", to);
+
+            using var reader = cmd.ExecuteReader();
+
+            Dictionary<DateTime, int> xpPerDayList = new();
+            while (reader.Read())
+                xpPerDayList[DateTime.Parse(reader.GetString(0))] = Convert.ToInt32(reader.GetValue(1));
+
+            List<DateTime> days = new();
+            for (int i = 0; i <= (to.Date - from.Date).Days; i++)
+                days.Add(from.Date.AddDays(i));
+
+            List<(DateTime date, int xp)> xpPerDay = new();
+            foreach (var day in days)
+            {
+                if (!xpPerDayList.TryGetValue(day, out int xp))
+                    xp = 0;
+
+                xpPerDay.Add((day, xp));
+            }
+            return xpPerDay;
         }
 
         public bool ExistsForTask(int taskId, RewardReason reason)
