@@ -12,7 +12,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override UserStats? GetById(int id)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE id = @id";
@@ -28,7 +28,23 @@ namespace FocusUp.Infrastructure.Repositories
         public UserStats? GetByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"SELECT * FROM {_tableName}
+                                 WHERE user_id = @user_id";
+            cmd.Parameters.AddWithValue("@user_id", userId);
+
+            using var reader = cmd.ExecuteReader();
+
+            if (!reader.Read())
+                return null;
+            return MapToUserStats(reader);
+        }
+
+        internal UserStats? GetByUserId(int userId, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE user_id = @user_id";
@@ -77,7 +93,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override void Update(UserStats userStats)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET total_xp = @total_xp, tasks_done = @tasks_done, tasks_open = @tasks_open, total_time_min = @total_time_min, streak_count = @streak_count, best_streak = @best_streak, streak_last_date = @streak_last_date, last_active_at = @last_active_at, updated_at = @updated_at
@@ -98,10 +114,34 @@ namespace FocusUp.Infrastructure.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        public void Update(UserStats userStats, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
+
+            cmd.CommandText = $@"UPDATE {_tableName}
+                                 SET total_xp = @total_xp, tasks_done = @tasks_done, tasks_open = @tasks_open, total_time_min = @total_time_min, streak_count = @streak_count, best_streak = @best_streak, streak_last_date = @streak_last_date, last_active_at = @last_active_at, updated_at = @updated_at
+                                 WHERE id = @id";
+
+            cmd.Parameters.AddWithValue("@id", userStats.Id);
+
+            cmd.Parameters.AddWithValue("@total_xp", userStats.TotalXp);
+            cmd.Parameters.AddWithValue("@tasks_done", userStats.TasksDone);
+            cmd.Parameters.AddWithValue("@tasks_open", userStats.TasksOpen);
+            cmd.Parameters.AddWithValue("@total_time_min", userStats.TotalTimeMin);
+            cmd.Parameters.AddWithValue("@streak_count", userStats.StreakCount);
+            cmd.Parameters.AddWithValue("@best_streak", userStats.BestStreak);
+            cmd.Parameters.AddWithValue("@streak_last_date", userStats.StreakLastDate ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@last_active_at", userStats.LastActiveAt ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@updated_at", userStats.UpdatedAt);
+
+            cmd.ExecuteNonQuery();
+        }
+
         public bool ExistsByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
                                  WHERE user_id = @user_id";
@@ -118,7 +158,23 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdateTotalXp(int userId, int totalXp)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"UPDATE {_tableName}
+                                 SET total_xp = @total_xp, updated_at = @updated_at
+                                 WHERE user_id = @user_id";
+
+            cmd.Parameters.AddWithValue("@user_id", userId);
+            cmd.Parameters.AddWithValue("@total_xp", totalXp);
+            cmd.Parameters.AddWithValue("@updated_at", DateTime.Now);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public void UpdateTotalXp(int userId, int totalXp, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET total_xp = @total_xp, updated_at = @updated_at
@@ -134,7 +190,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdateStreak(int userId, int streakCount, int bestStreak, DateTime? streakLastDate)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET streak_count = @streak_count, best_streak = @best_streak, streak_last_date = @streak_last_date, updated_at = @updated_at
@@ -152,7 +208,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdateTaskCounters(int userId, int tasksDone, int tasksOpen)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET tasks_done = @tasks_done, tasks_open = @tasks_open, updated_at = @updated_at
@@ -169,7 +225,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdateLastActive(int userId, DateTime lastActiveAt)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET last_active_at = @last_active_at, updated_at = @updated_at
@@ -185,7 +241,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void DeleteByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"DELETE FROM {_tableName}
                                  WHERE user_id = @user_id";

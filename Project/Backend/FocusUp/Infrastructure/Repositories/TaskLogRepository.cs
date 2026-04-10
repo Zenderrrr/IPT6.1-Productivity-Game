@@ -14,7 +14,7 @@ namespace FocusUp.Infrastructure.Repositories
         {
             var connection = _dbConnection.GetConnection();
 
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
@@ -32,7 +32,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<TaskLog> GetAllByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
@@ -50,7 +50,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<TaskLog> GetAllByTaskId(int taskId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded,  {_tableName}.created_at, user_id FROM {_tableName} 
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id
@@ -68,7 +68,25 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(TaskLog taskLog)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"INSERT INTO {_tableName} (task_id, action, xp_awarded) 
+                                VALUES (@task_id, @action, @xp_awarded);
+                                SELECT last_insert_rowid()";
+
+            cmd.Parameters.AddWithValue("@task_id", taskLog.TaskId);
+            cmd.Parameters.AddWithValue("@action", taskLog.Action.ToString());
+            cmd.Parameters.AddWithValue("@xp_awarded", taskLog.XpAwarded);
+
+            var id = cmd.ExecuteScalar();
+
+            return Convert.ToInt32(id);
+        }
+
+        public int Insert(TaskLog taskLog, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (task_id, action, xp_awarded) 
                                 VALUES (@task_id, @action, @xp_awarded);
@@ -86,7 +104,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<TaskLog> GetRecentByUserId(int userId, int limit)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT {_tableName}.id, {_tableName}.task_id, action, xp_awarded, {_tableName}.created_at, user_id FROM {_tableName}
                                 INNER JOIN Task ON {_tableName}.task_id = Task.id

@@ -14,7 +14,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override Task? GetById(int id)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                 WHERE id = @id";
@@ -32,7 +32,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<Task> GetAllByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                 WHERE user_id = @user_id";
@@ -50,7 +50,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<Task> GetOpenByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE (status = '{Open.ToString()}' OR status = '{InProgress.ToString()}')  AND user_id = @user_id";
@@ -67,7 +67,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<Task> GetCompletedByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE status = '{Completed.ToString()}' AND user_id = @user_id";
@@ -84,7 +84,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(Task task)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"INSERT INTO {_tableName} 
                                  (user_id, category_id, title, description, difficulty, duration_min, due_date, status)
@@ -108,21 +108,21 @@ namespace FocusUp.Infrastructure.Repositories
         public override void Update(Task task)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET category_id = @category_id, title = @title, description = @description, difficulty = @difficulty, duration_min = @duration_min, due_date = @due_date, status = @status, completed_at = @completed_at, updated_at = @updated_at
                                  WHERE id = @id";
             
             cmd.Parameters.AddWithValue("@id", task.Id);
-            cmd.Parameters.AddWithValue("@category_id", task.CategoryId);
+            cmd.Parameters.AddWithValue("@category_id", (object?)task.CategoryId ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@title", task.Title);
             cmd.Parameters.AddWithValue("@description", task.Description);
             cmd.Parameters.AddWithValue("@difficulty", task.Difficulty.ToString());
             cmd.Parameters.AddWithValue("@duration_min", task.DurationMin);
-            cmd.Parameters.AddWithValue("@due_date", task.DueDate);
+            cmd.Parameters.AddWithValue("@due_date", (object?)task.DueDate ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@status", task.Status.ToString());
-            cmd.Parameters.AddWithValue("@completed_at", task.CompletedAt);
+            cmd.Parameters.AddWithValue("@completed_at", (object?)task.CompletedAt ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@updated_at", task.UpdatedAt);
 
             cmd.ExecuteNonQuery();
@@ -131,7 +131,7 @@ namespace FocusUp.Infrastructure.Repositories
         public bool Exists(int id)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName} WHERE id = @id";
             cmd.Parameters.AddWithValue("@id", id);
@@ -146,7 +146,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdateStatus(int taskId, Domain.Enums.TaskStatus status, DateTime? completedAt)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET status = @status, completed_at = @completed_at, updated_at = @updated_at
@@ -154,7 +154,24 @@ namespace FocusUp.Infrastructure.Repositories
 
             cmd.Parameters.AddWithValue("@id", taskId);
             cmd.Parameters.AddWithValue("@status", status.ToString());
-            cmd.Parameters.AddWithValue("@completed_at", completedAt);
+            cmd.Parameters.AddWithValue("@completed_at", (object?)completedAt ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@updated_at", DateTime.Now);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public void UpdateStatus(int taskId, Domain.Enums.TaskStatus status, SqliteConnection connection, SqliteTransaction transaction , DateTime? completedAt)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
+
+            cmd.CommandText = $@"UPDATE {_tableName}
+                                 SET status = @status, completed_at = @completed_at, updated_at = @updated_at
+                                 WHERE id = @id";
+
+            cmd.Parameters.AddWithValue("@id", taskId);
+            cmd.Parameters.AddWithValue("@status", status.ToString());
+            cmd.Parameters.AddWithValue("@completed_at", (object?)completedAt ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@updated_at", DateTime.Now);
 
             cmd.ExecuteNonQuery();
@@ -163,7 +180,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int CountOpenTasks(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT COUNT(*) AS 'Count' FROM {_tableName}
                                  WHERE user_id = @user_id AND (status = '{Open.ToString()}' OR status = '{InProgress.ToString()}')";
@@ -177,7 +194,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int CountCompletedTasks(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT COUNT(*) AS 'Count' FROM {_tableName}
                                  WHERE user_id = @user_id AND status = '{Completed.ToString()}'";
@@ -191,7 +208,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int CountCompletedTasks(int userId, DateTime from, DateTime to)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT COUNT(*) AS 'Count' FROM {_tableName}
                                  WHERE user_id = @user_id AND status = '{Completed.ToString()}' AND (completed_at BETWEEN @from AND @to)";
@@ -207,7 +224,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int SumDurationByPeriod(int userId, DateTime from, DateTime to)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT SUM(duration_min) FROM {_tableName}
                                  WHERE user_id = @user_id AND status = '{Completed.ToString()}' AND (completed_at BETWEEN @from AND @to)";

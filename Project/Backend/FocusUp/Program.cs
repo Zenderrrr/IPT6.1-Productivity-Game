@@ -67,6 +67,9 @@ builder.Services.AddScoped<IStreakRuleStrategy, DefaultStreakRuleStrategy>();
 builder.Services.AddScoped<IXpCalculationStrategy, DefaultXpCalculationStrategy>();
 builder.Services.AddScoped<ILevelStrategy, QuadraticLevelStrategy>();
 builder.Services.AddScoped<IBadgeRule, StreakBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, TasksCompletedBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, TimeLoggedBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, TotalXpBadgeRule>();
 
 builder.Services.AddScoped<BadgeRepository>();
 builder.Services.AddScoped<TaskLogRepository>();

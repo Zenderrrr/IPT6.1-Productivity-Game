@@ -13,7 +13,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override XpEvent? GetById(int id)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE id = @id";
@@ -30,7 +30,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<XpEvent> GetAllByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE user_id = @user_id";
@@ -47,7 +47,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<XpEvent> GetAllByTaskId(int taskId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE task_id = @task_id";
@@ -64,7 +64,26 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(XpEvent xpEvent)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
+
+            cmd.CommandText = $@"INSERT INTO {_tableName} (user_id, task_id, reason, amount)
+                                 VALUES (@user_id, @task_id, @reason, @amount);
+                                SELECT last_insert_rowid()";
+
+            cmd.Parameters.AddWithValue("@user_id", xpEvent.UserId);
+            cmd.Parameters.AddWithValue("@task_id", xpEvent.TaskId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@reason", xpEvent.Reason);
+            cmd.Parameters.AddWithValue("@amount", xpEvent.Amount);
+
+            var id = cmd.ExecuteScalar();
+
+            return Convert.ToInt32(id);
+        }
+
+        public int Insert(XpEvent xpEvent, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (user_id, task_id, reason, amount)
                                  VALUES (@user_id, @task_id, @reason, @amount);
@@ -83,7 +102,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int GetTotalXpByUserId(int userId)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT SUM(amount) AS 'TotalXP' FROM {_tableName}
                                  WHERE user_id = @user_id";
@@ -97,7 +116,7 @@ namespace FocusUp.Infrastructure.Repositories
         public int GetTotalXpByUserId(int userId, DateTime from, DateTime to)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT SUM(amount) AS 'TotalXP' FROM {_tableName}
                                  WHERE user_id = @user_id AND (created_at BETWEEN @from AND @to)";
@@ -116,7 +135,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<(DateTime date, int xp)> GetXpPerDay(int userId, DateTime from, DateTime to)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT DATE(created_at) AS date, SUM(amount) AS xp FROM {_tableName}
                                  WHERE user_id = @user_id AND (created_at BETWEEN @from AND @to)
@@ -150,7 +169,7 @@ namespace FocusUp.Infrastructure.Repositories
         public bool ExistsForTask(int taskId, RewardReason reason)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
                                  WHERE task_id = @task_id AND reason = @reason";
@@ -168,7 +187,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<XpEvent> GetRecentByUserId(int userId, int limit)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE user_id = @user_id

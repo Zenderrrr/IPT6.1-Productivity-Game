@@ -131,7 +131,7 @@ namespace FocusUp.Controllers
                 _taskService.UpdateTask(updatedTask);
                 return Ok(new { updatedTask.Title, updatedTask.Description, updatedTask.Difficulty, updatedTask.DurationMin, updatedTask.CategoryId, updatedTask.DueDate, updatedTask.Status });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
@@ -187,7 +187,7 @@ namespace FocusUp.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("An unexpected error has occurred.");
+                return StatusCode(500, ex.Message);
             }
         }
 

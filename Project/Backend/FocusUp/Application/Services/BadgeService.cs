@@ -2,6 +2,7 @@
 using FocusUp.Common.Exceptions;
 using FocusUp.Domain.Enums;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.Data.Sqlite;
 using System;
 
 namespace FocusUp.Application.Services
@@ -56,6 +57,35 @@ namespace FocusUp.Application.Services
 
                 UserBadge userBadge = new UserBadge(userId, badge.Id, awardedAt);
                 _userBadgeRepository.Insert(userBadge);
+
+                awardedBadges.Add(badge);
+            }
+            return awardedBadges;
+        }
+
+        public List<Badge> CheckAndAwardBadges(int userId, SqliteConnection connection, SqliteTransaction transaction)
+        {
+            DateTime awardedAt = DateTime.Now;
+
+            var badges = GetAvailableBadges();
+            UserStats? userStats = _userStatsRepository.GetByUserId(userId, connection, transaction) ?? throw new UserStatsNotFoundException(userId);
+
+            List<Badge> awardedBadges = new();
+
+            var userBadges = _userBadgeRepository.GetByUserId(userId, connection, transaction);
+            foreach (var badge in badges)
+            {
+                BadgeRuleType badgeRuleType = badge.RuleType;
+
+                bool hasBadge = HasBadge(userBadges, badge.Id);
+                if (hasBadge) continue;
+
+                var rule = _badgeRules.FirstOrDefault(b => b.GetRuleType() == badgeRuleType) ?? throw new BadgeRuleNotFoundException(badgeRuleType, badge.Id);
+                bool isUnlocked = rule.IsUnlocked(userStats, badge);
+                if (!isUnlocked) continue;
+
+                UserBadge userBadge = new UserBadge(userId, badge.Id, awardedAt);
+                _userBadgeRepository.Insert(userBadge, connection, transaction);
 
                 awardedBadges.Add(badge);
             }

@@ -12,7 +12,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override User? GetById(int id)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE id = @id";
@@ -28,7 +28,7 @@ namespace FocusUp.Infrastructure.Repositories
         public User? GetByUsername(string username)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE username = @username";
@@ -45,7 +45,7 @@ namespace FocusUp.Infrastructure.Repositories
         public User? GetByEmail(string email)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
                                  WHERE email = @email";
@@ -62,7 +62,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(User user)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (username, email, password_hash)
                                  VALUES (@username, @email, @password_hash);
@@ -99,7 +99,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override void Update(User user)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET username = @username, email = @email, password_hash = @password_hash, updated_at = @updated_at
@@ -117,7 +117,7 @@ namespace FocusUp.Infrastructure.Repositories
         public bool ExistsByUsername(string username)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
                                  WHERE username = @username";
@@ -134,7 +134,7 @@ namespace FocusUp.Infrastructure.Repositories
         public bool ExistsByEmail(string email)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
                                  WHERE email = @email";
@@ -151,7 +151,7 @@ namespace FocusUp.Infrastructure.Repositories
         public void UpdatePassword(int userId, string passwordHash)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                  SET password_hash = @password_hash, updated_at = @updated_at
