@@ -74,7 +74,7 @@ SELECT
   CASE WHEN n%3=1 THEN 'Easy' WHEN n%3=2 THEN 'Medium' ELSE 'Hard' END,
   15+(n*5),
   datetime('2026-03-10','+'||(u.id*n)||' hours'),
-  CASE WHEN n%3=1 THEN 'Completed' WHEN n%3=2 THEN 'In Progress' ELSE 'Pending' END,
+  CASE WHEN n%3=1 THEN 'Completed' WHEN n%3=2 THEN 'InProgress' ELSE 'Open' END,
   CASE WHEN n%3=1 THEN datetime('2026-03-03','+'||(u.id*n)||' hours','+45 minutes') END,
   datetime('2026-03-03','+'||(u.id*n)||' hours'),
   datetime('2026-03-03','+'||(u.id*n)||' hours')
@@ -91,7 +91,7 @@ SELECT id,
 CASE WHEN status='Completed' THEN 'Task completed' ELSE 'Task started' END,
 CASE WHEN status='Completed' THEN 20 ELSE 5 END,
 updated_at
-FROM Task WHERE status!='Pending';
+FROM Task WHERE status!='Open';
 
 -- =========================
 -- XPEVENT
@@ -100,7 +100,7 @@ INSERT INTO XPEvent (user_id, task_id, reason, amount, created_at)
 SELECT user_id,id,'TaskComplete',20,completed_at FROM Task WHERE status='Completed';
 
 INSERT INTO XPEvent (user_id, task_id, reason, amount, created_at)
-SELECT user_id,id,'TaskStart',5,updated_at FROM Task WHERE status='In Progress';
+SELECT user_id,id,'TaskStart',5,updated_at FROM Task WHERE status='InProgress';
 
 -- =========================
 -- USERSTATS (5)
