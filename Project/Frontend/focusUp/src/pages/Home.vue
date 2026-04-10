@@ -248,5 +248,56 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+
+    <section class="white-section">
+      <div class="container two-column-section">
+        <div class="section-copy">
+          <div class="section-kicker">How FocusUp works</div>
+          <h2 class="section-title">
+            Productivity meets
+            <span>game mechanics</span>
+          </h2>
+          <p class="section-description">
+            We’ve taken the most motivating elements of gaming — progress, rewards, and momentum —
+            and applied them to your everyday workflow.
+          </p>
+
+          <div class="mechanics-list">
+            <div v-for="(item, index) in mechanics" :key="item.title" class="mechanic-item">
+              <div class="mechanic-number">{{ index + 1 }}</div>
+              <div>
+                <h3 class="mechanic-title">{{ item.title }}</h3>
+                <p class="mechanic-text">{{ item.text }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="overview-kicker">Weekly XP overview</div>
+
+          <div class="overview-bars">
+            <div v-for="bar in weeklyBars" :key="bar.day" class="overview-bar-item">
+              <div class="overview-bar-track">
+                <div
+                  class="overview-bar-fill"
+                  :class="{ highlight: bar.highlight }"
+                  :style="{ width: `${bar.value}%` }"
+                ></div>
+              </div>
+              <span class="overview-day">{{ bar.day }}</span>
+            </div>
+          </div>
+
+          <div class="overview-grid">
+            <div v-for="stat in weekStats" :key="stat.label" class="overview-stat-card">
+              <div class="overview-stat-label">{{ stat.label }}</div>
+              <div class="overview-stat-value">{{ stat.value }}</div>
+              <div class="overview-stat-note">{{ stat.note }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
