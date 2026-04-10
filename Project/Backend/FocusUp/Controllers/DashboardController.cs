@@ -25,9 +25,9 @@ namespace FocusUp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDashboardData()
+        public IActionResult GetDashboardData([FromQuery] int? taskLogLimit)
         {
-            int taskLogLimit = 20;
+            int limit = taskLogLimit ?? 20;
 
             if(!TryGetUserId(out int userId))
                 return Unauthorized();
@@ -39,13 +39,13 @@ namespace FocusUp.Controllers
                 if(userStats == null)
                     return NotFound();
 
-                var lastCompletedTasks = _taskLogService.GetRecentLogs(userId, taskLogLimit);
+                var lastCompletedTasks = _taskLogService.GetRecentLogs(userId, limit);
 
                 int level = _levelService.GetLevel(userStats.TotalXp);
                 int xpNext = _levelService.GetXpForNextLevel(userStats.TotalXp);
                 double progressToNextLevel = _levelService.GetProgressToNextLevel(userStats.TotalXp);
 
-                int xpCurrent = _levelService.GetXpCurrent(userStats.TotalXp);
+                int xpCurrent = _levelService.GetXpCurrentLevel(userStats.TotalXp);
 
                 return Ok(new { userStats.TotalXp, userStats.TasksDone, userStats.TasksOpen, userStats.StreakCount, userStats.BestStreak, userStats.TotalTimeMin, lastCompletedTasks, level, xpNext, progressToNextLevel, xpCurrent });
             }
