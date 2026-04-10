@@ -299,5 +299,26 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header centered">
+          <div class="section-kicker">Features</div>
+          <h2 class="section-title centered-title">Everything you need to stay in flow</h2>
+          <p class="section-description centered-description">
+            Designed for people who want results, not just another todo list.
+          </p>
+        </div>
+        <div class="features-grid">
+          <article v-for="feature in features" :key="feature.title" class="feature-card">
+            <div class="feature-icon" :class="feature.iconClass">{{ feature.icon }}</div>
+            <h3 class="feature-title">{{ feature.title }}</h3>
+            <p class="feature-text">{{ feature.text }}</p>
+            <div class="feature-tags">
+              <span v-for="tag in feature.tags" :key="tag" class="feature-tag">{{ tag }}</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
