@@ -14,7 +14,7 @@ namespace FocusUp.Infrastructure.Repositories
         {
             var connection = _dbConnection.GetConnection();
 
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $"SELECT * FROM {_tableName} WHERE id = @id";
             cmd.Parameters.AddWithValue("@id", id);
@@ -30,7 +30,7 @@ namespace FocusUp.Infrastructure.Repositories
         public List<Badge> GetAll()
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $"SELECT * FROM {_tableName}";
 
@@ -46,7 +46,7 @@ namespace FocusUp.Infrastructure.Repositories
         {
             var connection = _dbConnection.GetConnection();
 
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $"SELECT * FROM {_tableName} WHERE rule_type = @ruleType";
             cmd.Parameters.AddWithValue("@ruleType", ruleType.ToString());
@@ -62,7 +62,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override int Insert(Badge badge)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (name, description, rule_type, rule_value, created_at) 
                                 VALUES (@name, @description, @rule_type, @rule_value, @created_at);
@@ -82,7 +82,7 @@ namespace FocusUp.Infrastructure.Repositories
         public override void Update(Badge badge)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
                                 SET name = @name, description = @description, rule_type = @rule_type, rule_value = @rule_value
@@ -99,7 +99,7 @@ namespace FocusUp.Infrastructure.Repositories
         public bool ExistsByName(string name)
         {
             var connection = _dbConnection.GetConnection();
-            var cmd = connection.CreateCommand();
+            using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $"SELECT 1 FROM {_tableName} WHERE name = @name";
             cmd.Parameters.AddWithValue ("@name", name);

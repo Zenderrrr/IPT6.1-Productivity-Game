@@ -11,7 +11,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public override Category? GetById(int id)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
@@ -28,7 +28,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public List<Category> GetAllByUserId(int userId)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT * FROM {_tableName}
@@ -45,7 +45,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public override int Insert(Category category)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"INSERT INTO {_tableName} (user_id, name, color)
@@ -62,7 +62,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public override void Update(Category category)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
@@ -77,7 +77,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public override void Delete(int id)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"DELETE FROM {_tableName} WHERE id = @id";
@@ -88,7 +88,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public bool Exists(int id)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
@@ -104,7 +104,7 @@ namespace FocusUp.Infrastructure.Repositories
 
         public bool ExistsByName(int userId, string name)
         {
-            using var connection = _dbConnection.GetConnection();
+            var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"SELECT 1 FROM {_tableName}
@@ -128,7 +128,7 @@ namespace FocusUp.Infrastructure.Repositories
             var category = new Category(
                     reader.GetInt32(reader.GetOrdinal("user_id")),
                     reader.GetString(reader.GetOrdinal("name")),
-                    color
+                    color ?? ""
                 );
 
             category.SetId(reader.GetInt32(reader.GetOrdinal("id")));
