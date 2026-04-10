@@ -1,3 +1,4 @@
+using FocusUp.Application.DTOs;
 using FocusUp.Application.Services;
 using FocusUp.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace FocusUp.Controllers
 
         public BadgesController(BadgeService badgeService) => _badgeService = badgeService;
 
-        [HttpGet("")]
+        [HttpGet]
         public IActionResult GetBadges()
         {
             if (!TryGetUserId(out int userId))
@@ -25,7 +26,16 @@ namespace FocusUp.Controllers
 
             try
             {
-                var badges = _badgeService.GetAvailableBadges();
+                var badges = _badgeService.GetAvailableBadges().Select(b =>
+                    new BadgesDto{
+                        Id = b.Id,
+                        Name = b.Name,
+                        Description = b.Description,
+                        RuleType = b.RuleType,
+                        RuleValue = b.RuleValue,
+                        CreatedAt = b.CreatedAt,
+                    }
+                );
 
                 return Ok(badges);
             }
@@ -43,7 +53,17 @@ namespace FocusUp.Controllers
 
             try
             {
-                var badges = _badgeService.GetUnlockedBadges(userId);
+                var badges = _badgeService.GetUnlockedBadges(userId).Select(b =>
+                    new BadgesDto
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Description = b.Description,
+                        RuleType = b.RuleType,
+                        RuleValue = b.RuleValue,
+                        CreatedAt = b.CreatedAt,
+                    }
+                );
 
                 return Ok(badges);
             }
@@ -61,7 +81,17 @@ namespace FocusUp.Controllers
 
             try
             {
-                var badges = _badgeService.GetLockedBadges(userId);
+                var badges = _badgeService.GetLockedBadges(userId).Select(b =>
+                    new BadgesDto
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Description = b.Description,
+                        RuleType = b.RuleType,
+                        RuleValue = b.RuleValue,
+                        CreatedAt = b.CreatedAt,
+                    }
+                );
 
                 return Ok(badges);
             }catch (Exception)
@@ -84,7 +114,7 @@ namespace FocusUp.Controllers
                     return NotFound();
 
                 bool hasBadge = _badgeService.HasBadge(userId, badge.Id);
-                return Ok( new { badge.Id, badge.Name, badge.Description, badge.RuleType, badge.RuleValue, hasBadge });
+                return Ok( new { badge.Id, badge.Name, badge.Description, badge.RuleType, badge.RuleValue, badge.CreatedAt, hasBadge });
             }
             catch (Exception)
             {
