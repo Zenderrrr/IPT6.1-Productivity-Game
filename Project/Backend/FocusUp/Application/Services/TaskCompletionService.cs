@@ -16,8 +16,10 @@ namespace FocusUp.Application.Services
         private readonly UserStatsRepository _userStatsRepository;
         private readonly XPEventRepository _xPEventRepository;
         private readonly TaskLogRepository _taskLogRepository;
+        
+        private readonly DatabaseConnection _dbConnection;
 
-        public TaskCompletionService(TaskRepository taskRepository, XPService xPService, StreakService streakService, LevelService levelService, BadgeService badgeService, UserStatsRepository userStatsRepository, XPEventRepository xPEventRepository, TaskLogRepository taskLogRepository)
+        public TaskCompletionService(TaskRepository taskRepository, XPService xPService, StreakService streakService, LevelService levelService, BadgeService badgeService, UserStatsRepository userStatsRepository, XPEventRepository xPEventRepository, TaskLogRepository taskLogRepository, DatabaseConnection databaseConnection)
         {
             _taskRepository = taskRepository;
             _xPService = xPService;
@@ -27,13 +29,14 @@ namespace FocusUp.Application.Services
             _userStatsRepository = userStatsRepository;
             _xPEventRepository = xPEventRepository;
             _taskLogRepository = taskLogRepository;
+            _dbConnection = databaseConnection;
         }
 
         public void CompleteTask(int taskId, int userId)
         {
             DateTime completedAt = DateTime.Now;
 
-            UserStats? userStats = _userStatsRepository.GetById(userId) ?? throw new UserStatsNotFoundException(userId);
+            UserStats? userStats = _userStatsRepository.GetByUserId(userId) ?? throw new UserStatsNotFoundException(userId);
 
             Task? task = _taskRepository.GetById(taskId) ?? throw new TaskNotFoundException(taskId);
 
@@ -44,25 +47,34 @@ namespace FocusUp.Application.Services
                 throw new TaskAlreadyCompletedException(taskId);
 
             task.MarkAsCompleted();
-            _taskRepository.UpdateStatus(taskId, Completed, completedAt);
+            int currentStreak = _streakService.CalculateNewStreak(userStats, completedAt);
 
-            _streakService.UpdateStreak(userId, completedAt);
-            int currentStreak = _streakService.GetCurrentStreak(userId);
+            userStats.SetStreak(currentStreak, completedAt);
 
-            int xpAwarded = _xPService.CalculateXP(task, _streakService.GetCurrentStreak(userId));
+            int xpAwarded = _xPService.CalculateXP(task, currentStreak);
 
-            TaskLog taskLog = new TaskLog(userId, taskId, RewardReason.TaskCompleted, xpAwarded);
-            _taskLogRepository.Insert(taskLog);
-
-            _xPService.AwardXP(userId, task, currentStreak, RewardReason.TaskCompleted);
+            TaskLog taskLog = new(userId, taskId, RewardReason.TaskCompleted, xpAwarded);
 
             userStats.ApplyTaskCompletion(task.DurationMin, completedAt);
-            _userStatsRepository.Update(userStats);
 
-            int currentLevel = _levelService.GetLevel(userStats.TotalXp);
-            double progressNextLevel = _levelService.GetProgressToNextLevel(userStats.TotalXp);
+            using var connection = _dbConnection.GetConnection();
+            using var transaction = connection.BeginTransaction();
 
-            _badgeService.CheckAndAwardBadges(userId);
+            try
+            {
+                _taskRepository.UpdateStatus(taskId, Completed, connection, transaction, completedAt);
+                _xPService.AwardXP(task, currentStreak, RewardReason.TaskCompleted, connection, transaction);
+                _taskLogRepository.Insert(taskLog, connection, transaction);
+                _userStatsRepository.Update(userStats, connection, transaction);
+                _badgeService.CheckAndAwardBadges(userId, connection, transaction);
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public bool CanCompleteTask(int taskId, int userId)
