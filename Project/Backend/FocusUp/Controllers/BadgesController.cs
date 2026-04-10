@@ -1,31 +1,26 @@
 using FocusUp.Application.Services;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace FocusUp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BadgesController : ControllerBase
     {
-        public BadgeService _badgeService;
+        private readonly BadgeService _badgeService;
 
-        public BadgesController(BadgeService badgeService)
-        {
-            _badgeService = badgeService;
-        }
+        public BadgesController(BadgeService badgeService) => _badgeService = badgeService;
 
         [HttpGet("")]
         public IActionResult GetBadges()
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -40,15 +35,10 @@ namespace FocusUp.Controllers
             }
         }
 
-        [HttpGet("/unlocked")]
+        [HttpGet("unlocked")]
         public IActionResult GetUnlockedBadges()
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -63,25 +53,17 @@ namespace FocusUp.Controllers
             }
         }
 
-        [HttpGet("/locked")]
+        [HttpGet("locked")]
         public IActionResult GetLockedBadges()
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
             {
                 var badges = _badgeService.GetLockedBadges(userId);
 
-                if (badges == null)
-                    return NotFound();
-
-                Ok(badges);
+                return Ok(badges);
             }catch (Exception)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
@@ -91,12 +73,7 @@ namespace FocusUp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetBadgeById(int id)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -113,6 +90,21 @@ namespace FocusUp.Controllers
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
+        }
+
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+
+            var userIdClaim =
+                User.FindFirst("sub")?.Value
+                ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return false;
+
+            return int.TryParse(userIdClaim, out userId);
         }
     }
 }

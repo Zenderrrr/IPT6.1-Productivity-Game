@@ -1,11 +1,14 @@
 using FocusUp.Application.Services;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace FocusUp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class DashboardController : ControllerBase
@@ -21,17 +24,12 @@ namespace FocusUp.Controllers
             _levelService = levelService;
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public IActionResult GetDashboardData()
         {
             int taskLogLimit = 20;
 
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if(!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -41,18 +39,35 @@ namespace FocusUp.Controllers
                 if(userStats == null)
                     return NotFound();
 
-                var recentTasks = _taskLogService.GetRecentLogs(userId, taskLogLimit);
+                var lastCompletedTasks = _taskLogService.GetRecentLogs(userId, taskLogLimit);
 
-                int currLevel = _levelService.GetLevel(userStats.TotalXp);
-                int xpNextLevel = _levelService.GetXpForNextLevel(userStats.TotalXp);
-                double progressNextLevel = _levelService.GetProgressToNextLevel(userStats.TotalXp);
+                int level = _levelService.GetLevel(userStats.TotalXp);
+                int xpNext = _levelService.GetXpForNextLevel(userStats.TotalXp);
+                double progressToNextLevel = _levelService.GetProgressToNextLevel(userStats.TotalXp);
 
-                return Ok(new { userStats.TotalXp, userStats.TasksDone, userStats.TasksOpen, userStats.StreakCount, userStats.BestStreak, userStats.TotalTimeMin, recentTasks, currLevel, xpNextLevel, progressNextLevel});
+                int xpCurrent = _levelService.GetXpCurrent(userStats.TotalXp);
+
+                return Ok(new { userStats.TotalXp, userStats.TasksDone, userStats.TasksOpen, userStats.StreakCount, userStats.BestStreak, userStats.TotalTimeMin, lastCompletedTasks, level, xpNext, progressToNextLevel, xpCurrent });
             }
             catch (Exception)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
+        }
+
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+
+            var userIdClaim =
+                User.FindFirst("sub")?.Value
+                ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return false;
+
+            return int.TryParse(userIdClaim, out userId);
         }
     }
 }

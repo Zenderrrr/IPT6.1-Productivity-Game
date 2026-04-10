@@ -12,8 +12,8 @@ namespace FocusUp.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        public AuthService _authService;
-        public UserRepository _userRepository;
+        private readonly AuthService _authService;
+        private readonly UserRepository _userRepository;
 
         public AuthController(AuthService authService, UserRepository userRepository)
         {

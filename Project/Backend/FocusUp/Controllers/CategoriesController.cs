@@ -1,12 +1,15 @@
 using FocusUp.Application.DTOs;
 using FocusUp.Application.Services;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace FocusUp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
@@ -17,12 +20,7 @@ namespace FocusUp.Controllers
         [HttpGet("")]
         public IActionResult GetCategories()
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -40,12 +38,7 @@ namespace FocusUp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCategoryById(int id)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -71,12 +64,7 @@ namespace FocusUp.Controllers
             if(categoryRequest == null)
                 return BadRequest();
 
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             if (_categoryService.CategoryExistsByName(userId, categoryRequest.Name))
@@ -105,12 +93,7 @@ namespace FocusUp.Controllers
             if (categoryRequest == null)
                 return BadRequest();
 
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -141,12 +124,7 @@ namespace FocusUp.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -165,6 +143,21 @@ namespace FocusUp.Controllers
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
+        }
+
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+
+            var userIdClaim =
+                User.FindFirst("sub")?.Value
+                ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return false;
+
+            return int.TryParse(userIdClaim, out userId);
         }
     }
 }

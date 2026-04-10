@@ -3,13 +3,16 @@ using FocusUp.Application.Services;
 using FocusUp.Common.Exceptions;
 using FocusUp.Domain.Enums;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace FocusUp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
@@ -28,13 +31,12 @@ namespace FocusUp.Controllers
         [HttpGet("")]
         public IActionResult GetAllTasks()
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? throw new InvalidOperationException();
-
-            User? user = _userRepository.GetById(int.Parse(userIdClaim)) ?? throw new InvalidOperationException();
+            if (!TryGetUserId(out int userId))
+                return Unauthorized();
 
             try
             {
-                var tasks = _taskService.GetTaskByUserId(user.Id);
+                var tasks = _taskService.GetTaskByUserId(userId);
                 return Ok(new { tasks });
             }
             catch (TaskNotFoundException)
@@ -49,9 +51,7 @@ namespace FocusUp.Controllers
         [HttpGet("{id}")]
         public IActionResult GetTaskById(int id)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if(userIdClaim == null)
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -61,12 +61,12 @@ namespace FocusUp.Controllers
                 if (task == null)
                     return NotFound();
 
-                if (task.UserId != int.Parse(userIdClaim))
+                if (task.UserId != userId)
                     return Forbid();
 
                 return Ok(new { task.Title, task.Description, task.Difficulty, task.DurationMin, task.CategoryId, task.DueDate, task.Status });
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
@@ -78,12 +78,7 @@ namespace FocusUp.Controllers
             if (createTaskRequest == null)
                 return BadRequest();
 
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaim == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaim, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             if (!Enum.TryParse(createTaskRequest.Difficulty,true, out TaskDifficultyType taskDifficulty))
@@ -111,12 +106,7 @@ namespace FocusUp.Controllers
             if (updateTaskRequest == null)
                 return BadRequest();
 
-            var userIdClaims = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaims == null)
-                return Unauthorized();
-
-            if(!int.TryParse(userIdClaims, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             if (!Enum.TryParse(updateTaskRequest.Difficulty,true, out TaskDifficultyType taskDifficulty))
@@ -152,12 +142,7 @@ namespace FocusUp.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteTask(int id)
         {
-            var userIdClaims = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (userIdClaims == null)
-                return Unauthorized();
-
-            if (!int.TryParse(userIdClaims, out int userId))
+            if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
             try
@@ -182,13 +167,12 @@ namespace FocusUp.Controllers
         [HttpPost("{id}/complete")]
         public IActionResult CompleteTask(int id)
         {
-            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? throw new InvalidOperationException();
-
-            User? user = _userRepository.GetById(int.Parse(userIdClaim)) ?? throw new InvalidOperationException();
+            if (!TryGetUserId(out int userId))
+                return Unauthorized();
 
             try
             {
-                _taskCompletionService.CompleteTask(id, user.Id);
+                _taskCompletionService.CompleteTask(id, userId);
                 return Ok();
             }
             catch (TaskNotFoundException)
@@ -207,6 +191,21 @@ namespace FocusUp.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+
+            var userIdClaim =
+                User.FindFirst("sub")?.Value
+                ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return false;
+
+            return int.TryParse(userIdClaim, out userId);
         }
     }
 }
