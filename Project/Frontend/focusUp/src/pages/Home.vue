@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { RouterLink } from 'vue-router'
+
 const heroTasks = [
   { name: 'Morning workout routine', xp: '+50 XP', completed: true },
   { name: 'Write weekly report', xp: '+80 XP', completed: true },
@@ -131,8 +133,8 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           </p>
 
           <div class="hero-actions">
-            <button class="button button-primary">⚡ Get started free</button>
-            <button class="button button-secondary">▶️ View demo</button>
+            <RouterLink to="/login" class="button button-primary"> ✦ Get started free </RouterLink>
+            <button class="button button-secondary">▶ View demo</button>
           </div>
 
           <div class="hero-stats">
@@ -449,7 +451,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           task before the day is over.
         </p>
         <div class="cta-actions">
-          <button class="button cta-primary">✦ Create free account</button>
+          <RouterLink to="/login" class="button cta-primary">✦ Create free account</RouterLink>
           <button class="button cta-secondary">View demo →</button>
         </div>
         <div class="cta-note">For free · No credit card required</div>
