@@ -355,10 +355,10 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
               <template v-else-if="index === 1">
                 <div class="preview-row strong">
-                  <span>Morning workout</span><span>+50 XP</span>
+                  <span class="preview-task-done">Morning workout</span><span>+50 XP</span>
                 </div>
                 <div class="preview-row strong">
-                  <span>Deep work session</span><span>+80 XP</span>
+                  <span class="preview-task-done">Deep work session</span><span>+80 XP</span>
                 </div>
                 <div class="preview-earned">+130 XP earned today</div>
               </template>
@@ -911,6 +911,11 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 .preview-input {
   display: flex;
   align-items: center;
+}
+
+.preview-task-done {
+  text-decoration: line-through;
+  color: #94a3b8;
 }
 
 .task-row {
