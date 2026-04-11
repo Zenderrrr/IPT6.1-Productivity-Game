@@ -370,5 +370,63 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+
+    <section class="momentum-section">
+      <div class="container two-column-section">
+        <div class="section-copy">
+          <div class="section-kicker">Why FocusUp</div>
+          <h2 class="section-title">
+            Built for long-term
+            <span>momentum</span>
+          </h2>
+          <p class="section-description">
+            Most productivity tools help you organize. FocusUp helps you actually do the work — day
+            after day.
+          </p>
+
+          <div class="benefits-list">
+            <div v-for="benefit in benefits" :key="benefit.title" class="benefit-item">
+              <div class="benefit-icon" :class="benefit.iconClass">{{ benefit.icon }}</div>
+              <div>
+                <h3 class="benefit-title">{{ benefit.title }}</h3>
+                <p class="benefit-text">{{ benefit.text }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calendar-card">
+          <div class="calendar-head">
+            <div class="calendar-title">March Streak Calendar</div>
+            <div class="calendar-year">2026</div>
+          </div>
+          <div class="calendar-grid">
+            <div
+              v-for="day in streakDays"
+              :key="day.day"
+              class="calendar-day"
+              :class="{
+                active: day.active,
+                highlight: day.highlight,
+                inactive: !day.active,
+              }"
+            >
+              {{ day.day }}
+            </div>
+          </div>
+
+          <div class="calendar-footer">
+            <div>
+              <div class="calendar-streak"><span>🔥</span><strong>29</strong></div>
+              <div class="calendar-note">day streak — personal best</div>
+            </div>
+            <div class="calendar-bonus-wrap">
+              <div class="calendar-bonus">1.5× XP Bonus</div>
+              <div class="calendar-note">streak multiplier active</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
