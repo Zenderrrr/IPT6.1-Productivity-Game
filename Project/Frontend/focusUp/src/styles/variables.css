@@ -2,10 +2,16 @@
 
 :root{
   --primary-color: #14B8A6;
+  --primary-color-light: #ebf8f7;
+
   --secondary-color: #0EA5E9;
   --background-color: #F1F5F9;
   --surface-color: #FFFFFF;
+
   --text-color: #0F172A;
+  --text-color-white: #FFFFFF;
+  --text-color-light: #94a0af;
+
   --accent-color: #84CC16;
 
   --font-family: "Figtree";
