@@ -428,5 +428,23 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+    <section class="cta-section">
+      <div class="cta-inner">
+        <div class="cta-badge">Join 13,000+ users</div>
+        <h2 class="cta-title">
+          Start your journey
+          <span>today.</span>
+        </h2>
+        <p class="cta-text">
+          Stop planning to be productive. Create your account in 30 seconds and complete your first
+          task before the day is over.
+        </p>
+        <div class="cta-actions">
+          <button class="button cta-primary">✦ Create free account</button>
+          <button class="button cta-secondary">View demo →</button>
+        </div>
+        <div class="cta-note">For free · No credit card required</div>
+      </div>
+    </section>
   </main>
 </template>
