@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 const heroTasks = [
-  { name: 'Morning workout routine', xp: '+50 XP' },
-  { name: 'Write weekly report', xp: '+80 XP' },
-  { name: 'Review pull requests', xp: '+60 XP' },
-  { name: 'Read 20 pages', xp: '+40 XP' },
+  { name: 'Morning workout routine', xp: '+50 XP', completed: true },
+  { name: 'Write weekly report', xp: '+80 XP', completed: true },
+  { name: 'Review pull requests', xp: '+60 XP', completed: false },
+  { name: 'Read 20 pages', xp: '+40 XP', completed: false },
 ]
 
 const mechanics = [
@@ -40,7 +40,7 @@ const weekStats = [
 
 const features = [
   {
-    icon: '🗂',
+    icon: '📋',
     iconClass: 'teal-bg',
     title: 'Smart Task Management',
     text: 'Organize tasks by priority, category, and difficulty. Set deadlines, add subtasks, and watch your productivity soar with a system built around how you actually think.',
@@ -220,9 +220,15 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
                 <div class="tasks-list">
                   <div v-for="task in heroTasks" :key="task.name" class="task-row">
                     <div class="task-left">
-                      <div class="task-checkbox"></div>
-                      <span class="task-name">{{ task.name }}</span>
+                      <div class="task-checkbox" :class="{ checked: task.completed }">
+                        <span v-if="task.completed">✓</span>
+                      </div>
+
+                      <span class="task-name" :class="{ completed: task.completed }">
+                        {{ task.name }}
+                      </span>
                     </div>
+
                     <span class="task-xp">{{ task.xp }}</span>
                   </div>
                 </div>
@@ -921,7 +927,22 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   height: 24px;
   border: 1px solid #cbd5e1;
   border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--surface-color);
+  font-size: 14px;
+}
+
+.task-checkbox.checked {
+  background: var(--primary-color);
+  border: none;
+  color: var(--surface-color);
+}
+
+.task-name.completed {
+  text-decoration: line-through;
+  color: #94a3b8;
 }
 
 .task-name {
@@ -1085,10 +1106,11 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 }
 
 .mechanic-number {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--surface-color);
   font-size: 14px;
   font-weight: 900;
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
 }
 
 .mechanic-title,
@@ -1504,12 +1526,14 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 }
 
 .calendar-day.active {
-  background: #22c7ee;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--surface-color);
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
 }
 
 .calendar-day.highlight {
   background: var(--accent-color);
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
 }
 
 .calendar-day.inactive {
