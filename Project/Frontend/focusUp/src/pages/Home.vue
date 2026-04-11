@@ -32,15 +32,15 @@ const weeklyBars = [
 ]
 
 const weekStats = [
-  { label: 'Total XP', value: '3,420', note: '+18% this week' },
-  { label: 'Tasks done', value: '42', note: '+6 vs last week' },
+  { label: 'Total XP', value: '3,420', note: '↑ +18% this week' },
+  { label: 'Tasks done', value: '42', note: '↑ +6 vs last week' },
   { label: 'Current level', value: '14', note: '68% to Level 15' },
   { label: 'Best streak', value: '17', note: 'Personal record' },
 ]
 
 const features = [
   {
-    icon: '📋',
+    icon: '≣',
     iconClass: 'teal-bg',
     title: 'Smart Task Management',
     text: 'Organize tasks by priority, category, and difficulty. Set deadlines, add subtasks, and watch your productivity soar with a system built around how you actually think.',
@@ -78,25 +78,25 @@ const steps = [
 
 const benefits = [
   {
-    icon: '◎',
+    icon: '◉',
     iconClass: 'teal-bg',
     title: 'Stay consistent',
     text: 'Daily streaks create accountability. Show up every day, even when motivation is low — your streak is on the line.',
   },
   {
-    icon: '↗️',
+    icon: '↗',
     iconClass: 'blue-bg',
     title: 'Track real progress',
     text: 'XP, levels, and task history give you a clear visual picture of how far you’ve come — not just a list of checkboxes.',
   },
   {
-    icon: '⚡️',
+    icon: '⚡',
     iconClass: 'lime-bg',
     title: 'Stay motivated',
     text: 'Rewards feel earned. Leveling up after a hard week is genuinely satisfying — and it keeps you coming back.',
   },
   {
-    icon: '🏆',
+    icon: '★',
     iconClass: 'amber-bg',
     title: 'Build better habits',
     text: 'Gamification isn’t gimmick — research shows that immediate, visible rewards reinforce habit formation and long-term consistency.',
@@ -173,7 +173,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
                 <div class="profile-block">
                   <div class="avatar">S</div>
                   <div>
-                    <div class="profile-name">John Pork</div>
+                    <div class="profile-name">John</div>
                     <div class="profile-subtitle">Good morning</div>
                   </div>
                 </div>
@@ -423,7 +423,10 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
           <div class="calendar-footer">
             <div>
-              <div class="calendar-streak"><span>🔥</span><strong>29</strong></div>
+              <div class="calendar-streak">
+                <span class="calendar-fire">🔥</span>
+                <strong>29</strong>
+              </div>
               <div class="calendar-note">day streak — personal best</div>
             </div>
             <div class="calendar-bonus-wrap">
@@ -1297,6 +1300,12 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   font-size: 17px;
   line-height: 1.2;
 }
+.feature-icon,
+.benefit-icon {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+}
 
 .feature-text {
   font-size: 15px;
@@ -1551,6 +1560,15 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.calendar-fire {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .calendar-streak span {
