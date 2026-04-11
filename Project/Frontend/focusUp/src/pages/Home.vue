@@ -463,9 +463,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 <style scoped>
 .homepage {
   overflow-x: hidden;
-  background: var(--background-color);
-  color: var(--text-color);
-  font-family: var(--font-family), sans-serif;
 }
 
 .container {
@@ -477,7 +474,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
 .hero-section {
   padding: 56px 0 104px;
-  background: var(--background-color);
 }
 
 .hero-grid {
@@ -545,8 +541,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 }
 
 .hero-description,
-.section-description,
-.cta-text {
+.section-description {
   color: #64748b;
 }
 
@@ -1022,18 +1017,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
-.blue {
-  background: var(--secondary-color);
-  color: var(--surface-color);
-}
-.cyan {
-  background: #22d3ee;
-  color: var(--surface-color);
-}
-.sky {
-  background: #06b6d4;
-  color: var(--surface-color);
-}
 .lime {
   background: var(--accent-color);
   color: var(--surface-color);
@@ -1061,8 +1044,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   max-width: 520px;
 }
 
-.section-kicker,
-.overview-kicker {
+.section-kicker {
   color: var(--primary-color);
 }
 
@@ -1283,7 +1265,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   height: 46px;
   margin-bottom: 24px;
   border-radius: 14px;
-  font-size: 20px;
 }
 
 .teal-bg {
