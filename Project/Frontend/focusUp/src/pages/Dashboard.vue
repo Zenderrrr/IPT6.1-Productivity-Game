@@ -34,26 +34,38 @@ const option = computed(() => ({
   yAxis: {
     type: 'value',
   },
-  series: [{
-    name: 'XP',
-    type: 'line',
-    data: values,
-    smooth: true,
-    lineStyle: {
-      color: 'rgb(20, 184, 166)'
+  series: [
+    {
+      name: 'XP',
+      type: 'line',
+      data: values,
+      smooth: true,
+      lineStyle: {
+        color: 'rgb(20, 184, 166)',
+      },
+      itemStyle: {
+        color: 'rgb(20, 184, 166)',
+      },
     },
-    itemStyle: {
-      color: 'rgb(20, 184, 166)'
-    }
-  }]
+  ],
 }))
+
+// chart logic
+const active = ref<number>(0)
+function setActive (value: number) {
+  active.value = value;
+}
+
+function isActive(i: number) {
+  return active.value === i
+}
 </script>
 
 <template>
   <NavAuth nameInitials="SS"></NavAuth>
   <main class="w-full max-w-[64rem] mx-auto my-10">
     <!-- Greeting Section-->
-    <section class="">
+    <section>
       <header class="flex items-center justify-between">
         <div>
           <h1 class="font-bold text-3xl tracking-wide">
@@ -108,7 +120,7 @@ const option = computed(() => ({
     <!-- Last completed tasks & quick actions-->
     <section class="grid grid-cols-6 gap-4">
       <!-- Title -->
-      <div class="col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl">
+      <div class="col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
         <div class="flex items-center justify-between">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
           <div
@@ -133,7 +145,7 @@ const option = computed(() => ({
         </div>
       </div>
 
-      <div class="col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding">
+      <div class="col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
         <h2 class="font-bold">Schnelle Aktionen</h2>
 
         <!-- Quick Actions-->
@@ -185,7 +197,7 @@ const option = computed(() => ({
     </section>
 
     <!-- Productivity over time -->
-    <section class="bg-[var(--surface-color)] rounded-2xl gen-padding">
+    <section class="bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="font-bold text-lg tracking-wide">Produktivität über Zeit</h2>
@@ -207,12 +219,14 @@ const option = computed(() => ({
           </div>
 
           <div class="flex items-center justify-end gap-1.5">
+            <span class="cursor-pointer px-2.5 py-1 rounded-lg" @click="setActive(0)" :class="{ chartActive : isActive(0) }">14T</span>
             <span
-              class="cursor-pointer px-2.5 py-1 bg-[var(--primary-color-light)] rounded-lg text-[var(--primary-color)]"
-              >14T</span
+              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              @click="setActive(1)"
+              :class="{ chartActive: isActive(1) }"
+              >1M</span
             >
-            <span class="cursor-pointer px-2.5 py-1 rounded-lg">1M</span>
-            <span class="cursor-pointer px-2.5 py-1 rounded-lg">3M</span>
+            <span class="cursor-pointer px-2.5 py-1 rounded-lg" @click="setActive(2)" :class="{ chartActive : isActive(2) }" >3M</span>
           </div>
         </div>
       </div>
@@ -231,5 +245,10 @@ section {
 
 .gen-padding {
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
+}
+
+.chartActive {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
 }
 </style>
