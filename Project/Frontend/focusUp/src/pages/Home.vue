@@ -42,21 +42,21 @@ const weekStats = [
 
 const features = [
   {
-    icon: '≣',
+    icon: 'clipboard-list',
     iconClass: 'teal-bg',
     title: 'Intelligentes Aufgabenmanagement',
     text: 'Organisiere Aufgaben nach Priorität, Kategorie und Schwierigkeitsgrad. Setze Deadlines, füge Unteraufgaben hinzu und steigere deine Produktivität mit einem System, das zu deiner Denkweise passt.',
     tags: ['Prioritäten', 'Unteraufgaben', 'Labels'],
   },
   {
-    icon: '✦',
+    icon: 'star',
     iconClass: 'blue-bg',
     title: 'XP- & Levelsystem',
     text: 'Jede abgeschlossene Aufgabe bringt dir XP, abhängig vom Schwierigkeitsgrad. Mit mehr XP steigst du im Level auf und schaltest neue Titel, Abzeichen und sichtbare Fortschritte frei.',
     tags: ['Dynamische XP', 'Level 1–100', 'Badges'],
   },
   {
-    icon: '🔥',
+    icon: 'fire',
     iconClass: 'lime-bg',
     title: 'Streak-System',
     text: 'Konstanz zahlt sich aus. Erledige mindestens eine Aufgabe pro Tag, um deine Streak zu halten. Je länger deine Streak, desto höher dein XP-Multiplikator.',
@@ -81,25 +81,25 @@ const steps = [
 
 const benefits = [
   {
-    icon: '◉',
+    icon: 'bullseye',
     iconClass: 'teal-bg',
     title: 'Bleib konsequent',
     text: 'Tägliche Streaks schaffen Verbindlichkeit. Erscheine jeden Tag, auch wenn die Motivation niedrig ist — deine Streak steht auf dem Spiel.',
   },
   {
-    icon: '↗',
+    icon: 'arrow-trend-up',
     iconClass: 'blue-bg',
     title: 'Echten Fortschritt verfolgen',
     text: 'XP, Level und Aufgabenverlauf geben dir ein klares Bild davon, wie weit du gekommen bist — nicht nur eine Liste mit Häkchen.',
   },
   {
-    icon: '⚡',
+    icon: 'bolt',
     iconClass: 'lime-bg',
     title: 'Bleib motiviert',
     text: 'Belohnungen fühlen sich verdient an. Nach einer produktiven Woche ein Level aufzusteigen motiviert und bringt dich immer wieder zurück.',
   },
   {
-    icon: '★',
+    icon: 'lightbulb',
     iconClass: 'amber-bg',
     title: 'Bessere Gewohnheiten aufbauen',
     text: 'Gamification ist kein Gimmick — Forschung zeigt, dass unmittelbare, sichtbare Belohnungen Gewohnheiten und langfristige Konstanz fördern.',
@@ -135,8 +135,14 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           </p>
 
           <div class="hero-actions">
-            <RouterLink to="/login" class="button button-primary"> ✦ Kostenlos starten </RouterLink>
-            <button class="button button-secondary">▶ Demo ansehen</button>
+            <RouterLink to="/login" class="button button-primary">
+              <i class="fa-solid fa-star"></i>
+              <span>Kostenlos starten</span>
+            </RouterLink>
+            <button class="button button-secondary">
+              <i class="fa-solid fa-play"></i>
+              <span>Demo ansehen</span>
+            </button>
           </div>
 
           <div class="hero-stats">
@@ -149,7 +155,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               <div class="stat-label">Zufriedenheit</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">4.9★</div>
+              <div class="stat-value">4.9 <i class="fa-solid fa-star"></i></div>
               <div class="stat-label">Bewertung</div>
             </div>
           </div>
@@ -157,7 +163,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
         <div class="hero-visual">
           <div class="xp-toast">
-            <div class="xp-toast-icon">⚡️</div>
+            <div class="xp-toast-icon">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
             <div>
               <div class="xp-toast-value">+120 XP</div>
               <div class="xp-toast-label">Aufgabe erledigt</div>
@@ -175,13 +183,16 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
             <div class="dashboard-body">
               <div class="dashboard-top">
                 <div class="profile-block">
-                  <div class="avatar">S</div>
+                  <div class="avatar">J</div>
                   <div>
                     <div class="profile-name">John</div>
                     <div class="profile-subtitle">Guten Morgen</div>
                   </div>
                 </div>
-                <div class="level-pill">✦ Level 14</div>
+                <div class="level-pill">
+                  <i class="fa-solid fa-star"></i>
+                  <span>Level 14</span>
+                </div>
               </div>
 
               <div class="progress-card dark-card">
@@ -219,7 +230,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               <div class="tasks-section">
                 <div class="tasks-header">
                   <div class="tasks-title">Heutige Aufgaben</div>
-                  <span class="tasks-add">+</span>
+                  <span class="tasks-add">
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
                 </div>
                 <div class="tasks-list">
                   <div v-for="task in heroTasks" :key="task.name" class="task-row">
@@ -239,9 +252,11 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               </div>
 
               <div class="achievement-card">
-                <div class="achievement-icon">🏆</div>
+                <div class="achievement-icon">
+                  <i class="fa-solid fa-trophy"></i>
+                </div>
                 <div>
-                  <div class="achievement-title">New Achivement</div>
+                  <div class="achievement-title">New Achievement</div>
                   <div class="achievement-subtitle">7-Tage-Streak freigeschaltet</div>
                 </div>
                 <div class="achievement-days">
@@ -325,7 +340,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
         <div class="features-grid">
           <article v-for="feature in features" :key="feature.title" class="feature-card">
-            <div class="feature-icon" :class="feature.iconClass">{{ feature.icon }}</div>
+            <div class="feature-icon" :class="feature.iconClass">
+              <i class="fa-solid" :class="`fa-${feature.icon}`"></i>
+            </div>
             <h3 class="feature-title">{{ feature.title }}</h3>
             <p class="feature-text">{{ feature.text }}</p>
             <div class="feature-tags">
@@ -374,7 +391,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
               <template v-else>
                 <div class="levelup-card">
-                  <div class="levelup-star">★</div>
+                  <div class="levelup-star">
+                    <i class="fa-solid fa-star"></i>
+                  </div>
                   <div class="levelup-label">Levelaufstieg</div>
                   <div class="levelup-value">Level 15</div>
                   <div class="levelup-track">
@@ -404,7 +423,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
           <div class="benefits-list">
             <div v-for="benefit in benefits" :key="benefit.title" class="benefit-item">
-              <div class="benefit-icon" :class="benefit.iconClass">{{ benefit.icon }}</div>
+              <div class="benefit-icon" :class="benefit.iconClass">
+                <i class="fa-solid" :class="`fa-${benefit.icon}`"></i>
+              </div>
               <div>
                 <h3 class="benefit-title">{{ benefit.title }}</h3>
                 <p class="benefit-text">{{ benefit.text }}</p>
@@ -436,7 +457,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           <div class="calendar-footer">
             <div>
               <div class="calendar-streak">
-                <span class="calendar-fire">🔥</span>
+                <span class="calendar-fire">
+                  <i class="fa-solid fa-fire"></i>
+                </span>
                 <strong>29</strong>
               </div>
               <div class="calendar-note">Tage in Folge — persönlicher Rekord</div>
@@ -464,9 +487,13 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </p>
         <div class="cta-actions">
           <RouterLink to="/login" class="button cta-primary">
-            ✦ Kostenloses Konto erstellen
+            <i class="fa-solid fa-star"></i>
+            <span>Kostenloses Konto erstellen</span>
           </RouterLink>
-          <button class="button cta-secondary">Demo ansehen →</button>
+          <button class="button cta-secondary">
+            <i class="fa-solid fa-play"></i>
+            <span>Demo ansehen</span>
+          </button>
         </div>
         <div class="cta-note">Kostenlos · Keine Kreditkarte erforderlich</div>
       </div>
@@ -591,6 +618,15 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   transition:
     transform 0.2s ease,
     background 0.2s ease;
+}
+
+.button,
+.level-pill,
+.cta-primary,
+.button-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .button:hover {
@@ -1575,12 +1611,14 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 }
 
 .calendar-fire {
-  display: inline-block;
+  display: inline-flex;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  align-items: center;
+  justify-content: center;
 }
 
 .calendar-streak span {
