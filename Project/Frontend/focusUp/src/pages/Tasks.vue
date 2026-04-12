@@ -81,6 +81,45 @@ const categories = ['Alle Kategorien', 'Lernen', 'Sport', 'Arbeit', 'Kreativ', '
             <span>Neue Task erstellen</span>
           </button>
         </div>
+
+        <!-- To next level-->
+        <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
+          <span class="uppercase font-semibold">Bis zum nächsten Level</span>
+          <div class="flex items-center justify-between w-full mt-4 mb-2">
+            <span>Lv. 14 - Macher</span>
+            <span class="text-[var(--text-color)] font-semibold">1426 / 6200 XP</span>
+          </div>
+          <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full w-1/4 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"></div>
+          </div>
+        </div>
+
+        <!-- Task Details-->
+        <div class="base-element mt-4">
+          <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold">Task Details</span>
+          <div class="h-[150px] mt-2 flex justify-center items-center w-full  rounded-lg  text-[var(--text-color-light)]">
+            <div class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(--text-color-light)]">
+              <i class="fa-solid fa-list text-2xl"></i>
+              <span class="text-xs leading-5">Task auswählen für Details</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today Insights-->
+        <div class="base-element mt-4">
+          <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold">Heute</span>
+          <div class="flex items-center justify-center w-full gap-2 mt-2">
+            <div class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-gray-100">
+              <span class="text-[var(--accent-color)] text-2xl font-semibold">20</span>
+              <span class="text-xs">Erledigt</span>
+            </div>
+            <div class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-gray-100">
+              <span class="text-[var(--primary-color)] text-2xl font-semibold">1200</span>
+              <span class="text-xs">XP verdient</span>
+            </div>
+          </div>
+        </div>
+
       </section>
     </div>
   </main>
