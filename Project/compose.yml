@@ -1,0 +1,34 @@
+services:
+  backend:
+    container_name: focusup-backend
+    build:
+      context: ./Backend/FocusUp
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: dotnet watch run --project FocusUp.csproj --urls=http://0.0.0.0:8080
+    ports:
+      - "5165:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
+    volumes:
+      - ./Backend/FocusUp:/app
+      - ./Database:/app/database
+
+  frontend:
+    container_name: focusup-frontend
+    build:
+      context: ./Frontend/focusUp
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./Frontend/focusUp:/app
+      - /app/node_modules
+    depends_on:
+      - backend
