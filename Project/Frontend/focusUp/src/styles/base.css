@@ -20,4 +20,15 @@ body{
   border-radius: var(--radius-xl);
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
   box-shadow: var(--shadow-lg);
+  background: var(--surface-color);
+}
+
+section {
+  margin-bottom: calc(var(--spacing) * 5);
+}
+
+main{
+  width: 100%;
+  max-width: 80rem;
+  margin: calc(var(--spacing) * 10) auto;
 }
