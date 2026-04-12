@@ -21,7 +21,7 @@ function changeChecked(){
 </script>
 
 <template>
-  <div :class="isChecked ? 'checked' : 'unchecked'" class="base-element w-full flex items-center justify-start gap-4">
+  <div :class="isChecked ? 'checked' : 'unchecked'" class="cursor-pointer base-element w-full flex items-center justify-start gap-4">
     <label class="container -translate-y-2.5">
       <input @click="changeChecked" type="checkbox"/>
       <span class="checkmark rounded-2xl"></span>
