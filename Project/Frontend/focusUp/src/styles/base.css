@@ -11,3 +11,13 @@ body{
 
   min-height: 100vh;
 }
+
+.gen-padding {
+  padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
+}
+
+.base-element{
+  border-radius: var(--radius-xl);
+  padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
+  box-shadow: var(--shadow-lg);
+}
