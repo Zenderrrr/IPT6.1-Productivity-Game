@@ -9,7 +9,7 @@
 <template>
     <nav class="flex bg-[var(--surface-color)] justify-between items-center px-4 border-b border-gray-200">
       <div class="flex items-center justify-between py-5 px-5">
-        <Logo class="mr-9"></Logo>
+        <Logo link="/dashboard" class="mr-9"></Logo>
         <ul class="flex items-center justify-between gap-5 font-semibold text-sm text-[var(--text-color-light)]">
           <RouterLink to="/dashboard" class="px-2.5 py-1.5 rounded-xl cursor-pointer">Dashboard</RouterLink>
           <RouterLink to="/tasks" class="px-2 py-1.5 rounded-xl cursor-pointer">Tasks</RouterLink>
