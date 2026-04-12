@@ -2,24 +2,24 @@
 import { RouterLink } from 'vue-router'
 
 const heroTasks = [
-  { name: 'Morning workout routine', xp: '+50 XP', completed: true },
-  { name: 'Write weekly report', xp: '+80 XP', completed: true },
-  { name: 'Review pull requests', xp: '+60 XP', completed: false },
-  { name: 'Read 20 pages', xp: '+40 XP', completed: false },
+  { name: 'Morgenroutine Workout', xp: '+50 XP', completed: true },
+  { name: 'Wöchentlichen Bericht schreiben', xp: '+80 XP', completed: true },
+  { name: 'Pull Requests prüfen', xp: '+60 XP', completed: false },
+  { name: '20 Seiten lesen', xp: '+40 XP', completed: false },
 ]
 
 const mechanics = [
   {
-    title: 'Create meaningful tasks',
-    text: 'Break your goals into actionable tasks. Each task has a difficulty level that determines how much XP you earn.',
+    title: 'Sinnvolle Aufgaben erstellen',
+    text: 'Unterteile deine Ziele in konkrete Aufgaben. Jede Aufgabe hat einen Schwierigkeitsgrad, der bestimmt, wie viele XP du erhältst.',
   },
   {
-    title: 'Earn XP and level up',
-    text: 'Completing tasks rewards you with experience points. Fill your XP bar to reach the next level and unlock new rewards.',
+    title: 'XP sammeln und aufleveln',
+    text: 'Für abgeschlossene Aufgaben erhältst du Erfahrungspunkte. Fülle deine XP-Leiste, um das nächste Level zu erreichen und neue Belohnungen freizuschalten.',
   },
   {
-    title: 'Build unstoppable streaks',
-    text: 'Stay consistent and build daily streaks. Missing a day resets your streak — so you’ll stay motivated to show up every day.',
+    title: 'Unaufhaltsame Streaks aufbauen',
+    text: 'Bleib konsequent und baue tägliche Streaks auf. Wenn du einen Tag verpasst, wird deine Streak zurückgesetzt — so bleibst du motiviert, jeden Tag dranzubleiben.',
   },
 ]
 
@@ -34,47 +34,48 @@ const weeklyBars = [
 ]
 
 const weekStats = [
-  { label: 'Total XP', value: '3,420', note: '↑ +18% this week' },
-  { label: 'Tasks done', value: '42', note: '↑ +6 vs last week' },
-  { label: 'Current level', value: '14', note: '68% to Level 15' },
-  { label: 'Best streak', value: '17', note: 'Personal record' },
+  { label: 'Gesamt-XP', value: '3,420', note: '↑ +18 % diese Woche' },
+  { label: 'Erledigte Aufgaben', value: '42', note: '↑ +6 im Vergleich zur letzten Woche' },
+  { label: 'Aktuelles Level', value: '14', note: '68 % bis Level 15' },
+  { label: 'Beste Streak', value: '17', note: 'Persönlicher Rekord' },
 ]
 
 const features = [
   {
     icon: '≣',
     iconClass: 'teal-bg',
-    title: 'Smart Task Management',
-    text: 'Organize tasks by priority, category, and difficulty. Set deadlines, add subtasks, and watch your productivity soar with a system built around how you actually think.',
-    tags: ['Priority Levels', 'Subtasks', 'Labels'],
+    title: 'Intelligentes Aufgabenmanagement',
+    text: 'Organisiere Aufgaben nach Priorität, Kategorie und Schwierigkeitsgrad. Setze Deadlines, füge Unteraufgaben hinzu und steigere deine Produktivität mit einem System, das zu deiner Denkweise passt.',
+    tags: ['Prioritäten', 'Unteraufgaben', 'Labels'],
   },
   {
     icon: '✦',
     iconClass: 'blue-bg',
-    title: 'XP & Level System',
-    text: 'Every completed task earns you XP based on its difficulty. As you gain XP, you level up — unlocking new titles, badges, and a clear visual record of your growth.',
-    tags: ['Dynamic XP', 'Levels 1–100', 'Badges'],
+    title: 'XP- & Levelsystem',
+    text: 'Jede abgeschlossene Aufgabe bringt dir XP, abhängig vom Schwierigkeitsgrad. Mit mehr XP steigst du im Level auf und schaltest neue Titel, Abzeichen und sichtbare Fortschritte frei.',
+    tags: ['Dynamische XP', 'Level 1–100', 'Badges'],
   },
   {
     icon: '🔥',
     iconClass: 'lime-bg',
-    title: 'Streak System',
-    text: 'Consistency compounds. Complete at least one task per day to maintain your streak. The longer your streak, the greater the XP multiplier — stay on a roll and watch your progress multiply.',
-    tags: ['Daily Streaks', 'XP Multiplier', 'Calendar View'],
+    title: 'Streak-System',
+    text: 'Konstanz zahlt sich aus. Erledige mindestens eine Aufgabe pro Tag, um deine Streak zu halten. Je länger deine Streak, desto höher dein XP-Multiplikator.',
+    tags: ['Tägliche Streaks', 'XP-Multiplikator', 'Kalenderansicht'],
   },
 ]
+
 const steps = [
   {
-    title: 'Create your tasks',
-    text: 'Add tasks with a name, category, and difficulty level. Break big goals into small, actionable steps.',
+    title: 'Erstelle deine Aufgaben',
+    text: 'Füge Aufgaben mit Name, Kategorie und Schwierigkeitsgrad hinzu. Teile große Ziele in kleine, umsetzbare Schritte auf.',
   },
   {
-    title: 'Complete your tasks',
-    text: 'Check off tasks as you complete them. Each completion is logged and your XP is updated in real time.',
+    title: 'Erledige deine Aufgaben',
+    text: 'Hake Aufgaben ab, sobald du sie abgeschlossen hast. Jede Erledigung wird gespeichert und deine XP werden in Echtzeit aktualisiert.',
   },
   {
-    title: 'Earn XP & level up',
-    text: 'Watch your experience bar fill up. Hit milestones, level up, and keep your streak alive day after day.',
+    title: 'Sammle XP & steige im Level auf',
+    text: 'Beobachte, wie sich deine Erfahrungsleiste füllt. Erreiche Meilensteine, steige im Level auf und halte deine Streak Tag für Tag am Leben.',
   },
 ]
 
@@ -82,26 +83,26 @@ const benefits = [
   {
     icon: '◉',
     iconClass: 'teal-bg',
-    title: 'Stay consistent',
-    text: 'Daily streaks create accountability. Show up every day, even when motivation is low — your streak is on the line.',
+    title: 'Bleib konsequent',
+    text: 'Tägliche Streaks schaffen Verbindlichkeit. Erscheine jeden Tag, auch wenn die Motivation niedrig ist — deine Streak steht auf dem Spiel.',
   },
   {
     icon: '↗',
     iconClass: 'blue-bg',
-    title: 'Track real progress',
-    text: 'XP, levels, and task history give you a clear visual picture of how far you’ve come — not just a list of checkboxes.',
+    title: 'Echten Fortschritt verfolgen',
+    text: 'XP, Level und Aufgabenverlauf geben dir ein klares Bild davon, wie weit du gekommen bist — nicht nur eine Liste mit Häkchen.',
   },
   {
     icon: '⚡',
     iconClass: 'lime-bg',
-    title: 'Stay motivated',
-    text: 'Rewards feel earned. Leveling up after a hard week is genuinely satisfying — and it keeps you coming back.',
+    title: 'Bleib motiviert',
+    text: 'Belohnungen fühlen sich verdient an. Nach einer produktiven Woche ein Level aufzusteigen motiviert und bringt dich immer wieder zurück.',
   },
   {
     icon: '★',
     iconClass: 'amber-bg',
-    title: 'Build better habits',
-    text: 'Gamification isn’t gimmick — research shows that immediate, visible rewards reinforce habit formation and long-term consistency.',
+    title: 'Bessere Gewohnheiten aufbauen',
+    text: 'Gamification ist kein Gimmick — Forschung zeigt, dass unmittelbare, sichtbare Belohnungen Gewohnheiten und langfristige Konstanz fördern.',
   },
 ]
 
@@ -114,41 +115,42 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
 <template>
   <main class="homepage">
+    <!-- Hero Section -->
     <section class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge">
             <span class="hero-badge-dot">•</span>
-            Now in public beta
+            Jetzt in der öffentlichen Beta
           </div>
 
           <h1 class="hero-title">
-            Level up your
-            <span>productivity</span>
+            Steigere deine
+            <span>Produktivität</span>
           </h1>
 
           <p class="hero-description">
-            Turn your daily tasks into measurable progress — earn XP, unlock levels, and build
-            streaks that actually keep you going.
+            Verwandle deine täglichen Aufgaben in messbaren Fortschritt — sammle XP, schalte Level
+            frei und baue Streaks auf, die dich wirklich motivieren.
           </p>
 
           <div class="hero-actions">
-            <RouterLink to="/login" class="button button-primary"> ✦ Get started free </RouterLink>
-            <button class="button button-secondary">▶ View demo</button>
+            <RouterLink to="/login" class="button button-primary"> ✦ Kostenlos starten </RouterLink>
+            <button class="button button-secondary">▶ Demo ansehen</button>
           </div>
 
           <div class="hero-stats">
             <div class="stat-item">
               <div class="stat-value">12k+</div>
-              <div class="stat-label">Active users</div>
+              <div class="stat-label">Aktive Nutzer</div>
             </div>
             <div class="stat-item">
               <div class="stat-value">98%</div>
-              <div class="stat-label">Satisfaction</div>
+              <div class="stat-label">Zufriedenheit</div>
             </div>
             <div class="stat-item">
               <div class="stat-value">4.9★</div>
-              <div class="stat-label">Rating</div>
+              <div class="stat-label">Bewertung</div>
             </div>
           </div>
         </div>
@@ -158,7 +160,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
             <div class="xp-toast-icon">⚡️</div>
             <div>
               <div class="xp-toast-value">+120 XP</div>
-              <div class="xp-toast-label">Task completed</div>
+              <div class="xp-toast-label">Aufgabe erledigt</div>
             </div>
           </div>
 
@@ -176,7 +178,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
                   <div class="avatar">S</div>
                   <div>
                     <div class="profile-name">John</div>
-                    <div class="profile-subtitle">Good morning</div>
+                    <div class="profile-subtitle">Guten Morgen</div>
                   </div>
                 </div>
                 <div class="level-pill">✦ Level 14</div>
@@ -184,7 +186,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
               <div class="progress-card dark-card">
                 <div class="progress-head">
-                  <span>XP Progress</span>
+                  <span>XP-Fortschritt</span>
                   <span class="progress-total">3,420 / 5,000 XP</span>
                 </div>
                 <div class="progress-track">
@@ -198,25 +200,25 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
               <div class="dashboard-stats">
                 <div class="mini-card">
-                  <div class="mini-label">Tasks</div>
+                  <div class="mini-label">Aufgaben</div>
                   <div class="mini-value">24</div>
-                  <div class="mini-subtitle">done today</div>
+                  <div class="mini-subtitle">heute erledigt</div>
                 </div>
                 <div class="mini-card">
                   <div class="mini-label">Streak</div>
                   <div class="mini-value mini-value-teal">17</div>
-                  <div class="mini-subtitle">day streak</div>
+                  <div class="mini-subtitle">Tage in Folge</div>
                 </div>
                 <div class="mini-card">
-                  <div class="mini-label">XP Today</div>
+                  <div class="mini-label">XP heute</div>
                   <div class="mini-value">+480</div>
-                  <div class="mini-subtitle">earned</div>
+                  <div class="mini-subtitle">gesammelt</div>
                 </div>
               </div>
 
               <div class="tasks-section">
                 <div class="tasks-header">
-                  <div class="tasks-title">Today's Tasks</div>
+                  <div class="tasks-title">Heutige Aufgaben</div>
                   <span class="tasks-add">+</span>
                 </div>
                 <div class="tasks-list">
@@ -239,8 +241,8 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               <div class="achievement-card">
                 <div class="achievement-icon">🏆</div>
                 <div>
-                  <div class="achievement-title">New Achievement</div>
-                  <div class="achievement-subtitle">7-day streak unlocked</div>
+                  <div class="achievement-title">New Achivement</div>
+                  <div class="achievement-subtitle">7-Tage-Streak freigeschaltet</div>
                 </div>
                 <div class="achievement-days">
                   <span class="day-chip weekday-gradient">Di</span>
@@ -257,17 +259,18 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
       </div>
     </section>
 
+    <!-- How FocusUp Works Section -->
     <section class="white-section">
       <div class="container two-column-section">
         <div class="section-copy">
-          <div class="section-kicker">How FocusUp works</div>
+          <div class="section-kicker">So funktioniert FocusUp</div>
           <h2 class="section-title">
-            Productivity meets
-            <span>game mechanics</span>
+            Produktivität trifft auf
+            <span>Spielmechaniken</span>
           </h2>
           <p class="section-description">
-            We’ve taken the most motivating elements of gaming — progress, rewards, and momentum —
-            and applied them to your everyday workflow.
+            Wir haben die motivierendsten Elemente aus Games — Fortschritt, Belohnungen und Dynamik
+            — auf deinen Alltag übertragen.
           </p>
 
           <div class="mechanics-list">
@@ -282,7 +285,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
 
         <div class="overview-card">
-          <div class="overview-kicker">Weekly XP overview</div>
+          <div class="overview-kicker">Wöchentliche XP-Übersicht</div>
 
           <div class="overview-bars">
             <div v-for="bar in weeklyBars" :key="bar.day" class="overview-bar-item">
@@ -307,13 +310,17 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+
+    <!-- Features Section -->
     <section class="features-section">
       <div class="container">
         <div class="section-header centered">
-          <div class="section-kicker">Features</div>
-          <h2 class="section-title centered-title">Everything you need to stay in flow</h2>
+          <div class="section-kicker">Funktionen</div>
+          <h2 class="section-title centered-title">
+            Alles, was du brauchst, um im Flow zu bleiben
+          </h2>
           <p class="section-description centered-description">
-            Designed for people who want results, not just another todo list.
+            Entwickelt für Menschen, die Ergebnisse wollen — nicht nur eine weitere To-do-Liste.
           </p>
         </div>
         <div class="features-grid">
@@ -328,13 +335,15 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         </div>
       </div>
     </section>
+
+    <!-- Steps Section -->
     <section class="white-section steps-section">
       <div class="container">
         <div class="section-header centered">
-          <div class="section-kicker">How it works</div>
-          <h2 class="section-title centered-title">Three simple steps</h2>
+          <div class="section-kicker">So funktioniert's</div>
+          <h2 class="section-title centered-title">Drei einfache Schritte</h2>
           <p class="section-description centered-description">
-            Get started in minutes. No complicated setup — just open the app and begin.
+            Starte in wenigen Minuten. Kein kompliziertes Setup — App öffnen und loslegen.
           </p>
         </div>
 
@@ -348,25 +357,25 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
             <div class="step-preview">
               <template v-if="index === 0">
-                <div class="preview-input">Add a new task <span>+</span></div>
-                <div class="preview-row"><span>Morning workout</span><span>+50 XP</span></div>
-                <div class="preview-row"><span>Deep work session</span><span>+60 XP</span></div>
+                <div class="preview-input">Neue Aufgabe hinzufügen <span>+</span></div>
+                <div class="preview-row"><span>Morgen-Workout</span><span>+50 XP</span></div>
+                <div class="preview-row"><span>Fokus-Session</span><span>+60 XP</span></div>
               </template>
 
               <template v-else-if="index === 1">
                 <div class="preview-row strong">
-                  <span class="preview-task-done">Morning workout</span><span>+50 XP</span>
+                  <span class="preview-task-done">Morgen-Workout</span><span>+50 XP</span>
                 </div>
                 <div class="preview-row strong">
-                  <span class="preview-task-done">Deep work session</span><span>+80 XP</span>
+                  <span class="preview-task-done">Fokus-Session</span><span>+80 XP</span>
                 </div>
-                <div class="preview-earned">+130 XP earned today</div>
+                <div class="preview-earned">+130 XP heute gesammelt</div>
               </template>
 
               <template v-else>
                 <div class="levelup-card">
                   <div class="levelup-star">★</div>
-                  <div class="levelup-label">Level up</div>
+                  <div class="levelup-label">Levelaufstieg</div>
                   <div class="levelup-value">Level 15</div>
                   <div class="levelup-track">
                     <div class="levelup-fill"></div>
@@ -379,17 +388,18 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
       </div>
     </section>
 
+    <!-- Benefits / Momentum Section -->
     <section class="momentum-section">
       <div class="container two-column-section">
         <div class="section-copy">
-          <div class="section-kicker">Why FocusUp</div>
+          <div class="section-kicker">Warum FocusUp</div>
           <h2 class="section-title">
-            Built for long-term
-            <span>momentum</span>
+            Entwickelt für langfristige
+            <span>Motivation</span>
           </h2>
           <p class="section-description">
-            Most productivity tools help you organize. FocusUp helps you actually do the work — day
-            after day.
+            Die meisten Produktivitätstools helfen dir beim Organisieren. FocusUp hilft dir dabei,
+            die Arbeit wirklich zu erledigen — Tag für Tag.
           </p>
 
           <div class="benefits-list">
@@ -405,7 +415,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
         <div class="calendar-card">
           <div class="calendar-head">
-            <div class="calendar-title">March Streak Calendar</div>
+            <div class="calendar-title">Streak-Kalender März</div>
             <div class="calendar-year">2026</div>
           </div>
           <div class="calendar-grid">
@@ -429,38 +439,43 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
                 <span class="calendar-fire">🔥</span>
                 <strong>29</strong>
               </div>
-              <div class="calendar-note">day streak — personal best</div>
+              <div class="calendar-note">Tage in Folge — persönlicher Rekord</div>
             </div>
             <div class="calendar-bonus-wrap">
-              <div class="calendar-bonus">1.5× XP Bonus</div>
-              <div class="calendar-note">streak multiplier active</div>
+              <div class="calendar-bonus">1.5× XP-Bonus</div>
+              <div class="calendar-note">Streak-Multiplikator aktiv</div>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- CTA Section -->
     <section class="cta-section">
       <div class="cta-inner">
-        <div class="cta-badge">Join 13,000+ users</div>
+        <div class="cta-badge">Werde Teil von 13.000+ Nutzern</div>
         <h2 class="cta-title">
-          Start your journey
-          <span>today.</span>
+          Starte deine Reise
+          <span>noch heute.</span>
         </h2>
         <p class="cta-text">
-          Stop planning to be productive. Create your account in 30 seconds and complete your first
-          task before the day is over.
+          Hör auf, Produktivität nur zu planen. Erstelle dein Konto in 30 Sekunden und erledige noch
+          heute deine erste Aufgabe.
         </p>
         <div class="cta-actions">
-          <RouterLink to="/login" class="button cta-primary">✦ Create free account</RouterLink>
-          <button class="button cta-secondary">View demo →</button>
+          <RouterLink to="/login" class="button cta-primary">
+            ✦ Kostenloses Konto erstellen
+          </RouterLink>
+          <button class="button cta-secondary">Demo ansehen →</button>
         </div>
-        <div class="cta-note">For free · No credit card required</div>
+        <div class="cta-note">Kostenlos · Keine Kreditkarte erforderlich</div>
       </div>
     </section>
   </main>
 </template>
 
 <style scoped>
+/* Main Layout */
 .homepage {
   overflow-x: hidden;
 }
@@ -472,6 +487,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   padding: 0 56px;
 }
 
+/* Hero Section */
 .hero-section {
   padding: 56px 0 104px;
 }
@@ -662,6 +678,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Dashboard Preview */
 .dashboard-card {
   padding: 16px;
   border: 1px solid #e2e8f0;
@@ -1026,6 +1043,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   color: #94a3b8;
 }
 
+/* Shared White Sections */
 .white-section {
   padding: 112px 0;
   background: var(--surface-color);
@@ -1066,6 +1084,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   line-height: 1.82;
 }
 
+/* Mechanics Section */
 .mechanics-list,
 .benefits-list {
   margin-top: 34px;
@@ -1134,6 +1153,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   line-height: 1.78;
 }
 
+/* Overview / Calendar Cards */
 .overview-card,
 .calendar-card {
   border: 1px solid #e2e8f0;
@@ -1223,6 +1243,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   color: var(--accent-color);
 }
 
+/* Features Section */
 .features-section,
 .momentum-section {
   padding: 110px 0;
@@ -1316,6 +1337,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   font-weight: 700;
 }
 
+/* Steps Section */
 .steps-section {
   position: relative;
 }
@@ -1472,6 +1494,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   background: var(--secondary-color);
 }
 
+/* Benefits Section */
 .benefit-icon {
   margin-top: 2px;
   font-size: 14px;
@@ -1487,6 +1510,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   line-height: 1.8;
 }
 
+/* Calendar Section */
 .calendar-card {
   padding: 22px;
   background: var(--surface-color);
@@ -1581,6 +1605,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   color: var(--primary-color);
 }
 
+/* CTA Section */
 .cta-section {
   padding: 102px 0;
   text-align: center;
@@ -1661,6 +1686,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   font-weight: 500;
 }
 
+/* Responsive */
 @media (max-width: 1200px) {
   .container,
   .two-column-section,
