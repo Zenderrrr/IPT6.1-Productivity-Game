@@ -47,6 +47,6 @@ function getTime(date: Date) : string{
   return `${formatTime(date.getHours())}:${formatTime(date.getMinutes())} Uhr`;
 }
 
-function formatTime(value: number) : string{
+export function formatTime(value: number) : string{
   return value.toString().padStart(2, '0');
 }
