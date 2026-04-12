@@ -27,7 +27,7 @@ function showPassword() {
             </div>
             <span>Zurück</span>
           </RouterLink>
-          <Logo></Logo>
+          <Logo link="/"></Logo>
         </div>
 
         <!-- Visual-->
@@ -49,11 +49,13 @@ function showPassword() {
           <!-- Form (input elements)-->
           <form @submit.prevent>
             <div class="flex flex-col items-start justify-center mt-5 gap-1">
-              <label
-                class="font-semibold text-[var(--text-color-light)] text-xs uppercase"
-                for="email"
-                >E-Mail</label
-              >
+              <div class="flex items-center justify-start gap-1 text-[var(--text-color-light)] text-xs uppercase">
+                <i class="fa-regular fa-envelope"></i>
+                <label
+                  class="font-semibold"
+                  for="email"
+                >E-Mail</label>
+              </div>
               <input
                 class="bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="email"
@@ -63,11 +65,13 @@ function showPassword() {
             </div>
 
             <div class="relative flex flex-col items-start justify-center mt-5 gap-1">
-              <label
-                class="font-semibold text-[var(--text-color-light)] text-xs uppercase"
-                for="password"
-                >Passwort</label
-              >
+              <div class="flex items-center justify-start gap-1 text-[var(--text-color-light)] text-xs uppercase">
+                <i class="fa-solid fa-key"></i>
+                <label
+                  class="font-semibold"
+                  for="password"
+                >Passwort</label>
+              </div>
               <input
                 class=" bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="password"
@@ -90,7 +94,7 @@ function showPassword() {
               >
             </div>
             <button
-              class="w-full bg-[var(--primary-color)] text-[var(--text-color-white)] cursor-pointer font-semibold text-center py-3 rounded-2xl"
+              class="w-full bg-[var(--primary-color)] text-[var(--text-color-white)] cursor-pointer font-semibold text-center py-3 rounded-2xl shadow-lg"
               type="submit"
             >
               Anmelden
