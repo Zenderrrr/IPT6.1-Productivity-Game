@@ -10,6 +10,7 @@ import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
+import GreetingsSection from '@/components/ui/GreetingsSection.vue'
 
 use([CanvasRenderer, LineChart, GridComponent, TooltipComponent, LegendComponent])
 
@@ -59,28 +60,14 @@ function setActive (value: number) {
 function isActive(i: number) {
   return active.value === i
 }
+
 </script>
 
 <template>
   <NavAuth nameInitials="SS"></NavAuth>
-  <main class="w-full max-w-[64rem] mx-auto my-10">
+  <main>
     <!-- Greeting Section-->
-    <section>
-      <header class="flex items-center justify-between">
-        <div>
-          <h1 class="font-bold text-3xl tracking-wide">
-            Willkommen zurück,
-            <span class="text-[var(--primary-color)]">Sanjivan</span>
-          </h1>
-          <p class="text-[var(--text-color-light)]">Du bist auf einem guten Weg, bleib dran!</p>
-        </div>
-        <div
-          class="text-[var(--text-color-light)] text-sm font-semibold px-2.5 py-1.5 bg-[var(--surface-color)] border border-gray-200 rounded-full"
-        >
-          Dienstag, 31. März 2026
-        </div>
-      </header>
-    </section>
+    <GreetingsSection title="Willkommen zurück," user-name="Sanjivan" subtitle="Du bist auf einem guten Weg, bleib dran!"></GreetingsSection>
 
     <!-- Card overview section-->
     <section>
@@ -239,14 +226,6 @@ function isActive(i: number) {
 </template>
 
 <style scoped>
-section {
-  margin-bottom: calc(var(--spacing) * 5);
-}
-
-.gen-padding {
-  padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
-}
-
 .chartActive {
   background-color: var(--primary-color-light);
   color: var(--primary-color);
