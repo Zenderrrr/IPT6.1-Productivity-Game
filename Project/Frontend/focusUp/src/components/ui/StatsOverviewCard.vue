@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div class="w-full h-full bg-[var(--surface-color)] rounded-2xl px-5 py-4">
+  <div class="w-full h-full bg-[var(--surface-color)] rounded-2xl px-5 py-4 shadow-lg">
     <div class="flex items-center justify-start gap-2">
       <div class="flex justify-center items-center w-[30px] h-[30px] bg-[var(--primary-color-light)] rounded-lg">
         <i :class="svg" class="rounded-full text-xs text-[var(--primary-color)]"></i>
