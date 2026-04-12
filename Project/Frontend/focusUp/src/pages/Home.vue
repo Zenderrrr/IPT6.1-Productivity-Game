@@ -504,14 +504,15 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 <style scoped>
 /* Main Layout */
 .homepage {
+  width: 100%;
   overflow-x: hidden;
 }
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 56px;
+  padding: 0 40px;
 }
 
 /* Hero Section */
@@ -1081,6 +1082,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
 /* Shared White Sections */
 .white-section {
+  width: 100%;
   padding: 112px 0;
   background: var(--surface-color);
 }
@@ -1090,8 +1092,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 80px;
-  padding: 0 40px;
-  max-width: 1240px;
 }
 
 .section-copy {
@@ -1727,7 +1727,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 /* Responsive */
 @media (max-width: 1200px) {
   .container,
-  .two-column-section,
   .cta-inner {
     padding-left: 32px;
     padding-right: 32px;
