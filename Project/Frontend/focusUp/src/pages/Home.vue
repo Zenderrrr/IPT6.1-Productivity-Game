@@ -119,7 +119,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   <Header />
   <main class="homepage">
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section id="hero-section" class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge">
@@ -330,7 +330,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section id="features-section" class="features-section">
       <div class="container">
         <div class="section-header centered">
           <div class="section-kicker">Funktionen</div>
@@ -357,7 +357,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Steps Section -->
-    <section class="white-section steps-section">
+    <section id="steps-section" class="white-section steps-section">
       <div class="container">
         <div class="section-header centered">
           <div class="section-kicker">So funktioniert's</div>
@@ -411,7 +411,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Benefits / Momentum Section -->
-    <section class="momentum-section">
+    <section id="momentum-section" class="momentum-section">
       <div class="container two-column-section">
         <div class="section-copy">
           <div class="section-kicker">Warum FocusUp</div>
