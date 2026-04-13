@@ -47,6 +47,15 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", polity =>
+    {
+        polity.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<BadgeService>();
@@ -99,26 +108,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
-
-        //options.Events = new JwtBearerEvents
-        //{
-        //    OnAuthenticationFailed = context =>
-        //    {
-        //        Console.WriteLine("AUTH FAILED: " + context.Exception.ToString());
-        //        return System.Threading.Tasks.Task.CompletedTask;
-        //    },
-        //    OnTokenValidated = context =>
-        //    {
-        //        Console.WriteLine("TOKEN VALID");
-        //        return System.Threading.Tasks.Task.CompletedTask;
-        //    }
-        //};
     });
 
 builder.Services.AddAuthorization();
 var app = builder.Build();
 
 //app.UseHttpsRedirection();
+
+app.UseCors("Frontend");
 
 app.UseSwagger();
 app.UseSwaggerUI();
