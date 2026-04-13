@@ -1,11 +1,37 @@
 <script lang="ts" setup>
 import Logo from '@/components/ui/Logo.vue'
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/authStore.ts'
+import { useRouter } from 'vue-router'
 
 const isPasswordVisible = ref<boolean>(false)
 function showPassword() {
   return isPasswordVisible.value
 }
+
+const router = useRouter()
+
+const usernameOrEmail = ref<string>('')
+const password = ref<string>('')
+const error = ref<string | null>(null)
+
+const authStore = useAuthStore()
+
+async function submit(){
+
+  try{
+    await authStore.login(usernameOrEmail.value, password.value)
+
+    error.value = authStore.error
+
+    if(!authStore.loading && !authStore.error){
+      await router.push('/dashboard')
+    }
+  }catch(e){
+    error.value = e.message ?? 'Anmeldung ist fehlgeschlagen.'
+  }
+}
+
 </script>
 
 <template>
@@ -47,20 +73,22 @@ function showPassword() {
           </p>
 
           <!-- Form (input elements)-->
-          <form @submit.prevent>
+          <form @submit.prevent @submit="submit">
             <div class="flex flex-col items-start justify-center mt-5 gap-1">
               <div class="flex items-center justify-start gap-1 text-[var(--text-color-light)] text-xs uppercase">
                 <i class="fa-regular fa-envelope"></i>
                 <label
                   class="font-semibold"
                   for="email"
-                >E-Mail</label>
+                >E-Mail / Benutzername</label>
               </div>
               <input
                 class="bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="email"
-                type="email"
+                type="text"
                 placeholder="max@beispiel.ch"
+                required
+                v-model="usernameOrEmail"
               />
             </div>
 
@@ -77,6 +105,8 @@ function showPassword() {
                 id="password"
                 :type="showPassword() ? 'text' : 'password'"
                 placeholder="••••••••"
+                required
+                v-model="password"
               />
 
               <button @click="isPasswordVisible = true" v-if="!showPassword()" class="absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer">
@@ -94,11 +124,13 @@ function showPassword() {
               >
             </div>
             <button
-              class="w-full bg-[var(--primary-color)] text-[var(--text-color-white)] cursor-pointer font-semibold text-center py-3 rounded-2xl shadow-lg"
+              class="w-full mb-2 bg-[var(--primary-color)] text-[var(--text-color-white)] cursor-pointer font-semibold text-center py-3 rounded-2xl shadow-lg"
               type="submit"
             >
               Anmelden
             </button>
+
+            <span v-if="error" class="text-[var(--error-color)] text-sm mt-10">{{ error }}</span>
           </form>
 
           <div class="flex justify-center items-center gap-1 my-4">
