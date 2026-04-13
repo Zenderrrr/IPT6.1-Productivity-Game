@@ -5,12 +5,14 @@ import StatsCompletedTask from '@/components/ui/StatsCompletedTask.vue'
 import CurrentWeekStats from '@/components/ui/CurrentWeekStats.vue'
 
 import VChart from 'vue-echarts'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components'
 import GreetingsSection from '@/components/ui/GreetingsSection.vue'
+import { useStatsStore } from '@/stores/statsStore.ts'
+import type { Dashboard } from '@/types/dashboard.ts'
 
 use([CanvasRenderer, LineChart, GridComponent, TooltipComponent, LegendComponent])
 
@@ -53,29 +55,53 @@ const option = computed(() => ({
 
 // chart logic
 const active = ref<number>(0)
-function setActive (value: number) {
-  active.value = value;
+function setActive(value: number) {
+  active.value = value
 }
 
 function isActive(i: number) {
   return active.value === i
 }
 
+// dashboard get data
+const statsStore = useStatsStore()
+const error = ref<string | null>(null)
+
+const dashboardInfo = ref<Dashboard | null>(null);
+
+const totalXp = computed(() => dashboardInfo.value?.totalXp)
+const currLvl = computed(() => dashboardInfo.value?.level)
+
+onMounted(async () => {
+  try{
+    await statsStore.dashboard(20)
+
+    dashboardInfo.value = statsStore.dashboardData
+
+    console.log(dashboardInfo.value)
+  } catch(e){
+    error.value = e ? e.message : 'Failed to fetch dashboard data'
+  }
+})
 </script>
 
 <template>
   <NavAuth nameInitials="SS"></NavAuth>
   <main>
     <!-- Greeting Section-->
-    <GreetingsSection title="Willkommen zurück," user-name="Sanjivan" subtitle="Du bist auf einem guten Weg, bleib dran!"></GreetingsSection>
+    <GreetingsSection
+      title="Willkommen zurück,"
+      user-name="Sanjivan"
+      subtitle="Du bist auf einem guten Weg, bleib dran!"
+    ></GreetingsSection>
 
     <!-- Card overview section-->
     <section>
       <div class="grid grid-cols-4 gap-4 auto-rows-[150px]">
-        <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="12840">
+        <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="totalXp">
           <span><em class="text-[var(--accent-color)]">+340 XP</em> diese Woche</span>
         </StatsOverviewCard>
-        <StatsOverviewCard svg="fa-solid fa-chart-line" stats-name="Level" :stats-value="12">
+        <StatsOverviewCard svg="fa-solid fa-chart-line" stats-name="Level" :stats-value="currLvl">
           <div>
             <div
               class="w-full bg-[var(--background-color)] h-2 rounded-full overflow-hidden mb-2.5"
@@ -206,14 +232,24 @@ function isActive(i: number) {
           </div>
 
           <div class="flex items-center justify-end gap-1.5">
-            <span class="cursor-pointer px-2.5 py-1 rounded-lg" @click="setActive(0)" :class="{ chartActive : isActive(0) }">14T</span>
+            <span
+              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              @click="setActive(0)"
+              :class="{ chartActive: isActive(0) }"
+              >14T</span
+            >
             <span
               class="cursor-pointer px-2.5 py-1 rounded-lg"
               @click="setActive(1)"
               :class="{ chartActive: isActive(1) }"
               >1M</span
             >
-            <span class="cursor-pointer px-2.5 py-1 rounded-lg" @click="setActive(2)" :class="{ chartActive : isActive(2) }" >3M</span>
+            <span
+              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              @click="setActive(2)"
+              :class="{ chartActive: isActive(2) }"
+              >3M</span
+            >
           </div>
         </div>
       </div>
