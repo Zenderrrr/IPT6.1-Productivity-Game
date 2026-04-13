@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
+import Header from '../components/layout/Header.vue'
+import Footer from '../components/layout/Footer.vue'
 
 const heroTasks = [
   { name: 'Morgenroutine Workout', xp: '+50 XP', completed: true },
@@ -114,6 +116,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 </script>
 
 <template>
+  <Header />
   <main class="homepage">
     <!-- Hero Section -->
     <section class="hero-section">
@@ -499,6 +502,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
       </div>
     </section>
   </main>
+  <Footer />
 </template>
 
 <style scoped>
@@ -513,6 +517,11 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   max-width: 1360px;
   margin: 0 auto;
   padding: 0 40px;
+}
+
+:global(main.homepage) {
+  max-width: none;
+  margin: 0;
 }
 
 /* Hero Section */
