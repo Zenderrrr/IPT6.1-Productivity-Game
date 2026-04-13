@@ -21,13 +21,13 @@ const router = createRouter({
       path: '/login',
       component: Login,
       name: 'Login',
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: false, hideLayout: true },
     },
     {
       path: '/register',
       component: Register,
       name: 'Register',
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: false, hideLayout: true },
     },
     {
       path: '/dashboard',
@@ -52,18 +52,18 @@ const router = createRouter({
       component: Profile,
       name: 'Profile',
       meta: { requiresAuth: true },
-    }
+    },
   ],
 })
 
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
-  if(!authStore.user && !authStore.token) {
+  if (!authStore.user && !authStore.token) {
     await authStore.me()
   }
 
-  if(to.meta.requiresAuth && !authStore.isAuth) {
+  if (to.meta.requiresAuth && !authStore.isAuth) {
     return '/login'
   }
 })
