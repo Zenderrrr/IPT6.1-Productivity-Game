@@ -9,4 +9,4 @@ COPY . ./
 
 EXPOSE 8080
 
-CMD ["dotnet", "watch", "run", "--urls=http://0.0.0.0:8080"]
+CMD ["dotnet", "watch", "run", "--project", "FocusUp.csproj", "--urls=http://0.0.0.0:8080"]
