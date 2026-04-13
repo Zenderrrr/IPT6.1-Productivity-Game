@@ -28,5 +28,6 @@ section {
 }
 
 main {
-  width: 100%;
+  max-width: 80rem;
+  margin: calc(var(--spacing) * 10) auto;
 }
