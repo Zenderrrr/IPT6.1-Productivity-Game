@@ -8,12 +8,12 @@ export const useStatsStore = defineStore('stats', () => {
   const error = ref<string | null>(null)
   const dashboardData = ref<Dashboard | null>(null);
 
-  async function dashboard() {
+  async function dashboard(taskLimit: string) {
     loading.value = true
     error.value = null
 
     try{
-      const data = await dashboardApi(10)
+      const data = await dashboardApi(taskLimit)
       dashboardData.value = data
     }catch(e){
       error.value = e ? e.message : 'Unable to fetch stats'
