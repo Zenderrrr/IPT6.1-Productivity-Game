@@ -67,22 +67,37 @@ function isActive(i: number) {
 const statsStore = useStatsStore()
 const error = ref<string | null>(null)
 
-const dashboardInfo = ref<Dashboard | null>(null);
+const dashboardInfo = ref<Dashboard | null>(null)
 
 const totalXp = computed(() => dashboardInfo.value?.totalXp)
+
 const currLvl = computed(() => dashboardInfo.value?.level)
+const xpCurr = computed(() => dashboardInfo.value?.xpCurrent)
+const xpNext = computed(() => dashboardInfo.value?.xpNext)
+const progressToNextLevel = computed(() =>
+  Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100),
+)
+
+const streakCount = computed(() => dashboardInfo.value?.streakCount)
+const tasksDone = computed(() => dashboardInfo.value?.tasksDone)
+const tasksOpen = computed(() => dashboardInfo.value?.tasksOpen)
+
+const lastCompletedTasks = computed(() => dashboardInfo.value?.lastCompletedTasks)
 
 onMounted(async () => {
-  try{
-    await statsStore.dashboard(20)
+  try {
+    await statsStore.dashboard('20')
 
     dashboardInfo.value = statsStore.dashboardData
 
     console.log(dashboardInfo.value)
-  } catch(e){
+  } catch (e) {
     error.value = e ? e.message : 'Failed to fetch dashboard data'
   }
 })
+
+// today
+const date = computed(() => { return new Date() })
 </script>
 
 <template>
@@ -107,25 +122,26 @@ onMounted(async () => {
               class="w-full bg-[var(--background-color)] h-2 rounded-full overflow-hidden mb-2.5"
             >
               <div
-                class="w-65/100 h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
+                :style="{ width: `${progressToNextLevel}%` }"
+                class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
               ></div>
             </div>
-            <span>3200 / 4000 XP zum nächsten Level</span>
+            <span>{{ xpCurr }} / {{ xpNext }} XP zum nächsten Level</span>
           </div>
         </StatsOverviewCard>
-        <StatsOverviewCard svg="fa-solid fa-fire" stats-name="Streak" :stats-value="5">
+        <StatsOverviewCard svg="fa-solid fa-fire" stats-name="Streak" :stats-value="streakCount">
           <span>Tage in Folge</span>
           <div class="grid grid-cols-7 gap-2 mt-2">
-            <div v-for="i in 5" :key="i" class="h-1.5 bg-[var(--primary-color)] rounded-full"></div>
             <div
-              v-for="i in 2"
+              v-for="i in 7"
               :key="i"
               class="h-1.5 bg-[var(--background-color)] rounded-full"
+              :class="i == date.getDay() ? 'streak-on' : 'streak-off' "
             ></div>
           </div>
         </StatsOverviewCard>
-        <StatsOverviewCard svg="fa-solid fa-check" stats-name="Erledigte Tasks" :stats-value="47">
-          <span><em class="text-[var(--accent-color)]">+8</em> heute - 12 offen</span>
+        <StatsOverviewCard svg="fa-solid fa-check" stats-name="Erledigte Tasks" :stats-value="tasksDone">
+          <span><em class="text-[var(--accent-color)]">+8</em> heute - {{ tasksOpen }} offen</span>
         </StatsOverviewCard>
       </div>
     </section>
@@ -148,11 +164,11 @@ onMounted(async () => {
 
         <!-- Tasks -->
         <div class="grid grid-cols-1 grid-rows-5 gap-3 mt-4">
-          <div v-for="i in 5" :key="i">
+          <div v-for="(task, i) in lastCompletedTasks" :key="i">
             <StatsCompletedTask
-              title="Landing Page Navbar fertigstellen"
-              :date="new Date(2026, 3, 6, 20, 9, 54)"
-              :xp="53"
+              :title="task.action"
+              :date="task.createdAt"
+              :xp="task.xpAwarded"
             ></StatsCompletedTask>
           </div>
         </div>
@@ -265,5 +281,13 @@ onMounted(async () => {
 .chartActive {
   background-color: var(--primary-color-light);
   color: var(--primary-color);
+}
+
+.streak-on{
+  background-color: var(--primary-color);
+}
+
+.streak-off{
+  background-color: var(--background-color);
 }
 </style>
