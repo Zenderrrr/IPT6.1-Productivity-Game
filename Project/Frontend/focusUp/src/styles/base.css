@@ -1,10 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-*{
+* {
   box-sizing: border-box;
 }
 
-body{
+body {
   background: var(--background-color);
   color: var(--text-color);
   font-family: var(--font-family), sans-serif;
@@ -16,7 +16,7 @@ body{
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
 }
 
-.base-element{
+.base-element {
   border-radius: var(--radius-xl);
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
   box-shadow: var(--shadow-lg);
@@ -27,8 +27,6 @@ section {
   margin-bottom: calc(var(--spacing) * 5);
 }
 
-main{
+main {
   width: 100%;
-  max-width: 80rem;
-  margin: calc(var(--spacing) * 10) auto;
 }
