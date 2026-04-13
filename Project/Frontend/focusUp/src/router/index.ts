@@ -21,13 +21,13 @@ const router = createRouter({
       path: '/login',
       component: Login,
       name: 'Login',
-      meta: { requiresAuth: false, hideLayout: true },
+      meta: { requiresAuth: false },
     },
     {
       path: '/register',
       component: Register,
       name: 'Register',
-      meta: { requiresAuth: false, hideLayout: true },
+      meta: { requiresAuth: false },
     },
     {
       path: '/dashboard',
