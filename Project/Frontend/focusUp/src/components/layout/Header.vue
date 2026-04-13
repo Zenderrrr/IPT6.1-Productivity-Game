@@ -41,7 +41,7 @@ import { RouterLink } from 'vue-router'
           </RouterLink>
 
           <RouterLink
-            to="/login"
+            to="/register"
             class="inline-flex items-center gap-2 rounded-[14px] bg-[linear-gradient(135deg,var(--primary-color),var(--secondary-color))] px-[18px] py-3 text-[14px] font-extrabold text-white no-underline shadow-[0_10px_24px_rgba(14,165,233,0.25)] transition-all duration-200 ease-in-out hover:-translate-y-[1px] hover:brightness-95"
           >
             Kostenlos starten

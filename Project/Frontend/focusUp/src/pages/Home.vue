@@ -138,7 +138,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           </p>
 
           <div class="hero-actions">
-            <RouterLink to="/login" class="button button-primary">
+            <RouterLink to="/register" class="button button-primary">
               <i class="fa-solid fa-star"></i>
               <span>Kostenlos starten</span>
             </RouterLink>
@@ -489,7 +489,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           heute deine erste Aufgabe.
         </p>
         <div class="cta-actions">
-          <RouterLink to="/login" class="button cta-primary">
+          <RouterLink to="/register" class="button cta-primary">
             <i class="fa-solid fa-star"></i>
             <span>Kostenloses Konto erstellen</span>
           </RouterLink>
