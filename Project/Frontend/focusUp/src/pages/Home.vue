@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router'
+import Header from '../components/layout/Header.vue'
+import Footer from '../components/layout/Footer.vue'
 
 const heroTasks = [
   { name: 'Morgenroutine Workout', xp: '+50 XP', completed: true },
@@ -114,9 +116,10 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 </script>
 
 <template>
+  <Header />
   <main class="homepage">
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section id="hero-section" class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge">
@@ -135,7 +138,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           </p>
 
           <div class="hero-actions">
-            <RouterLink to="/login" class="button button-primary">
+            <RouterLink to="/register" class="button button-primary">
               <i class="fa-solid fa-star"></i>
               <span>Kostenlos starten</span>
             </RouterLink>
@@ -327,7 +330,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section id="features-section" class="features-section">
       <div class="container">
         <div class="section-header centered">
           <div class="section-kicker">Funktionen</div>
@@ -354,7 +357,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Steps Section -->
-    <section class="white-section steps-section">
+    <section id="steps-section" class="white-section steps-section">
       <div class="container">
         <div class="section-header centered">
           <div class="section-kicker">So funktioniert's</div>
@@ -408,7 +411,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     </section>
 
     <!-- Benefits / Momentum Section -->
-    <section class="momentum-section">
+    <section id="momentum-section" class="momentum-section">
       <div class="container two-column-section">
         <div class="section-copy">
           <div class="section-kicker">Warum FocusUp</div>
@@ -486,7 +489,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
           heute deine erste Aufgabe.
         </p>
         <div class="cta-actions">
-          <RouterLink to="/login" class="button cta-primary">
+          <RouterLink to="/register" class="button cta-primary">
             <i class="fa-solid fa-star"></i>
             <span>Kostenloses Konto erstellen</span>
           </RouterLink>
@@ -499,6 +502,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
       </div>
     </section>
   </main>
+  <Footer />
 </template>
 
 <style scoped>
@@ -513,6 +517,11 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   max-width: 1360px;
   margin: 0 auto;
   padding: 0 40px;
+}
+
+:global(main.homepage) {
+  max-width: none;
+  margin: 0;
 }
 
 /* Hero Section */
