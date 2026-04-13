@@ -1,4 +1,4 @@
-import { TaskLog } from '@/types/taskLog.ts'
+import { type TaskLog } from '@/types/taskLog.ts'
 
 export type Dashboard = {
   totalXp: number,
@@ -7,7 +7,7 @@ export type Dashboard = {
   streakCount: number,
   bestStreak: number,
   totalTimeMin: number,
-  tasks: TaskLog[],
+  lastCompletedTasks: TaskLog[],
   level: number,
   xpNext: number,
   progressToNextLevel: number,
