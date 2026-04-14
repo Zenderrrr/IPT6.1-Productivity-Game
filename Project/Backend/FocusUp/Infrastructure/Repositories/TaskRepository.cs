@@ -92,12 +92,12 @@ namespace FocusUp.Infrastructure.Repositories
                                  SELECT last_insert_rowid()";
             
             cmd.Parameters.AddWithValue("@user_id", task.UserId);
-            cmd.Parameters.AddWithValue("@category_id", task.CategoryId);
+            cmd.Parameters.AddWithValue("@category_id", (object?)task.CategoryId ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@title", task.Title);
             cmd.Parameters.AddWithValue("@description", task.Description);
             cmd.Parameters.AddWithValue("@difficulty", task.Difficulty.ToString());
             cmd.Parameters.AddWithValue("@duration_min", task.DurationMin);
-            cmd.Parameters.AddWithValue("@due_date", task.DueDate);
+            cmd.Parameters.AddWithValue("@due_date", (object?)task.DueDate ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@status", task.Status.ToString());
 
             var id = cmd.ExecuteScalar();
