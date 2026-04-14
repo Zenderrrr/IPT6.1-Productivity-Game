@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Tag from '@/components/ui/Tag.vue'
 import { formatTime } from '@/utils/date.ts'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   taskTitle: string
@@ -12,8 +12,12 @@ const props = defineProps<{
   completed: boolean
 }>()
 
-const month = Intl.DateTimeFormat('en-US', { month: 'short' }).format(props.date)
-
+const month = computed(() => {
+  if(props.date == null) {
+    return
+  }
+  return Intl.DateTimeFormat('de-CH', { month: 'short' }).format(props.date)
+})
 // task finished logic
 const isChecked = ref<boolean>(props.completed)
 
@@ -49,6 +53,7 @@ function changeChecked() {
 
         <!-- Date-->
         <div
+          v-if="props.date !== null && props.date !== undefined"
           class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
         >
           <i class="fa-regular fa-calendar"></i>
