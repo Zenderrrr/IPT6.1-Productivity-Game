@@ -27,7 +27,7 @@ namespace FocusUp.Controllers
             try
             {
                 int userId = _authService.Register(registerRequest.Username, registerRequest.Email, registerRequest.Password);
-                return StatusCode(201, new { userId });
+                return StatusCode(201, userId );
             }
             catch (InvalidDataException)
             {
