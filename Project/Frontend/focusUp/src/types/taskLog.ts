@@ -5,4 +5,5 @@ export type TaskLog = {
   action: string,
   xpAwarded: number,
   createdAt: Date,
+  title: string,
 }
