@@ -19,11 +19,15 @@ namespace FocusUp.Controllers
     {
         private readonly TaskCompletionService _taskCompletionService;
         private readonly TaskService _taskService;
+        private readonly XPService _xPService;
+        private readonly UserStatsService _userStatsService;
 
-        public TasksController(TaskCompletionService taskCompletionService, TaskService taskService)
+        public TasksController(TaskCompletionService taskCompletionService, TaskService taskService, XPService xPService, UserStatsService userStatsService)
         {
             _taskCompletionService = taskCompletionService;
             _taskService = taskService;
+            _xPService = xPService;
+            _userStatsService = userStatsService;
         }
 
         [HttpGet]
@@ -32,15 +36,38 @@ namespace FocusUp.Controllers
             if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
+            var userStats = _userStatsService.GetUserStats(userId);
+            if(userStats == null)
+                return NotFound();
+
             try
             {
-                var tasks = _taskService.GetTaskByUserId(userId);
-                return Ok(new { tasks });
+                var tasks = _taskService.GetTaskByUserId(userId).Select(t =>
+                {
+                    return new TaskDto
+                    {
+                        Id = t.Id,
+                        UserId = t.UserId,
+                        CategoryId = t.CategoryId,
+                        Title = t.Title,
+                        Description = t.Description,
+                        Difficulty = t.Difficulty,
+                        DurationMin = t.DurationMin,
+                        DueDate = t.DueDate,
+                        Status = t.Status,
+                        CompletedAt = t.CompletedAt,
+                        CreatedAt = t.CreatedAt,
+                        UpdatedAt = t.UpdatedAt,
+                        Xp = _xPService.CalculateXP(t, userStats.StreakCount)
+                    };
+                });
+
+                return Ok(tasks);
             }
             catch (TaskNotFoundException)
             {
                 return NotFound();
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 return BadRequest("An unexpected error has occurred.");
             }
@@ -52,6 +79,10 @@ namespace FocusUp.Controllers
             if (!TryGetUserId(out int userId))
                 return Unauthorized();
 
+            var userStats = _userStatsService.GetUserStats(userId);
+            if (userStats == null)
+                return NotFound();
+
             try
             {
                 Task? task = _taskService.GetTaskById(id);
@@ -62,7 +93,24 @@ namespace FocusUp.Controllers
                 if (task.UserId != userId)
                     return Forbid();
 
-                return Ok(new { task.Title, task.Description, task.Difficulty, task.DurationMin, task.CategoryId, task.DueDate, task.Status });
+                var taskDto = new TaskDto
+                {
+                    Id = task.Id,
+                    UserId = task.UserId,
+                    CategoryId = task.CategoryId,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Difficulty = task.Difficulty,
+                    DurationMin = task.DurationMin,
+                    DueDate = task.DueDate,
+                    Status = task.Status,
+                    CompletedAt = task.CompletedAt,
+                    CreatedAt = task.CreatedAt,
+                    UpdatedAt = task.UpdatedAt,
+                    Xp = _xPService.CalculateXP(task, userStats.StreakCount)
+                };
+
+                return Ok(taskDto);
             }
             catch(Exception)
             {
@@ -90,7 +138,7 @@ namespace FocusUp.Controllers
                     return BadRequest();
 
                 int taskId = _taskService.CreateTask(task);
-                return StatusCode(201, new { taskId });
+                return StatusCode(201, taskId );
             }
             catch(Exception)
             {
