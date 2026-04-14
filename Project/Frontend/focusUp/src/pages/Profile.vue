@@ -6,9 +6,19 @@ import Badges from '@/components/ui/Badges.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore.ts'
 import type { User } from '@/types/user.ts'
+import { useStatsStore } from '@/stores/statsStore.ts'
+import type { Dashboard } from '@/types/dashboard.ts'
+import { useBadgeStore } from '@/stores/badgeStore.ts'
+import type { Badge } from '@/types/badge.ts'
 
 const authStore = useAuthStore()
+const statsStore = useStatsStore()
+const badgeStore = useBadgeStore()
+
 const userInfo = ref<User | null>(null)
+const dashboardInfo = ref<Dashboard | null>(null)
+const badgeInfo = ref<Badge[] | null>(null)
+const badgeUnlockedInfo = ref<Badge[] | null>(null)
 const error = ref<string | null>(null)
 
 const nameInitials = computed(
@@ -19,6 +29,16 @@ onMounted(async () => {
   try {
     await authStore.me()
     userInfo.value = authStore.user
+
+    await statsStore.dashboard('0')
+    dashboardInfo.value = statsStore.dashboardData
+
+    await badgeStore.allBadge()
+    badgeInfo.value = badgeStore.badgeData
+
+    await badgeStore.badgeUnlocked()
+    badgeUnlockedInfo.value = badgeStore.badgeUnlockedData
+
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch user'
   }
@@ -26,7 +46,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NavAuth :name-initials="nameInitials"></NavAuth>
+  <NavAuth></NavAuth>
 
   <main>
     <GreetingsSection
@@ -46,7 +66,9 @@ onMounted(async () => {
         <div
           class="w-[150px] h-[150px] border-4 border-[var(--primary-color)] rounded-full flex items-center justify-center bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)]"
         >
-          <span class="text-4xl text-[var(--text-color-white)] font-semibold">{{ nameInitials }}</span>
+          <span class="text-4xl text-[var(--text-color-white)] font-semibold">{{
+            nameInitials
+          }}</span>
         </div>
 
         <div class="ml-3 flex flex-col items-start justify-start gap-1">
@@ -54,9 +76,18 @@ onMounted(async () => {
           <span class="text-[var(--text-color-light)] text-sm">{{ userInfo?.email }}</span>
 
           <div class="flex items-center justify-start gap-2 mt-3">
-            <Tag name="Level 12" color-hex="#0F172A" text-color-hex="#ffffff"></Tag>
-            <Tag name="18-Tage-Streak" color-hex="#0F172A" text-color-hex="#ffffff"></Tag>
-            <Tag name="Macher" color-hex="#0F172A" text-color-hex="#ffffff"></Tag>
+            <Tag
+              :name="`Level ${dashboardInfo?.level}`"
+              color-hex="#ebf8f7"
+              text-color-hex="#0F172A"
+            ></Tag>
+            <Tag
+              v-if="(dashboardInfo?.streakCount ?? 0) > 0"
+              :name="`${dashboardInfo?.streakCount}-Tage-Streak`"
+              color-hex="#ebf8f7"
+              text-color-hex="#0F172A"
+            ></Tag>
+            <Tag name="Macher" color-hex="#ebf8f7" text-color-hex="#0F172A"></Tag>
           </div>
         </div>
       </div>
@@ -76,7 +107,7 @@ onMounted(async () => {
         <div class="h-0.5 w-full bg-gray-200"></div>
       </div>
       <div class="grid grid-cols-7 gap-5 mt-4">
-        <Badges v-for="i in 10" :key="i" :checked="false" name="First Win" svg=""></Badges>
+        <Badges v-for="badge in badgeInfo" :key="badge.id" :checked="badgeUnlockedInfo?.some(t => t.id === badge.id)" :name="badge.name" svg="" color-hex="" svg-color-hex=""></Badges>
       </div>
     </section>
 
