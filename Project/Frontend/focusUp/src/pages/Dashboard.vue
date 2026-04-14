@@ -16,6 +16,8 @@ import type { Dashboard } from '@/types/dashboard.ts'
 import type { Stats } from '@/types/stats.ts'
 import type { Productivity } from '@/types/productivity.ts'
 import { formatTime } from '@/utils/date.ts'
+import type { User } from '@/types/user.ts'
+import { useAuthStore } from '@/stores/authStore.ts'
 
 // today
 const date = computed(() => {
@@ -25,6 +27,10 @@ const date = computed(() => {
 const weekLength = computed(() => {
   return date.value.getDay()
 })
+
+// username
+const authStore = useAuthStore()
+const authInfo = ref<User | null>(null)
 
 // dashboard get data
 const statsStore = useStatsStore()
@@ -152,12 +158,13 @@ onMounted(async () => {
     await statsStore.productivity(chartDayLength.value)
     prodInfoInd.value = statsStore.productivityData
 
+    await authStore.me()
+    authInfo.value = authStore.user
+
     if (!isMounted) {
       return
     }
 
-    // console.log(statsStore.productivityData)
-    // console.log(statsStore.statsData)
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch dashboard data'
   }
@@ -174,12 +181,12 @@ async function getProductivity(lengthDay: number) {
 </script>
 
 <template>
-  <NavAuth nameInitials="SS"></NavAuth>
+  <NavAuth></NavAuth>
   <main>
     <!-- Greeting Section-->
     <GreetingsSection
       title="Willkommen zurück,"
-      user-name="Sanjivan"
+      :user-name="authInfo?.username"
       subtitle="Du bist auf einem guten Weg, bleib dran!"
     ></GreetingsSection>
 
