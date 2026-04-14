@@ -5,7 +5,7 @@ import type { User } from '@/types/user.ts'
 
 export const useAuthStore = defineStore('auth', () => {
   const loading = ref<boolean>(false)
-  const user = ref<User | null>(null)
+  const userData = ref<User | null>(null)
   const error = ref<string | null>(null)
   const token = ref<string | null>(localStorage.getItem('token'))
 
@@ -42,21 +42,20 @@ export const useAuthStore = defineStore('auth', () => {
     if(token.value == null) {
       return
     }
-
     loading.value = true
     error.value = null
 
     try{
-      user.value = await meApi(token.value)
+      userData.value = await meApi(token.value)
     }catch(e){
       error.value = e ? e.message : 'Unable to get user informations'
       token.value = null
-      user.value = null
+      userData.value = null
       localStorage.removeItem('token')
     }finally {
       loading.value = false
     }
   }
 
-  return { token, loading, error, login, me, user, isAuth, register }
+  return { token, loading, error, login, me, user: userData, isAuth, register }
 });
