@@ -11,7 +11,7 @@ export async function loginApi(usernameOrEmail: string, password: string): Promi
   })
 }
 
-export async function registerApi(username: string, email: string, password: string) : Promise<void> {
+export async function registerApi(username: string, email: string, password: string) : Promise<number> {
   return apiFetch('/auth/register', {
     method: 'POST',
     body: JSON.stringify({
