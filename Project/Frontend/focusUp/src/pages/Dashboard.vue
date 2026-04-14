@@ -5,7 +5,7 @@ import StatsCompletedTask from '@/components/ui/StatsCompletedTask.vue'
 import CurrentWeekStats from '@/components/ui/CurrentWeekStats.vue'
 
 import VChart from 'vue-echarts'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
@@ -13,11 +13,49 @@ import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/compon
 import GreetingsSection from '@/components/ui/GreetingsSection.vue'
 import { useStatsStore } from '@/stores/statsStore.ts'
 import type { Dashboard } from '@/types/dashboard.ts'
+import type { Stats } from '@/types/stats.ts'
+import type { Productivity } from '@/types/productivity.ts'
+import { formatTime } from '@/utils/date.ts'
+
+// today
+const date = computed(() => {
+  return new Date()
+})
+
+const weekLength = computed(() => {
+  return date.value.getDay()
+})
+
+// dashboard get data
+const statsStore = useStatsStore()
+const error = ref<string | null>(null)
+
+const dashboardInfo = ref<Dashboard | null>(null)
+const statsInfoWeek = ref<Stats | null>(null)
+const prodInfoWeek = ref<Productivity[] | null>(null)
+const prodInfoInd = ref<Productivity[] | null>(null)
 
 use([CanvasRenderer, LineChart, GridComponent, TooltipComponent, LegendComponent])
 
-const labels = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
-const values = [100, 80, 20, 150, 240, 20, 50]
+const chartDayLength = ref<number>(14)
+
+watchEffect(async () => {
+  if (chartDayLength.value) {
+    prodInfoInd.value = await getProductivity(chartDayLength.value)
+  }
+})
+
+const labels = computed(() => {
+  return prodInfoInd.value?.map(
+    (t) =>
+      `${formatTime(t.date.getDate())}. ${t.date.toLocaleDateString('de-CH', {
+        month: 'short',
+      })}`,
+  )
+})
+const values = computed(() => {
+  return prodInfoInd.value?.map((t) => t.xpGained)
+})
 
 const option = computed(() => ({
   tooltip: {
@@ -32,7 +70,7 @@ const option = computed(() => ({
   },
   xAxis: {
     type: 'category',
-    data: labels,
+    data: labels.value,
   },
   yAxis: {
     type: 'value',
@@ -41,7 +79,7 @@ const option = computed(() => ({
     {
       name: 'XP',
       type: 'line',
-      data: values,
+      data: values.value,
       smooth: true,
       lineStyle: {
         color: 'rgb(20, 184, 166)',
@@ -63,12 +101,7 @@ function isActive(i: number) {
   return active.value === i
 }
 
-// dashboard get data
-const statsStore = useStatsStore()
-const error = ref<string | null>(null)
-
-const dashboardInfo = ref<Dashboard | null>(null)
-
+// dashboard data
 const totalXp = computed(() => dashboardInfo.value?.totalXp)
 
 const currLvl = computed(() => dashboardInfo.value?.level)
@@ -82,22 +115,62 @@ const streakCount = computed(() => dashboardInfo.value?.streakCount)
 const tasksDone = computed(() => dashboardInfo.value?.tasksDone)
 const tasksOpen = computed(() => dashboardInfo.value?.tasksOpen)
 
-const lastCompletedTasks = computed(() => dashboardInfo.value?.lastCompletedTasks)
+const lastCompletedTasks = computed(() => dashboardInfo.value?.lastCompletedTasks ?? [])
 
+// stats data
+const xpWeek = computed(() => statsInfoWeek.value?.totalXp)
+
+const todayStatsDay = ref<Stats | null>(null)
+const taskDoneToday = computed(() => todayStatsDay.value?.tasksDone)
+
+// productivity data
+const tasksDoneWeek = computed(() =>
+  prodInfoWeek.value?.reduce((n, { completedTasks }) => n + completedTasks, 0),
+)
+const focusTimeWeek = computed(
+  () =>
+    Math.round(
+      (prodInfoWeek.value?.reduce((n, { timeSpent }) => n + timeSpent, 0) ?? 0 / 60) * 10,
+    ) / 10,
+)
+
+let isMounted = true
 onMounted(async () => {
   try {
     await statsStore.dashboard('20')
-
     dashboardInfo.value = statsStore.dashboardData
 
-    console.log(dashboardInfo.value)
+    await statsStore.stats(weekLength.value)
+    statsInfoWeek.value = statsStore.statsData
+
+    await statsStore.stats(1)
+    todayStatsDay.value = statsStore.statsData
+
+    await statsStore.productivity(weekLength.value)
+    prodInfoWeek.value = statsStore.productivityData
+
+    await statsStore.productivity(chartDayLength.value)
+    prodInfoInd.value = statsStore.productivityData
+
+    if (!isMounted) {
+      return
+    }
+
+    // console.log(statsStore.productivityData)
+    // console.log(statsStore.statsData)
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch dashboard data'
   }
 })
 
-// today
-const date = computed(() => { return new Date() })
+onUnmounted(() => {
+  isMounted = false
+})
+
+async function getProductivity(lengthDay: number) {
+  await statsStore.productivity(lengthDay)
+  return statsStore.productivityData
+}
 </script>
 
 <template>
@@ -114,7 +187,9 @@ const date = computed(() => { return new Date() })
     <section>
       <div class="grid grid-cols-4 gap-4 auto-rows-[150px]">
         <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="totalXp">
-          <span><em class="text-[var(--accent-color)]">+340 XP</em> diese Woche</span>
+          <span
+            ><em class="text-[var(--accent-color)]">+{{ xpWeek }} XP</em> diese Woche</span
+          >
         </StatsOverviewCard>
         <StatsOverviewCard svg="fa-solid fa-chart-line" stats-name="Level" :stats-value="currLvl">
           <div>
@@ -136,12 +211,19 @@ const date = computed(() => { return new Date() })
               v-for="i in 7"
               :key="i"
               class="h-1.5 bg-[var(--background-color)] rounded-full"
-              :class="i == date.getDay() ? 'streak-on' : 'streak-off' "
+              :class="i == date.getDay() ? 'streak-on' : 'streak-off'"
             ></div>
           </div>
         </StatsOverviewCard>
-        <StatsOverviewCard svg="fa-solid fa-check" stats-name="Erledigte Tasks" :stats-value="tasksDone">
-          <span><em class="text-[var(--accent-color)]">+8</em> heute - {{ tasksOpen }} offen</span>
+        <StatsOverviewCard
+          svg="fa-solid fa-check"
+          stats-name="Erledigte Tasks"
+          :stats-value="tasksDone"
+        >
+          <span
+            ><em class="text-[var(--accent-color)]">+{{ taskDoneToday }}</em> heute -
+            {{ tasksOpen }} offen</span
+          >
         </StatsOverviewCard>
       </div>
     </section>
@@ -153,7 +235,7 @@ const date = computed(() => { return new Date() })
         <div class="flex items-center justify-between">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
           <div
-            class="flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
+            class="cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
@@ -164,9 +246,9 @@ const date = computed(() => { return new Date() })
 
         <!-- Tasks -->
         <div class="grid grid-cols-1 grid-rows-5 gap-3 mt-4">
-          <div v-for="(task, i) in lastCompletedTasks" :key="i">
+          <div v-for="task in lastCompletedTasks" :key="task.id">
             <StatsCompletedTask
-              :title="task.action"
+              :title="task.title"
               :date="task.createdAt"
               :xp="task.xpAwarded"
             ></StatsCompletedTask>
@@ -198,7 +280,7 @@ const date = computed(() => { return new Date() })
             >
               <i class="fa-solid fa-list-check text-sm"></i>
             </div>
-            <span class="font-semibold">Tasks anzeigen</span>
+            <RouterLink to="/tasks" class="font-semibold">Tasks anzeigen</RouterLink>
           </div>
         </div>
 
@@ -207,10 +289,10 @@ const date = computed(() => { return new Date() })
           >Diese Woche</span
         >
         <div class="grid grid-cols-2 grid-rows-2 gap-3 mt-4">
-          <CurrentWeekStats :stats-value="23" name="Tasks"></CurrentWeekStats>
-          <CurrentWeekStats :stats-value="8.4" name="Fokus" digit="h"></CurrentWeekStats>
+          <CurrentWeekStats :stats-value="tasksDoneWeek" name="Tasks"></CurrentWeekStats>
+          <CurrentWeekStats :stats-value="focusTimeWeek" name="Fokus" digit="h"></CurrentWeekStats>
           <CurrentWeekStats
-            :stats-value="340"
+            :stats-value="xpWeek"
             name="XP Gewonnen"
             digit="+"
             color-tailwind="text-[var(--primary-color)]"
@@ -248,23 +330,23 @@ const date = computed(() => { return new Date() })
           </div>
 
           <div class="flex items-center justify-end gap-1.5">
-            <span
+            <button
               class="cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(0)"
+              @click="setActive(0); chartDayLength = 14"
               :class="{ chartActive: isActive(0) }"
-              >14T</span
+              >14T</button
             >
-            <span
+            <button
               class="cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(1)"
+              @click="setActive(1); chartDayLength = 30"
               :class="{ chartActive: isActive(1) }"
-              >1M</span
+              >1M</button
             >
-            <span
+            <button
               class="cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(2)"
+              @click="setActive(2); chartDayLength = 90"
               :class="{ chartActive: isActive(2) }"
-              >3M</span
+              >3M</button
             >
           </div>
         </div>
@@ -283,11 +365,11 @@ const date = computed(() => { return new Date() })
   color: var(--primary-color);
 }
 
-.streak-on{
+.streak-on {
   background-color: var(--primary-color);
 }
 
-.streak-off{
+.streak-off {
   background-color: var(--background-color);
 }
 </style>
