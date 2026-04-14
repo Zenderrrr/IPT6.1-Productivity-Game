@@ -8,9 +8,10 @@ import Tag from '@/components/ui/Tag.vue'
 import { useTaskStore } from '@/stores/taskStore.ts'
 import type { Task } from '@/types/task.ts'
 import { useStatsStore } from '@/stores/statsStore.ts'
-import type { Stats } from '@/types/stats.ts'
 import type { Dashboard } from '@/types/dashboard.ts'
 import type { Productivity } from '@/types/productivity.ts'
+import PopUpCreateTask from '@/components/ui/PopUpCreateTask.vue'
+import type { CreateTask } from '@/types/createTask.ts'
 
 // categories logic
 const whichIsActive = ref<number>(0)
@@ -23,6 +24,21 @@ const categories = ['Alle Kategorien', 'Lernen', 'Sport', 'Arbeit', 'Kreativ', '
 // task logic
 const taskStore = useTaskStore()
 const taskData = ref<Task[] | null>(null)
+const filteredTaskData = computed(() => {
+  if(taskData.value === null) {
+    return []
+  }
+
+  if(viewOption.value === 1){
+    return taskData.value
+  } else if(viewOption.value === 2){
+    return taskData.value?.filter(t => t.status !== 3)
+  }else if(viewOption.value === 3){
+    return taskData.value?.filter(t => t.status === 3)
+  }
+
+  return taskData.value
+})
 const error = ref<string | null>(null)
 
 // productivity logic
@@ -58,9 +74,28 @@ onMounted(async () => {
     error.value = e ? e.message : 'Failed to fetch task data'
   }
 })
+
+// which view option
+const viewOption = ref<number>(1);
+function changeViewOption(id: number) {
+  viewOption.value = id
+}
+
+// show pop-up
+const showPopUp = ref<boolean>(false)
+
+async function submitTask(task: CreateTask) {
+  try{
+    await taskStore.createTask(task)
+  }catch(e){
+    console.error(e)
+  }
+}
 </script>
 
 <template>
+  <PopUpCreateTask :is-shown="showPopUp" @cancel="showPopUp = false" @submit="submitTask"></PopUpCreateTask>
+
   <div class="h-screen flex flex-col overflow-hidden min-h-0">
     <NavAuth name-initials="SS"></NavAuth>
     <main class="xl:w-[80rem] flex-1 flex flex-col min-h-0">
@@ -72,7 +107,7 @@ onMounted(async () => {
       <div class="grid grid-cols-8 gap-4 flex-1 min-h-0">
         <section class="col-span-6 flex flex-col overflow-auto">
           <!-- search area-->
-          <search class="base-element grid grid-cols-[6fr_auto_auto] gap-2">
+          <div class="base-element grid grid-cols-[6fr_auto_auto] gap-2">
             <div
               class="flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
             >
@@ -93,7 +128,7 @@ onMounted(async () => {
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
             </button>
-          </search>
+          </div>
 
           <!-- Categories-->
           <div class="flex items-center justify-start mt-4 gap-2">
@@ -111,7 +146,9 @@ onMounted(async () => {
             class="flex items-center justify-evenly mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm"
           >
             <div
-              class="activeView flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1"
+              @click="changeViewOption(1)"
+              :class="viewOption === 1 ? 'activeView' : 'inactiveView' "
+              class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1"
             >
               <span class="">Alle</span>
               <span
@@ -119,14 +156,14 @@ onMounted(async () => {
                 >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
               >
             </div>
-            <div class="inactiveView flex items-center justify-center gap-2 w-full rounded-xl">
+            <div class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : 'inactiveView' ">
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
                 >{{ dashboardData?.tasksOpen }}</span
               >
             </div>
-            <div class="inactiveView flex items-center justify-center gap-2 w-full rounded-xl">
+            <div class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : 'inactiveView' ">
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
@@ -137,17 +174,17 @@ onMounted(async () => {
 
           <!-- Tasks-->
           <div
-            class="scrollbar flex flex-col items-center justify-start mt-4 pr-2 gap-3 flex-1 overflow-y-auto overflow-x-hidden"
+            class="scrollbar flex flex-col items-center justify-start mt-4 pr-2 gap-3 flex-1 overflow-y-auto"
           >
             <TasksComponent
-              v-for="task in taskData"
+              v-for="task in filteredTaskData"
               :key="task.id"
               :task-title="task.title"
               :task-description="task.description"
               :timeMin="task.durationMin"
               :date="task.dueDate"
               :xp="task.xp"
-              :completed="task.status === 2"
+              :completed="task.status === 3"
             >
               <Tag name="Sport" color-hex="#84CC16" text-color-hex="#FFFFFF"></Tag>
               <Tag name="Einfach" color-hex="#94a0af" text-color-hex="#FFFFFF"></Tag>
@@ -160,6 +197,7 @@ onMounted(async () => {
             class="flex items-center justify-center w-full base-element border-1 border-gray-200"
           >
             <button
+              @click="showPopUp = true"
               class="cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
             >
               <i class="fa-solid fa-plus"></i>
