@@ -60,7 +60,11 @@ router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
   if (!authStore.user && !authStore.token) {
-    await authStore.me()
+    try{
+        await authStore.me()
+      }catch(err){
+        return '/login'
+      }
   }
 
   if (to.meta.requiresAuth && !authStore.isAuth) {
