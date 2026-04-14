@@ -9,8 +9,6 @@ export const useTaskStore = defineStore('task', () => {
   const error = ref<string | null>(null)
   const allTasksData = ref<Task[] | null>(null);
 
-  const newTaskId = ref<number | null>(null)
-
   async function getAllTasks(){
     loading.value = true
     error.value = null
@@ -57,9 +55,9 @@ export const useTaskStore = defineStore('task', () => {
     error.value = null
 
     try{
-      newTaskId.value = await createTaskApi(task)
-
+      const newTaskId = await createTaskApi(task)
       await getAllTasks()
+      return newTaskId
     }catch(e){
       error.value = e ? e.message : 'Unable to create task'
     }
@@ -86,5 +84,5 @@ export const useTaskStore = defineStore('task', () => {
   }
 
 
-  return {getAllTasks, loading, error, allTasksData, getTaskById, newTaskId, createTask, updateTask, deleteTask}
+  return {getAllTasks, loading, error, allTasksData, getTaskById, createTask, updateTask, deleteTask}
 })
