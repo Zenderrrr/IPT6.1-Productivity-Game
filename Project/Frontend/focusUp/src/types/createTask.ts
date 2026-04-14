@@ -1,8 +1,8 @@
 export type CreateTask = {
   title: string,
   description: string,
-  difficulty: number,
+  difficulty: string,
   durationMin: number,
   categoryId?: number,
-  dueDate?: Date,
+  dueDate?: string,
 }
