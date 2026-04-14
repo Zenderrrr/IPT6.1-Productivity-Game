@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
     try{
       const data = await loginApi(usernameOrEmail, password)
       token.value = data.token
-      localStorage.setItem('token', token.value)
+      localStorage.setItem('token', token.value ?? '')
     }catch(e){
       error.value = e ? e.message : 'Unable to login'
     } finally {
@@ -32,7 +32,11 @@ export const useAuthStore = defineStore('auth', () => {
 
     try{
       const data = await registerApi(username, email, password)
-      // user.value.id = data
+
+      if(!error.value){
+        await login(username, password)
+      }
+      return data
     }catch(e){
       error.value = e ? e.message : 'Unable to register'
     }
