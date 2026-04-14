@@ -32,9 +32,9 @@ namespace FocusUp.Controllers
             catch (InvalidDataException)
             {
                 return Conflict();
-            }catch(Exception ex)
+            }catch(Exception)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, "An unexpected error has occurred.");
             }
         }
 
@@ -49,9 +49,9 @@ namespace FocusUp.Controllers
             catch (UnauthorizedAccessException)
             {
                 return Forbid();
-            } catch (Exception ex)
+            } catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, "An unexpected error has occurred.");
             }
         }
 
