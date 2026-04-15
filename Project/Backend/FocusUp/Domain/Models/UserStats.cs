@@ -106,10 +106,10 @@ public class UserStats : BaseModel
         if (StreakLastDate == null)
             return false;
 
-        if (StreakLastDate == today)
+        if (StreakLastDate.Value.Date == today.Date)
             return false;
 
-        if (StreakLastDate >= today.AddDays(-gapDays))
+        if (StreakLastDate.Value.Date >= today.AddDays(-gapDays).Date)
             return false;
 
         return true;
