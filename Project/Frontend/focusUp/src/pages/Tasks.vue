@@ -12,14 +12,16 @@ import type { Dashboard } from '@/types/dashboard.ts'
 import type { Productivity } from '@/types/productivity.ts'
 import PopUpCreateTask from '@/components/ui/PopUpCreateTask.vue'
 import type { CreateTask } from '@/types/createTask.ts'
+import { useCategoryStore } from '@/stores/categoryStore.ts'
+import type { Category } from '@/types/category.ts'
+import CreateCategory from '@/components/ui/CreateCategory.vue'
+import DeleteTask from '@/components/ui/DeleteTask.vue'
 
 // categories logic
 const whichIsActive = ref<number>(0)
 function changeActiveCategory(value: number) {
   whichIsActive.value = value
 }
-
-const categories = ['Alle Kategorien', 'Lernen', 'Sport', 'Arbeit', 'Kreativ', 'Alltag']
 
 // task logic
 const taskStore = useTaskStore()
@@ -29,16 +31,27 @@ const filteredTaskData = computed(() => {
     return []
   }
 
+  const mappedTask = taskData.value.map(t => ({
+    ...t,
+    category: t.categoryId ? getCategoryById(t.categoryId) : null,
+  }))
+
   if(viewOption.value === 1){
-    return taskData.value
+    return mappedTask
   } else if(viewOption.value === 2){
-    return taskData.value?.filter(t => t.status !== 3)
+    return mappedTask?.filter(t => t.status !== 3)
   }else if(viewOption.value === 3){
-    return taskData.value?.filter(t => t.status === 3)
+    return mappedTask?.filter(t => t.status === 3)
   }
 
-  return taskData.value
+  return mappedTask
 })
+
+// get category to task
+function getCategoryById(id: number) {
+  return categoryData.value?.find(t => t.id === id) ?? null
+}
+
 const error = ref<string | null>(null)
 
 // productivity logic
@@ -60,6 +73,10 @@ const levelProgress = computed(() => {
   return (dashboardData.value?.progressToNextLevel ?? 0) * 100
 })
 
+// category logic
+const categoryStore = useCategoryStore()
+const categoryData = ref<Category[] | null>(null)
+
 onMounted(async () => {
   try {
     await taskStore.getAllTasks()
@@ -70,6 +87,9 @@ onMounted(async () => {
 
     await statsStore.dashboard('1')
     dashboardData.value = statsStore.dashboardData
+
+    await categoryStore.getAllCategories()
+    categoryData.value = categoryStore.categoriesData
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch task data'
   }
@@ -81,20 +101,69 @@ function changeViewOption(id: number) {
   viewOption.value = id
 }
 
-// show pop-up
-const showPopUp = ref<boolean>(false)
+// show pop-up task
+const showPopUpTask = ref<boolean>(false)
 
 async function submitTask(task: CreateTask) {
+  taskStore.error = null
   try{
     await taskStore.createTask(task)
   }catch(e){
     console.error(e)
+  } finally {
+    if(!taskStore.error)
+      showPopUpTask.value = false
+  }
+}
+
+// show pop-up category
+const showPopUpCategory = ref<boolean>(false)
+
+async function submitCategory(category: Category) : Promise<void> {
+  try{
+    const categoryId = await categoryStore.createCategory(category)
+
+    if(categoryId !== null){
+      showPopUpCategory.value = false
+      await categoryStore.getAllCategories()
+    }
+  }catch(e){
+    console.error(e)
+  }
+}
+
+// show delete pop-up
+const showPopUpDelete = ref<boolean>(false)
+const deleteTaskId = ref<number | null>(null)
+
+function showDeleteTask(taskId: number) {
+  showPopUpDelete.value = true
+  deleteTaskId.value = taskId
+}
+
+async function updateTask(task: Task) {
+
+}
+
+const errorTask = ref<string | null>(null)
+async function submitDeleteTask(taskId: number) : Promise<void> {
+  errorTask.value = null
+  try{
+    await taskStore.deleteTask(taskId)
+  }catch{
+    errorTask.value = taskStore.error
+  } finally {
+    if(!errorTask.value){
+      showPopUpDelete.value = false
+    }
   }
 }
 </script>
 
 <template>
-  <PopUpCreateTask :is-shown="showPopUp" @cancel="showPopUp = false" @submit="submitTask"></PopUpCreateTask>
+  <DeleteTask @cancel="showPopUpDelete = false" @confirm="submitDeleteTask" :task-id="deleteTaskId" :is-shown="showPopUpDelete"></DeleteTask>
+  <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
+  <PopUpCreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></PopUpCreateTask>
 
   <div class="h-screen flex flex-col overflow-hidden min-h-0">
     <NavAuth name-initials="SS"></NavAuth>
@@ -132,13 +201,17 @@ async function submitTask(task: CreateTask) {
 
           <!-- Categories-->
           <div class="flex items-center justify-start mt-4 gap-2">
+            <Categories text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
             <Categories
-              v-for="(category, i) in categories"
-              :key="i"
-              :text="category"
-              :isActive="whichIsActive == i"
-              @clicked="changeActiveCategory(i)"
+              v-for="category in categoryData"
+              :key="category.id"
+              :text="category.name"
+              :isActive="whichIsActive === category.id"
+              @clicked="changeActiveCategory(category.id)"
             ></Categories>
+            <div @click="showPopUpCategory = true" class="shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline">
+              <span>Erstelle Kategorie</span>
+            </div>
           </div>
 
           <!-- View choosing-->
@@ -185,9 +258,11 @@ async function submitTask(task: CreateTask) {
               :date="task.dueDate"
               :xp="task.xp"
               :completed="task.status === 3"
+              :difficulty="task.difficulty"
+              @update=""
+              @delete="showDeleteTask(task.id)"
             >
-              <Tag name="Sport" color-hex="#84CC16" text-color-hex="#FFFFFF"></Tag>
-              <Tag name="Einfach" color-hex="#94a0af" text-color-hex="#FFFFFF"></Tag>
+              <Tag v-if="task.category !== null" :name="task.category.name" :color-hex="task.category.color" text-color-hex="#FFFFFF"></Tag>
             </TasksComponent>
           </div>
         </section>
@@ -197,7 +272,7 @@ async function submitTask(task: CreateTask) {
             class="flex items-center justify-center w-full base-element border-1 border-gray-200"
           >
             <button
-              @click="showPopUp = true"
+              @click="showPopUpTask = true"
               class="cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
             >
               <i class="fa-solid fa-plus"></i>
@@ -261,6 +336,13 @@ async function submitTask(task: CreateTask) {
               </div>
             </div>
           </div>
+
+          <button class="flex items-center justify-center gap-2 uppercase border border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+            <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
+              <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <span>Tasks abschliessen</span>
+          </button>
         </section>
       </div>
     </main>
