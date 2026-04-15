@@ -58,17 +58,7 @@ const colors = [
 </script>
 
 <template>
-  <PopUpWindow :style="props.isShown ? '' : 'display: none' ">
-    <!-- Title and close-->
-    <div class="flex items-center justify-between w-[500px]">
-      <span class="font-semibold text-xl">Erstelle eine neue Kategorie</span>
-      <button
-        @click="cancel"
-        class="flex justify-center items-center bg-gray-100 text-gray-400 w-[35px] h-[35px] rounded-lg text-sm cursor-pointer"
-      >
-        <i class="fa-solid fa-x"></i>
-      </button>
-    </div>
+  <PopUpWindow title="Erstelle eine neue Kategorie" @cancel="cancel" :style="props.isShown ? '' : 'display: none' ">
 
     <!-- Inputs-->
     <form @submit.prevent="submit" class="w-full flex flex-col gap-5 mt-6">
@@ -77,7 +67,7 @@ const colors = [
         <input
           required
           v-model="name"
-          class="w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          class="input-hover-default w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
           id="title"
           type="text"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
@@ -93,7 +83,7 @@ const colors = [
             :class="choosenColor === color ? 'category-active' : ''"
             v-for="color in colors"
             :style="{ backgroundColor: color }"
-            class="scale-animation cursor-pointer border-2 border-transparent bg-[var(--primary-color)] rounded-lg w-[40px] h-[40px]"
+            class="scale-animation-lg cursor-pointer border-2 border-transparent bg-[var(--primary-color)] rounded-lg w-[40px] h-[40px]"
           >
             <div
               v-if="choosenColor === color"
@@ -110,7 +100,7 @@ const colors = [
         <input
           v-model="ownChoosenColor"
           @click="choosenColor = ownChoosenColor"
-          class="h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          class="input-hover-default h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
           id="title"
           type="color"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
@@ -123,12 +113,12 @@ const colors = [
       <div class="w-full flex justify-end items-center gap-3">
         <button
           @click="cancel"
-          class="cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold"
+          class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold"
         >
           Cancel
         </button>
         <button
-          class="cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold"
+          class="scale-animation-sm cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold"
         >
           Kategorie erstellen
         </button>
