@@ -26,12 +26,12 @@ onMounted(async () => {
       <ul
         class="flex items-center justify-between gap-5 font-semibold text-sm text-[var(--text-color-light)]"
       >
-        <RouterLink to="/dashboard" class="px-2.5 py-1.5 rounded-xl cursor-pointer"
+        <RouterLink to="/dashboard" class="hover:bg-gray-100 transition duration-200 px-2.5 py-1.5 rounded-xl cursor-pointer"
           >Dashboard</RouterLink
         >
-        <RouterLink to="/tasks" class="px-2 py-1.5 rounded-xl cursor-pointer">Tasks</RouterLink>
-        <RouterLink to="/stats" class="px-2 py-1.5 rounded-xl cursor-pointer">Stats</RouterLink>
-        <RouterLink to="/profile" class="px-2 py-1.5 rounded-xl cursor-pointer">Profil</RouterLink>
+        <RouterLink to="/tasks" class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer">Tasks</RouterLink>
+        <RouterLink to="/stats" class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer">Stats</RouterLink>
+        <RouterLink to="/profile" class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer">Profil</RouterLink>
       </ul>
     </div>
     <div>
