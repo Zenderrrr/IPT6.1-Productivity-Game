@@ -10,6 +10,6 @@ namespace FocusUp.Application.DTOs
         public int DurationMin { get; set; } = 0;
         public int? CategoryId { get; set; } = null ;
         public DateTime? DueDate { get; set; } = null;
-        public string Status {  get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
     }
 }
