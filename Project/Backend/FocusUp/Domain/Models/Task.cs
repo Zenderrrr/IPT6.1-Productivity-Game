@@ -26,6 +26,19 @@ public class Task : BaseModel
         Status = status;
     }
 
+    public Task(int id, int userId, string title, string desciption, TaskDifficultyType difficulty, int durationMin, FocusUp.Domain.Enums.TaskStatus status, int? categoryId = null, DateTime? dueDate = null)
+    {
+        Id = id;
+        UserId = userId;
+        Title = title;
+        Description = desciption;
+        Difficulty = difficulty;
+        CategoryId = categoryId;
+        DueDate = dueDate;
+        DurationMin = durationMin;
+        Status = status;
+    }
+
     public void SetCompletedAt(DateTime? dateTime) => CompletedAt = dateTime;
 
     public void MarkAsCompleted()
