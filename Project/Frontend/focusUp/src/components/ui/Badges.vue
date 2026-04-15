@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div :class="checked ? 'checked' : 'unchecked' " class="badge flex flex-col gap-2 justify-center items-center rounded-ls border-2 border-gray-200">
+  <div :class="checked ? 'checked lift-hover' : 'unchecked' " class="badge flex flex-col gap-2 justify-center items-center rounded-ls border-2 border-gray-200">
     <div class="flex justify-center items-center w-[45px] h-[45px] bg-[var(--primary-color-light)] text-[var(--primary-color)] rounded-lg">
       <i class="fa-solid fa-trophy"></i>
     </div>
@@ -23,6 +23,10 @@
     padding: calc(var(--spacing) * 5) calc(var(--spacing) * 5);
     box-shadow: var(--shadow-lg);
     background: var(--surface-color);
+  }
+
+  .checked{
+    cursor: pointer;
   }
 
   .unchecked{
