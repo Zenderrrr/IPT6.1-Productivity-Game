@@ -1,8 +1,16 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { Task } from '@/types/task.ts'
-import { createTaskApi, deleteTaskApi, getAllTasksApi, getTaskByIdApi, updateTaskApi } from '@/api/task.api.ts'
-import type { CreateTask } from '@/types/createTask.ts'
+import {
+  completeTaskApi,
+  createTaskApi,
+  deleteTaskApi,
+  getAllTasksApi,
+  getTaskByIdApi,
+  updateTaskApi,
+} from '@/api/task.api.ts'
+import type { CreateTaskType } from '@/types/createTaskType.ts'
+import type { UpdateTask } from '@/types/updateTask.ts'
 
 export const useTaskStore = defineStore('task', () => {
   const loading = ref<boolean>(false)
@@ -51,7 +59,7 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  async function createTask(task: CreateTask){
+  async function createTask(task: CreateTaskType){
     error.value = null
 
     try{
@@ -63,13 +71,26 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  async function updateTask(task:Task){
+  async function updateTask(taskId: number, task: UpdateTask) {
     error.value = null
 
     try{
-      await updateTaskApi(task)
+      return await updateTaskApi(taskId, task)
     }catch(e){
       error.value = e ? e.message : 'Unable to update task'
+    } finally {
+      if(!error.value){
+        await getAllTasks()
+      }
+    }
+  }
+
+  async function completeTask(taskId: number){
+    error.value = null
+    try{
+      await completeTaskApi(taskId)
+    }catch(e){
+      error.value = e ? e.message : 'Unable to complete task'
     }
   }
 
@@ -84,5 +105,5 @@ export const useTaskStore = defineStore('task', () => {
   }
 
 
-  return {getAllTasks, loading, error, allTasksData, getTaskById, createTask, updateTask, deleteTask}
+  return {getAllTasks, loading, error, allTasksData, getTaskById, createTask, updateTask, deleteTask, completeTask}
 })
