@@ -12,11 +12,14 @@ const props = defineProps<{
   date?: Date
   completed: boolean,
   difficulty: number,
+  isChecked: boolean,
+  isCompleted: boolean,
 }>()
 
 const emit = defineEmits<{
   (e: 'delete') : void
   (e: 'update') : void
+  (e: 'checked') : void
 }>()
 
 function deleteTask() {
@@ -34,21 +37,24 @@ const month = computed(() => {
   return Intl.DateTimeFormat('de-CH', { month: 'short' }).format(props.date)
 })
 // task finished logic
-const isChecked = ref<boolean>(props.completed)
+const isChecked = ref<boolean>(props.completed || props.isChecked)
 
 function changeChecked() {
   isChecked.value = !isChecked.value
+  emit('checked')
 }
 </script>
 
 <template>
   <div
     :class="isChecked ? 'checked' : 'unchecked'"
-    class="cursor-pointer base-element w-full flex items-center justify-start gap-4"
+    class="shrink-0 group hover:border-[var(--primary-color)] transition-all duration-100 overflow-hidden relative border-1 border-transparent cursor-pointer base-element w-full flex items-center justify-start gap-4"
   >
+    <div class="h-full w-0.5 group-hover:bg-[var(--primary-color)] transition-all duration-100 bg-transparent absolute top-0 left-0"></div>
+
     <label class="container -translate-y-2.5">
-      <input @click="changeChecked" type="checkbox" />
-      <span class="checkmark rounded-2xl"></span>
+      <input @click="changeChecked" type="checkbox" :checked="isChecked" :disabled="props.isCompleted" />
+      <span class="checkmark rounded-2xl" :style="{ backgroundColor: props.isCompleted ? 'oklch(87.2% 0.01 258.338)' : '' }"></span>
     </label>
 
     <div class="flex items-center justify-between w-full">
@@ -58,9 +64,13 @@ function changeChecked() {
         <div class="mt-1 flex items-center justify-start gap-2">
           <!-- Tags-->
           <slot></slot>
-          <Tag v-if="difficulty === 1" name="Einfach" color-hex="#f7fee7" text-color-hex="#00c951" border-color-hex="#00c951"></Tag>
-          <Tag v-if="difficulty === 2" name="Mittel" color-hex="#fefce8" text-color-hex="#efb100" border-color-hex="#efb100"></Tag>
-          <Tag v-if="difficulty === 3" name="Schwer" color-hex="#fef2f2" text-color-hex="#fb2c36" border-color-hex="#fb2c36"></Tag>
+          <Tag v-if="difficulty === 1 && !props.isCompleted && !props.isChecked" name="Einfach" color-hex="#f7fee7" text-color-hex="#00c951" border-color-hex="#00c951"></Tag>
+          <Tag v-if="difficulty === 2 && !props.isCompleted && !props.isChecked" name="Mittel" color-hex="#fefce8" text-color-hex="#efb100" border-color-hex="#efb100"></Tag>
+          <Tag v-if="difficulty === 3 && !props.isCompleted && !props.isChecked" name="Schwer" color-hex="#fef2f2" text-color-hex="#fb2c36" border-color-hex="#fb2c36"></Tag>
+
+          <Tag v-if="difficulty === 1 && (props.isCompleted || props.isChecked)" name="Einfach" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
+          <Tag v-if="difficulty === 2 && (props.isCompleted || props.isChecked)" name="Mittel" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
+          <Tag v-if="difficulty === 3 && (props.isCompleted || props.isChecked)" name="Schwer" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
 
           <!-- Time-->
           <div
@@ -87,11 +97,11 @@ function changeChecked() {
           </div>
         </div>
       </div>
-      <div class="flex items-center justify-center gap-2">
-        <button @click="updateTask" class="cursor-pointer flex items-center justify-center text-[var(--text-color)] border-gray-500 border w-[35px] h-[35px] rounded-lg">
+      <div v-if="!props.isCompleted" class="group group-hover:opacity-100 opacity-0 flex duration-200 transition items-center justify-center gap-2">
+        <button @click="updateTask" class="hover:bg-gray-100 transition duration-200 cursor-pointer flex items-center justify-center text-[var(--text-color)] border-gray-500 border w-[35px] h-[35px] rounded-lg">
           <i class="fa-solid fa-pencil"></i>
         </button>
-        <button @click="deleteTask" class="cursor-pointer flex items-center justify-center text-red-400 bg-red-100 w-[35px] h-[35px] rounded-lg">
+        <button @click="deleteTask" class="hover:border-red-500 hover:text-red-500 transition duration-200 border-1 border-transparent cursor-pointer flex items-center justify-center text-red-400 bg-red-100 w-[35px] h-[35px] rounded-lg">
           <i class="fa-solid fa-trash-can"></i>
         </button>
       </div>
