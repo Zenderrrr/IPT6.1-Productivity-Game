@@ -56,7 +56,7 @@ onMounted(async () => {
 
     <!-- Profile Overview-->
     <section
-      class="relative base-element flex items-center justify-between gap-4 overflow-hidden border border-gray-200"
+      class="box-hover-animation relative base-element flex items-center justify-between gap-4 overflow-hidden border border-gray-200"
     >
       <div
         class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
@@ -93,7 +93,7 @@ onMounted(async () => {
       </div>
 
       <button
-        class="cursor-pointer flex items-center justify-center gap-2 text-sm px-4 py-2 bg-gray-100 rounded-xl border border-gray-200"
+        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-sm px-4 py-2 bg-gray-100 rounded-xl border border-gray-200"
       >
         <i class="fa-solid fa-pen text-xs"></i>
         <span>Profilbild bearbeiten</span>
@@ -118,7 +118,7 @@ onMounted(async () => {
         <div class="h-0.5 w-full bg-gray-200"></div>
       </div>
 
-      <div class="base-element border-2 border-gray-200 mt-3">
+      <div class="box-hover-animation base-element border-2 border-gray-200 mt-3">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
             <div
@@ -133,7 +133,7 @@ onMounted(async () => {
               >
             </div>
           </div>
-          <div class="flex items-center justify-center border-2 border-gray-200 rounded-xl">
+          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
             <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
           </div>
         </div>
@@ -154,7 +154,7 @@ onMounted(async () => {
               >
             </div>
           </div>
-          <div class="flex items-center justify-center border-2 border-gray-200 rounded-xl">
+          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
             <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
           </div>
         </div>
@@ -175,13 +175,13 @@ onMounted(async () => {
               >
             </div>
           </div>
-          <div class="flex items-center justify-center border-2 border-gray-200 rounded-xl">
+          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
             <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
           </div>
         </div>
       </div>
 
-      <div class="base-element border-2 border-gray-200 mt-4">
+      <div class="box-hover-animation base-element border-2 border-gray-200 mt-4">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
             <div
@@ -197,7 +197,7 @@ onMounted(async () => {
             </div>
           </div>
           <div
-            class="flex items-center justify-center border-2 border-red-300 rounded-xl bg-red-100"
+            class="hover:bg-white transition duration-200 scale-animation-sm flex items-center justify-center border-2 border-red-300 rounded-xl bg-red-100"
           >
             <button class="cursor-pointer px-4 py-2 text-sm font-semibold text-red-500">
               Löschen
@@ -213,4 +213,5 @@ onMounted(async () => {
 main {
   max-width: 64rem;
 }
+
 </style>
