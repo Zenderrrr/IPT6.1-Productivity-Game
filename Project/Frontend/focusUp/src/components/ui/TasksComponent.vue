@@ -2,6 +2,7 @@
 import Tag from '@/components/ui/Tag.vue'
 import { formatTime } from '@/utils/date.ts'
 import { computed, ref } from 'vue'
+import { updateTaskApi } from '@/api/task.api.ts'
 
 const props = defineProps<{
   taskTitle: string
@@ -9,8 +10,22 @@ const props = defineProps<{
   timeMin: number
   xp: number
   date?: Date
-  completed: boolean
+  completed: boolean,
+  difficulty: number,
 }>()
+
+const emit = defineEmits<{
+  (e: 'delete') : void
+  (e: 'update') : void
+}>()
+
+function deleteTask() {
+  emit('delete')
+}
+
+function updateTask() {
+  emit('update')
+}
 
 const month = computed(() => {
   if(props.date == null) {
@@ -36,36 +51,49 @@ function changeChecked() {
       <span class="checkmark rounded-2xl"></span>
     </label>
 
-    <div class="flex flex-col items-start justify-center">
-      <span class="title font-semibold">{{ props.taskTitle }}</span>
-      <span class="text-[var(--text-color-light)] text-sm">{{ props.taskDescription }}</span>
-      <div class="mt-1 flex items-center justify-start gap-2">
-        <!-- Tags-->
-        <slot></slot>
+    <div class="flex items-center justify-between w-full">
+      <div class="flex flex-col items-start justify-center">
+        <span class="title font-semibold">{{ props.taskTitle }}</span>
+        <span class="text-[var(--text-color-light)] text-sm">{{ props.taskDescription }}</span>
+        <div class="mt-1 flex items-center justify-start gap-2">
+          <!-- Tags-->
+          <slot></slot>
+          <Tag v-if="difficulty === 1" name="Einfach" color-hex="#f7fee7" text-color-hex="#00c951" border-color-hex="#00c951"></Tag>
+          <Tag v-if="difficulty === 2" name="Mittel" color-hex="#fefce8" text-color-hex="#efb100" border-color-hex="#efb100"></Tag>
+          <Tag v-if="difficulty === 3" name="Schwer" color-hex="#fef2f2" text-color-hex="#fb2c36" border-color-hex="#fb2c36"></Tag>
 
-        <!-- Time-->
-        <div
-          class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
-        >
-          <i class="fa-regular fa-clock"></i>
-          <span>{{ props.timeMin }} Min.</span>
-        </div>
+          <!-- Time-->
+          <div
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+          >
+            <i class="fa-regular fa-clock"></i>
+            <span>{{ props.timeMin }} Min.</span>
+          </div>
 
-        <!-- Date-->
-        <div
-          v-if="props.date !== null && props.date !== undefined"
-          class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
-        >
-          <i class="fa-regular fa-calendar"></i>
-          <span>{{ `${formatTime(props.date.getDate())}. ${month}.` }}</span>
-        </div>
+          <!-- Date-->
+          <div
+            v-if="props.date !== null && props.date !== undefined"
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+          >
+            <i class="fa-regular fa-calendar"></i>
+            <span>{{ `${formatTime(props.date.getDate())}. ${month}.` }}</span>
+          </div>
 
-        <!-- XP-->
-        <div
-          class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
-        >
-          <span class="text-[var(--primary-color)]">+ {{ props.xp }} XP</span>
+          <!-- XP-->
+          <div
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+          >
+            <span class="text-[var(--primary-color)]">+ {{ props.xp }} XP</span>
+          </div>
         </div>
+      </div>
+      <div class="flex items-center justify-center gap-2">
+        <button @click="updateTask" class="cursor-pointer flex items-center justify-center text-[var(--text-color)] border-gray-500 border w-[35px] h-[35px] rounded-lg">
+          <i class="fa-solid fa-pencil"></i>
+        </button>
+        <button @click="deleteTask" class="cursor-pointer flex items-center justify-center text-red-400 bg-red-100 w-[35px] h-[35px] rounded-lg">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
       </div>
     </div>
   </div>
