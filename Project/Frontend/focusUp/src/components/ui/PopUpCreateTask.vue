@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { CreateTask } from '@/types/createTask.ts'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useCategoryStore } from '@/stores/categoryStore.ts'
+import type { Category } from '@/types/category.ts'
 
 const props = defineProps<{
   isShown: boolean
@@ -18,12 +20,13 @@ const duration = ref<number | null>(null)
 const categoryId = ref<number | null>(null)
 const dueDate = ref<Date | null>(null)
 
+const error = ref<string | null>(null)
 function submit(){
   if(difficulty.value === null )
-    return console.error('difficulty is null')
+    return error.value = 'Schwierigkeit nicht festgelegt.'
 
   if(duration.value === null)
-    return console.error('duration is null')
+    return error.value = 'Dauer ist leer.'
 
   const diffRecord: Record<number, string> = {
     1: 'Easy',
@@ -54,6 +57,19 @@ function cancel(){
 function setDifficulty(diff: number){
   difficulty.value = diff
 }
+
+const categoryStore = useCategoryStore()
+const categoryData = ref<Category[] | null>(null)
+
+
+onMounted(async () => {
+  try{
+    await categoryStore.getAllCategories()
+    categoryData.value = categoryStore.categoriesData
+  }catch(e){
+    error.value = e ? e.message : 'Unable to fetch categories'
+  }
+})
 </script>
 
 <template>
@@ -63,7 +79,7 @@ function setDifficulty(diff: number){
       <!-- Title and close-->
       <div class="flex items-center justify-between w-[500px]">
         <span class="font-semibold text-xl">Erstelle eine neue Task</span>
-        <button @click="cancel" class="flex justify-center items-center bg-gray-100 text-gray-400 w-[35px] h-[35px] rounded-lg text-sm cursor-pointer">
+        <button type="button" @click="cancel" class="flex justify-center items-center bg-gray-100 text-gray-400 w-[35px] h-[35px] rounded-lg text-sm cursor-pointer">
           <i class="fa-solid fa-x"></i>
         </button>
       </div>
@@ -86,9 +102,9 @@ function setDifficulty(diff: number){
           <div class="flex items-start justify-center flex-col gap-1.5 w-full h-full">
             <span class="text-sm font-semibold ml-0.5">Schwierigkeit *</span>
             <div class="flex items-start justify-center gap-1.5 w-full">
-                <button @click="setDifficulty(1)" :class="difficulty === 1 ? 'active-easy' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Easy</button>
-                <button @click="setDifficulty(2)" :class="difficulty === 2 ? 'active-medium' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Medium</button>
-                <button @click="setDifficulty(3)" :class="difficulty === 3 ? 'active-hard' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Hard</button>
+                <button type="button" @click="setDifficulty(1)" :class="difficulty === 1 ? 'active-easy' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Easy</button>
+                <button type="button" @click="setDifficulty(2)" :class="difficulty === 2 ? 'active-medium' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Medium</button>
+                <button type="button" @click="setDifficulty(3)" :class="difficulty === 3 ? 'active-hard' : 'inactive' " class="w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Hard</button>
             </div>
           </div>
 
@@ -102,13 +118,9 @@ function setDifficulty(diff: number){
 
           <div class="flex items-start justify-center flex-col gap-1.5 w-full">
             <label class="text-sm font-semibold ml-0.5" for="title">Kategorie</label>
-            <select class="w-full px-3 py-1 border border-gray-200 rounded-lg outline-[var(--primary-color)]" id="title">
-              <option value="">Auswählen</option>
-              <option value="">Beispiel1</option>
-              <option value="">Beispiel1</option>
-              <option value="">Beispiel1</option>
-              <option value="">Beispiel1</option>
-              <option value="">Beispiel1</option>
+            <select v-model="categoryId" class="w-full px-3 py-1 border border-gray-200 rounded-lg outline-[var(--primary-color)]" id="title">
+              <option :value="null">Auswählen</option>
+              <option v-for="category in categoryData" :key="category.id" :value="category.id">{{ category.name }}</option>
             </select>
           </div>
 
@@ -123,10 +135,12 @@ function setDifficulty(diff: number){
 
         <!-- submit & cancel-->
         <div class="w-full flex justify-end items-center gap-3">
-          <button @click="cancel" class="cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold">Cancel</button>
-          <button class="cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold">Task erstellen</button>
+          <button type="button" @click="cancel" class="cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold">Cancel</button>
+          <button type="submit" class="cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold">Task erstellen</button>
         </div>
       </form>
+
+      <span v-if="error" class="text-red-400">{{ error }}</span>
     </div>
   </div>
 </template>
