@@ -10,12 +10,16 @@ import type { Task } from '@/types/task.ts'
 import { useStatsStore } from '@/stores/statsStore.ts'
 import type { Dashboard } from '@/types/dashboard.ts'
 import type { Productivity } from '@/types/productivity.ts'
-import PopUpCreateTask from '@/components/ui/PopUpCreateTask.vue'
-import type { CreateTask } from '@/types/createTask.ts'
+import CreateTask from '@/components/ui/CreateTask.vue'
+import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
 import type { Category } from '@/types/category.ts'
 import CreateCategory from '@/components/ui/CreateCategory.vue'
 import DeleteTask from '@/components/ui/DeleteTask.vue'
+import type { UpdateTask } from '@/types/updateTask.ts'
+import { status } from '@/utils/status.ts'
+import { useAuthStore } from '@/stores/authStore.ts'
+import UpdateTaskComponent from '@/components/ui/UpdateTaskComponent.vue'
 
 // categories logic
 const whichIsActive = ref<number>(0)
@@ -25,7 +29,7 @@ function changeActiveCategory(value: number) {
 
 // task logic
 const taskStore = useTaskStore()
-const taskData = ref<Task[] | null>(null)
+const taskData = computed(() => taskStore.allTasksData)
 const filteredTaskData = computed(() => {
   if(taskData.value === null) {
     return []
@@ -75,12 +79,14 @@ const levelProgress = computed(() => {
 
 // category logic
 const categoryStore = useCategoryStore()
-const categoryData = ref<Category[] | null>(null)
+const categoryData = computed(() => categoryStore.categoriesData)
+
+// auth logic
+const authStore = useAuthStore()
 
 onMounted(async () => {
   try {
     await taskStore.getAllTasks()
-    taskData.value = taskStore.allTasksData
 
     await statsStore.productivity(1)
     prodData.value = statsStore.productivityData
@@ -141,10 +147,6 @@ function showDeleteTask(taskId: number) {
   deleteTaskId.value = taskId
 }
 
-async function updateTask(task: Task) {
-
-}
-
 const errorTask = ref<string | null>(null)
 async function submitDeleteTask(taskId: number) : Promise<void> {
   errorTask.value = null
@@ -158,41 +160,110 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
     }
   }
 }
+
+// task checked logic
+const checkedTasks = ref<number[]>([])
+function changeCheckedTasks(taskId: number) {
+  getCheckedTasks()
+
+  if(checkedTasks.value.some(t => t === taskId))
+    checkedTasks.value = checkedTasks.value.filter(t => t !== taskId)
+  else
+    checkedTasks.value.push(taskId)
+
+  const string = JSON.stringify(checkedTasks.value)
+  localStorage.setItem(`checkedTasks_${authStore.user?.id}`, string)
+}
+
+function getCheckedTasks(){
+  const data = localStorage.getItem(`checkedTasks_${authStore.user?.id}`)
+  checkedTasks.value =  Array.isArray(JSON.parse(data ?? '[]')) ? JSON.parse(data ?? '[]') : []
+}
+
+function isTaskChecked(taskId: number) {
+  getCheckedTasks()
+  return checkedTasks.value.some(t => t === taskId)
+}
+
+async function completeTask() {
+  getCheckedTasks()
+
+  await Promise.all(
+    checkedTasks.value.map(t => taskStore.completeTask(t))
+  )
+
+  localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
+}
+
+// show update task pop-up
+const showPopUpUpdate = ref<boolean>(false)
+const updateTask = ref<Task | null>(null)
+
+function closeWindow(){
+  showPopUpUpdate.value = false
+  updateTask.value = null
+}
+
+function showUpdateTask(task: Task) {
+  showPopUpUpdate.value = true
+  updateTask.value = task
+}
+
+async function submitUpdateTask(taskId: number, task: UpdateTask) {
+  try{
+    await taskStore.updateTask(taskId, task)
+  } catch(e){
+    console.error(e)
+  }finally {
+    if(taskStore.error === null) {
+      showPopUpUpdate.value = false
+    }
+  }
+
+  console.log(task)
+}
+
 </script>
 
 <template>
-  <DeleteTask @cancel="showPopUpDelete = false" @confirm="submitDeleteTask" :task-id="deleteTaskId" :is-shown="showPopUpDelete"></DeleteTask>
+  <Transition name="popUp">
+    <UpdateTaskComponent v-if="showPopUpUpdate && updateTask" :is-shown="showPopUpUpdate" :task="updateTask" @submit="submitUpdateTask" @cancel="closeWindow"></UpdateTaskComponent>
+  </Transition>
+  <Transition name="popUp">
+    <DeleteTask v-if="deleteTaskId" @cancel="showPopUpDelete = false" @confirm="submitDeleteTask" :task-id="deleteTaskId" :is-shown="showPopUpDelete"></DeleteTask>
+  </Transition>
   <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
-  <PopUpCreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></PopUpCreateTask>
+  <CreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTask>
 
   <div class="h-screen flex flex-col overflow-hidden min-h-0">
-    <NavAuth name-initials="SS"></NavAuth>
-    <main class="xl:w-[80rem] flex-1 flex flex-col min-h-0">
+    <NavAuth></NavAuth>
+    <main class="xl:w-[80rem] flex-1 flex flex-col min-h-0 overflow-hidden">
       <GreetingsSection
+        class="shrink-0"
         title="Meine Tasks"
         subtitle="Verwalte deine Aufgaben und bleib fokussiert!"
       ></GreetingsSection>
 
-      <div class="grid grid-cols-8 gap-4 flex-1 min-h-0">
-        <section class="col-span-6 flex flex-col overflow-auto">
+      <div class="grid grid-cols-8 gap-4 flex-1 min-h-0 overflow-hidden">
+        <section class="col-span-6 flex flex-col overflow-hidden min-h-0">
           <!-- search area-->
-          <div class="base-element grid grid-cols-[6fr_auto_auto] gap-2">
+          <div class="box-hover-animation base-element grid grid-cols-[6fr_auto_auto] gap-2 shrink-0">
             <div
-              class="flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
+              class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
             >
               <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
               <input class="w-full outline-0" type="text" placeholder="Tasks suchen ..." />
             </div>
 
             <button
-              class="border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
+              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
             >
               <i class="fa-solid fa-layer-group"></i>
               <span>nach Datum</span>
             </button>
 
             <button
-              class="border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
+              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
             >
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
@@ -200,7 +271,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
           </div>
 
           <!-- Categories-->
-          <div class="flex items-center justify-start mt-4 gap-2">
+          <div class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0">
             <Categories text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
             <Categories
               v-for="category in categoryData"
@@ -209,19 +280,19 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
               :isActive="whichIsActive === category.id"
               @clicked="changeActiveCategory(category.id)"
             ></Categories>
-            <div @click="showPopUpCategory = true" class="shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline">
+            <div @click="showPopUpCategory = true" class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline">
               <span>Erstelle Kategorie</span>
             </div>
           </div>
 
           <!-- View choosing-->
           <div
-            class="flex items-center justify-evenly mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm"
+            class="flex items-center justify-evenly mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm shrink-0"
           >
             <div
               @click="changeViewOption(1)"
-              :class="viewOption === 1 ? 'activeView' : 'inactiveView' "
-              class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1"
+              :class="viewOption === 1 ? 'activeView' : '' "
+              class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1"
             >
               <span class="">Alle</span>
               <span
@@ -229,14 +300,14 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
                 >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
               >
             </div>
-            <div class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : 'inactiveView' ">
+            <div class="hover:bg-gray-100 duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
                 >{{ dashboardData?.tasksOpen }}</span
               >
             </div>
-            <div class="cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : 'inactiveView' ">
+            <div class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
@@ -247,7 +318,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
 
           <!-- Tasks-->
           <div
-            class="scrollbar flex flex-col items-center justify-start mt-4 pr-2 gap-3 flex-1 overflow-y-auto"
+            class="scrollbar flex flex-1 flex-col justify-start mt-4 pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-0 "
           >
             <TasksComponent
               v-for="task in filteredTaskData"
@@ -259,21 +330,25 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
               :xp="task.xp"
               :completed="task.status === 3"
               :difficulty="task.difficulty"
-              @update=""
+              :is-checked="isTaskChecked(task.id)"
+              :is-completed="task.status === 3"
+              @update="showUpdateTask(task)"
               @delete="showDeleteTask(task.id)"
+              @checked="changeCheckedTasks(task.id)"
             >
-              <Tag v-if="task.category !== null" :name="task.category.name" :color-hex="task.category.color" text-color-hex="#FFFFFF"></Tag>
+              <Tag v-if="task.category !== null && task.status !== 3 && !isTaskChecked(task.id)" :name="task.category.name" :color-hex="task.category.color" text-color-hex="#FFFFFF"></Tag>
+              <Tag v-if="task.category !== null && (task.status === 3 || isTaskChecked(task.id))" :name="task.category.name" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
             </TasksComponent>
           </div>
         </section>
 
         <section class="col-span-2">
           <div
-            class="flex items-center justify-center w-full base-element border-1 border-gray-200"
+            class="box-hover-animation flex items-center justify-center w-full base-element border-1 border-gray-200"
           >
             <button
               @click="showPopUpTask = true"
-              class="cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
+              class="scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
             >
               <i class="fa-solid fa-plus"></i>
               <span>Neue Task erstellen</span>
@@ -281,7 +356,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
           </div>
 
           <!-- To next level-->
-          <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
+          <div class="box-hover-animation base-element mt-4 text-sm text-[var(--text-color-light)]">
             <span class="uppercase font-semibold">Bis zum nächsten Level</span>
             <div class="flex items-center justify-between w-full mt-4 mb-2">
               <span>Lv. {{ dashboardData?.level }} - Macher</span>
@@ -298,7 +373,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
           </div>
 
           <!-- Task Details-->
-          <div class="base-element mt-4">
+          <div class="box-hover-animation base-element mt-4">
             <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
               >Task Details</span
             >
@@ -315,7 +390,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
           </div>
 
           <!-- Today Insights-->
-          <div class="base-element mt-4">
+          <div class="box-hover-animation base-element mt-4">
             <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
               >Heute</span
             >
@@ -337,7 +412,7 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
             </div>
           </div>
 
-          <button class="flex items-center justify-center gap-2 uppercase border border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+          <button v-if="checkedTasks.length > 0" @click="completeTask" class="scale-animation-sm flex items-center justify-center gap-2 uppercase border border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
             <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
               <i class="fa-solid fa-clipboard-check"></i>
             </div>
@@ -350,6 +425,10 @@ async function submitDeleteTask(taskId: number) : Promise<void> {
 </template>
 
 <style scoped>
+.searchbar:has(input:focus){
+  border: 1px solid var(--primary-color);
+}
+
 .scrollbar {
   overflow-y: scroll;
   scroll-behavior: smooth;
