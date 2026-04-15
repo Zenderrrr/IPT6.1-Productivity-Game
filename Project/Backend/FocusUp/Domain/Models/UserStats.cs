@@ -38,6 +38,7 @@ public class UserStats : BaseModel
         BestStreak = bestStreak;
         StreakLastDate = streakLastDate;
         LastActiveAt = lastActiveAt;
+        TasksOpen = tasksOpen;
     }
 
     public void ApplyTaskCompletion(int durationMin, DateTime today)
@@ -59,7 +60,7 @@ public class UserStats : BaseModel
         TasksDone++;
     }
 
-    private void DecrementTasksOpen()
+    public void DecrementTasksOpen()
     {
         if(TasksOpen > 0)
             TasksOpen--;
@@ -92,10 +93,7 @@ public class UserStats : BaseModel
     }
 
 
-    private void IncrementTasksOpen()
-    {
-        TasksOpen++;
-    }
+    public void IncrementTasksOpen() => TasksOpen++;
 
     private void RemoveDuration(int durationMin)
     {
