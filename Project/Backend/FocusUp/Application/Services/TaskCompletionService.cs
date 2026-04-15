@@ -52,9 +52,9 @@ namespace FocusUp.Application.Services
             userStats.SetStreak(currentStreak, completedAt);
 
             int xpAwarded = _xPService.CalculateXP(task, currentStreak);
+            userStats.AddXp(xpAwarded);
 
             TaskLog taskLog = new(userId, taskId, RewardReason.TaskCompleted, xpAwarded);
-
             userStats.ApplyTaskCompletion(task.DurationMin, completedAt);
 
             using var connection = _dbConnection.GetConnection();
@@ -63,7 +63,12 @@ namespace FocusUp.Application.Services
             try
             {
                 _taskRepository.UpdateStatus(taskId, Completed, connection, transaction, completedAt);
-                _xPService.AwardXP(task, currentStreak, RewardReason.TaskCompleted, connection, transaction);
+
+                XpEvent xpEvent = new XpEvent(userId, xpAwarded, RewardReason.TaskCompleted, taskId);
+                _xPEventRepository.Insert(xpEvent);
+
+                //_xPService.AwardXP(task, xpAwarded, RewardReason.TaskCompleted, connection, transaction);
+
                 _taskLogRepository.Insert(taskLog, connection, transaction);
                 _userStatsRepository.Update(userStats, connection, transaction);
                 _badgeService.CheckAndAwardBadges(userId, connection, transaction);
