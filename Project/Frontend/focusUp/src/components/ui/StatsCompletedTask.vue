@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="flex gap-2 justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-2xl"
+    class="hover:bg-blue-50 duration-200 transition flex gap-2 justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-2xl"
   >
     <div class="flex gap-4 items-center">
       <div
@@ -19,7 +19,7 @@ const props = defineProps<{
         <i class="fa-solid fa-check"></i>
       </div>
       <div class="flex flex-col gap-2 font-light">
-        <p class="font-bold text-sm">{{ props.title }}</p>
+        <p class="font-semibold text-sm">{{ props.title }}</p>
         <span class="text-[var(--text-color-light)] text-xs font-semibold">{{ GetTimeFromNow(props.date) }}</span>
       </div>
     </div>
