@@ -22,7 +22,9 @@ namespace FocusUp.Application.Services
 
             if (_streakStrategy.ShouldResetStreak(userStats, completedAt))
                 userStats.ResetStreak();
-            userStats.IncrementStreak(completedAt);
+
+            else if(userStats.StreakLastDate.Value.Date != completedAt.Date)
+                userStats.IncrementStreak(completedAt);
 
             _userStatsRepository.UpdateStreak(userId, userStats.StreakCount, userStats.BestStreak, completedAt);
         }
@@ -32,7 +34,7 @@ namespace FocusUp.Application.Services
             if (_streakStrategy.ShouldResetStreak(userStats, completedAt))
                 return 1;
 
-            if (userStats.StreakLastDate?.Date == completedAt)
+            if (userStats.StreakLastDate?.Date == completedAt.Date)
                 return userStats.StreakCount;
 
             return userStats.StreakCount + 1;
