@@ -171,7 +171,7 @@ namespace FocusUp.Controllers
                 if(task.UserId != userId)
                     return Forbid();
 
-                var updatedTask = new Task(task.UserId, updateTaskRequest.Title, updateTaskRequest.Description, taskDifficulty, updateTaskRequest.DurationMin, taskStatus, updateTaskRequest.CategoryId, updateTaskRequest.DueDate);
+                var updatedTask = new Task(task.Id, task.UserId, updateTaskRequest.Title, updateTaskRequest.Description, taskDifficulty, updateTaskRequest.DurationMin, taskStatus, updateTaskRequest.CategoryId, updateTaskRequest.DueDate);
 
                 if (!updatedTask.ValidateData())
                     return BadRequest("Task data is invalid.");
@@ -199,6 +199,9 @@ namespace FocusUp.Controllers
                     return NotFound();
 
                 if (task.UserId != userId)
+                    return Forbid();
+
+                if (task.Status == Domain.Enums.TaskStatus.Completed)
                     return Forbid();
 
                 _taskService.DeleteTask(task.Id);
