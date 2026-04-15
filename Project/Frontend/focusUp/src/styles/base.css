@@ -32,6 +32,77 @@ main {
   margin: calc(var(--spacing) * 10) auto;
 }
 
-.scale-animation{
+
+  /*Animations*/
+.scale-animation-sm{
+  @apply hover:scale-101 transition duration-200 ease-in-out
+}
+
+.scale-animation-md{
+  @apply hover:scale-105 transition duration-200 ease-in-out
+}
+
+.scale-animation-lg{
   @apply hover:scale-110 transition duration-100 ease-in-out
 }
+
+.color-change-primary-animation{
+  @apply hover:text-[var(--primary-color)] transition duration-200 ease-in-out
+}
+
+.color-change-secondary-animation{
+  @apply hover:text-[var(--secondary-color)] transition duration-200 ease-in-out
+}
+
+.box-hover-animation{
+  @apply hover:shadow-xl hover:border-gray-100 transition duration-200 border-2 border-transparent
+}
+
+.levitation-animation {
+  animation: levitate 5s infinite ease-in-out;
+}
+
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+
+}
+
+.lift-hover {
+  transition: all 0.3s ease-in-out;
+  transform: translateY(0) scale(1);
+  @apply shadow-lg;
+}
+
+.lift-hover:hover {
+  transform: translateY(-5px) scale(101%);
+  @apply shadow-xl;
+}
+
+.input-hover-default{
+  @apply border border-transparent hover:border-[var(--primary-color)] transition duration-100 ease-in-out;
+}
+
+.input-hover{
+  @apply border hover:border-[var(--primary-color)] transition duration-75 ease-in-out;
+}
+
+
+/*animation by name*/
+
+.popUp-enter-active, .popUp-leave-active {
+  transition: all .01s ease-in-out;
+}
+
+.popUp-enter-from, .popUp-leave-to{
+  opacity: 0;
+}
+
+.popUp-enter-to, .popUp-leave-from{
+  opacity: 1;
+}
+
