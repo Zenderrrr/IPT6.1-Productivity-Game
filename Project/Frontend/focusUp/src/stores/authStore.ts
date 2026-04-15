@@ -31,14 +31,13 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null
 
     try{
-      const data = await registerApi(username, email, password)
-
+      return await registerApi(username, email, password)
+    }catch(e){
+      error.value = e ? e.message : 'Unable to register'
+    } finally {
       if(!error.value){
         await login(username, password)
       }
-      return data
-    }catch(e){
-      error.value = e ? e.message : 'Unable to register'
     }
   }
 
