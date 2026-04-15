@@ -16,7 +16,9 @@ namespace FocusUp.Application.Services
         public int GetXpCurrentLevel(int totalXP)
         {
             int level = GetLevel(totalXP);
-            return 100 * (int)Math.Pow((level - 1), 2);
+            int xpForCurrentLevel = 100 * (int)Math.Pow(level - 1, 2);
+
+            return totalXP - xpForCurrentLevel;
         }
 
         public int GetXpForNextLevel(int totalXP)
