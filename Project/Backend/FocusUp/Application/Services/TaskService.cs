@@ -1,5 +1,6 @@
 using FocusUp.Infrastructure.Repositories;
 using System;
+using FocusUp.Common.Exceptions;
 
 namespace FocusUp.Application.Services
 {
@@ -18,11 +19,28 @@ namespace FocusUp.Application.Services
 
         public List<Task> GetTaskByUserId(int userId) => _taskRepository.GetAllByUserId(userId);
 
-        public int CreateTask(Task task) => _taskRepository.Insert(task);
+        public int CreateTask(Task task) {
 
-        public void UpdateTask(Task task) => _taskRepository.Update(task);
+            var userStats = _userStatsRepository.GetByUserId(task.UserId) ?? throw new UserStatsNotFoundException(task.UserId);
+            userStats.IncrementTasksOpen();
+            _userStatsRepository.UpdateTaskCounters(userStats.UserId, userStats.TasksDone, userStats.TasksOpen);
 
-        public void DeleteTask(int id) => _taskRepository.Delete(id);
+            return _taskRepository.Insert(task);
+        }
+        
+
+        public void UpdateTask(Task task) =>_taskRepository.Update(task);
+
+        public void DeleteTask(int id) {
+
+            var task = GetTaskById(id) ?? throw new TaskNotFoundException(id);
+
+            var userStats = _userStatsRepository.GetByUserId(task.UserId) ?? throw new UserStatsNotFoundException(task.UserId);
+            userStats.DecrementTasksOpen();
+            _userStatsRepository.UpdateTaskCounters(userStats.UserId, userStats.TasksDone, userStats.TasksOpen);
+
+            _taskRepository.Delete(id);
+        } 
 
         public List<Task> GetOpenTasksByUserId(int userId) => _taskRepository.GetOpenByUserId(userId);
 
