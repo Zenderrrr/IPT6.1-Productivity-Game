@@ -18,6 +18,9 @@ import type { Productivity } from '@/types/productivity.ts'
 import { formatTime } from '@/utils/date.ts'
 import type { User } from '@/types/user.ts'
 import { useAuthStore } from '@/stores/authStore.ts'
+import CreateTask from '@/components/ui/CreateTask.vue'
+import type { CreateTaskType } from '@/types/createTaskType.ts'
+import { useTaskStore } from '@/stores/taskStore.ts'
 
 // today
 const date = computed(() => {
@@ -114,7 +117,7 @@ const currLvl = computed(() => dashboardInfo.value?.level)
 const xpCurr = computed(() => dashboardInfo.value?.xpCurrent)
 const xpNext = computed(() => dashboardInfo.value?.xpNext)
 const progressToNextLevel = computed(() =>
-  Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100),
+  Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100)
 )
 
 const streakCount = computed(() => dashboardInfo.value?.streakCount)
@@ -136,7 +139,7 @@ const tasksDoneWeek = computed(() =>
 const focusTimeWeek = computed(
   () =>
     Math.round(
-      (prodInfoWeek.value?.reduce((n, { timeSpent }) => n + timeSpent, 0) ?? 0 / 60) * 10,
+      (prodInfoWeek.value?.reduce((n, { timeSpent }) => n + timeSpent, 0) ?? 0) / 60 * 10,
     ) / 10,
 )
 
@@ -178,9 +181,27 @@ async function getProductivity(lengthDay: number) {
   await statsStore.productivity(lengthDay)
   return statsStore.productivityData
 }
+
+// show pop-up task
+const taskStore = useTaskStore()
+const showPopUpTask = ref<boolean>(false)
+
+async function submitTask(task: CreateTaskComponent) {
+  taskStore.error = null
+  try{
+    await taskStore.createTask(task)
+  }catch(e){
+    console.error(e)
+  } finally {
+    if(!taskStore.error)
+      showPopUpTask.value = false
+  }
+}
 </script>
 
 <template>
+  <CreateTaskType :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTaskType>
+
   <NavAuth></NavAuth>
   <main>
     <!-- Greeting Section-->
@@ -238,11 +259,11 @@ async function getProductivity(lengthDay: number) {
     <!-- Last completed tasks & quick actions-->
     <section class="grid grid-cols-6 gap-4">
       <!-- Title -->
-      <div class="col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
+      <div class="box-hover-animation col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
         <div class="flex items-center justify-between">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
           <div
-            class="cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
+            class="color-change-secondary-animation cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
@@ -253,7 +274,7 @@ async function getProductivity(lengthDay: number) {
 
         <!-- Tasks -->
         <div class="grid grid-cols-1 grid-rows-5 gap-3 mt-4">
-          <div v-for="task in lastCompletedTasks" :key="task.id">
+          <div v-for="task in lastCompletedTasks.slice(0, 5)" :key="task.id">
             <StatsCompletedTask
               :title="task.title"
               :date="task.createdAt"
@@ -263,13 +284,14 @@ async function getProductivity(lengthDay: number) {
         </div>
       </div>
 
-      <div class="col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
+      <div class="box-hover-animation col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
         <h2 class="font-bold">Schnelle Aktionen</h2>
 
         <!-- Quick Actions-->
         <div class="mb-4">
           <div
-            class="flex items-center justify-start mt-4 gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] rounded-xl px-4 py-4 cursor-pointer"
+            @click="showPopUpTask = true"
+            class="scale-animation-sm flex items-center justify-start mt-4 gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
               class="w-[30px] h-[30px] flex items-center justify-center text-[var(--primary-color-white)] bg-white/20 backdrop-blur-2lg rounded-lg"
@@ -280,7 +302,7 @@ async function getProductivity(lengthDay: number) {
           </div>
 
           <div
-            class="flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
+            class="hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
               class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-[var(--text-color-white)]"
@@ -315,12 +337,12 @@ async function getProductivity(lengthDay: number) {
     </section>
 
     <!-- Productivity over time -->
-    <section class="bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
+    <section class="box-hover-animation bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
       <div class="flex items-center justify-between">
         <div>
           <h2 class="font-bold text-lg tracking-wide">Produktivität über Zeit</h2>
           <span class="font-semibold text-sm text-[var(--text-color-light)]"
-            >Tasks pro Tag, letzte 14 Tage</span
+            >XP pro Tag</span
           >
         </div>
         <div
@@ -338,19 +360,19 @@ async function getProductivity(lengthDay: number) {
 
           <div class="flex items-center justify-end gap-1.5">
             <button
-              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="setActive(0); chartDayLength = 14"
               :class="{ chartActive: isActive(0) }"
               >14T</button
             >
             <button
-              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="setActive(1); chartDayLength = 30"
               :class="{ chartActive: isActive(1) }"
               >1M</button
             >
             <button
-              class="cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="setActive(2); chartDayLength = 90"
               :class="{ chartActive: isActive(2) }"
               >3M</button
