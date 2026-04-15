@@ -88,7 +88,7 @@ namespace FocusUp.Controllers
 
                 int categoryId = _categoryService.CreateCategory(category);
 
-                return StatusCode(201, new { categoryId });
+                return StatusCode(201, categoryId);
             }
             catch (Exception)
             {
