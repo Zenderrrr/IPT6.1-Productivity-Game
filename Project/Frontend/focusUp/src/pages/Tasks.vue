@@ -30,15 +30,41 @@ function changeActiveCategory(value: number) {
 // task logic
 const taskStore = useTaskStore()
 const taskData = computed(() => taskStore.allTasksData)
+
+const taskFilter = ref<string>('')
+const isFilterDate = ref<boolean>(false)
 const filteredTaskData = computed(() => {
   if(taskData.value === null) {
     return []
   }
 
-  const mappedTask = taskData.value.map(t => ({
+  let mappedTask = taskData.value.map(t => ({
     ...t,
     category: t.categoryId ? getCategoryById(t.categoryId) : null,
   }))
+
+  mappedTask = mappedTask.filter(t => {
+    return t.title.toLowerCase().includes(taskFilter.value)
+  })
+
+  if(whichIsActive.value !== 0) {
+    mappedTask = mappedTask.filter(t => {
+      return t.categoryId === whichIsActive.value
+    })
+  }
+
+  if(isFilterDate.value) {
+    mappedTask = mappedTask.sort((a, b) => {
+      if(!a.dueDate && !b.dueDate)
+        return 0
+      if(!a.dueDate)
+        return 1
+      if(!b.dueDate)
+        return -1
+
+      return a.dueDate.getTime() - b.dueDate.getTime()
+    })
+  }
 
   if(viewOption.value === 1){
     return mappedTask
@@ -110,15 +136,15 @@ function changeViewOption(id: number) {
 // show pop-up task
 const showPopUpTask = ref<boolean>(false)
 
-async function submitTask(task: CreateTask) {
+async function submitTask(task: CreateTask) : Promise<boolean> {
   taskStore.error = null
   try{
     await taskStore.createTask(task)
-  }catch(e){
-    console.error(e)
-  } finally {
-    if(!taskStore.error)
-      showPopUpTask.value = false
+
+    showPopUpTask.value = false
+    return true
+  }catch{
+    return false
   }
 }
 
@@ -188,9 +214,11 @@ function isTaskChecked(taskId: number) {
 async function completeTask() {
   getCheckedTasks()
 
-  await Promise.all(
-    checkedTasks.value.map(t => taskStore.completeTask(t))
-  )
+  for (const task of checkedTasks.value){
+    await taskStore.completeTask(task)
+  }
+
+  await taskStore.getAllTasks()
 
   localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
 }
@@ -219,8 +247,6 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
       showPopUpUpdate.value = false
     }
   }
-
-  console.log(task)
 }
 
 </script>
@@ -233,7 +259,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
     <DeleteTask v-if="deleteTaskId" @cancel="showPopUpDelete = false" @confirm="submitDeleteTask" :task-id="deleteTaskId" :is-shown="showPopUpDelete"></DeleteTask>
   </Transition>
   <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
-  <CreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTask>
+  <CreateTask :on-submit="submitTask" :is-shown="showPopUpTask" @cancel="showPopUpTask = false"></CreateTask>
 
   <div class="h-screen flex flex-col overflow-hidden min-h-0">
     <NavAuth></NavAuth>
@@ -247,15 +273,17 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
       <div class="grid grid-cols-8 gap-4 flex-1 min-h-0 overflow-hidden">
         <section class="col-span-6 flex flex-col overflow-hidden min-h-0">
           <!-- search area-->
-          <div class="box-hover-animation base-element grid grid-cols-[6fr_auto_auto] gap-2 shrink-0">
+          <div class="base-element grid grid-cols-[6fr_auto_auto] gap-2 shrink-0">
             <div
               class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
             >
               <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
-              <input class="w-full outline-0" type="text" placeholder="Tasks suchen ..." />
+              <input v-model="taskFilter" class="w-full outline-0" type="text" placeholder="Tasks suchen ..." />
             </div>
 
             <button
+              @click="isFilterDate = !isFilterDate"
+              :style="isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : '' "
               class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
             >
               <i class="fa-solid fa-layer-group"></i>
@@ -344,7 +372,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
 
         <section class="col-span-2">
           <div
-            class="box-hover-animation flex items-center justify-center w-full base-element border-1 border-gray-200"
+            class="flex items-center justify-center w-full base-element border-1 border-gray-200"
           >
             <button
               @click="showPopUpTask = true"
@@ -356,7 +384,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
           </div>
 
           <!-- To next level-->
-          <div class="box-hover-animation base-element mt-4 text-sm text-[var(--text-color-light)]">
+          <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
             <span class="uppercase font-semibold">Bis zum nächsten Level</span>
             <div class="flex items-center justify-between w-full mt-4 mb-2">
               <span>Lv. {{ dashboardData?.level }} - Macher</span>
@@ -373,7 +401,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
           </div>
 
           <!-- Task Details-->
-          <div class="box-hover-animation base-element mt-4">
+          <div class="base-element mt-4">
             <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
               >Task Details</span
             >
@@ -390,7 +418,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
           </div>
 
           <!-- Today Insights-->
-          <div class="box-hover-animation base-element mt-4">
+          <div class="base-element mt-4">
             <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
               >Heute</span
             >
@@ -412,7 +440,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
             </div>
           </div>
 
-          <button v-if="checkedTasks.length > 0" @click="completeTask" class="scale-animation-sm flex items-center justify-center gap-2 uppercase border border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+          <button v-if="checkedTasks.length > 0" @click="completeTask" class="scale-animation-sm border-2 flex items-center justify-center gap-2 uppercase border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
             <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
               <i class="fa-solid fa-clipboard-check"></i>
             </div>
