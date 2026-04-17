@@ -47,8 +47,8 @@ async function register() {
     <div class="sm:w-[600px] w-full sm:h-[600px] bg-primary-gradient"></div>
     <div class="absolute bottom-0 right-0 sm:w-[600px] w-full sm:h-[600px] bg-secondary-gradient"></div>
 
-    <!-- Login window-->
-    <div class="flex items-center h-full justify-center sm:-translate-y-1/2">
+    <!-- Register window-->
+    <div class="absolute top-0 left-0 flex items-center h-full w-full justify-center">
       <div class="bg-[var(--surface-color)] base-element sm:w-[400px] w-full">
         <!-- Header -->
         <div class="flex items-center justify-between">
@@ -146,7 +146,7 @@ async function register() {
                 class="input-hover-default bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="username"
                 type="text"
-                placeholder="max@beispiel.ch"
+                placeholder="max"
                 v-model="username"
                 required
               />
