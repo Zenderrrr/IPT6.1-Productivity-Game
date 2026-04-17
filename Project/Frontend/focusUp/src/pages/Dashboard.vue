@@ -186,7 +186,7 @@ async function getProductivity(lengthDay: number) {
 const taskStore = useTaskStore()
 const showPopUpTask = ref<boolean>(false)
 
-async function submitTask(task: CreateTaskComponent) {
+async function submitTask(task: CreateTaskType) {
   taskStore.error = null
   try{
     await taskStore.createTask(task)
@@ -200,7 +200,7 @@ async function submitTask(task: CreateTaskComponent) {
 </script>
 
 <template>
-  <CreateTaskType :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTaskType>
+  <CreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTask>
 
   <NavAuth></NavAuth>
   <main>
@@ -239,7 +239,7 @@ async function submitTask(task: CreateTaskComponent) {
               v-for="i in 7"
               :key="i"
               class="h-1.5 bg-[var(--background-color)] rounded-full"
-              :class="i == date.getDay() ? 'streak-on' : 'streak-off'"
+              :class="((i - (streakCount ?? 0)) > 0 && i <= date.getDay()) ? 'streak-on' : 'streak-off' "
             ></div>
           </div>
         </StatsOverviewCard>
