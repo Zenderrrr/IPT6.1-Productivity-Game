@@ -21,6 +21,13 @@ body {
   padding: calc(var(--spacing) * 5) calc(var(--spacing) * 7);
   box-shadow: var(--shadow-lg);
   background: var(--surface-color);
+  border: 2px solid transparent;
+  transition: all .2s ease-in-out;
+}
+
+.base-element:hover {
+  box-shadow: var(--shadow-xl);
+  border-color: oklch(98.5% 0.002 247.839);
 }
 
 section {
