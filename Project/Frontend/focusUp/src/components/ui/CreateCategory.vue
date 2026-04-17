@@ -16,12 +16,12 @@ function cancel() {
   emit('cancel')
 }
 
-const choosenColor = ref<string>()
+const chosenColor = ref<string>()
 const name = ref<string>()
 
-const ownChoosenColor = ref<string>()
+const ownChosenColor = ref<string>()
 function submit() {
-  if (choosenColor.value == null) {
+  if (chosenColor.value == null) {
     return
   }
 
@@ -31,7 +31,7 @@ function submit() {
 
   const category: CreateCategory = {
     name: name.value,
-    color: choosenColor.value,
+    color: chosenColor.value,
   }
 
   emit('submit', category)
@@ -67,7 +67,7 @@ const colors = [
         <input
           required
           v-model="name"
-          class="input-hover-default w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          class="input-hover w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
           id="title"
           type="text"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
@@ -79,14 +79,14 @@ const colors = [
 
         <div class="grid grid-cols-10 gap-1.5">
           <div
-            @click="choosenColor = color"
-            :class="choosenColor === color ? 'category-active' : ''"
+            @click="chosenColor = color"
+            :class="chosenColor === color ? 'category-active' : ''"
             v-for="color in colors"
             :style="{ backgroundColor: color }"
             class="scale-animation-lg cursor-pointer border-2 border-transparent bg-[var(--primary-color)] rounded-lg w-[40px] h-[40px]"
           >
             <div
-              v-if="choosenColor === color"
+              v-if="chosenColor === color"
               class="w-full h-full flex justify-center items-center text-[var(--text-color-white)] text-sm"
             >
               <i class="fa-solid fa-check"></i>
@@ -96,11 +96,11 @@ const colors = [
       </div>
 
       <div class="flex items-start justify-center flex-col gap-1.5">
-        <label class="text-sm font-semibold ml-0.5" for="title">Eigene Farbe</label>
+        <label class="text-sm font-semibold ml-0.5" for="title">oder eigene Farbe</label>
         <input
-          v-model="ownChoosenColor"
-          @click="choosenColor = ownChoosenColor"
-          class="input-hover-default h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          v-model="ownChosenColor"
+          @change="chosenColor = ownChosenColor"
+          class="input-hover h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
           id="title"
           type="color"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
