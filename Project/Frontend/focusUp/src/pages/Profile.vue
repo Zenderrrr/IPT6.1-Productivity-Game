@@ -56,7 +56,7 @@ onMounted(async () => {
 
     <!-- Profile Overview-->
     <section
-      class="box-hover-animation relative base-element flex items-center justify-between gap-4 overflow-hidden border border-gray-200"
+      class="relative base-element flex items-center justify-between gap-4 overflow-hidden border border-gray-200"
     >
       <div
         class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
@@ -118,7 +118,7 @@ onMounted(async () => {
         <div class="h-0.5 w-full bg-gray-200"></div>
       </div>
 
-      <div class="box-hover-animation base-element border-2 border-gray-200 mt-3">
+      <div class="base-element border-2 border-gray-200 mt-3">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
             <div
@@ -181,7 +181,7 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="box-hover-animation base-element border-2 border-gray-200 mt-4">
+      <div class="base-element border-2 border-gray-200 mt-4">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
             <div
