@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import type { CreateTaskType } from '@/types/createTaskType.ts'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
 import type { Category } from '@/types/category.ts'
 import PopUpWindow from '@/components/ui/PopUpWindow.vue'
+import createTask from '@/components/ui/CreateTask.vue'
 
 const props = defineProps<{
   isShown: boolean
+  onSubmit: (task: CreateTaskType) => Promise<boolean>
 }>()
 
 const emit = defineEmits<{
-  (e: 'submit', task: CreateTaskType) : void
   (e: 'cancel') : void
 }>()
 
@@ -19,10 +20,10 @@ const description = ref<string>('')
 const difficulty = ref<number | null>(null)
 const duration = ref<number | null>(null)
 const categoryId = ref<number | null>(null)
-const dueDate = ref<Date | null>(null)
+const dueDate = ref<string | null>(null)
 
 const error = ref<string | null>(null)
-function submit(){
+async function submit(){
   if(difficulty.value === null )
     return error.value = 'Schwierigkeit nicht festgelegt.'
 
@@ -45,10 +46,18 @@ function submit(){
     difficulty: diff,
     durationMin: duration.value,
     categoryId: categoryId.value ?? undefined,
-    dueDate: dueDate.value?.toISOString() ?? undefined,
+    dueDate: dueDate.value ?? undefined,
   }
 
-  emit('submit', task)
+  const success = await props.onSubmit(task)
+  if(success){
+    title.value = ''
+    description.value = ''
+    difficulty.value = null
+    duration.value = null
+    categoryId.value = null
+    dueDate.value = ''
+  }
 }
 
 function cancel(){
@@ -60,16 +69,11 @@ function setDifficulty(diff: number){
 }
 
 const categoryStore = useCategoryStore()
-const categoryData = ref<Category[] | null>(null)
+const categoryData = computed(() => categoryStore.categoriesData)
 
 
 onMounted(async () => {
-  try{
     await categoryStore.getAllCategories()
-    categoryData.value = categoryStore.categoriesData
-  }catch(e){
-    error.value = e ? e.message : 'Unable to fetch categories'
-  }
 })
 </script>
 
@@ -118,7 +122,7 @@ onMounted(async () => {
 
           <div class="flex items-start justify-center flex-col gap-1.5 w-full">
             <label class="text-sm font-semibold ml-0.5" for="title">Abschlussdatum</label>
-            <input class="input-hover cursor-pointer w-full px-3 py-1 border border-gray-200 rounded-lg outline-[var(--primary-color)]" type="date" id="title" placeholder="30">
+            <input v-model="dueDate" class="input-hover cursor-pointer w-full px-3 py-1 border border-gray-200 rounded-lg outline-[var(--primary-color)]" type="date" id="title" placeholder="30">
           </div>
         </div>
 
