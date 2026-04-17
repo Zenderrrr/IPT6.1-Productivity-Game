@@ -7,6 +7,7 @@ import PopUpWindow from '@/components/ui/PopUpWindow.vue'
 import type { Task } from '@/types/task.ts'
 import type { UpdateTask } from '@/types/updateTask.ts'
 import { status } from '@/utils/status.ts'
+import { formatDate } from '@/utils/date.ts'
 
 const props = defineProps<{
   task: Task,
@@ -22,7 +23,7 @@ const description = ref<string>(props.task.description)
 const difficulty = ref<number | null>(props.task.difficulty)
 const duration = ref<number | null>(props.task.durationMin)
 const categoryId = ref<number | null>(props.task.categoryId ?? null)
-const dueDate = ref<Date | null>(props.task.dueDate ?? null)
+const dueDate = ref<string | null>(props.task.dueDate ? formatDate(props.task.dueDate) : null)
 
 watch(
   () => props.task,
@@ -32,7 +33,7 @@ watch(
     difficulty.value = task.difficulty
     duration.value = task.durationMin
     categoryId.value = task.categoryId ?? null
-    dueDate.value = task.dueDate ?? null
+    dueDate.value = props.task.dueDate ? formatDate(props.task.dueDate) : null
   },
   { immediate: true }
 )
@@ -61,7 +62,7 @@ function submit(){
     difficulty: diff,
     durationMin: duration.value,
     categoryId: categoryId.value ?? undefined,
-    dueDate: dueDate.value?.toISOString() ?? undefined,
+    dueDate: dueDate.value ?? undefined,
     status: status[1] ?? 'Open'
   }
 
