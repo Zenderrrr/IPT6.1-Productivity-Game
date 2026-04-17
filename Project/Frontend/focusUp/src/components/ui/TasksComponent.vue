@@ -48,7 +48,7 @@ function changeChecked() {
 <template>
   <div
     :class="isChecked ? 'checked' : 'unchecked'"
-    class="shrink-0 group hover:border-[var(--primary-color)] transition-all duration-100 overflow-hidden relative border-1 border-transparent cursor-pointer base-element w-full flex items-center justify-start gap-4"
+    class="shrink-0 group hover:!border-[var(--primary-color)] transition-all duration-100 overflow-hidden relative border-1 border-transparent cursor-pointer base-element w-full flex items-center justify-start gap-4"
   >
     <div class="h-full w-0.5 group-hover:bg-[var(--primary-color)] transition-all duration-100 bg-transparent absolute top-0 left-0"></div>
 
