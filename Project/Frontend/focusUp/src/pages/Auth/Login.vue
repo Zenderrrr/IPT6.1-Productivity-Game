@@ -40,7 +40,7 @@ async function submit(){
     <div class="absolute bottom-0 right-0 sm:w-[600px] w-full sm:h-[600px] bg-secondary-gradient"></div>
 
     <!-- Login window-->
-    <div class="flex items-center h-full justify-center sm:-translate-y-1/2">
+    <div class="absolute top-0 left-0 flex items-center h-full w-full justify-center">
       <div class="bg-[var(--surface-color)] base-element sm:w-[400px] w-full">
         <!-- Header -->
         <div class="flex items-center justify-between">
