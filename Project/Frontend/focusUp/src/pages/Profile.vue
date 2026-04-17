@@ -10,6 +10,7 @@ import { useStatsStore } from '@/stores/statsStore.ts'
 import type { Dashboard } from '@/types/dashboard.ts'
 import { useBadgeStore } from '@/stores/badgeStore.ts'
 import type { Badge } from '@/types/badge.ts'
+import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()
 const statsStore = useStatsStore()
@@ -43,6 +44,12 @@ onMounted(async () => {
     error.value = e ? e.message : 'Failed to fetch user'
   }
 })
+
+const router = useRouter()
+async function logout() {
+  await authStore.logout()
+  await router.push('/login')
+}
 </script>
 
 <template>
@@ -169,14 +176,35 @@ onMounted(async () => {
               <i class="fa-solid fa-moon"></i>
             </div>
             <div class="flex flex-col items-start justify-center gap-1">
-              <span class="font-semibold text-md">Darkmode</span>
+              <span class="font-semibold text-md">Darkmode - Kommt bald</span>
               <span class="text-[var(--text-color-light)] text-sm"
                 >Wechse zwischen hellem und dunklem Modus</span
               >
             </div>
           </div>
-          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
-            <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
+          <div class="transition duration-200 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-xl">
+            <button class="px-4 py-2 text-sm font-semibold">Ändern</button>
+          </div>
+        </div>
+
+        <div class="w-full my-4 h-0.5 bg-gray-200"></div>
+
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center justify-start gap-4">
+            <div
+              class="flex items-center justify-center w-[40px] h-[40px] rounded-lg bg-red-100 text-red-500"
+            >
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+            <div class="flex flex-col items-start justify-center gap-1">
+              <span class="font-semibold text-md text-md text-red-500">Konto verlassen</span>
+              <span class="text-[var(--text-color-light)] text-sm"
+              >Melde dich von diesem Konto ab.</span
+              >
+            </div>
+          </div>
+          <div @click="logout" class="hover:bg-white transition duration-200 flex items-center justify-center border-2 border-red-300 bg-red-100 rounded-xl">
+            <button class="px-4 py-2 text-sm font-semibold cursor-pointer text-red-500">Logout</button>
           </div>
         </div>
       </div>
