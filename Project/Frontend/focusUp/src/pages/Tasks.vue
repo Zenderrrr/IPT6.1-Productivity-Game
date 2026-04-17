@@ -20,6 +20,8 @@ import type { UpdateTask } from '@/types/updateTask.ts'
 import { status } from '@/utils/status.ts'
 import { useAuthStore } from '@/stores/authStore.ts'
 import UpdateTaskComponent from '@/components/ui/UpdateTaskComponent.vue'
+import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
+import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
 
 // categories logic
 const whichIsActive = ref<number>(0)
@@ -44,7 +46,7 @@ const filteredTaskData = computed(() => {
   }))
 
   mappedTask = mappedTask.filter(t => {
-    return t.title.toLowerCase().includes(taskFilter.value)
+    return t.title.toLowerCase().includes(taskFilter.value.toLowerCase())
   })
 
   if(whichIsActive.value !== 0) {
