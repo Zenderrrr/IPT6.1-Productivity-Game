@@ -56,7 +56,7 @@ async function submit(){
     difficulty.value = null
     duration.value = null
     categoryId.value = null
-    dueDate.value = ''
+    dueDate.value = undefined
   }
 }
 
