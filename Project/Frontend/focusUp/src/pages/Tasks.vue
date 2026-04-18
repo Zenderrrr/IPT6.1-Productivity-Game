@@ -22,6 +22,7 @@ import { useAuthStore } from '@/stores/authStore.ts'
 import UpdateTaskComponent from '@/components/ui/UpdateTaskComponent.vue'
 import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
 import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
+import type { TaskCompleteType } from '@/types/taskComplete.ts'
 
 // categories logic
 const whichIsActive = ref<number>(0)
@@ -99,7 +100,7 @@ const xpEarnedToday = computed(() => {
 })
 
 // dashboard logic
-const dashboardData = ref<Dashboard | null>(null)
+const dashboardData = computed(() => statsStore.dashboardData)
 
 const levelProgress = computed(() => {
   return (dashboardData.value?.progressToNextLevel ?? 0) * 100
@@ -114,16 +115,12 @@ const authStore = useAuthStore()
 
 onMounted(async () => {
   try {
+    getCheckedTasks()
     await taskStore.getAllTasks()
-
     await statsStore.productivity(1)
     prodData.value = statsStore.productivityData
-
     await statsStore.dashboard('1')
-    dashboardData.value = statsStore.dashboardData
-
     await categoryStore.getAllCategories()
-    categoryData.value = categoryStore.categoriesData
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch task data'
   }
@@ -209,20 +206,24 @@ function getCheckedTasks(){
 }
 
 function isTaskChecked(taskId: number) {
-  getCheckedTasks()
   return checkedTasks.value.some(t => t === taskId)
 }
 
+const isTaskCompleteHandlerVisible = ref<boolean>(false)
+const tasksForCompleteHandler = ref<TaskCompleteType[] | undefined>(undefined)
 async function completeTask() {
   getCheckedTasks()
 
+  const taskComplete : TaskCompleteType[] | undefined = []
   for (const task of checkedTasks.value){
-    await taskStore.completeTask(task)
+    taskComplete.push(<TaskCompleteType>await taskStore.completeTask(task))
   }
 
   await taskStore.getAllTasks()
-
   localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
+
+  tasksForCompleteHandler.value = taskComplete ?? []
+  isTaskCompleteHandlerVisible.value = true
 }
 
 // show update task pop-up
@@ -250,10 +251,11 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
     }
   }
 }
-
 </script>
 
 <template>
+  <TaskCompleteHandler v-if="isTaskCompleteHandlerVisible" @close="isTaskCompleteHandlerVisible = false" :tasksCompleteArr="tasksForCompleteHandler"></TaskCompleteHandler>
+
   <Transition name="popUp">
     <UpdateTaskComponent v-if="showPopUpUpdate && updateTask" :is-shown="showPopUpUpdate" :task="updateTask" @submit="submitUpdateTask" @cancel="closeWindow"></UpdateTaskComponent>
   </Transition>
