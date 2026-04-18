@@ -2,6 +2,7 @@ import type { Task } from '@/types/task.ts'
 import { apiFetch } from '@/api/api.ts'
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import type { UpdateTask } from '@/types/updateTask.ts'
+import type { TaskCompleteType } from '@/types/taskComplete.ts'
 
 export async function createTaskApi(task: CreateTaskType): Promise<number> {
   return await apiFetch('/tasks', {
@@ -50,7 +51,7 @@ export async function getTaskByIdApi(id: number): Promise<Task> {
   })
 }
 
-export async function completeTaskApi(id: number): Promise<void> {
+export async function completeTaskApi(id: number): Promise<TaskCompleteType> {
   return await apiFetch(`/tasks/${id}/complete`, {
     method: 'POST',
     headers: {
