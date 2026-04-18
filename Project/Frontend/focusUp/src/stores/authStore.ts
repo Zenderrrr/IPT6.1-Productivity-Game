@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { loginApi, meApi, registerApi } from '@/api/auth.api.ts'
+import { deleteUserApi, loginApi, meApi, registerApi } from '@/api/auth.api.ts'
 import { computed, ref } from 'vue'
 import type { User } from '@/types/user.ts'
 
@@ -62,8 +62,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout() {
     localStorage.removeItem('token')
-
   }
 
-  return { token, loading, error, login, me, user: userData, isAuth, register, logout }
+  async function deleteUser() {
+    if(token.value == null) {
+      return
+    }
+    try{
+      await deleteUserApi(token.value)
+    }catch(e){
+      error.value = e ? e.message : 'Unable to delete user'
+    }
+  }
+
+  return { token, loading, error, login, me, user: userData, isAuth, register, logout, deleteUser }
 });
