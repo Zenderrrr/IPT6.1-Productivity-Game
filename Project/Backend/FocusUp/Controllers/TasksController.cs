@@ -221,8 +221,8 @@ namespace FocusUp.Controllers
 
             try
             {
-                _taskCompletionService.CompleteTask(id, userId);
-                return Ok();
+                var taskCompleteDto = _taskCompletionService.CompleteTask(id, userId);
+                return Ok(taskCompleteDto);
             }
             catch (TaskNotFoundException)
             {
