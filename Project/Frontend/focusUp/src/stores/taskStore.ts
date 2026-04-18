@@ -11,6 +11,7 @@ import {
 } from '@/api/task.api.ts'
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import type { UpdateTask } from '@/types/updateTask.ts'
+import type { TaskCompleteType } from '@/types/taskComplete.ts'
 
 export const useTaskStore = defineStore('task', () => {
   const loading = ref<boolean>(false)
@@ -85,10 +86,10 @@ export const useTaskStore = defineStore('task', () => {
     }
   }
 
-  async function completeTask(taskId: number){
+  async function completeTask(taskId: number) : Promise<TaskCompleteType | undefined> {
     error.value = null
     try{
-      await completeTaskApi(taskId)
+      return await completeTaskApi(taskId)
     }catch(e){
       error.value = e ? e.message : 'Unable to complete task'
     }
