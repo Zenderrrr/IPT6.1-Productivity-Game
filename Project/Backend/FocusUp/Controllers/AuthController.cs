@@ -67,5 +67,24 @@ namespace FocusUp.Controllers
 
             return StatusCode(200, new { user.Id, user.Email, user.Username });
         }
+
+        [HttpDelete("me")]
+        public IActionResult DeleteUser()
+        {
+            var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? throw new UnauthorizedAccessException();
+
+            User? user = _userRepository.GetById(int.Parse(userIdClaim));
+            if(user == null) return NotFound();
+
+            try
+            {
+                _userRepository.Delete(user.Id);
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return StatusCode(500, "An unexpected error has occurred.");
+            }
+        }
     }
 }
