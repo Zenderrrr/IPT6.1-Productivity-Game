@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\tasklogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\tasklogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\badgerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\badgerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\services\\taskcompletionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\services\\taskcompletionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -35,10 +59,6 @@
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:controllers\\taskscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\services\\badgeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\services\\badgeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -61,10 +81,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\services\\levelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\services\\levelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\taskrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\dtos\\updatetaskrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -111,10 +127,6 @@
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\services\\auth\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\dtos\\productivitydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\dtos\\productivitydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -153,18 +165,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\xpeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\xpeventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\tasklogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\tasklogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\badgerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:infrastructure\\repositories\\badgerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -294,25 +294,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TaskCompletionService.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\TaskCompletionService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\TaskCompletionService.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\TaskCompletionService.cs",
-              "RelativeToolTip": "Application\\Services\\TaskCompletionService.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAowFQAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.232Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "TaskCompleteDto.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\TaskCompleteDto.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\TaskCompleteDto.cs",
@@ -320,65 +306,102 @@
               "RelativeToolTip": "Application\\DTOs\\TaskCompleteDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T22:10:52.304Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-04-17T22:10:52.304Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TaskCompletionService.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\TaskCompletionService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\TaskCompletionService.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\TaskCompletionService.cs",
+              "RelativeToolTip": "Application\\Services\\TaskCompletionService.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAkwFQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.232Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "IStreakRuleStrategy.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
-              "RelativeDocumentMoniker": "Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
-              "RelativeToolTip": "Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAAMAAAAAAAAAA==",
+              "Title": "TaskLogRepository.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskLogRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\TaskLogRepository.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskLogRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\TaskLogRepository.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAwwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-18T00:06:05.091Z",
+              "WhenOpened": "2026-04-12T20:54:03.151Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "StreakService.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\StreakService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\StreakService.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\StreakService.cs",
-              "RelativeToolTip": "Application\\Services\\StreakService.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwB8AAAATAAAAAAAAAA==",
+              "Title": "TaskRepository.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\TaskRepository.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\TaskRepository.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAkwIAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.247Z",
+              "WhenOpened": "2026-04-12T20:54:03.234Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserStats.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\UserStats.cs",
-              "RelativeDocumentMoniker": "Domain\\Models\\UserStats.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\UserStats.cs",
-              "RelativeToolTip": "Domain\\Models\\UserStats.cs",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAYwH4AAAAlAAAAAAAAAA==",
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAswAUAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.245Z",
+              "WhenOpened": "2026-04-12T20:54:03.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAADwv1IAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.38Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "DefaultStreakRuleStrategy.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\DefaultStreakRuleStrategy.cs",
-              "RelativeDocumentMoniker": "Application\\Strategies\\DefaultStreakRuleStrategy.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\DefaultStreakRuleStrategy.cs",
-              "RelativeToolTip": "Application\\Strategies\\DefaultStreakRuleStrategy.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\CategoryRepository.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.345Z",
+              "WhenOpened": "2026-04-12T20:54:03.236Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
+              "Title": "BadgeRepository.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\BadgeRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\BadgeRepository.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\BadgeRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\BadgeRepository.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAA3wG0AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "Task.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\Task.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\Task.cs",
@@ -386,12 +409,59 @@
               "RelativeToolTip": "Domain\\Models\\Task.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T22:34:20.2Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-15T22:34:20.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "DefaultStreakRuleStrategy.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\DefaultStreakRuleStrategy.cs",
+              "RelativeDocumentMoniker": "Application\\Strategies\\DefaultStreakRuleStrategy.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\DefaultStreakRuleStrategy.cs",
+              "RelativeToolTip": "Application\\Strategies\\DefaultStreakRuleStrategy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.345Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "UserStats.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\UserStats.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\UserStats.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\UserStats.cs",
+              "RelativeToolTip": "Domain\\Models\\UserStats.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAYwH4AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StreakService.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\StreakService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\StreakService.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\StreakService.cs",
+              "RelativeToolTip": "Application\\Services\\StreakService.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwB8AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T20:54:03.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IStreakRuleStrategy.cs",
+              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
+              "RelativeDocumentMoniker": "Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
+              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
+              "RelativeToolTip": "Application\\Strategies\\Interfaces\\IStreakRuleStrategy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-18T00:06:05.091Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "TasksController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\TasksController.cs",
               "RelativeDocumentMoniker": "Controllers\\TasksController.cs",
@@ -399,25 +469,11 @@
               "RelativeToolTip": "Controllers\\TasksController.cs",
               "ViewState": "AgIAAMwAAAAAAAAAAAAwwN8AAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.254Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T20:54:03.254Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.38Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "BadgeService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\BadgeService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\BadgeService.cs",
@@ -429,7 +485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "StreakBadgeRule.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\StreakBadgeRule.cs",
               "RelativeDocumentMoniker": "Application\\Strategies\\StreakBadgeRule.cs",
@@ -441,7 +497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "DefaultXpCalculationStrategy.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\DefaultXpCalculationStrategy.cs",
               "RelativeDocumentMoniker": "Application\\Strategies\\DefaultXpCalculationStrategy.cs",
@@ -453,7 +509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "XPService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\XPService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\XPService.cs",
@@ -465,7 +521,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "TaskService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\TaskService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\TaskService.cs",
@@ -477,7 +533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "LevelService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\LevelService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\LevelService.cs",
@@ -489,7 +545,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "UpdateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\UpdateTaskRequest.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\UpdateTaskRequest.cs",
@@ -501,19 +557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "TaskRepository.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\TaskRepository.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\TaskRepository.cs",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAgwIAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.234Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "DashboardController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\DashboardController.cs",
               "RelativeDocumentMoniker": "Controllers\\DashboardController.cs",
@@ -525,7 +569,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "TaskStatus.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Enums\\TaskStatus.cs",
               "RelativeDocumentMoniker": "Domain\\Enums\\TaskStatus.cs",
@@ -537,7 +581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "TaskDto.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\TaskDto.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\TaskDto.cs",
@@ -549,7 +593,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "UserStatsRepository.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserStatsRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserStatsRepository.cs",
@@ -561,7 +605,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 27,
               "Title": "CreateTaskRequest.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\CreateTaskRequest.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\CreateTaskRequest.cs",
@@ -573,7 +617,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "CategoriesController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoriesController.cs",
@@ -585,7 +629,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "TaskDifficultyType.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Enums\\TaskDifficultyType.cs",
               "RelativeDocumentMoniker": "Domain\\Enums\\TaskDifficultyType.cs",
@@ -597,7 +641,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 28,
               "Title": "BadgesController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\BadgesController.cs",
               "RelativeDocumentMoniker": "Controllers\\BadgesController.cs",
@@ -609,7 +653,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "ProductivityDto.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\ProductivityDto.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\ProductivityDto.cs",
@@ -621,7 +665,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "StatsController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\StatsController.cs",
               "RelativeDocumentMoniker": "Controllers\\StatsController.cs",
@@ -633,7 +677,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 30,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\Auth\\AuthService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\Auth\\AuthService.cs",
@@ -645,7 +689,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "PasswordHasher.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\Auth\\PasswordHasher.cs",
               "RelativeDocumentMoniker": "Application\\Services\\Auth\\PasswordHasher.cs",
@@ -657,7 +701,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 29,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -669,19 +713,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserRepository.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAwwFUAAABaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.226Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "QuadraticLevelStrategy.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Strategies\\QuadraticLevelStrategy.cs",
               "RelativeDocumentMoniker": "Application\\Strategies\\QuadraticLevelStrategy.cs",
@@ -693,7 +725,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "StatsDto.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\StatsDto.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\StatsDto.cs",
@@ -705,7 +737,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "TaskLog.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\TaskLog.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\TaskLog.cs",
@@ -717,7 +749,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 37,
               "Title": "RegisterRequest.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\RegisterRequest.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\RegisterRequest.cs",
@@ -729,7 +761,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "LoginRequest.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\DTOs\\LoginRequest.cs",
               "RelativeDocumentMoniker": "Application\\DTOs\\LoginRequest.cs",
@@ -741,7 +773,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 39,
               "Title": "UserBadgeRepository.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserBadgeRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserBadgeRepository.cs",
@@ -753,7 +785,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 40,
               "Title": "XPEventRepository.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\XPEventRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Repositories\\XPEventRepository.cs",
@@ -762,42 +794,6 @@
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwBAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T20:54:03.23Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "TaskLogRepository.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskLogRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\TaskLogRepository.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\TaskLogRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\TaskLogRepository.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAowBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.151Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "CategoryRepository.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\CategoryRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\CategoryRepository.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\CategoryRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\CategoryRepository.cs",
-              "ViewState": "AgIAAG0AAAAAAAAAAADwv30AAABYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.236Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "BadgeRepository.cs",
-              "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\BadgeRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\BadgeRepository.cs",
-              "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\BadgeRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\BadgeRepository.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAswG0AAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T20:54:03.238Z"
             },
             {
               "$type": "Document",
