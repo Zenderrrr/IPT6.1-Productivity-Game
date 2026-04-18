@@ -3,6 +3,7 @@ using System;
 using static FocusUp.Domain.Enums.TaskStatus;
 using FocusUp.Common.Exceptions;
 using FocusUp.Infrastructure.Repositories;
+using FocusUp.Application.DTOs;
 
 namespace FocusUp.Application.Services
 {
@@ -32,13 +33,18 @@ namespace FocusUp.Application.Services
             _dbConnection = databaseConnection;
         }
 
-        public void CompleteTask(int taskId, int userId)
+        public TaskCompleteDto CompleteTask(int taskId, int userId)
         {
+            var taskCompleteDto = new TaskCompleteDto();
+
             DateTime completedAt = DateTime.Now;
 
             UserStats? userStats = _userStatsRepository.GetByUserId(userId) ?? throw new UserStatsNotFoundException(userId);
+            
+            int streakCountBefore = userStats.StreakCount;
 
             Task? task = _taskRepository.GetById(taskId) ?? throw new TaskNotFoundException(taskId);
+            taskCompleteDto.Task = task;
 
             if (task.UserId != userId)
                 throw new UnauthorizedTaskAccessException(taskId, userId);
@@ -49,10 +55,14 @@ namespace FocusUp.Application.Services
             task.MarkAsCompleted();
             int currentStreak = _streakService.CalculateNewStreak(userStats, completedAt);
 
+            taskCompleteDto.StreakCountAfter = currentStreak;
+            taskCompleteDto.IsStreakIncreased = streakCountBefore < currentStreak;
+
             userStats.SetStreak(currentStreak, completedAt);
 
             int xpAwarded = _xPService.CalculateXP(task, currentStreak);
             userStats.AddXp(xpAwarded);
+            taskCompleteDto.Xp = xpAwarded;
 
             TaskLog taskLog = new(userId, taskId, RewardReason.TaskCompleted, xpAwarded);
             userStats.ApplyTaskCompletion(task.DurationMin, completedAt);
@@ -67,13 +77,12 @@ namespace FocusUp.Application.Services
                 XpEvent xpEvent = new XpEvent(userId, xpAwarded, RewardReason.TaskCompleted, taskId);
                 _xPEventRepository.Insert(xpEvent);
 
-                //_xPService.AwardXP(task, xpAwarded, RewardReason.TaskCompleted, connection, transaction);
-
                 _taskLogRepository.Insert(taskLog, connection, transaction);
                 _userStatsRepository.Update(userStats, connection, transaction);
-                _badgeService.CheckAndAwardBadges(userId, connection, transaction);
+                taskCompleteDto.Badges = _badgeService.CheckAndAwardBadges(userId, connection, transaction);
 
                 transaction.Commit();
+                return taskCompleteDto;
             }
             catch
             {
