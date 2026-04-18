@@ -36,3 +36,12 @@ export async function meApi(token: string) : Promise<User> {
     }
   })
 }
+
+export async function deleteUserApi(token: string) : Promise<void> {
+  return apiFetch('/auth/me', {
+    method: 'DELETE',
+    headers: {
+      Authorization: `BEARER ${token}`
+    }
+  })
+}
