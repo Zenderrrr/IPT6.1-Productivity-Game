@@ -26,6 +26,7 @@ import { useTaskStore } from '@/stores/taskStore.ts'
 const date = computed(() => {
   return new Date()
 })
+const today = date.value.getDay() === 0 ? 7 : date.value.getDay()
 
 const weekLength = computed(() => {
   return date.value.getDay()
@@ -239,7 +240,7 @@ async function submitTask(task: CreateTaskType) {
               v-for="i in 7"
               :key="i"
               class="h-1.5 bg-[var(--background-color)] rounded-full"
-              :class="((i - (streakCount ?? 0)) > 0 && i <= date.getDay()) ? 'streak-on' : 'streak-off' "
+              :class="((i <= today && i > today - (streakCount ?? 0))) ? 'streak-on' : 'streak-off' "
             ></div>
           </div>
         </StatsOverviewCard>
