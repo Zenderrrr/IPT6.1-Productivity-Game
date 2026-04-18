@@ -11,6 +11,8 @@ import type { Dashboard } from '@/types/dashboard.ts'
 import { useBadgeStore } from '@/stores/badgeStore.ts'
 import type { Badge } from '@/types/badge.ts'
 import { useRouter } from 'vue-router'
+import DeleteTask from '@/components/ui/DeleteTask.vue'
+import DeleteUser from '@/components/ui/DeleteUser.vue'
 
 const authStore = useAuthStore()
 const statsStore = useStatsStore()
@@ -50,9 +52,19 @@ async function logout() {
   await authStore.logout()
   await router.push('/login')
 }
+
+async function onDeleteUser(){
+  try{
+    await authStore.deleteUser()
+    await router.push('/login')
+  }catch{}
+}
+
+const isDeleteUserShown = ref<boolean>(false)
 </script>
 
 <template>
+  <DeleteUser :is-shown="isDeleteUserShown" @cancel="isDeleteUserShown = false" @confirm="onDeleteUser()"></DeleteUser>
   <NavAuth></NavAuth>
 
   <main>
@@ -126,26 +138,26 @@ async function logout() {
       </div>
 
       <div class="base-element border-2 border-gray-200 mt-3">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center justify-start gap-4">
-            <div
-              class="flex items-center justify-center w-[40px] h-[40px] rounded-lg bg-[var(--primary-color-light)] text-[var(--primary-color)]"
-            >
-              <i class="fa-regular fa-circle-user"></i>
-            </div>
-            <div class="flex flex-col items-start justify-center gap-1">
-              <span class="font-semibold text-md">Benutzername</span>
-              <span class="text-[var(--text-color-light)] text-sm"
-                >{{ userInfo?.username }} - Ändere deinen Benutzernamen</span
-              >
-            </div>
-          </div>
-          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
-            <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
-          </div>
-        </div>
+<!--        <div class="flex items-center justify-between gap-2">-->
+<!--          <div class="flex items-center justify-start gap-4">-->
+<!--            <div-->
+<!--              class="flex items-center justify-center w-[40px] h-[40px] rounded-lg bg-[var(&#45;&#45;primary-color-light)] text-[var(&#45;&#45;primary-color)]"-->
+<!--            >-->
+<!--              <i class="fa-regular fa-circle-user"></i>-->
+<!--            </div>-->
+<!--            <div class="flex flex-col items-start justify-center gap-1">-->
+<!--              <span class="font-semibold text-md">Benutzername</span>-->
+<!--              <span class="text-[var(&#45;&#45;text-color-light)] text-sm"-->
+<!--                >{{ userInfo?.username }} - Ändere deinen Benutzernamen</span-->
+<!--              >-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="hover:border-[var(&#45;&#45;primary-color)] hover:text-[var(&#45;&#45;primary-color)] hover:bg-[var(&#45;&#45;primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">-->
+<!--            <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="w-full my-4 h-0.5 bg-gray-200"></div>
+<!--        <div class="w-full my-4 h-0.5 bg-gray-200"></div>-->
 
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
@@ -182,8 +194,8 @@ async function logout() {
               >
             </div>
           </div>
-          <div class="transition duration-200 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-xl">
-            <button class="px-4 py-2 text-sm font-semibold">Ändern</button>
+          <div class="cursor-not-allowed transition duration-200 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-xl">
+            <button class="cursor-not-allowed px-4 py-2 text-sm font-semibold">Ändern</button>
           </div>
         </div>
 
@@ -225,6 +237,7 @@ async function logout() {
             </div>
           </div>
           <div
+            @click="isDeleteUserShown = true"
             class="hover:bg-white transition duration-200 scale-animation-sm flex items-center justify-center border-2 border-red-300 rounded-xl bg-red-100"
           >
             <button class="cursor-pointer px-4 py-2 text-sm font-semibold text-red-500">
