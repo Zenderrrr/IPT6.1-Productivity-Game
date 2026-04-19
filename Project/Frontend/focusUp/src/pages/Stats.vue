@@ -23,6 +23,7 @@ import { useStatsStore } from '@/stores/statsStore.ts'
 import { formatTime, GetTimeFromNow } from '@/utils/date.ts'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
 import type { Productivity } from '@/types/productivity.ts'
+import categories from '@/components/ui/Categories.vue'
 
 use([
   CanvasRenderer,
@@ -56,7 +57,18 @@ const labels = computed(() => {
   )
 })
 const values = computed(() => {
-  return prodInfoInd.value?.map((t) => t.xpGained)
+  return prodInfoInd.value?.map((t) => t.completedTasks)
+})
+
+const prodTrend = computed(() => {
+  const arr = values.value ?? []
+
+  if(arr.length < 2) return 0
+
+  const last = arr[arr.length - 1]
+  const prev = arr[arr.length - 2]
+
+  return last - prev
 })
 
 const optionProductivity = computed(() => ({
@@ -85,11 +97,38 @@ const optionProductivity = computed(() => ({
   ],
 }))
 
+const totalTasksThisWeek = computed(() => {
+  return prodInfoInd.value?.reduce((i,item) => i + item.completedTasks, 0)
+})
+
+const taskPerCategory = computed(() => {
+  const map = new Map<string, number>()
+
+  for (const task of lastCompletedTasks.value ?? []){
+    const name = task.category?.name ?? 'Keine'
+    map.set(name, (map.get(name) ?? 0) + 1)
+  }
+
+  return Array.from(map, ([name, value]) => ({
+    name,
+    value,
+  }))
+})
 const optionDoughnut = computed(() => ({
   title: {
-    text: 'A Case of Doughnut Chart',
+    text: totalTasksThisWeek.value ?? 0,
+    subtext: 'Tasks',
     left: 'center',
     top: 'center',
+    textStyle: {
+      fontSize: '28px',
+      fontWeight: 'bold',
+    },
+    subtextStyle: {
+      fontSize: '12px',
+      color: '#64748B',
+    },
+    itemGap: 3,
   },
   grid: {
     left: 20,
@@ -101,30 +140,39 @@ const optionDoughnut = computed(() => ({
   series: [
     {
       type: 'pie',
-      data: [
-        {
-          value: 335,
-          name: 'A',
-        },
-        {
-          value: 234,
-          name: 'B',
-        },
-        {
-          value: 1548,
-          name: 'C',
-        },
-      ],
-      radius: ['40%', '70%'],
+      data: taskPerCategory.value,
+      radius: ['50%', '70%'],
     },
   ],
 }))
 
+const accumulatedXpIncrease = computed(() => {
+  let sum = 0
+  return (prodInfoInd.value ?? []).map(t => sum += t.xpGained)
+})
+const increaseXpPerDay = computed(() => {
+  return (prodInfoInd.value ?? []).map(t => t.xpGained)
+})
 const optionLine = computed(() => ({
   xAxis: {
-    data: ['A', 'B', 'C', 'D', 'E'],
+    data: labels.value ?? [],
   },
-  yAxis: {},
+  yAxis: [
+    {
+      type: 'value',
+      position: 'left',
+      splitLine: {
+        show: true,
+      }
+    },
+    {
+      type: 'value',
+      position: 'right',
+      splitLine: {
+        show: false,
+      }
+    }
+  ],
   grid: {
     left: 20,
     right: 20,
@@ -134,191 +182,60 @@ const optionLine = computed(() => ({
   },
   series: [
     {
-      data: [10, 22, 28, 43, 49],
+      data: accumulatedXpIncrease.value,
       type: 'line',
-      stack: 'x',
+      smooth: true,
+      lineStyle: {
+        color: '#0EA5E9'
+      },
+      itemStyle: {
+        color: '#0EA5E9'
+      },
+      yAxisIndex: 0,
     },
     {
-      data: [5, 4, 3, 5, 10],
+      data: increaseXpPerDay.value,
       type: 'line',
-      stack: 'x',
+      smooth: true,
+      lineStyle: {
+        color: '#14B8A6'
+      },
+      itemStyle: {
+        color: '#14B8A6'
+      },
+      yAxisIndex: 1,
     },
   ],
 }))
 
-const hours = ['12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12p']
+const prodInfo91Days = ref<Productivity[] | null>(null)
+const week = Array.from({ length: 13 }, (_, i) => `W${i + 1}`)
 const days = ['Sa', 'Fr', 'Do', 'Mi', 'Di', 'Mo', 'So']
-const data = [
-  [0, 0, 5],
-  [0, 1, 1],
-  [0, 2, 0],
-  [0, 3, 0],
-  [0, 4, 0],
-  [0, 5, 0],
-  [0, 6, 0],
-  [0, 7, 0],
-  [0, 8, 0],
-  [0, 9, 0],
-  [0, 10, 0],
-  [0, 11, 2],
-  [0, 12, 4],
-  [0, 13, 1],
-  [0, 14, 1],
-  [0, 15, 3],
-  [0, 16, 4],
-  [0, 17, 6],
-  [0, 18, 4],
-  [0, 19, 4],
-  [0, 20, 3],
-  [0, 21, 3],
-  [0, 22, 2],
-  [0, 23, 5],
-  [1, 0, 7],
-  [1, 1, 0],
-  [1, 2, 0],
-  [1, 3, 0],
-  [1, 4, 0],
-  [1, 5, 0],
-  [1, 6, 0],
-  [1, 7, 0],
-  [1, 8, 0],
-  [1, 9, 0],
-  [1, 10, 5],
-  [1, 11, 2],
-  [1, 12, 2],
-  [1, 13, 6],
-  [1, 14, 9],
-  [1, 15, 11],
-  [1, 16, 6],
-  [1, 17, 7],
-  [1, 18, 8],
-  [1, 19, 12],
-  [1, 20, 5],
-  [1, 21, 5],
-  [1, 22, 7],
-  [1, 23, 2],
-  [2, 0, 1],
-  [2, 1, 1],
-  [2, 2, 0],
-  [2, 3, 0],
-  [2, 4, 0],
-  [2, 5, 0],
-  [2, 6, 0],
-  [2, 7, 0],
-  [2, 8, 0],
-  [2, 9, 0],
-  [2, 10, 3],
-  [2, 11, 2],
-  [2, 12, 1],
-  [2, 13, 9],
-  [2, 14, 8],
-  [2, 15, 10],
-  [2, 16, 6],
-  [2, 17, 5],
-  [2, 18, 5],
-  [2, 19, 5],
-  [2, 20, 7],
-  [2, 21, 4],
-  [2, 22, 2],
-  [2, 23, 4],
-  [3, 0, 7],
-  [3, 1, 3],
-  [3, 2, 0],
-  [3, 3, 0],
-  [3, 4, 0],
-  [3, 5, 0],
-  [3, 6, 0],
-  [3, 7, 0],
-  [3, 8, 1],
-  [3, 9, 0],
-  [3, 10, 5],
-  [3, 11, 4],
-  [3, 12, 7],
-  [3, 13, 14],
-  [3, 14, 13],
-  [3, 15, 12],
-  [3, 16, 9],
-  [3, 17, 5],
-  [3, 18, 5],
-  [3, 19, 10],
-  [3, 20, 6],
-  [3, 21, 4],
-  [3, 22, 4],
-  [3, 23, 1],
-  [4, 0, 1],
-  [4, 1, 3],
-  [4, 2, 0],
-  [4, 3, 0],
-  [4, 4, 0],
-  [4, 5, 1],
-  [4, 6, 0],
-  [4, 7, 0],
-  [4, 8, 0],
-  [4, 9, 2],
-  [4, 10, 4],
-  [4, 11, 4],
-  [4, 12, 2],
-  [4, 13, 4],
-  [4, 14, 4],
-  [4, 15, 14],
-  [4, 16, 12],
-  [4, 17, 1],
-  [4, 18, 8],
-  [4, 19, 5],
-  [4, 20, 3],
-  [4, 21, 7],
-  [4, 22, 3],
-  [4, 23, 0],
-  [5, 0, 2],
-  [5, 1, 1],
-  [5, 2, 0],
-  [5, 3, 3],
-  [5, 4, 0],
-  [5, 5, 0],
-  [5, 6, 0],
-  [5, 7, 0],
-  [5, 8, 2],
-  [5, 9, 0],
-  [5, 10, 4],
-  [5, 11, 1],
-  [5, 12, 5],
-  [5, 13, 10],
-  [5, 14, 5],
-  [5, 15, 7],
-  [5, 16, 11],
-  [5, 17, 6],
-  [5, 18, 0],
-  [5, 19, 5],
-  [5, 20, 3],
-  [5, 21, 4],
-  [5, 22, 2],
-  [5, 23, 0],
-  [6, 0, 1],
-  [6, 1, 0],
-  [6, 2, 0],
-  [6, 3, 0],
-  [6, 4, 0],
-  [6, 5, 0],
-  [6, 6, 0],
-  [6, 7, 0],
-  [6, 8, 0],
-  [6, 9, 0],
-  [6, 10, 1],
-  [6, 11, 0],
-  [6, 12, 2],
-  [6, 13, 1],
-  [6, 14, 3],
-  [6, 15, 4],
-  [6, 16, 0],
-  [6, 17, 0],
-  [6, 18, 0],
-  [6, 19, 0],
-  [6, 20, 1],
-  [6, 21, 2],
-  [6, 22, 2],
-  [6, 23, 6],
-].map(function (item) {
-  return [item[1], item[0], item[2] || '-']
+
+const heatmapData = computed(() => {
+    const data = prodInfo91Days.value ?? []
+
+    if(data.length === 0) return []
+
+    const sorted = [...data].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+
+    const start = new Date(sorted[0].date)
+
+    return data.map(item => {
+      const date = new Date(item.date)
+
+      const diffDays = Math.floor(
+        (date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+      )
+
+      const week = Math.floor(diffDays / 7)
+
+      const day = date.getDay() === 0 ? 6 : date.getDay() - 1
+
+      return [week, day, item.xpGained]
+    })
 })
 
 const optionHeatmap = computed(() => ({
@@ -334,7 +251,7 @@ const optionHeatmap = computed(() => ({
   },
   xAxis: {
     type: 'category',
-    data: hours,
+    data: week,
     splitArea: {
       show: true,
     },
@@ -359,11 +276,11 @@ const optionHeatmap = computed(() => ({
     bottom: '15%',
     inRange: {
       color: [
-        '#f3f4f6', // wenig
+        '#f3f4f6',
         '#ebf8f7',
         '#96f7e4',
         '#14B8A6',
-        '#0f766e', // viel
+        '#0f766e',
       ],
     },
   },
@@ -371,7 +288,12 @@ const optionHeatmap = computed(() => ({
     {
       name: 'Aktivitätsmap',
       type: 'heatmap',
-      data: data,
+      data: heatmapData.value,
+      itemStyle: {
+        borderRadius: 4,
+        borderWidth: 2,
+        borderColor: '#FFFFFF',
+      },
       label: {
         show: false,
       },
@@ -456,6 +378,9 @@ onMounted(async () => {
 
     await statsStore.productivity(7)
     prodInfoInd.value = statsStore.productivityData
+
+    await statsStore.productivity(91)
+    prodInfo91Days.value = statsStore.productivityData
   } catch {}
 })
 </script>
@@ -470,18 +395,18 @@ onMounted(async () => {
 
     <!-- Choose time scaling-->
     <section class="flex items-center justify-start h-full gap-3">
+<!--      <div-->
+<!--        class="h-full flex items-center justify-center px-3 py-2 gap-4 bg-[var(&#45;&#45;surface-color)] border border-gray-200 rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
+<!--      >-->
+<!--        <button class="active px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Heute</button>-->
+<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Woche</button>-->
+<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Monat</button>-->
+<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Benutzerdefiniert</button>-->
+<!--        <div class="h-[25px] w-0.5 rounded-full bg-gray-100"></div>-->
+<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Alle Kategorien</button>-->
+<!--      </div>-->
       <div
-        class="h-full flex items-center justify-center px-3 py-2 gap-4 bg-[var(--surface-color)] border border-gray-200 rounded-lg text-[var(--text-color-light)]"
-      >
-        <button class="active px-2 py-1 rounded-lg cursor-pointer">Heute</button>
-        <button class="px-2 py-1 rounded-lg cursor-pointer">Woche</button>
-        <button class="px-2 py-1 rounded-lg cursor-pointer">Monat</button>
-        <button class="px-2 py-1 rounded-lg cursor-pointer">Benutzerdefiniert</button>
-        <div class="h-[25px] w-0.5 rounded-full bg-gray-100"></div>
-        <button class="px-2 py-1 rounded-lg cursor-pointer">Alle Kategorien</button>
-      </div>
-      <div
-        class="cursor-pointer text-md flex justify-center items-center gap-2 text-[var(--text-color-light)] border border-gray-300 rounded-lg px-2 py-3"
+        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer text-md flex justify-center items-center gap-2 text-[var(--text-color-light)] border border-gray-300 rounded-lg px-2 py-3"
       >
         <div class="flex justify-center items-center">
           <i class="fa-solid fa-arrow-up-from-bracket"></i>
@@ -502,6 +427,7 @@ onMounted(async () => {
           secondary-color="#ebf8f7"
         >
           <div
+            v-if="taskDoneTrend !== 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
@@ -509,6 +435,16 @@ onMounted(async () => {
             </div>
             <span>{{ taskDoneTrend }}% vs. letzer Woche</span>
           </div>
+          <div
+            v-if="taskDoneTrend < 0"
+            class="flex justify-center items-center gap-1 text-xs mt-1 text-red-500 bg-red-50 rounded-full px-2 py-1 border border-red-500"
+          >
+            <div class="flex items-center justify-center">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+            <span>{{ taskDoneTrend }}% vs. letzer Woche</span>
+          </div>
+          <div v-else class="h-[30px]"></div>
         </StatsCard>
 
         <StatsCard
@@ -519,6 +455,7 @@ onMounted(async () => {
           secondary-color="rgba(189, 234, 255, 0.63)"
         >
           <div
+            v-if="totalXpTrend !== 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
@@ -526,6 +463,16 @@ onMounted(async () => {
             </div>
             <span>{{ totalXpTrend }}% vs. letzer Woche</span>
           </div>
+          <div
+            v-if="totalXpTrend < 0"
+            class="flex justify-center items-center gap-1 text-xs mt-1 text-red-500 bg-red-50 rounded-full px-2 py-1 border border-red-500"
+          >
+            <div class="flex items-center justify-center">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+            <span>{{ totalXpTrend }}% vs. letzer Woche</span>
+          </div>
+          <div v-else class="h-[30px]"></div>
         </StatsCard>
 
         <StatsCard
@@ -536,13 +483,24 @@ onMounted(async () => {
           secondary-color="oklch(96.2% 0.044 156.743)"
         >
           <div
+            v-if="taskPerDayTrend !== 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
               <i class="fa-solid fa-arrow-up"></i>
             </div>
-            <span>{{ taskPerDayTrend }} vs. letzer Woche</span>
+            <span>{{ taskPerDayTrend }}% vs. letzer Woche</span>
           </div>
+          <div
+            v-if="taskPerDayTrend < 0"
+            class="flex justify-center items-center gap-1 text-xs mt-1 text-red-500 bg-red-50 rounded-full px-2 py-1 border border-red-500"
+          >
+            <div class="flex items-center justify-center">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+            <span>{{ taskPerDayTrend }}% vs. letzer Woche</span>
+          </div>
+          <div v-else class="h-[30px]"></div>
         </StatsCard>
 
         <StatsCard
@@ -564,6 +522,7 @@ onMounted(async () => {
             </div>
             <span>Persönlicher Rekord!</span>
           </div>
+          <div v-else class="h-[30px]"></div>
         </StatsCard>
       </div>
     </section>
@@ -579,12 +538,33 @@ onMounted(async () => {
               <span class="text-sm text-[var(--text-color-light)]">Erledigte Tasks pro Tag</span>
             </div>
             <div
+              v-if="prodTrend > 0"
               class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
             >
               <div class="flex justify-center items-center">
                 <i class="fa-solid fa-arrow-up"></i>
               </div>
               <span>Steigend</span>
+            </div>
+
+            <div
+              v-if="prodTrend < 0"
+              class="flex items-center justify-center gap-2 text-sm text-red-500 bg-red-50 border border-red-500 rounded-full px-3 py-1.5"
+            >
+              <div class="flex justify-center items-center">
+                <i class="fa-solid fa-arrow-down"></i>
+              </div>
+              <span>Sinkend</span>
+            </div>
+
+            <div
+              v-if="prodTrend === 0"
+              class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
+            >
+              <div class="flex justify-center items-center">
+                <i class="fa-solid fa-grip-lines"></i>
+              </div>
+              <span>Stabil</span>
             </div>
           </div>
 
@@ -596,12 +576,12 @@ onMounted(async () => {
               <span>Tasks</span>
             </div>
 
-            <div
-              class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]"
-            >
-              <div class="w-[12px] h-[12px] bg-gray-200 rounded-sm"></div>
-              <span class="text-nowrap">Ziel (7/Tag)</span>
-            </div>
+<!--            <div-->
+<!--              class="flex items-center justify-center gap-2 text-sm text-[var(&#45;&#45;text-color-light)]"-->
+<!--            >-->
+<!--              <div class="w-[12px] h-[12px] bg-gray-200 rounded-sm"></div>-->
+<!--              <span class="text-nowrap">Ziel (7/Tag)</span>-->
+<!--            </div>-->
           </div>
 
           <div class="flex-1 min-h-0 w-full">
@@ -689,7 +669,7 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div class="w-full" :style="{ aspectRatio: `${hours.length} / ${days.length}` }">
+        <div class="w-full" :style="{ aspectRatio: `${week.length} / ${days.length}` }">
           <VChart class="w-full h-full" :option="optionHeatmap" autoresize></VChart>
         </div>
       </div>
@@ -760,8 +740,11 @@ onMounted(async () => {
         <div class="flex items-center justify-between w-full">
           <div class="flex flex-col items-start justify-center gap-1">
             <span class="font-semibold">Letzte erledigte Tasks</span>
-            <span class="text-[var(--text-color-light)] text-sm"
-              >{{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche</span
+            <span v-if="statsStore.dashboardData?.lastCompletedTasks.length === 20" class="text-[var(--text-color-light)] text-sm"
+              >{{ statsStore.dashboardData?.lastCompletedTasks.length }} max. Tasks diese Woche</span
+            >
+            <span v-if="(statsStore.dashboardData?.lastCompletedTasks.length ?? 0) < 20" class="text-[var(--text-color-light)] text-sm"
+            >{{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche</span
             >
           </div>
           <button
