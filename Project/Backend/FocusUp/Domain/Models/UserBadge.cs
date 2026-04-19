@@ -17,11 +17,6 @@ public class UserBadge : BaseModel
         AwardedAt = awardedAt;
     }
 
-    internal void SetId(int id)
-    {
-        Id = id;
-    }
-
     public override bool ValidateData()
     {
         return
