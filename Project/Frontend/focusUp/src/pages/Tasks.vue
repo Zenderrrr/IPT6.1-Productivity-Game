@@ -24,6 +24,10 @@ import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vu
 import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
 import type { TaskCompleteType } from '@/types/taskComplete.ts'
 
+
+// date
+const date = new Date()
+
 // categories logic
 const whichIsActive = ref<number>(0)
 function changeActiveCategory(value: number) {
@@ -127,7 +131,7 @@ onMounted(async () => {
 })
 
 // which view option
-const viewOption = ref<number>(1);
+const viewOption = ref<number>(2);
 function changeViewOption(id: number) {
   viewOption.value = id
 }
