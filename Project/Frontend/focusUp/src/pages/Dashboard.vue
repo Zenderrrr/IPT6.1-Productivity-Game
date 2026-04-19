@@ -29,7 +29,7 @@ const date = computed(() => {
 const today = date.value.getDay() === 0 ? 7 : date.value.getDay()
 
 const weekLength = computed(() => {
-  return date.value.getDay()
+  return date.value.getDay() === 0 ? 7 : date.value.getDay()
 })
 
 // username
