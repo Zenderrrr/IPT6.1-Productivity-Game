@@ -44,6 +44,22 @@ namespace FocusUp.Controllers
             try
             {
                 string token = _authService.Login(loginRequest.UsernameOrEmail, loginRequest.Password);
+
+                User? user = _userRepository.GetByEmail(loginRequest.UsernameOrEmail) ?? _userRepository.GetByUsername(loginRequest.UsernameOrEmail);
+
+                if (user == null)
+                    return Unauthorized();
+
+                var (refreshToken, plainToken) = _authService.CreateRefreshToken(user.Id);
+
+                Response.Cookies.Append("refreshToken", plainToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = refreshToken.ExpiresAt
+                });
+
                 return StatusCode(200, new { token });
             }
             catch (UnauthorizedAccessException)
@@ -85,6 +101,18 @@ namespace FocusUp.Controllers
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult Refresh()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            throw new NotImplementedException();
         }
     }
 }
