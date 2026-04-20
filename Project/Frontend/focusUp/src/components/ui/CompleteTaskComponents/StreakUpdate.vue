@@ -35,7 +35,7 @@ function onSubmit(){
         <!-- Streak Count-->
         <div class="appear flex flex-col justify-center items-center">
           <div class="relative h-[90px] w-full">
-            <span class="disappear text-[60px] font-bold absolute top-0 right-50% translate-x-[50%]">{{ props.streakCountBefore
+            <span class="disappear text-[60px] font-bold absolute top-0 right-50% translate-x-[50%]">{{ props.streakCountAfter - 1
               }}</span>
             <span class="streak-count text-[60px] font-bold">{{ props.streakCountAfter }}</span>
           </div>
