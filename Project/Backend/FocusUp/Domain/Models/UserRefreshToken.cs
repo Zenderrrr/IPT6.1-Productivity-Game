@@ -27,5 +27,11 @@ namespace FocusUp.Domain.Models
         }
 
         public void SetRevokedAt(DateTime date) => RevokedAt = date;
+
+        public bool IsRevoked() => RevokedAt != null;
+
+        public bool IsExpired() => ExpiresAt <= DateTime.UtcNow;
+
+        public bool IsActive() => !IsRevoked() && !IsExpired();
     }
 }
