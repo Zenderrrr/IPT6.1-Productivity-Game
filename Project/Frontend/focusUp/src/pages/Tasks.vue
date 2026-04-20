@@ -269,7 +269,7 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
   <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
   <CreateTask :on-submit="submitTask" :is-shown="showPopUpTask" @cancel="showPopUpTask = false"></CreateTask>
 
-  <div class="h-screen flex flex-col overflow-hidden min-h-0">
+  <div class="h-screen flex flex-col overflow-hidden min-h-[1050px]">
     <NavAuth></NavAuth>
     <main class="xl:w-[80rem] flex-1 flex flex-col min-h-0 overflow-hidden">
       <GreetingsSection
