@@ -7,13 +7,15 @@ export async function loginApi(usernameOrEmail: string, password: string): Promi
     body: JSON.stringify({
       UsernameOrEmail: usernameOrEmail,
       Password: password
-    })
+    }),
+    credentials: 'include'
   })
 }
 
 export async function registerApi(username: string, email: string, password: string) : Promise<number> {
   return apiFetch('/auth/register', {
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify({
       Username : username,
       Email : email,
@@ -22,9 +24,13 @@ export async function registerApi(username: string, email: string, password: str
   })
 }
 
-export async function logoutApi(): Promise<void> {
+export async function logoutApi(token: string): Promise<void> {
   return apiFetch('/auth/logout', {
-
+    method: 'POST',
+    headers: {
+      Authorization: `BEARER ${token}`
+    },
+    credentials: 'include'
   })
 }
 
@@ -43,5 +49,12 @@ export async function deleteUserApi(token: string) : Promise<void> {
     headers: {
       Authorization: `BEARER ${token}`
     }
+  })
+}
+
+export async function RefreshApi() : Promise<string | null> {
+  return apiFetch('/auth/refresh', {
+    method: 'POST',
+    credentials: 'include'
   })
 }
