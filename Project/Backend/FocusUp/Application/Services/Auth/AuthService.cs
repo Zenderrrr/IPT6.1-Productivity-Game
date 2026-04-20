@@ -126,6 +126,8 @@ namespace FocusUp.Application.Services.Auth
             return (newToken, plainToken);
         }
 
+        public void SetRevokedAtRefreshToken(UserRefreshToken userRefreshToken) => _userRefreshTokenRepository.UpdateRevokedAt(userRefreshToken);
+
         private string GenerateSecureToken()
         {
             var randomBytes = new byte[64];
