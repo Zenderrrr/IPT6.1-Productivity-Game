@@ -53,6 +53,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Frontend", polity =>
     {
         polity.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+        polity.AllowCredentials();
     });
 });
 
@@ -88,6 +89,7 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserStatsRepository>();
 builder.Services.AddScoped<XPEventRepository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<UserRefreshTokenRepository>();
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
