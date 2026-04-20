@@ -86,8 +86,8 @@ namespace FocusUp.Infrastructure.Repositories
                     reader.GetInt32(reader.GetOrdinal("id")),
                     reader.GetInt32(reader.GetOrdinal("user_id")),
                     reader.GetString(reader.GetOrdinal("token_hash")),
-                    reader.GetDateTime(reader.GetOrdinal("expires_at")),
                     reader.GetDateTime(reader.GetOrdinal("created_at")),
+                    reader.GetDateTime(reader.GetOrdinal("expires_at")),
                     revokedAt
                 );
             return userRefreshToken;
