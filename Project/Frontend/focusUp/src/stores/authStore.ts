@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { deleteUserApi, loginApi, meApi, registerApi } from '@/api/auth.api.ts'
+import { deleteUserApi, loginApi, logoutApi, meApi, RefreshApi, registerApi } from '@/api/auth.api.ts'
 import { computed, ref } from 'vue'
 import type { User } from '@/types/user.ts'
 
@@ -60,10 +60,6 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function logout() {
-    localStorage.removeItem('token')
-  }
-
   async function deleteUser() {
     if(token.value == null) {
       return
@@ -75,5 +71,30 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { token, loading, error, login, me, user: userData, isAuth, register, logout, deleteUser }
+  async function logout(){
+    if(token.value == null) {
+      return
+    }
+
+    try {
+      await logoutApi(token.value)
+      userData.value = null
+      token.value = null
+      localStorage.removeItem('token')
+    }catch(e){
+      error.value = e ? e.message : 'Unable to logout'
+    }
+  }
+
+  async function refresh(){
+    try {
+      token.value = await RefreshApi()
+      localStorage.setItem('token', token.value ?? '')
+    }catch (e){
+      await logout()
+      error.value = e ? e.message : 'Unable to refresh'
+    }
+  }
+
+  return { token, loading, error, login, me, user: userData, isAuth, register, logout, deleteUser, refresh}
 });
