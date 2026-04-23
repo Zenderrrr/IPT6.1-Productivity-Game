@@ -52,14 +52,14 @@ const features = [
   },
   {
     icon: 'star',
-    iconClass: 'blue-bg',
+    iconClass: 'teal-bg',
     title: 'XP- & Levelsystem',
     text: 'Jede abgeschlossene Aufgabe bringt dir XP, abhängig vom Schwierigkeitsgrad. Mit mehr XP steigst du im Level auf und schaltest neue Titel, Abzeichen und sichtbare Fortschritte frei.',
     tags: ['Dynamische XP', 'Level 1–100', 'Badges'],
   },
   {
     icon: 'fire',
-    iconClass: 'lime-bg',
+    iconClass: 'teal-bg',
     title: 'Streak-System',
     text: 'Konstanz zahlt sich aus. Erledige mindestens eine Aufgabe pro Tag, um deine Streak zu halten. Je länger deine Streak, desto höher dein XP-Multiplikator.',
     tags: ['Tägliche Streaks', 'XP-Multiplikator', 'Kalenderansicht'],
@@ -90,19 +90,19 @@ const benefits = [
   },
   {
     icon: 'arrow-trend-up',
-    iconClass: 'blue-bg',
+    iconClass: 'teal-bg',
     title: 'Echten Fortschritt verfolgen',
     text: 'XP, Level und Aufgabenverlauf geben dir ein klares Bild davon, wie weit du gekommen bist — nicht nur eine Liste mit Häkchen.',
   },
   {
     icon: 'bolt',
-    iconClass: 'lime-bg',
+    iconClass: 'teal-bg',
     title: 'Bleib motiviert',
     text: 'Belohnungen fühlen sich verdient an. Nach einer produktiven Woche ein Level aufzusteigen motiviert und bringt dich immer wieder zurück.',
   },
   {
     icon: 'lightbulb',
-    iconClass: 'amber-bg',
+    iconClass: 'teal-bg',
     title: 'Bessere Gewohnheiten aufbauen',
     text: 'Gamification ist kein Gimmick — Forschung zeigt, dass unmittelbare, sichtbare Belohnungen Gewohnheiten und langfristige Konstanz fördern.',
   },
@@ -123,7 +123,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="hero-badge-dot">•</span>
             Jetzt in der öffentlichen Beta
           </div>
 
@@ -142,25 +141,9 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               <i class="fa-solid fa-star"></i>
               <span>Kostenlos starten</span>
             </RouterLink>
-            <button class="button button-secondary">
-              <i class="fa-solid fa-play"></i>
-              <span>Demo ansehen</span>
-            </button>
-          </div>
-
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-value">12k+</div>
-              <div class="stat-label">Aktive Nutzer</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value">98%</div>
-              <div class="stat-label">Zufriedenheit</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value">4.9 <i class="fa-solid fa-star"></i></div>
-              <div class="stat-label">Bewertung</div>
-            </div>
+            <RouterLink to="/login" class="button button-secondary">
+              <span>Anmelden</span>
+            </RouterLink>
           </div>
         </div>
 
@@ -180,7 +163,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
               <span class="browser-dot browser-dot-red"></span>
               <span class="browser-dot browser-dot-yellow"></span>
               <span class="browser-dot browser-dot-green"></span>
-              <div class="browser-address">app.focusup.io/dashboard</div>
+              <div class="browser-address">app.focusup.ch/dashboard</div>
             </div>
 
             <div class="dashboard-body">
@@ -256,7 +239,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
 
               <div class="achievement-card">
                 <div class="achievement-icon">
-                  <i class="fa-solid fa-trophy"></i>
+                  <i class="fa-solid fa-trophy text-yellow-400"></i>
                 </div>
                 <div>
                   <div class="achievement-title">New Achievement</div>
@@ -479,7 +462,6 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     <!-- CTA Section -->
     <section class="cta-section">
       <div class="cta-inner">
-        <div class="cta-badge">Werde Teil von 13.000+ Nutzern</div>
         <h2 class="cta-title">
           Starte deine Reise
           <span>noch heute.</span>
@@ -491,14 +473,12 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
         <div class="cta-actions">
           <RouterLink to="/register" class="button cta-primary">
             <i class="fa-solid fa-star"></i>
-            <span>Kostenloses Konto erstellen</span>
+            <span>Konto erstellen</span>
           </RouterLink>
-          <button class="button cta-secondary">
-            <i class="fa-solid fa-play"></i>
-            <span>Demo ansehen</span>
-          </button>
+          <RouterLink to="/login" class="button cta-secondary">
+            <span>Anmelden</span>
+          </RouterLink>
         </div>
-        <div class="cta-note">Kostenlos · Keine Kreditkarte erforderlich</div>
       </div>
     </section>
   </main>
