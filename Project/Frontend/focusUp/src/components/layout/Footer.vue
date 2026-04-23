@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import Logo from '@/components/ui/Logo.vue'
 </script>
 
 <template>
@@ -9,13 +10,7 @@ import { RouterLink } from 'vue-router'
         class="grid min-h-[84px] grid-cols-[1fr_auto_1fr] items-center gap-5 max-[960px]:grid-cols-1 max-[960px]:justify-items-center max-[960px]:py-6"
       >
         <!-- Logo -->
-        <RouterLink
-          to="/"
-          class="justify-self-start text-[20px] font-black tracking-[-0.04em] no-underline max-[960px]:justify-self-center"
-        >
-          <span class="text-[var(--text-color)]">Focus</span>
-          <span class="text-[var(--primary-color)]">Up</span>
-        </RouterLink>
+        <logo link="/"></logo>
 
         <!-- Links -->
         <div
@@ -39,7 +34,7 @@ import { RouterLink } from 'vue-router'
         <div
           class="justify-self-end text-right text-[14px] font-medium text-slate-400 max-[960px]:justify-self-center max-[960px]:text-center"
         >
-          © 2026 FocusUp · Sanjivan & Egor
+          © 2026 FocusUp - Sanjivan & Egor
         </div>
       </div>
     </div>
