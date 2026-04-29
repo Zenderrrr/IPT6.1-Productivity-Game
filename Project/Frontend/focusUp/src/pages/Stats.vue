@@ -316,7 +316,7 @@ const taskDoneTrend = computed(() => {
 
   if (previous7 === 0) return 0
 
-  return ((last7 - previous7) / previous7) * 100
+  return Math.round((((last7 - previous7) / previous7) * 100))
 })
 
 const totalXpTrend = computed(() => {
@@ -327,7 +327,7 @@ const totalXpTrend = computed(() => {
 
   if (previous7 === 0) return 0
 
-  return ((last7 - previous7) / previous7) * 100
+  return Math.round(((last7 - previous7) / previous7) * 100)
 })
 
 const taskPerDayTrend = computed(() => {
@@ -427,7 +427,7 @@ onMounted(async () => {
           secondary-color="#ebf8f7"
         >
           <div
-            v-if="taskDoneTrend !== 0"
+            v-if="taskDoneTrend > 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
@@ -455,7 +455,7 @@ onMounted(async () => {
           secondary-color="rgba(189, 234, 255, 0.63)"
         >
           <div
-            v-if="totalXpTrend !== 0"
+            v-if="totalXpTrend > 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
