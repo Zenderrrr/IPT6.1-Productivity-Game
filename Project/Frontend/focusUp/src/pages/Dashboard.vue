@@ -302,7 +302,7 @@ async function submitTask(task: CreateTaskType) {
             <span class="font-semibold">Task erstellen</span>
           </div>
 
-          <div
+          <RouterLink to="/tasks"
             class="hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
@@ -310,8 +310,8 @@ async function submitTask(task: CreateTaskType) {
             >
               <i class="fa-solid fa-list-check text-sm"></i>
             </div>
-            <RouterLink to="/tasks" class="font-semibold">Tasks anzeigen</RouterLink>
-          </div>
+            <span class="font-semibold">Tasks anzeigen</span>
+          </RouterLink>
         </div>
 
         <!-- Stats Current Week-->
