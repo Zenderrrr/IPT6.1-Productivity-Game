@@ -21,7 +21,7 @@ const props = defineProps<{
     </div>
 
     <div class="mt-3 flex flex-col items-start justify-center">
-      <span class="text-[var(--text-color-light)] text-sm">{{ props.title }}</span>
+      <span class="text-[var(--text-color-light)] text-sm text-nowrap">{{ props.title }}</span>
       <span class="text-[30px] font-semibold">{{ props.cardValue }}</span>
 
       <slot></slot>
