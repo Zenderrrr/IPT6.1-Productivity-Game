@@ -337,7 +337,7 @@ const taskPerDayTrend = computed(() => {
   const previous7 = last14 - last7
 
   if (previous7 === 0) return 0
-  return previous7
+  return Math.round(previous7)
 })
 
 // last completed tasks
@@ -418,7 +418,7 @@ onMounted(async () => {
     <section>
       <span class="subtitle">Übersicht</span>
 
-      <div class="flex items-center justify-center gap-4 w-full mt-3">
+      <div class="grid grid-cols-4 gap-4 w-full mt-3">
         <StatsCard
           title="Erledigte Task"
           svg="fa-solid fa-check"
@@ -747,12 +747,13 @@ onMounted(async () => {
             >{{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche</span
             >
           </div>
-          <button
-            class="cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
+          <RouterLink
+            to="/allCompletedTasks"
+            class="hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
           >
             <span>Alle anzeigen</span>
             <i class="fa-solid fa-angle-right"></i>
-          </button>
+          </RouterLink>
         </div>
 
         <table class="w-full mt-3 border-collapse">
@@ -763,7 +764,7 @@ onMounted(async () => {
             <th>Dauer</th>
             <th>XP</th>
           </tr>
-          <tr v-for="lastTask in lastCompletedTasks" :key="lastTask.id">
+          <tr v-for="lastTask in lastCompletedTasks" :key="lastTask.id" class="hover:bg-gray-50 bg-[var(--surface-color)]">
             <td class="text-[var(--text-color-light)] text-sm">
               {{ GetTimeFromNow(lastTask.createdAt) }}
             </td>
