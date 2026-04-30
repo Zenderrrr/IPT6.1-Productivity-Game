@@ -5,6 +5,9 @@ namespace FocusUp.Application.Strategies
 {
     public class QuadraticLevelStrategy : ILevelStrategy
     {
+        /// <summary>
+        /// Scale factor which is used to calculate levels - higher more xp to level up
+        /// </summary>
         private readonly int _baseXP;
 
         public QuadraticLevelStrategy(int baseXP = 100) => _baseXP = baseXP;
@@ -21,7 +24,7 @@ namespace FocusUp.Application.Strategies
             double xpCurrent = _baseXP * Math.Pow((CalculateLevel(totalXP) - 1), 2);
             double xpNext = _baseXP * Math.Pow(CalculateLevel(totalXP), 2);
 
-            return (totalXP - xpCurrent) / (xpNext - xpCurrent);
+            return 1 / xpNext * xpCurrent;
         }
     }
 }
