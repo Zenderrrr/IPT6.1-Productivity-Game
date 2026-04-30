@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\application\\services\\auth\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:application\\services\\auth\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\domain\\models\\userrefreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:domain\\models\\userrefreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C0A08FAB-6318-9DB7-127B-C1C6BE3C847C}|FocusUp.csproj|c:\\users\\sanji\\documents\\github\\ipt6.1-productivity-game\\project\\backend\\focusup\\infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -298,11 +298,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
@@ -311,12 +311,11 @@
               "ViewState": "AgIAAC0AAAAAAAAAAAAYwD8AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T20:54:03.38Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\Auth\\AuthService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\Auth\\AuthService.cs",
@@ -325,12 +324,11 @@
               "ViewState": "AgIAAE0AAAAAAAAAAAAYwF0AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T20:54:03.387Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "UserRefreshToken.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Domain\\Models\\UserRefreshToken.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\UserRefreshToken.cs",
@@ -338,12 +336,11 @@
               "RelativeToolTip": "Domain\\Models\\UserRefreshToken.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwBwAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T21:39:53.173Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-19T21:39:53.173Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "UserRefreshTokenRepository.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Infrastructure\\Repositories\\UserRefreshTokenRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserRefreshTokenRepository.cs",
@@ -351,8 +348,7 @@
               "RelativeToolTip": "Infrastructure\\Repositories\\UserRefreshTokenRepository.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAADwv1cAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-19T20:55:52.28Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-19T20:55:52.28Z"
             },
             {
               "$type": "Document",
@@ -368,26 +364,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "JwtTokenService.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\Auth\\JwtTokenService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\Auth\\JwtTokenService.cs",
               "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Application\\Services\\Auth\\JwtTokenService.cs",
               "RelativeToolTip": "Application\\Services\\Auth\\JwtTokenService.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAowCEAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA7wCEAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T20:54:03.382Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\sanji\\Documents\\GitHub\\IPT6.1-Productivity-Game\\Project\\Backend\\FocusUp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAHUAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAHoAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T20:54:03.33Z",
               "EditorCaption": ""
