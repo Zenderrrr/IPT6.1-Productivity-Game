@@ -263,14 +263,15 @@ async function submitTask(task: CreateTaskType) {
       <div class="box-hover-animation col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
         <div class="flex items-center justify-between">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
-          <div
+          <RouterLink
+            to="/allCompletedTasks"
             class="color-change-secondary-animation cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
               <i class="fa-solid fa-arrow-right"></i>
             </div>
-          </div>
+          </RouterLink>
         </div>
 
         <!-- Tasks -->
