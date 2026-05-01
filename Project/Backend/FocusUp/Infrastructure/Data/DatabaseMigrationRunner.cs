@@ -12,7 +12,7 @@ namespace FocusUp.Infrastructure.Data
         {
             _databaseConnection = databaseConnection;
 
-            _scriptPath = Path.Combine(AppContext.BaseDirectory, "../../Database/");
+            _scriptPath = Path.Combine(Directory.GetCurrentDirectory(), "Database");
         }
 
         public void Run()
