@@ -1,0 +1,19 @@
+- sämtliche bugs im Frontend finden
+- bugs vom Frontend bereinigen
+- bild Speicherung recherieren und im backend, db umsetzen
+- badges entwickeln und abspeichern als migration im db
+- migration testen auf Funktionsfähigkeit
+- code Dokumentation schreiben im backend
+///
+summary="Diese Methode macht das."
+///
+- unit tests einführen & testen
+- testing im frontend anschauen
+- error dokumentation nachbessern
+- readme erneuern & verbessern
+- dokumentation backend überarbeiten & auf neusten Stand bringen
+- docker versionierung recherieren und verstehen
+- .env und projekt settings dateien key refreshen
+- projekt online stellen und testen über docker image (railway)
+- domain kaufen
+- website benutzen (mehr daten & fehleranalyse)
