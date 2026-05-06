@@ -111,9 +111,9 @@ onMounted(async () => {
           <div class="flex items-start justify-center flex-col gap-1.5 w-full h-full">
             <span class="text-sm font-semibold ml-0.5">Schwierigkeit *</span>
             <div class="flex items-start justify-center gap-1.5 w-full">
-                <button type="button" @click="setDifficulty(1)" :class="difficulty === 1 ? 'active-easy' : 'inactive' " class=" input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Easy</button>
-                <button type="button" @click="setDifficulty(2)" :class="difficulty === 2 ? 'active-medium' : 'inactive' " class="input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Medium</button>
-                <button type="button" @click="setDifficulty(3)" :class="difficulty === 3 ? 'active-hard' : 'inactive' " class="input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Hard</button>
+                <button type="button" @click="setDifficulty(1)" :class="difficulty === 1 ? 'active-easy' : 'inactive' " class=" input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Einfach</button>
+                <button type="button" @click="setDifficulty(2)" :class="difficulty === 2 ? 'active-medium' : 'inactive' " class="input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Mittel</button>
+                <button type="button" @click="setDifficulty(3)" :class="difficulty === 3 ? 'active-hard' : 'inactive' " class="input-hover w-full cursor-pointer px-3 py-2 border border-gray-200 text-[var(--text-color-light)] text-sm font-semibold rounded-lg">Schwer</button>
             </div>
           </div>
 

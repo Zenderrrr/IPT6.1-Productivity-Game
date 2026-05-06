@@ -23,6 +23,7 @@ import UpdateTaskComponent from '@/components/ui/UpdateTaskComponent.vue'
 import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
 import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
 import type { TaskCompleteType } from '@/types/taskComplete.ts'
+import Filter from '@/components/ui/Filter.vue'
 
 
 // date
@@ -57,6 +58,13 @@ const filteredTaskData = computed(() => {
   if(whichIsActive.value !== 0) {
     mappedTask = mappedTask.filter(t => {
       return t.categoryId === whichIsActive.value
+    })
+  }
+
+  if(submittedFilterTask.value) {
+    const ids = new Set(submittedFilterTask.value.map(t => t.id))
+    mappedTask = mappedTask.filter(t => {
+      return ids.has(t.id)
     })
   }
 
@@ -214,6 +222,7 @@ function isTaskChecked(taskId: number) {
 }
 
 const isTaskCompleteHandlerVisible = ref<boolean>(false)
+const taskCompleteKey = ref<number>(0)
 const tasksForCompleteHandler = ref<TaskCompleteType[] | undefined>(undefined)
 async function completeTask() {
   getCheckedTasks()
@@ -225,6 +234,10 @@ async function completeTask() {
 
   await taskStore.getAllTasks()
   localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
+
+  checkedTasks.value = []
+  tasksForCompleteHandler.value = taskComplete
+  taskCompleteKey.value++
 
   tasksForCompleteHandler.value = taskComplete ?? []
   isTaskCompleteHandlerVisible.value = true
@@ -255,10 +268,27 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
     }
   }
 }
+
+const filterShown = ref<boolean>(false)
+const submittedFilterTask = ref<Task[] | null>(null)
+function submitFilter(tasks: Task[]) {
+  filterShown.value = false
+
+  if(submittedFilterTask.value !== null){
+    resetFilter()
+  }
+  submittedFilterTask.value = tasks
+}
+
+function resetFilter(){
+  submittedFilterTask.value = null
+}
 </script>
 
 <template>
-  <TaskCompleteHandler v-if="isTaskCompleteHandlerVisible" @close="isTaskCompleteHandlerVisible = false" :tasksCompleteArr="tasksForCompleteHandler"></TaskCompleteHandler>
+  <Filter :is-shown="filterShown" :tasks="taskStore.allTasksData ?? []" :categories="categoryStore.categoriesData ?? []" @cancel="filterShown = false" @submit="submitFilter"></Filter>
+
+  <TaskCompleteHandler :key="taskCompleteKey" v-if="isTaskCompleteHandlerVisible" @close="isTaskCompleteHandlerVisible = false" :tasksCompleteArr="tasksForCompleteHandler ?? []"></TaskCompleteHandler>
 
   <Transition name="popUp">
     <UpdateTaskComponent v-if="showPopUpUpdate && updateTask" :is-shown="showPopUpUpdate" :task="updateTask" @submit="submitUpdateTask" @cancel="closeWindow"></UpdateTaskComponent>
@@ -299,6 +329,8 @@ async function submitUpdateTask(taskId: number, task: UpdateTask) {
             </button>
 
             <button
+              :style="submittedFilterTask !== null ? 'border-color:var(--primary-color); color:var(--primary-color)' : '' "
+              @click="submittedFilterTask !== null ?  resetFilter() : filterShown = true"
               class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
             >
               <i class="fa-solid fa-filter"></i>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
 import XpUpdate from '@/components/ui/CompleteTaskComponents/XpUpdate.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import LevelIncrease from '@/components/ui/CompleteTaskComponents/LevelIncrease.vue'
 import BadgeUpdate from '@/components/ui/CompleteTaskComponents/BadgeUpdate.vue'
 import { useStatsStore } from '@/stores/statsStore.ts'
@@ -21,10 +21,10 @@ function onStreakSubmit() {
 }
 
 const tasks = computed(() => {
-  return props.tasksCompleteArr.map((t: TaskCompleteType) => t.task)
+  return props.tasksCompleteArr.map((t: TaskCompleteType) => t?.task)
 })
-const newBadges = props.tasksCompleteArr.flatMap((t: TaskCompleteType) => t.badges)
-const isStreakCountIncreased = props.tasksCompleteArr.some(t => t.isStreakIncreased)
+const newBadges = props.tasksCompleteArr.flatMap((t: TaskCompleteType) => t?.badges ?? [])
+const isStreakCountIncreased = props.tasksCompleteArr.some(t => t?.isStreakIncreased)
 
 const step = ref<number>(isStreakCountIncreased ? 1 : 2)
 
@@ -55,7 +55,7 @@ function onClose() {
 // stats logic
 const statsStore = useStatsStore()
 const level = computed(() => statsStore.dashboardData?.level ?? 0)
-const totalTaskXP = props.tasksCompleteArr.reduce((sum, item) => sum + item.xp, 0)
+const totalTaskXP = props.tasksCompleteArr.reduce((sum, item) => sum + (item?.xp ?? 0), 0)
 const currXP = computed(() => statsStore.dashboardData?.xpCurrent ?? 0)
 const nextLevelXP = computed(() => statsStore.dashboardData?.xpNext ?? 0)
 </script>

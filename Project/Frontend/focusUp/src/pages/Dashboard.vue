@@ -263,14 +263,15 @@ async function submitTask(task: CreateTaskType) {
       <div class="box-hover-animation col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
         <div class="flex items-center justify-between">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
-          <div
+          <RouterLink
+            to="/allCompletedTasks"
             class="color-change-secondary-animation cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
               <i class="fa-solid fa-arrow-right"></i>
             </div>
-          </div>
+          </RouterLink>
         </div>
 
         <!-- Tasks -->
@@ -302,7 +303,7 @@ async function submitTask(task: CreateTaskType) {
             <span class="font-semibold">Task erstellen</span>
           </div>
 
-          <div
+          <RouterLink to="/tasks"
             class="hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
@@ -310,8 +311,8 @@ async function submitTask(task: CreateTaskType) {
             >
               <i class="fa-solid fa-list-check text-sm"></i>
             </div>
-            <RouterLink to="/tasks" class="font-semibold">Tasks anzeigen</RouterLink>
-          </div>
+            <span class="font-semibold">Tasks anzeigen</span>
+          </RouterLink>
         </div>
 
         <!-- Stats Current Week-->

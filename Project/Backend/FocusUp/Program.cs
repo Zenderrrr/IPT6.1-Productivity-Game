@@ -8,12 +8,17 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using static System.Threading.Tasks.Task;
 using System.Text;
+using FocusUp.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-builder.Services.AddSingleton(DatabaseConnection.GetInstance(connectionString));
+var databaseConnection = DatabaseConnection.GetInstance(connectionString);
+
+new DatabaseMigrationRunner(databaseConnection).Run();
+
+builder.Services.AddSingleton(databaseConnection);
 builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.AddSingleton<JwtTokenService>();
 

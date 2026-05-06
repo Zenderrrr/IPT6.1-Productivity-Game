@@ -7,6 +7,7 @@ import Tasks from '@/pages/Tasks.vue'
 import Stats from '@/pages/Stats.vue'
 import Profile from '@/pages/Profile.vue'
 import { useAuthStore } from '@/stores/authStore.ts'
+import AllCompletedTasks from '@/pages/AllCompletedTasks.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,12 @@ const router = createRouter({
       name: 'Profile',
       meta: { requiresAuth: true },
     },
+    {
+      path: '/allCompletedTasks',
+      component: AllCompletedTasks,
+      name: 'AllCompletedTasks',
+      meta: { requiresAuth: true },
+    }
   ],
 })
 

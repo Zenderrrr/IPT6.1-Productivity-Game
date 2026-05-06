@@ -316,7 +316,7 @@ const taskDoneTrend = computed(() => {
 
   if (previous7 === 0) return 0
 
-  return ((last7 - previous7) / previous7) * 100
+  return Math.round((((last7 - previous7) / previous7) * 100))
 })
 
 const totalXpTrend = computed(() => {
@@ -327,7 +327,7 @@ const totalXpTrend = computed(() => {
 
   if (previous7 === 0) return 0
 
-  return ((last7 - previous7) / previous7) * 100
+  return Math.round(((last7 - previous7) / previous7) * 100)
 })
 
 const taskPerDayTrend = computed(() => {
@@ -337,7 +337,7 @@ const taskPerDayTrend = computed(() => {
   const previous7 = last14 - last7
 
   if (previous7 === 0) return 0
-  return previous7
+  return Math.round(previous7)
 })
 
 // last completed tasks
@@ -418,7 +418,7 @@ onMounted(async () => {
     <section>
       <span class="subtitle">Übersicht</span>
 
-      <div class="flex items-center justify-center gap-4 w-full mt-3">
+      <div class="grid grid-cols-4 gap-4 w-full mt-3">
         <StatsCard
           title="Erledigte Task"
           svg="fa-solid fa-check"
@@ -427,7 +427,7 @@ onMounted(async () => {
           secondary-color="#ebf8f7"
         >
           <div
-            v-if="taskDoneTrend !== 0"
+            v-if="taskDoneTrend > 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
@@ -455,7 +455,7 @@ onMounted(async () => {
           secondary-color="rgba(189, 234, 255, 0.63)"
         >
           <div
-            v-if="totalXpTrend !== 0"
+            v-if="totalXpTrend > 0"
             class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
           >
             <div class="flex items-center justify-center">
@@ -747,12 +747,13 @@ onMounted(async () => {
             >{{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche</span
             >
           </div>
-          <button
-            class="cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
+          <RouterLink
+            to="/allCompletedTasks"
+            class="hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
           >
             <span>Alle anzeigen</span>
             <i class="fa-solid fa-angle-right"></i>
-          </button>
+          </RouterLink>
         </div>
 
         <table class="w-full mt-3 border-collapse">
@@ -763,7 +764,7 @@ onMounted(async () => {
             <th>Dauer</th>
             <th>XP</th>
           </tr>
-          <tr v-for="lastTask in lastCompletedTasks" :key="lastTask.id">
+          <tr v-for="lastTask in lastCompletedTasks" :key="lastTask.id" class="hover:bg-gray-50 bg-[var(--surface-color)]">
             <td class="text-[var(--text-color-light)] text-sm">
               {{ GetTimeFromNow(lastTask.createdAt) }}
             </td>
