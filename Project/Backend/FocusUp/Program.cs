@@ -124,6 +124,8 @@ var app = builder.Build();
 
 app.UseCors("Frontend");
 
+app.UseStaticFiles();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
