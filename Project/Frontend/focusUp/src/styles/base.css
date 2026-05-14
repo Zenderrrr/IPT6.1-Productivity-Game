@@ -43,30 +43,34 @@ main {
   margin: calc(var(--spacing) * 10) auto;
 }
 
+.placeholder{
+  @apply bg-gray-200 rounded-sm animate-pulse;
+}
+
 
   /*Animations*/
 .scale-animation-sm{
-  @apply hover:scale-101 transition duration-200 ease-in-out
+  @apply hover:scale-101 transition duration-75 ease-in-out
 }
 
 .scale-animation-md{
-  @apply hover:scale-105 transition duration-200 ease-in-out
+  @apply hover:scale-105 transition duration-75 ease-in-out
 }
 
 .scale-animation-lg{
-  @apply hover:scale-110 transition duration-100 ease-in-out
+  @apply hover:scale-110 transition ease-in-out
 }
 
 .color-change-primary-animation{
-  @apply hover:text-[var(--primary-color)] transition duration-200 ease-in-out
+  @apply hover:text-[var(--primary-color)] transition duration-75 ease-in-out
 }
 
 .color-change-secondary-animation{
-  @apply hover:text-[var(--secondary-color)] transition duration-200 ease-in-out
+  @apply hover:text-[var(--secondary-color)] transition duration-75 ease-in-out
 }
 
 .box-hover-animation{
-  @apply hover:shadow-xl hover:border-gray-100 transition duration-200 border-2 border-transparent
+  @apply hover:shadow-xl hover:border-gray-100 transition duration-75 border-2 border-transparent
 }
 
 .levitation-animation {
