@@ -93,6 +93,8 @@ export const useAuthStore = defineStore('auth', () => {
     }catch (e){
       await logout()
       error.value = e ? e.message : 'Unable to refresh'
+
+      throw e
     }
   }
 
