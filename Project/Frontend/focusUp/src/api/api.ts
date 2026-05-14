@@ -15,7 +15,7 @@ export async function apiFetch<T>(endpoint: string, options?: RequestInit): Prom
     credentials: 'include'
   });
 
-  if(res.status === 401){
+  if(res.status === 401 || res.status === 403 || res.status === 500) {
     try {
       await authStore.refresh()
 
