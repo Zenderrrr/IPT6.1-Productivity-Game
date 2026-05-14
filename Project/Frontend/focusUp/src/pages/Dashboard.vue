@@ -21,6 +21,7 @@ import { useAuthStore } from '@/stores/authStore.ts'
 import CreateTask from '@/components/ui/CreateTask.vue'
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { useTaskStore } from '@/stores/taskStore.ts'
+import PlaceholderLastComplTask from '@/components/ui/PlaceholderLastComplTask.vue'
 
 // today
 const date = computed(() => {
@@ -276,13 +277,15 @@ async function submitTask(task: CreateTaskType) {
 
         <!-- Tasks -->
         <div class="grid grid-cols-1 grid-rows-5 gap-3 mt-4">
-          <div v-for="task in lastCompletedTasks.slice(0, 5)" :key="task.id">
             <StatsCompletedTask
+              v-if="!taskStore.loading"
+              v-for="task in lastCompletedTasks.slice(0, 5)" :key="task.id"
               :title="task.title"
               :date="task.createdAt"
               :xp="task.xpAwarded"
             ></StatsCompletedTask>
-          </div>
+
+          <PlaceholderLastComplTask v-if="taskStore.loading || lastCompletedTasks.length === 0" :key="i" v-for="i in 5"></PlaceholderLastComplTask>
         </div>
       </div>
 
