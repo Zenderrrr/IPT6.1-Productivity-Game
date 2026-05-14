@@ -137,7 +137,7 @@ namespace FocusUp.Controllers
                 Expires = userRefreshToken.ExpiresAt
             });
 
-            return Ok(newAccessToken);
+            return Ok(new { newAccessToken });
         }
 
         [HttpPost("logout")]
