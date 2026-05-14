@@ -24,6 +24,8 @@ import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vu
 import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
 import type { TaskCompleteType } from '@/types/taskComplete.ts'
 import Filter from '@/components/ui/Filter.vue'
+import { storeToRefs } from 'pinia'
+import PlaceholderTask from '@/components/ui/PlaceholderTask.vue'
 
 
 // date
@@ -94,7 +96,7 @@ const filteredTaskData = computed(() => {
 
 // get category to task
 function getCategoryById(id: number) {
-  return categoryData.value?.find(t => t.id === id) ?? null
+  return categoriesData.value?.find(t => t.id === id) ?? null
 }
 
 const error = ref<string | null>(null)
@@ -120,7 +122,7 @@ const levelProgress = computed(() => {
 
 // category logic
 const categoryStore = useCategoryStore()
-const categoryData = computed(() => categoryStore.categoriesData)
+const { categoriesData } = storeToRefs(categoryStore)
 
 // auth logic
 const authStore = useAuthStore()
@@ -173,6 +175,11 @@ async function submitCategory(category: Category) : Promise<void> {
   }catch(e){
     console.error(e)
   }
+}
+
+// delete category
+async function deleteCategory(id: number) : Promise<void> {
+  await categoryStore.deleteCategory(id);
 }
 
 // show delete pop-up
@@ -340,13 +347,16 @@ function resetFilter(){
 
           <!-- Categories-->
           <div class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0">
-            <Categories text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
+            <Categories :can-be-remove="false" text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
             <Categories
-              v-for="category in categoryData"
+              v-for="category in categoriesData ?? []"
+              :id="category.id"
               :key="category.id"
+              :can-be-remove="true"
               :text="category.name"
               :isActive="whichIsActive === category.id"
               @clicked="changeActiveCategory(category.id)"
+              @remove="deleteCategory"
             ></Categories>
             <div @click="showPopUpCategory = true" class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline">
               <span>Erstelle Kategorie</span>
@@ -372,14 +382,14 @@ function resetFilter(){
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
-                >{{ dashboardData?.tasksOpen }}</span
+                >{{ dashboardData?.tasksOpen ?? 0 }}</span
               >
             </div>
             <div class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
-                >{{ dashboardData?.tasksDone }}</span
+                >{{ dashboardData?.tasksDone ?? 0 }}</span
               >
             </div>
           </div>
@@ -389,6 +399,7 @@ function resetFilter(){
             class="scrollbar flex flex-1 flex-col justify-start mt-4 pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-0 "
           >
             <TasksComponent
+              v-if="!taskStore.loading"
               v-for="task in filteredTaskData"
               :key="task.id"
               :task-title="task.title"
@@ -407,6 +418,10 @@ function resetFilter(){
               <Tag v-if="task.category !== null && task.status !== 3 && !isTaskChecked(task.id)" :name="task.category.name" :color-hex="task.category.color" text-color-hex="#FFFFFF"></Tag>
               <Tag v-if="task.category !== null && (task.status === 3 || isTaskChecked(task.id))" :name="task.category.name" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
             </TasksComponent>
+
+            <div v-if="taskStore.loading || filteredTaskData.length === 0" class="flex flex-col items-center justify-center gap-3">
+              <PlaceholderTask v-for="i in 10"></PlaceholderTask>
+            </div>
           </div>
         </section>
 
@@ -427,7 +442,7 @@ function resetFilter(){
           <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
             <span class="uppercase font-semibold">Bis zum nächsten Level</span>
             <div class="flex items-center justify-between w-full mt-4 mb-2">
-              <span>Lv. {{ dashboardData?.level }} - Macher</span>
+              <span>Lv. {{ dashboardData?.level }}</span>
               <span class="text-[var(--text-color)] font-semibold"
                 >{{ dashboardData?.xpCurrent }} / {{ dashboardData?.xpNext }} XP</span
               >
