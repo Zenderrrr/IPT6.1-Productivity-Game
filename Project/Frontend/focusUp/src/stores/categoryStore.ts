@@ -65,14 +65,13 @@ export const useCategoryStore = defineStore('category', () => {
   }
 
   async function deleteCategory(id: number) {
-    loading.value = true
     error.value = null
     try {
+      categoriesData.value = categoriesData.value?.filter(t => t.id !== id) ?? []
+
       await deleteCategoryApi(id)
     }catch(e) {
       error.value = e ? e.message : 'Failed to delete category'
-    } finally {
-      loading.value = false
     }
   }
 
