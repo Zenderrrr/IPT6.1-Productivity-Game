@@ -15,16 +15,18 @@ namespace FocusUp.Application.Strategies
         // calculate the current Level based on the totalXP
         public int CalculateLevel(int totalXP)
         {
-            return (int)Math.Floor(Math.Sqrt(totalXP / _baseXP)) + 1;
+            return (int)Math.Floor(Math.Sqrt((double)totalXP / _baseXP)) + 1;
         }
 
         // calculate the progress to next Level (value within 0 to 1)
         public double CalculateProgressToNextLevel(int totalXP)
         {
-            double xpCurrent = _baseXP * Math.Pow((CalculateLevel(totalXP) - 1), 2);
-            double xpNext = _baseXP * Math.Pow(CalculateLevel(totalXP), 2);
+            int level = CalculateLevel(totalXP);
 
-            return 1 / xpNext * xpCurrent;
+            double xpCurrent = _baseXP * Math.Pow((level - 1), 2);
+            double xpNext = _baseXP * Math.Pow(level, 2);
+
+            return (totalXP - xpCurrent) / (xpNext - xpCurrent);
         }
     }
 }
