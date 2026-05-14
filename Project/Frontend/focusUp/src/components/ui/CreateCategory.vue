@@ -113,7 +113,7 @@ const colors = [
       <div class="w-full flex justify-end items-center gap-3">
         <button
           @click="cancel"
-          class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold"
+          class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-75 cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold"
         >
           Cancel
         </button>
