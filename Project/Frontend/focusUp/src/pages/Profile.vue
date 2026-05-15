@@ -20,7 +20,6 @@ const badgeStore = useBadgeStore()
 
 const userInfo = ref<User | null>(null)
 const dashboardInfo = ref<Dashboard | null>(null)
-const badgeInfo = ref<Badge[] | null>(null)
 const badgeUnlockedInfo = ref<Badge[] | null>(null)
 const error = ref<string | null>(null)
 
@@ -36,8 +35,7 @@ onMounted(async () => {
     await statsStore.dashboard('0')
     dashboardInfo.value = statsStore.dashboardData
 
-    await badgeStore.allBadge()
-    badgeInfo.value = badgeStore.badgeData
+    await badgeStore.allBadges()
 
     await badgeStore.badgeUnlocked()
     badgeUnlockedInfo.value = badgeStore.badgeUnlockedData
@@ -61,6 +59,29 @@ async function onDeleteUser(){
 }
 
 const isDeleteUserShown = ref<boolean>(false)
+
+const allVisible = ref<boolean>(false)
+const badges = ref<Badge[] | null>(null)
+const updatedBadges = computed(() => {
+  if(allVisible.value){
+    return badges.value
+  }
+  return badges.value?.slice(0, 11) ?? []
+})
+
+async function getBadges(){
+  return await Promise.all(
+    badgeStore.badgeData?.map(async (t) => ({
+      ...t,
+      img: await badgeStore.badgeImgById(t.name)
+    })) ?? []
+  )
+}
+
+onMounted(async () => {
+  await badgeStore.allBadges()
+  badges.value = await getBadges()
+})
 </script>
 
 <template>
@@ -106,7 +127,6 @@ const isDeleteUserShown = ref<boolean>(false)
               color-hex="#ebf8f7"
               text-color-hex="#0F172A"
             ></Tag>
-            <Tag name="Macher" color-hex="#ebf8f7" text-color-hex="#0F172A"></Tag>
           </div>
         </div>
       </div>
@@ -125,8 +145,17 @@ const isDeleteUserShown = ref<boolean>(false)
         <span class="font-semibold text-lg">Badges</span>
         <div class="h-0.5 w-full bg-gray-200"></div>
       </div>
-      <div class="grid grid-cols-7 gap-5 mt-4">
-        <Badges v-for="badge in badgeInfo" :key="badge.id" :checked="badgeUnlockedInfo?.some(t => t.id === badge.id)" :name="badge.name" svg="" color-hex="" svg-color-hex=""></Badges>
+      <div class="grid grid-cols-6 auto-rows-[140px] gap-5 mt-4">
+        <Badges v-for="badge in updatedBadges" :key="badge.id" :checked="badgeUnlockedInfo?.some(t => t.id === badge.id)" :name="badge.name" :svg="badge.img ?? '' " :color-hex="badge.secondaryColor" :svg-color-hex="badge.primaryColor"></Badges>
+
+        <button @click="allVisible = !allVisible" class="badge text-center flex flex-col gap-2 justify-center items-center rounded-xl border-dashed border-2 border-[var(--primary-color)]">
+          <div class="border border-[var(--primary-color)] flex justify-center items-center w-[45px] h-[45px] bg-[var(--primary-color-light)] text-[var(--primary-color)] rounded-lg">
+            <i v-if="!allVisible" class="fa-solid fa-angle-down"></i>
+            <i v-if="allVisible" class="fa-solid fa-angle-up"></i>
+          </div>
+          <span v-if="!allVisible" class="font-semibold text-sm text-[var(--primary-color)]">Alle anzeigen</span>
+          <span v-if="allVisible" class="font-semibold text-sm text-[var(--primary-color)]">Weniger anzeigen</span>
+        </button>
       </div>
     </section>
 
@@ -169,7 +198,7 @@ const isDeleteUserShown = ref<boolean>(false)
             <div class="flex flex-col items-start justify-center gap-1">
               <span class="font-semibold text-md">Passwort</span>
               <span class="text-[var(--text-color-light)] text-sm"
-                >Zuletzt geändert vor 3 Monaten</span
+                >Wechse dein Passwort einfach & sicher</span
               >
             </div>
           </div>
