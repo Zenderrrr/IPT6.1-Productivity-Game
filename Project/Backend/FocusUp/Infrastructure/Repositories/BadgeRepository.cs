@@ -64,14 +64,17 @@ namespace FocusUp.Infrastructure.Repositories
             var connection = _dbConnection.GetConnection();
             using var cmd = connection.CreateCommand();
 
-            cmd.CommandText = $@"INSERT INTO {_tableName} (name, description, rule_type, rule_value, created_at) 
-                                VALUES (@name, @description, @rule_type, @rule_value, @created_at);
+            cmd.CommandText = $@"INSERT INTO {_tableName} (name, description, rule_type, rule_value, rarity, primary_color, secondary_color, created_at) 
+                                VALUES (@name, @description, @rule_type, @rule_value, @rarity, @primary_color, @secondary_color , @created_at);
                                 SELECT last_insert_rowid()";
 
             cmd.Parameters.AddWithValue("@name", badge.Name);
             cmd.Parameters.AddWithValue("@description", badge.Description);
             cmd.Parameters.AddWithValue("@rule_type", badge.RuleType.ToString());
             cmd.Parameters.AddWithValue("@rule_value", badge.RuleValue);
+            cmd.Parameters.AddWithValue("@rarity", badge.Rarity);
+            cmd.Parameters.AddWithValue("@primary_color", badge.PrimaryColor);
+            cmd.Parameters.AddWithValue("@secondary_color", badge.SecondaryColor);
             cmd.Parameters.AddWithValue("@created_at", badge.CreatedAt);
 
             var id = cmd.ExecuteScalar();
@@ -85,13 +88,16 @@ namespace FocusUp.Infrastructure.Repositories
             using var cmd = connection.CreateCommand();
 
             cmd.CommandText = $@"UPDATE {_tableName}
-                                SET name = @name, description = @description, rule_type = @rule_type, rule_value = @rule_value
+                                SET name = @name, description = @description, rule_type = @rule_type, rule_value = @rule_value, rarity = @rarity, primary_color = @primary_color, secondary_color = @secondary_color
                                 WHERE id = @id";
             cmd.Parameters.AddWithValue("@id", badge.Id);
             cmd.Parameters.AddWithValue("@name", badge.Name);
             cmd.Parameters.AddWithValue("@description", badge.Description);
             cmd.Parameters.AddWithValue("@rule_type", badge.RuleType.ToString());
             cmd.Parameters.AddWithValue("@rule_value", badge.RuleValue);
+            cmd.Parameters.AddWithValue("@rarity", badge.Rarity);
+            cmd.Parameters.AddWithValue("@primary_color", badge.PrimaryColor);
+            cmd.Parameters.AddWithValue("@secondary_color", badge.SecondaryColor);
 
             cmd.ExecuteNonQuery();
         }
@@ -120,7 +126,10 @@ namespace FocusUp.Infrastructure.Repositories
                 reader.GetString(reader.GetOrdinal("name")),
                 description ?? "",
                 Enum.Parse<BadgeRuleType>(reader.GetString(reader.GetOrdinal("rule_type"))),
-                reader.GetInt32(reader.GetOrdinal("rule_value"))
+                reader.GetInt32(reader.GetOrdinal("rule_value")),
+                Enum.Parse<BadgeRarity>(reader.GetString(reader.GetOrdinal("rarity"))),
+                reader.GetString(reader.GetOrdinal("primary_color")),
+                reader.GetString(reader.GetOrdinal("secondary_color"))
                 );
 
             badge.SetId(reader.GetInt32(reader.GetOrdinal("id")));
