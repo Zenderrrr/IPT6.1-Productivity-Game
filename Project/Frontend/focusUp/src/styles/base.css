@@ -43,6 +43,10 @@ main {
   margin: calc(var(--spacing) * 10) auto;
 }
 
+button {
+  cursor: pointer;
+}
+
 .placeholder{
   @apply bg-gray-200 rounded-sm animate-pulse;
 }
