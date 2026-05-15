@@ -9,6 +9,7 @@ using Microsoft.OpenApi;
 using static System.Threading.Tasks.Task;
 using System.Text;
 using FocusUp.Infrastructure.Data;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -124,7 +125,14 @@ var app = builder.Build();
 
 app.UseCors("Frontend");
 
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:5173";
+        ctx.Context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
+    }
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
