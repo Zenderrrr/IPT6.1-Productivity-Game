@@ -19,7 +19,7 @@ onMounted(async () => {
 
 <template>
   <nav
-    class="flex bg-[var(--surface-color)] justify-between items-center px-4 border-b border-gray-200"
+    class="z-999 top-0 sticky flex bg-[var(--surface-color)] justify-between items-center px-4 border-b border-gray-200"
   >
     <div class="flex items-center justify-between py-5 px-5">
       <Logo link="/dashboard" class="mr-9"></Logo>
