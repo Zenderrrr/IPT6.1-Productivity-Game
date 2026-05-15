@@ -3,10 +3,11 @@ import { ref } from 'vue'
 import type { Badge } from '@/types/badge.ts'
 import {
   getAllBadgesApi,
-  getBadgeByIdApi,
+  getBadgeByIdApi, getBadgeImgByIdApi,
   getLockedBadgesApi,
   getUnlockedBadgesApi,
 } from '@/api/badge.api.ts'
+import { slug } from '@/utils/slug.ts'
 
 export const useBadgeStore = defineStore('badge', () => {
   const loading = ref<boolean>(false)
@@ -74,5 +75,15 @@ export const useBadgeStore = defineStore('badge', () => {
     }
   }
 
-  return {allBadge,loading,error,badgeData, badgeUnlocked, badgeUnlockedData, badgeLocked, badgeLockedData}
+  async function badgeImgById(name: string) : Promise<string | undefined> {
+    const nameSlug = slug(name)
+    console.log(nameSlug)
+    try{
+      return await getBadgeImgByIdApi(nameSlug)
+    }catch(e){
+      error.value = e ? e.message : 'Unable to fetch badge image'
+    }
+  }
+
+  return { allBadges: allBadge,loading,error,badgeData, badgeUnlocked, badgeUnlockedData, badgeLocked, badgeLockedData, badgeImgById}
 })
