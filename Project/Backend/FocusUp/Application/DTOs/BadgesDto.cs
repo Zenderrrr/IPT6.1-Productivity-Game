@@ -13,6 +13,11 @@ namespace FocusUp.Application.DTOs
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public BadgeRuleType RuleType { get; set; }
         public int RuleValue { get; set; } = 0;
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public BadgeRarity Rarity { get; set; }
+        public string PrimaryColor { get; set; } = string.Empty;
+        public string SecondaryColor { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
     }
 }
