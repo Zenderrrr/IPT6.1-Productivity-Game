@@ -33,6 +33,9 @@ namespace FocusUp.Controllers
                         Description = b.Description,
                         RuleType = b.RuleType,
                         RuleValue = b.RuleValue,
+                        Rarity = b.Rarity,
+                        PrimaryColor = b.PrimaryColor,
+                        SecondaryColor = b.SecondaryColor,
                         CreatedAt = b.CreatedAt,
                     }
                 );
@@ -61,6 +64,9 @@ namespace FocusUp.Controllers
                         Description = b.Description,
                         RuleType = b.RuleType,
                         RuleValue = b.RuleValue,
+                        Rarity = b.Rarity,
+                        PrimaryColor = b.PrimaryColor,
+                        SecondaryColor = b.SecondaryColor,
                         CreatedAt = b.CreatedAt,
                     }
                 );
@@ -89,6 +95,9 @@ namespace FocusUp.Controllers
                         Description = b.Description,
                         RuleType = b.RuleType,
                         RuleValue = b.RuleValue,
+                        Rarity = b.Rarity,
+                        PrimaryColor = b.PrimaryColor,
+                        SecondaryColor = b.SecondaryColor,
                         CreatedAt = b.CreatedAt,
                     }
                 );
@@ -114,7 +123,7 @@ namespace FocusUp.Controllers
                     return NotFound();
 
                 bool hasBadge = _badgeService.HasBadge(userId, badge.Id);
-                return Ok( new { badge.Id, badge.Name, badge.Description, badge.RuleType, badge.RuleValue, badge.CreatedAt, hasBadge });
+                return Ok( new { badge.Id, badge.Name, badge.Description, badge.RuleType, badge.RuleValue, badge.Rarity, badge.PrimaryColor, badge.SecondaryColor, badge.CreatedAt, hasBadge });
             }
             catch (Exception)
             {
