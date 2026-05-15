@@ -60,8 +60,10 @@ CREATE TABLE Badge (
     rarity VARCHAR(20) NOT NULL DEFAULT 'Common',
     primary_color VARCHAR(7) NOT NULL DEFAULT '#FFFFFF',
     secondary_color VARCHAR(7) NOT NULL DEFAULT '#000000',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    svg TEXT;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    svg TEXT,
+    isVisible INTEGER NOT NULL DEFAULT 1;
+
 );
 ```
 
