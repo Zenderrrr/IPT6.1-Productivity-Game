@@ -36,3 +36,15 @@ export async function getLockedBadgesApi(): Promise<Badge[]> {
     }
   })
 }
+
+export async function getBadgeImgByIdApi(slug: string): Promise<string> {
+  const res = await fetch(`http://localhost:5165/uploads/badges/${slug}.svg`, {
+    credentials: 'include',
+  })
+
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(`Error ${res.status}: ${text}`)
+  }
+  return await res.text()
+}
