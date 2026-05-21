@@ -12,7 +12,7 @@ namespace FocusUp.Infrastructure.Data
         {
             _databaseConnection = databaseConnection;
 
-            _scriptPath = Path.Combine(Directory.GetCurrentDirectory(), "Database");
+            _scriptPath = Path.Combine(Directory.GetCurrentDirectory(), "database");
         }
 
         public void Run()
@@ -67,7 +67,7 @@ namespace FocusUp.Infrastructure.Data
             var createFile = Path.Combine(_scriptPath, "create.sql");
 
             if (!File.Exists(createFile))
-                return;
+                throw new FileNotFoundException(createFile);
 
             ExecuteSqlFile(connection, createFile);
 
