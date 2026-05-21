@@ -88,7 +88,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function refresh(){
     try {
-      token.value = await RefreshApi()
+      const res = await RefreshApi()
+      token.value = res?.newAccessToken ? res.newAccessToken : ''
       localStorage.setItem('token', token.value ?? '')
     }catch (e){
       await logout()

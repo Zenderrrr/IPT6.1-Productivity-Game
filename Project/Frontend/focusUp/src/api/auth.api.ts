@@ -53,17 +53,8 @@ export async function deleteUserApi(token: string) : Promise<void> {
 }
 
 export async function RefreshApi() : Promise<string | null> {
-  const res = await fetch('http://localhost:5165/api/auth/refresh', {
+  return await apiFetch('/auth/refresh', {
     method: 'POST',
-    credentials: 'include'
+    credentials: 'include',
   })
-
-  if (!res.ok) {
-    const text = await res.text()
-    console.log(`Error ${res.status}: ${text}`)
-    throw new Error(`Error ${res.status}: ${text}`)
-  }
-
-  const data = await res.json()
-  return data.token
 }
