@@ -231,8 +231,11 @@ _taskCompletionService = new TaskCompletionService(
                 "XP Badge",
                 "Earn XP",
                 BadgeRuleType.xp_total,
-                100
-            )
+                100,
+                BadgeRarity.Common,
+                "#FFFFFF",
+                "#000000"
+)
         );
 
         var taskId = _taskRepository.Insert(
