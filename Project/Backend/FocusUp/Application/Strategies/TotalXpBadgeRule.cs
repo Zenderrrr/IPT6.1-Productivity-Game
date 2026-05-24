@@ -10,7 +10,7 @@ namespace FocusUp.Application.Strategies
 
         public TotalXpBadgeRule() { }
 
-        public bool IsUnlocked(UserStats stats, Badge badge) => stats.TotalXp >= badge.RuleValue;
+        public bool IsUnlocked(BadgeContext context, Badge badge) => context.Stats.TotalXp >= badge.RuleValue;
 
         public BadgeRuleType GetRuleType() => _ruleType;
     }
