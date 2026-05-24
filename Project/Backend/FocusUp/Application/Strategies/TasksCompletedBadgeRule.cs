@@ -10,7 +10,7 @@ namespace FocusUp.Application.Strategies
 
         public TasksCompletedBadgeRule() { }
 
-        public bool IsUnlocked(UserStats stats, Badge badge) => stats.TasksDone >= badge.RuleValue;
+        public bool IsUnlocked(BadgeContext context, Badge badge) => context.Stats.TasksDone >= badge.RuleValue;
 
         public BadgeRuleType GetRuleType() => _ruleType;
     }
