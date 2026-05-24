@@ -1,7 +1,9 @@
-﻿using FocusUp.Application.Strategies.Interfaces;
+﻿using FocusUp.Application.Strategies;
+using FocusUp.Application.Strategies.Interfaces;
 using FocusUp.Common.Exceptions;
 using FocusUp.Domain.Enums;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.Sqlite;
 using System;
 
@@ -13,13 +15,15 @@ namespace FocusUp.Application.Services
         private readonly BadgeRepository _badgeRepository;
         private readonly UserBadgeRepository _userBadgeRepository;
         private readonly List<IBadgeRule> _badgeRules;
+        private readonly TaskRepository _taskRepository;
 
-        public BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, IEnumerable<IBadgeRule> badgeRules)
+        public BadgeService(UserStatsRepository userStatsRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository, IEnumerable<IBadgeRule> badgeRules, TaskRepository taskRepository)
         {
             _userStatsRepository = userStatsRepository;
             _userBadgeRepository = userBadgeRepository;
             _badgeRepository = badgeRepository;
             _badgeRules = badgeRules.ToList();
+            _taskRepository = taskRepository;
         }
 
         public Badge? GetBadgeById(int id) => _badgeRepository.GetById(id);
@@ -41,6 +45,8 @@ namespace FocusUp.Application.Services
             var badges = GetAvailableBadges();
             UserStats? userStats = _userStatsRepository.GetByUserId(userId) ?? throw new UserStatsNotFoundException(userId);
 
+            var tasks = _taskRepository.GetAllByUserId(userId) ?? throw new Exception("Tasks not found");
+
             List<Badge> awardedBadges = new();
 
             var userBadges = _userBadgeRepository.GetByUserId(userId);
@@ -52,7 +58,7 @@ namespace FocusUp.Application.Services
                 if (hasBadge) continue;
 
                 var rule = _badgeRules.FirstOrDefault(b => b.GetRuleType() == badgeRuleType) ?? throw new BadgeRuleNotFoundException(badgeRuleType, badge.Id);
-                bool isUnlocked = rule.IsUnlocked(userStats, badge);
+                bool isUnlocked = rule.IsUnlocked(new BadgeContext(userStats, tasks), badge);
                 if (!isUnlocked) continue;
 
                 UserBadge userBadge = new UserBadge(userId, badge.Id, awardedAt);
@@ -70,6 +76,8 @@ namespace FocusUp.Application.Services
             var badges = GetAvailableBadges();
             UserStats? userStats = _userStatsRepository.GetByUserId(userId, connection, transaction) ?? throw new UserStatsNotFoundException(userId);
 
+            var tasks = _taskRepository.GetAllByUserId(userId) ?? throw new Exception("Tasks not found");
+
             List<Badge> awardedBadges = new();
 
             var userBadges = _userBadgeRepository.GetByUserId(userId, connection, transaction);
@@ -81,7 +89,7 @@ namespace FocusUp.Application.Services
                 if (hasBadge) continue;
 
                 var rule = _badgeRules.FirstOrDefault(b => b.GetRuleType() == badgeRuleType) ?? throw new BadgeRuleNotFoundException(badgeRuleType, badge.Id);
-                bool isUnlocked = rule.IsUnlocked(userStats, badge);
+                bool isUnlocked = rule.IsUnlocked(new BadgeContext(userStats, tasks), badge);
                 if (!isUnlocked) continue;
 
                 UserBadge userBadge = new UserBadge(userId, badge.Id, awardedAt);
