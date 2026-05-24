@@ -12,9 +12,13 @@ namespace FocusUp.Application.Strategies
         {
         }
 
-        public bool IsUnlocked(UserStats stats, Badge badge)
+        public bool IsUnlocked(BadgeContext context, Badge badge)
         {
-            throw new NotImplementedException();
+            return context.Tasks.Any(t => {
+                if (t.CompletedAt == null) return false;
+
+                return new TimeOnly(t.CompletedAt.Value.Hour, t.CompletedAt.Value.Minute) <= new TimeOnly(badge.RuleValue, 0);
+            });
         }
 
         public BadgeRuleType GetRuleType() => _ruleType;
