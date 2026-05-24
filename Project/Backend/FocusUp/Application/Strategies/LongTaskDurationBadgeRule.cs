@@ -10,9 +10,9 @@ namespace FocusUp.Application.Strategies
 
         public LongTaskDurationBadgeRule() { }
 
-        public bool IsUnlocked(UserStats stats, Badge badge)
+        public bool IsUnlocked(BadgeContext context, Badge badge)
         {
-            throw new NotImplementedException();
+            return context.Tasks.Any(t => t.DurationMin >= badge.RuleValue);
         }
 
         public BadgeRuleType GetRuleType() => _ruleType;
