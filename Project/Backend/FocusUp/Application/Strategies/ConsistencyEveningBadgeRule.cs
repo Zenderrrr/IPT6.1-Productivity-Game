@@ -6,15 +6,19 @@ namespace FocusUp.Application.Strategies
 {
     public class ConsistencyEveningBadgeRule : IBadgeRule
     {
-        private readonly BadgeRuleType _ruleType = BadgeRuleType.consistency_check_morning;
+        private readonly BadgeRuleType _ruleType = BadgeRuleType.consistency_check_evening;
 
         public ConsistencyEveningBadgeRule()
         {
         }
 
-        public bool IsUnlocked(UserStats stats, Badge badge)
+        public bool IsUnlocked(BadgeContext context, Badge badge)
         {
-            throw new NotImplementedException();
+            return context.Tasks.Any(t => {
+                if (t.CompletedAt == null) return false;
+
+                return new TimeOnly(t.CompletedAt.Value.Hour, t.CompletedAt.Value.Minute) >= new TimeOnly(badge.RuleValue, 0);
+            });
         }
 
         public BadgeRuleType GetRuleType() => _ruleType;
