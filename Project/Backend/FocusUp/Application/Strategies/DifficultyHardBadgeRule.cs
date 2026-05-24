@@ -12,9 +12,9 @@ namespace FocusUp.Application.Strategies
         {
         }
 
-        public bool IsUnlocked(UserStats stats, Badge badge)
+        public bool IsUnlocked(BadgeContext context, Badge badge)
         {
-            throw new NotImplementedException();
+            return context.Tasks.Count(t => t.Difficulty == TaskDifficultyType.Hard) > badge.RuleValue;
         }
 
         public BadgeRuleType GetRuleType() => _ruleType;
