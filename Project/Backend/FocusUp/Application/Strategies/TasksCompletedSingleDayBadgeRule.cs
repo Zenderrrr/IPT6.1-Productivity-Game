@@ -10,9 +10,13 @@ namespace FocusUp.Application.Strategies
 
         public TasksCompletedSingleDayBadgeRule() { }
 
-        public bool IsUnlocked(UserStats stats, Badge badge)
+        public bool IsUnlocked(BadgeContext context, Badge badge)
         {
-            throw new NotImplementedException();
+            int taskToday = context.Tasks.Count(t => {
+                if (t.CompletedAt == null) return false;
+                return t.CompletedAt.Value.Date == DateTime.Now.Date;
+            });
+            return taskToday >= badge.RuleValue;
         }
 
         public BadgeRuleType GetRuleType() => _ruleType;
