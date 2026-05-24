@@ -10,7 +10,7 @@ namespace FocusUp.Application.Strategies
 
         public TimeLoggedBadgeRule() { }
 
-        public bool IsUnlocked(UserStats stats, Badge badge) => stats.TotalTimeMin >= badge.RuleValue;
+        public bool IsUnlocked(BadgeContext context, Badge badge) => context.Stats.TotalTimeMin >= badge.RuleValue;
 
         public BadgeRuleType GetRuleType() => _ruleType;
     }
