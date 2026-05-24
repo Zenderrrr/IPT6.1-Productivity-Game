@@ -14,7 +14,7 @@
 </script>
 
 <template>
-    <div class="absolute w-[100vw] h-[100vh] flex justify-center items-center backdrop-blur-xs z-999">
+    <div class="fixed inset-0 flex justify-center items-center backdrop-blur-xs z-999">
       <div class="base-element">
         <!-- Title and close-->
         <div class="flex items-center justify-between min-w-[500px]">
