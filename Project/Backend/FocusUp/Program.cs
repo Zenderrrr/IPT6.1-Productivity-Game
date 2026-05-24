@@ -86,6 +86,15 @@ builder.Services.AddScoped<IBadgeRule, StreakBadgeRule>();
 builder.Services.AddScoped<IBadgeRule, TasksCompletedBadgeRule>();
 builder.Services.AddScoped<IBadgeRule, TimeLoggedBadgeRule>();
 builder.Services.AddScoped<IBadgeRule, TotalXpBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, ComebackAfterBreakBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, ConsistencyDeadlineBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, ConsistencyEveningBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, ConsistencyMorningBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, DifficultyEasyBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, DifficultyHardBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, DifficultyHardcoreBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, LongTaskDurationBadgeRule>();
+builder.Services.AddScoped<IBadgeRule, TasksCompletedSingleDayBadgeRule>();
 
 builder.Services.AddScoped<BadgeRepository>();
 builder.Services.AddScoped<TaskLogRepository>();
