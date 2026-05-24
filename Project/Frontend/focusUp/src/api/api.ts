@@ -3,44 +3,43 @@ import { useAuthStore } from '@/stores/authStore.ts'
 const API_URL = "http://localhost:5165/api";
 
 export async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
 
   let res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      ...(authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {}),
-      ...(options?.headers || {})
-    },
-    credentials: 'include'
+      ...(options?.headers || {}),
+    }
   });
 
-  if(res.status === 401 || res.status === 403 || res.status === 500) {
-    try {
-      await authStore.refresh()
+  if(res.status === 401 || res.status === 403) {
+    try{
+      await authStore.refresh();
 
       res = await fetch(`${API_URL}${endpoint}`, {
         ...options,
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          ...(authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {}),
-          ...(options?.headers || {})
-        },
-        credentials: 'include'
-      });
-    }catch{
-      throw new Error(`Session expired`)
+          ...(options?.headers || {}),
+          ...(authStore.token ? { Authorization: `BEARER ${authStore.token}` } : {}),
+        }
+      })
+    }catch(err){
+      const text = await res.text();
+      throw new Error(`ERROR: ${res.status}: ${text}`);
     }
   }
 
+  if(!res.ok){
+    const text = await res.text();
 
-  if (!res.ok) {
-    const text = await res.text()
-
-    console.log(`Error ${res.status}: ${text}`)
-
-    throw new Error(`Error ${res.status}: ${text}`)
+    console.log(`ERROR: ${res.status}: ${text}`);
+    throw new Error(`ERROR: ${res.status}: ${text}`);
   }
 
-  return res.json()
+  return res.json();
 }
+
