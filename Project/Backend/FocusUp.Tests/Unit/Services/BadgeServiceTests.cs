@@ -7,8 +7,14 @@ using FocusUp.Infrastructure.Repositories;
 
 namespace FocusUp.Tests.Services;
 
+/// <summary>
+/// Tests for the BadgeService.
+/// </summary>
 public class BadgeServiceTests
 {
+    /// <summary>
+    /// Ensures HasBadge returns true when the badge exists.
+    /// </summary>
     [Fact]
     public void HasBadge_WhenBadgeExists_ShouldReturnTrue()
     {
@@ -22,6 +28,9 @@ public class BadgeServiceTests
         service.HasBadge(badges, 5).Should().BeTrue();
     }
 
+    /// <summary>
+    /// Ensures HasBadge returns false when the badge does not exist.
+    /// </summary>
     [Fact]
     public void HasBadge_WhenBadgeDoesNotExist_ShouldReturnFalse()
     {
@@ -35,6 +44,9 @@ public class BadgeServiceTests
         service.HasBadge(badges, 5).Should().BeFalse();
     }
 
+    /// <summary>
+    /// Ensures badges are unlocked when the rule is fulfilled.
+    /// </summary>
     [Fact]
     public void CheckAndAwardBadges_WhenRuleFulfilled_ShouldUnlockBadge()
     {
@@ -66,6 +78,9 @@ public class BadgeServiceTests
         userBadgeRepo.Exists(userId, badgeId).Should().BeTrue();
     }
 
+    /// <summary>
+    /// Ensures already unlocked badges are not awarded twice.
+    /// </summary>
     [Fact]
     public void CheckAndAwardBadges_WhenBadgeAlreadyUnlocked_ShouldNotAwardAgain()
     {
@@ -97,6 +112,9 @@ public class BadgeServiceTests
         userBadgeRepo.GetByUserId(userId).Should().HaveCount(1);
     }
 
+    /// <summary>
+    /// Ensures badges are not unlocked when the rule is not fulfilled.
+    /// </summary>
     [Fact]
     public void CheckAndAwardBadges_WhenRuleNotFulfilled_ShouldNotUnlockBadge()
     {
@@ -124,6 +142,9 @@ public class BadgeServiceTests
         userBadgeRepo.GetByUserId(userId).Should().BeEmpty();
     }
 
+    /// <summary>
+    /// Ensures only matching badge rules are applied.
+    /// </summary>
     [Fact]
     public void CheckAndAwardBadges_ShouldOnlyApplyMatchingBadgeRules()
     {
