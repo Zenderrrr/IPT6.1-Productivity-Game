@@ -12,22 +12,36 @@ using FocusUp.Infrastructure.Repositories;
 
 namespace FocusUp.Tests.Controllers;
 
+/// <summary>
+/// Unit tests for the TasksController.
+/// Tests authorization, validation, task ownership,
+/// and successful task operations.
+/// </summary>
 public class TasksControllerTests
 {
+    /// <summary>
+    /// Ensures unauthorized users cannot access a task.
+    /// </summary>
     [Fact]
     public void GetTaskById_WithoutUserClaim_ShouldReturnUnauthorized()
     {
+        // Create controller without authenticated user
         var controller = new TasksController(null!, null!, null!, null!);
         controller.ControllerContext = new ControllerContext
         {
             HttpContext = new DefaultHttpContext()
         };
 
+        // Execute request
         var result = controller.GetTaskById(1);
 
+        // Verify unauthorized response
         result.Should().BeOfType<UnauthorizedResult>();
     }
 
+    /// <summary>
+    /// Ensures requesting a non-existing task returns NotFound.
+    /// </summary>
     [Fact]
     public void GetTaskById_WhenTaskDoesNotExist_ShouldReturnNotFound()
     {
@@ -37,11 +51,15 @@ public class TasksControllerTests
         var controller = CreateController(db, userId);
         SetUser(controller, userId);
 
+        // Request invalid task id
         var result = controller.GetTaskById(999);
 
         result.Should().BeOfType<NotFoundResult>();
     }
 
+    /// <summary>
+    /// Ensures users cannot access tasks belonging to another user.
+    /// </summary>
     [Fact]
     public void GetTaskById_WhenTaskBelongsToOtherUser_ShouldReturnForbidden()
     {
@@ -50,10 +68,12 @@ public class TasksControllerTests
         var ownerId = TestDatabaseHelper.InsertUser();
         var otherUserId = TestDatabaseHelper.InsertUser();
 
+        // Insert user statistics
         var userStatsRepo = new UserStatsRepository(db);
         userStatsRepo.Insert(new UserStats(ownerId));
         userStatsRepo.Insert(new UserStats(otherUserId));
 
+        // Create task for owner
         var taskRepo = new TaskRepository(db);
         var taskId = taskRepo.Insert(new Task(
             ownerId,
@@ -64,6 +84,7 @@ public class TasksControllerTests
             FocusUp.Domain.Enums.TaskStatus.Open
         ));
 
+        // Authenticate as different user
         var controller = CreateController(db, otherUserId);
         SetUser(controller, otherUserId);
 
@@ -72,6 +93,9 @@ public class TasksControllerTests
         result.Should().BeOfType<ForbidResult>();
     }
 
+    /// <summary>
+    /// Ensures valid tasks return correct DTO data.
+    /// </summary>
     [Fact]
     public void GetTaskById_WithValidTask_ShouldReturnExpectedResponseStructure()
     {
@@ -81,6 +105,7 @@ public class TasksControllerTests
         var userStatsRepo = new UserStatsRepository(db);
         userStatsRepo.Insert(new UserStats(userId));
 
+        // Create valid task
         var taskRepo = new TaskRepository(db);
         var taskId = taskRepo.Insert(new Task(
             userId,
@@ -96,6 +121,7 @@ public class TasksControllerTests
 
         var result = controller.GetTaskById(taskId);
 
+        // Validate response structure
         var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
         var dto = okResult.Value.Should().BeOfType<TaskDto>().Subject;
 
@@ -107,6 +133,9 @@ public class TasksControllerTests
         dto.DurationMin.Should().Be(30);
     }
 
+    /// <summary>
+    /// Ensures invalid task difficulty returns BadRequest.
+    /// </summary>
     [Fact]
     public void CreateTask_WithInvalidInput_ShouldReturnBadRequest()
     {
@@ -116,6 +145,7 @@ public class TasksControllerTests
         var controller = CreateController(db, userId);
         SetUser(controller, userId);
 
+        // Invalid difficulty string
         var request = new CreateTaskRequest
         {
             Title = "Task",
@@ -129,6 +159,9 @@ public class TasksControllerTests
         result.Should().BeOfType<BadRequestObjectResult>();
     }
 
+    /// <summary>
+    /// Ensures valid task creation returns HTTP 201.
+    /// </summary>
     [Fact]
     public void CreateTask_WithValidInput_ShouldReturnCreatedStatusCode()
     {
@@ -141,6 +174,7 @@ public class TasksControllerTests
         var controller = CreateController(db, userId);
         SetUser(controller, userId);
 
+        // Valid task request
         var request = new CreateTaskRequest
         {
             Title = "Task",
@@ -155,6 +189,9 @@ public class TasksControllerTests
         statusResult.StatusCode.Should().Be(201);
     }
 
+    /// <summary>
+    /// Ensures deleting a non-existing task returns NotFound.
+    /// </summary>
     [Fact]
     public void DeleteTask_WhenTaskDoesNotExist_ShouldReturnNotFound()
     {
@@ -169,8 +206,12 @@ public class TasksControllerTests
         result.Should().BeOfType<NotFoundResult>();
     }
 
+    /// <summary>
+    /// Creates a fully initialized TasksController instance for testing.
+    /// </summary>
     private static TasksController CreateController(DatabaseConnection db, int userId)
     {
+        // Initialize repositories
         var taskRepo = new TaskRepository(db);
         var userStatsRepo = new UserStatsRepository(db);
         var xpEventRepo = new XPEventRepository(db);
@@ -178,6 +219,7 @@ public class TasksControllerTests
         var badgeRepo = new BadgeRepository(db);
         var userBadgeRepo = new UserBadgeRepository(db);
 
+        // Initialize services
         var xpService = new XPService(
             xpEventRepo,
             userStatsRepo,
@@ -220,6 +262,7 @@ public class TasksControllerTests
             db
         );
 
+        // Return configured controller
         return new TasksController(
             taskCompletionService,
             taskService,
@@ -228,6 +271,9 @@ public class TasksControllerTests
         );
     }
 
+    /// <summary>
+    /// Sets authenticated test user into controller context.
+    /// </summary>
     private static void SetUser(ControllerBase controller, int userId)
     {
         var identity = new ClaimsIdentity(
