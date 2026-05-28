@@ -7,11 +7,24 @@ using FocusUp.Domain.Enums;
 
 namespace FocusUp.Tests.Services;
 
+/// <summary>
+/// Tests for the XPService.
+/// </summary>
 public class XPServiceTests
 {
+    /// <summary>
+    /// Mocked XP calculation strategy used for testing.
+    /// </summary>
     private readonly Mock<IXpCalculationStrategy> _xpStrategyMock;
+
+    /// <summary>
+    /// Service under test.
+    /// </summary>
     private readonly XPService _xpService;
 
+    /// <summary>
+    /// Initializes mocked dependencies and service instance.
+    /// </summary>
     public XPServiceTests()
     {
         _xpStrategyMock = new Mock<IXpCalculationStrategy>();
@@ -19,6 +32,9 @@ public class XPServiceTests
         _xpService = new XPService(null!, null!, _xpStrategyMock.Object);
     }
 
+    /// <summary>
+    /// Ensures easy tasks return the expected XP amount.
+    /// </summary>
     [Fact]
     public void CalculateXP_WithEasyTask_ShouldReturnEasyXp()
     {
@@ -33,6 +49,9 @@ public class XPServiceTests
         result.Should().Be(50);
     }
 
+    /// <summary>
+    /// Ensures medium tasks return the expected XP amount.
+    /// </summary>
     [Fact]
     public void CalculateXP_WithMediumTask_ShouldReturnMediumXp()
     {
@@ -47,6 +66,9 @@ public class XPServiceTests
         result.Should().Be(100);
     }
 
+    /// <summary>
+    /// Ensures hard tasks return the expected XP amount.
+    /// </summary>
     [Fact]
     public void CalculateXP_WithHardTask_ShouldReturnHardXp()
     {
@@ -61,6 +83,9 @@ public class XPServiceTests
         result.Should().Be(150);
     }
 
+    /// <summary>
+    /// Ensures longer tasks return more XP.
+    /// </summary>
     [Fact]
     public void CalculateXP_WithLongerDuration_ShouldReturnMoreXp()
     {
@@ -75,6 +100,9 @@ public class XPServiceTests
         result.Should().Be(130);
     }
 
+    /// <summary>
+    /// Ensures streak bonuses increase XP rewards.
+    /// </summary>
     [Fact]
     public void CalculateXP_WithStreakBonus_ShouldReturnXpWithBonus()
     {
@@ -89,6 +117,9 @@ public class XPServiceTests
         result.Should().Be(75);
     }
 
+    /// <summary>
+    /// Creates a test task with the given difficulty and duration.
+    /// </summary>
     private static Task CreateTask(TaskDifficultyType difficulty, int durationMin)
     {
         return new Task(
