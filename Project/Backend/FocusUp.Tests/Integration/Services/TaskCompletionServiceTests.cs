@@ -8,19 +8,56 @@ using FocusUp.Common.Exceptions;
 
 namespace FocusUp.Tests.Services;
 
+/// <summary>
+/// Contains unit tests for the TaskCompletionService.
+/// Tests task completion, XP rewards, streak updates,
+/// badge checks and task log creation.
+/// </summary>
 public class TaskCompletionServiceTests : IDisposable
 {
+    /// <summary>
+    /// Shared database connection used by the tests.
+    /// </summary>
     private readonly DatabaseConnection _db;
 
+    /// <summary>
+    /// Repository used to manage task data.
+    /// </summary>
     private readonly TaskRepository _taskRepository;
+
+    /// <summary>
+    /// Repository used to manage user statistics.
+    /// </summary>
     private readonly UserStatsRepository _userStatsRepository;
+
+    /// <summary>
+    /// Repository used to manage XP event records.
+    /// </summary>
     private readonly XPEventRepository _xpEventRepository;
+
+    /// <summary>
+    /// Repository used to manage task log records.
+    /// </summary>
     private readonly TaskLogRepository _taskLogRepository;
+
+    /// <summary>
+    /// Repository used to manage badge definitions.
+    /// </summary>
     private readonly BadgeRepository _badgeRepository;
+
+    /// <summary>
+    /// Repository used to manage badges awarded to users.
+    /// </summary>
     private readonly UserBadgeRepository _userBadgeRepository;
 
+    /// <summary>
+    /// Service under test.
+    /// </summary>
     private readonly TaskCompletionService _taskCompletionService;
 
+    /// <summary>
+    /// Initializes repositories and services required for each test.
+    /// </summary>
     public TaskCompletionServiceTests()
     {
         _db = TestDatabaseHelper.Db;
@@ -46,28 +83,16 @@ public class TaskCompletionServiceTests : IDisposable
         LevelService levelService = null!;
 
         var badgeService = new BadgeService(
-    _userStatsRepository,
-    _badgeRepository,
-    _userBadgeRepository,
-    [
-        new TotalXpBadgeRule(),
-        new TasksCompletedBadgeRule(),
-        new TimeLoggedBadgeRule(),
-        new StreakBadgeRule()
-    ]
-);
-
-_taskCompletionService = new TaskCompletionService(
-    _taskRepository,
-    xpService,
-    streakService,
-    levelService,
-    badgeService,
-    _userStatsRepository,
-    _xpEventRepository,
-    _taskLogRepository,
-    _db
-);
+            _userStatsRepository,
+            _badgeRepository,
+            _userBadgeRepository,
+            [
+                new TotalXpBadgeRule(),
+                new TasksCompletedBadgeRule(),
+                new TimeLoggedBadgeRule(),
+                new StreakBadgeRule()
+            ]
+        );
 
         _taskCompletionService = new TaskCompletionService(
             _taskRepository,
@@ -82,11 +107,18 @@ _taskCompletionService = new TaskCompletionService(
         );
     }
 
+    /// <summary>
+    /// Cleans the test database after each test.
+    /// </summary>
     public void Dispose()
     {
         TestDatabaseHelper.Clean();
     }
 
+    /// <summary>
+    /// Tests whether completing an open task changes
+    /// its status to completed and sets the completion date.
+    /// </summary>
     [Fact]
     public void CompleteTask_ShouldSetTaskToCompleted()
     {
@@ -114,6 +146,10 @@ _taskCompletionService = new TaskCompletionService(
         updatedTask.CompletedAt.Should().NotBeNull();
     }
 
+    /// <summary>
+    /// Tests whether completing an already completed task
+    /// throws a TaskAlreadyCompletedException.
+    /// </summary>
     [Fact]
     public void CompleteTask_AlreadyCompletedTask_ShouldThrowException()
     {
@@ -138,6 +174,10 @@ _taskCompletionService = new TaskCompletionService(
         action.Should().Throw<TaskAlreadyCompletedException>();
     }
 
+    /// <summary>
+    /// Tests whether a user cannot complete a task
+    /// that belongs to another user.
+    /// </summary>
     [Fact]
     public void CompleteTask_WrongUser_ShouldThrowUnauthorizedException()
     {
@@ -164,6 +204,9 @@ _taskCompletionService = new TaskCompletionService(
         action.Should().Throw<UnauthorizedTaskAccessException>();
     }
 
+    /// <summary>
+    /// Tests whether completing a task creates exactly one XP event.
+    /// </summary>
     [Fact]
     public void CompleteTask_ShouldAwardXpExactlyOnce()
     {
@@ -189,6 +232,9 @@ _taskCompletionService = new TaskCompletionService(
         xpEvents.Should().HaveCount(1);
     }
 
+    /// <summary>
+    /// Tests whether completing a task updates the user's streak.
+    /// </summary>
     [Fact]
     public void CompleteTask_ShouldUpdateStreak()
     {
@@ -215,6 +261,10 @@ _taskCompletionService = new TaskCompletionService(
         stats!.StreakCount.Should().Be(1);
     }
 
+    /// <summary>
+    /// Tests whether completing a task triggers badge checks
+    /// and awards a matching badge to the user.
+    /// </summary>
     [Fact]
     public void CompleteTask_ShouldTriggerBadgeCheck()
     {
@@ -235,7 +285,7 @@ _taskCompletionService = new TaskCompletionService(
                 BadgeRarity.Common,
                 "#FFFFFF",
                 "#000000"
-)
+            )
         );
 
         var taskId = _taskRepository.Insert(
@@ -256,6 +306,10 @@ _taskCompletionService = new TaskCompletionService(
         userBadges.Should().NotBeEmpty();
     }
 
+    /// <summary>
+    /// Tests whether completing a task creates one task log entry
+    /// with the TaskCompleted action.
+    /// </summary>
     [Fact]
     public void CompleteTask_ShouldCreateTaskLog()
     {
