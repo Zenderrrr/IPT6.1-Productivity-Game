@@ -6,8 +6,17 @@ using FocusUp.Infrastructure.Repositories;
 
 namespace FocusUp.Tests.Services;
 
+/// <summary>
+/// Contains unit tests for the TaskService.
+/// Tests creating, validating, updating, deleting,
+/// and retrieving tasks by user ID.
+/// </summary>
 public class TaskServiceTests
 {
+    /// <summary>
+    /// Tests whether a valid task is created
+    /// and saved correctly in the database.
+    /// </summary>
     [Fact]
     public void CreateTask_WithValidTask_ShouldCreateTask()
     {
@@ -20,7 +29,14 @@ public class TaskServiceTests
 
         var service = new TaskService(taskRepository, userStatsRepository);
 
-        var task = new Task(userId, "Task", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open);
+        var task = new Task(
+            userId,
+            "Task",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        );
 
         var taskId = service.CreateTask(task);
 
@@ -29,14 +45,27 @@ public class TaskServiceTests
         createdTask!.Title.Should().Be("Task");
     }
 
+    /// <summary>
+    /// Tests whether an invalid task fails model validation.
+    /// </summary>
     [Fact]
     public void CreateTask_WithInvalidTask_ShouldBeInvalidByModelValidation()
     {
-        var task = new Task(1, "", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open);
+        var task = new Task(
+            1,
+            "",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        );
 
         task.ValidateData().Should().BeFalse();
     }
 
+    /// <summary>
+    /// Tests whether task updates are saved correctly.
+    /// </summary>
     [Fact]
     public void UpdateTask_ShouldUpdateTask()
     {
@@ -49,10 +78,26 @@ public class TaskServiceTests
 
         var service = new TaskService(taskRepository, userStatsRepository);
 
-        var task = new Task(userId, "Old", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open);
+        var task = new Task(
+            userId,
+            "Old",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        );
+
         var taskId = taskRepository.Insert(task);
 
-        var updatedTask = new Task(taskId, userId, "New", "Updated", TaskDifficultyType.Hard, 60, FocusUp.Domain.Enums.TaskStatus.Open);
+        var updatedTask = new Task(
+            taskId,
+            userId,
+            "New",
+            "Updated",
+            TaskDifficultyType.Hard,
+            60,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        );
 
         service.UpdateTask(updatedTask);
 
@@ -61,6 +106,9 @@ public class TaskServiceTests
         result.Difficulty.Should().Be(TaskDifficultyType.Hard);
     }
 
+    /// <summary>
+    /// Tests whether a task can be deleted successfully.
+    /// </summary>
     [Fact]
     public void DeleteTask_ShouldDeleteTask()
     {
@@ -73,7 +121,15 @@ public class TaskServiceTests
 
         var service = new TaskService(taskRepository, userStatsRepository);
 
-        var task = new Task(userId, "Task", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open);
+        var task = new Task(
+            userId,
+            "Task",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        );
+
         var taskId = taskRepository.Insert(task);
 
         service.DeleteTask(taskId);
@@ -81,6 +137,10 @@ public class TaskServiceTests
         taskRepository.GetById(taskId).Should().BeNull();
     }
 
+    /// <summary>
+    /// Tests whether only tasks belonging to the requested user
+    /// are returned by GetTaskByUserId.
+    /// </summary>
     [Fact]
     public void GetTaskByUserId_ShouldOnlyReturnTasksOfCorrectUser()
     {
@@ -99,8 +159,23 @@ public class TaskServiceTests
         var taskRepository = new TaskRepository(db);
         var userStatsRepository = new UserStatsRepository(db);
 
-        taskRepository.Insert(new Task(userId, "User Task", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open));
-        taskRepository.Insert(new Task(otherUserId, "Other Task", "Desc", TaskDifficultyType.Easy, 30, FocusUp.Domain.Enums.TaskStatus.Open));
+        taskRepository.Insert(new Task(
+            userId,
+            "User Task",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        ));
+
+        taskRepository.Insert(new Task(
+            otherUserId,
+            "Other Task",
+            "Desc",
+            TaskDifficultyType.Easy,
+            30,
+            FocusUp.Domain.Enums.TaskStatus.Open
+        ));
 
         var service = new TaskService(taskRepository, userStatsRepository);
 
