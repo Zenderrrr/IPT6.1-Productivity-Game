@@ -7,8 +7,17 @@ using FocusUp.Infrastructure.Repositories;
 
 namespace FocusUp.Tests.Integration.Services;
 
+/// <summary>
+/// Contains integration tests for the XPService.
+/// Tests XP event creation, XP total updates,
+/// and checking whether XP events already exist.
+/// </summary>
 public class XPServiceIntegrationTests
 {
+    /// <summary>
+    /// Tests whether awarding XP creates one XP event
+    /// with the expected XP amount.
+    /// </summary>
     [Fact]
     public void AwardXP_ShouldCreateXpEvent()
     {
@@ -54,6 +63,10 @@ public class XPServiceIntegrationTests
         events[0].Amount.Should().Be(50);
     }
 
+    /// <summary>
+    /// Tests whether awarding XP increases
+    /// the user's total XP value.
+    /// </summary>
     [Fact]
     public void AwardXP_ShouldIncreaseTotalXp()
     {
@@ -98,6 +111,10 @@ public class XPServiceIntegrationTests
         stats!.TotalXp.Should().Be(50);
     }
 
+    /// <summary>
+    /// Tests whether HasXPEventForTask returns true
+    /// when an XP event already exists for a task.
+    /// </summary>
     [Fact]
     public void HasXPEventForTask_WhenEventExists_ShouldReturnTrue()
     {
