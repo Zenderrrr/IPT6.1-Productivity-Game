@@ -24,6 +24,7 @@ import { formatTime, GetTimeFromNow } from '@/utils/date.ts'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
 import type { Productivity } from '@/types/productivity.ts'
 import categories from '@/components/ui/Categories.vue'
+import InsightCardList from '@/components/ui/InsightCardList.vue'
 
 use([
   CanvasRenderer,
@@ -679,57 +680,7 @@ onMounted(async () => {
       <span class="subtitle">Insights</span>
 
       <div class="mt-3 flex items-center justify-center gap-4 w-full">
-        <InsightCard
-          title="Beste Tage"
-          card-value="Mo, Di, Do"
-          description="Am Montag erledigst du die meisten Tags in der Woche. Das ist mit Abstand dein stärkster Wochentag"
-          svg="fa-regular fa-calendar"
-        >
-          <div class="flex items-center justify-start">
-            <div
-              class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
-            >
-              <div class="flex items-center justify-center">
-                <i class="fa-solid fa-arrow-up"></i>
-              </div>
-              <span>+12% vs. letzer Woche</span>
-            </div>
-          </div>
-        </InsightCard>
-        <InsightCard
-          title="Beste Tage"
-          card-value="Mo, Di, Do"
-          description="Am Montag erledigst du die meisten Tags in der Woche. Das ist mit Abstand dein stärkster Wochentag"
-          svg="fa-regular fa-calendar"
-        >
-          <div class="flex items-center justify-start">
-            <div
-              class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
-            >
-              <div class="flex items-center justify-center">
-                <i class="fa-solid fa-arrow-up"></i>
-              </div>
-              <span>+12% vs. letzer Woche</span>
-            </div>
-          </div>
-        </InsightCard>
-        <InsightCard
-          title="Beste Tage"
-          card-value="Mo, Di, Do"
-          description="Am Montag erledigst du die meisten Tags in der Woche. Das ist mit Abstand dein stärkster Wochentag"
-          svg="fa-regular fa-calendar"
-        >
-          <div class="flex items-center justify-start">
-            <div
-              class="flex justify-center items-center gap-1 text-xs mt-1 text-[var(--accent-color)] bg-green-50 rounded-full px-2 py-1 border border-[var(--accent-color)]"
-            >
-              <div class="flex items-center justify-center">
-                <i class="fa-solid fa-arrow-up"></i>
-              </div>
-              <span>+12% vs. letzer Woche</span>
-            </div>
-          </div>
-        </InsightCard>
+        <InsightCardList :stats="statsStore.statsData ?? []"></InsightCardList>
       </div>
     </section>
 
