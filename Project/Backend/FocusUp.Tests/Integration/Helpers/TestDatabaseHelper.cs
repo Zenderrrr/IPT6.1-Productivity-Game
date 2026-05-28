@@ -2,12 +2,30 @@ using Microsoft.Data.Sqlite;
 
 namespace FocusUp.Tests;
 
+/// <summary>
+/// Provides helper methods for creating,
+/// initializing and cleaning the test database.
+/// </summary>
 public static class TestDatabaseHelper
 {
+    /// <summary>
+    /// Indicates whether the database schema
+    /// has already been initialized.
+    /// </summary>
     private static bool _initialized;
+
+    /// <summary>
+    /// Shared database connection instance
+    /// used across all tests.
+    /// </summary>
     private static readonly DatabaseConnection _db =
         DatabaseConnection.GetInstance("Data Source=focusup-tests.db");
 
+    /// <summary>
+    /// Gets a clean test database instance.
+    /// Automatically initializes the schema
+    /// on first access.
+    /// </summary>
     public static DatabaseConnection Db
     {
         get
@@ -23,6 +41,10 @@ public static class TestDatabaseHelper
         }
     }
 
+    /// <summary>
+    /// Creates all required database tables
+    /// for the test environment.
+    /// </summary>
     private static void Initialize()
     {
         var connection = _db.GetConnection();
@@ -119,55 +141,65 @@ public static class TestDatabaseHelper
         cmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Removes all data from database tables
+    /// and resets auto-increment counters.
+    /// </summary>
     public static void Clean()
-{
-    var connection = _db.GetConnection();
+    {
+        var connection = _db.GetConnection();
 
-    using var cmd = connection.CreateCommand();
-    cmd.CommandText = """
-    PRAGMA foreign_keys = OFF;
+        using var cmd = connection.CreateCommand();
+        cmd.CommandText = """
+        PRAGMA foreign_keys = OFF;
 
-    DELETE FROM UserBadge;
-    DELETE FROM Badge;
-    DELETE FROM XPEvent;
-    DELETE FROM TaskLog;
-    DELETE FROM Task;
-    DELETE FROM UserStats;
-    DELETE FROM User;
+        DELETE FROM UserBadge;
+        DELETE FROM Badge;
+        DELETE FROM XPEvent;
+        DELETE FROM TaskLog;
+        DELETE FROM Task;
+        DELETE FROM UserStats;
+        DELETE FROM User;
 
-    DELETE FROM sqlite_sequence WHERE name IN (
-        'UserBadge',
-        'Badge',
-        'XPEvent',
-        'TaskLog',
-        'Task',
-        'UserStats',
-        'User'
-    );
+        DELETE FROM sqlite_sequence WHERE name IN (
+            'UserBadge',
+            'Badge',
+            'XPEvent',
+            'TaskLog',
+            'Task',
+            'UserStats',
+            'User'
+        );
 
-    PRAGMA foreign_keys = ON;
-    """;
+        PRAGMA foreign_keys = ON;
+        """;
 
-    cmd.ExecuteNonQuery();
-}
+        cmd.ExecuteNonQuery();
+    }
 
+    /// <summary>
+    /// Inserts a test user into the database.
+    /// </summary>
+    /// <returns>
+    /// The ID of the created user.
+    /// </returns>
     public static int InsertUser()
-{
-    var unique = Guid.NewGuid().ToString("N");
+    {
+        var unique = Guid.NewGuid().ToString("N");
 
-    var connection = _db.GetConnection();
+        var connection = _db.GetConnection();
 
-    using var cmd = connection.CreateCommand();
-    cmd.CommandText = """
-    INSERT INTO User (username, email, password_hash)
-    VALUES (@username, @email, @passwordHash);
-    SELECT last_insert_rowid();
-    """;
+        using var cmd = connection.CreateCommand();
+        cmd.CommandText = """
+        INSERT INTO User (username, email, password_hash)
+        VALUES (@username, @email, @passwordHash);
+        SELECT last_insert_rowid();
+        """;
 
-    cmd.Parameters.AddWithValue("@username", $"testuser_{unique}");
-    cmd.Parameters.AddWithValue("@email", $"test_{unique}@example.com");
-    cmd.Parameters.AddWithValue("@passwordHash", "hash");
+        cmd.Parameters.AddWithValue("@username", $"testuser_{unique}");
+        cmd.Parameters.AddWithValue("@email", $"test_{unique}@example.com");
+        cmd.Parameters.AddWithValue("@passwordHash", "hash");
 
-    return Convert.ToInt32(cmd.ExecuteScalar());
-}
+        return Convert.ToInt32(cmd.ExecuteScalar());
+    }
 }
