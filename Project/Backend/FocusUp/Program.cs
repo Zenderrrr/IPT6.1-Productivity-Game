@@ -17,6 +17,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 var databaseConnection = DatabaseConnection.GetInstance(connectionString);
 
+
+Directory.CreateDirectory("/app/Data");
 new DatabaseMigrationRunner(databaseConnection).Run();
 
 builder.Services.AddSingleton(databaseConnection);
@@ -58,7 +60,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", polity =>
     {
-        polity.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+        polity.WithOrigins("http://localhost:5173", "https://focusup.up.railway.app").AllowAnyHeader().AllowAnyMethod();
         polity.AllowCredentials();
     });
 });
@@ -138,7 +140,7 @@ app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:5173";
+        ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "https://focusup.up.railway.app";
         ctx.Context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
     }
 });
