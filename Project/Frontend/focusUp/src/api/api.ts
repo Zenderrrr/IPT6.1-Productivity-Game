@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/authStore.ts'
 
-const API_URL = "http://localhost:5165/api";
+const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 export async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const authStore = useAuthStore();
