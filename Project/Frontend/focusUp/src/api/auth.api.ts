@@ -2,7 +2,7 @@ import { apiFetch } from '@/api/api.ts'
 import type { User } from '@/types/user.ts'
 
 export async function loginApi(usernameOrEmail: string, password: string): Promise<void> {
-  return apiFetch('/auth/login', {
+  return apiFetch('/Auth/login', {
     method: 'POST',
     body: JSON.stringify({
       UsernameOrEmail: usernameOrEmail,
@@ -13,7 +13,7 @@ export async function loginApi(usernameOrEmail: string, password: string): Promi
 }
 
 export async function registerApi(username: string, email: string, password: string) : Promise<number> {
-  return apiFetch('/auth/register', {
+  return apiFetch('/Auth/register', {
     method: 'POST',
     credentials: 'include',
     body: JSON.stringify({
@@ -25,7 +25,7 @@ export async function registerApi(username: string, email: string, password: str
 }
 
 export async function logoutApi(token: string): Promise<void> {
-  return apiFetch('/auth/logout', {
+  return apiFetch('/Auth/logout', {
     method: 'POST',
     headers: {
       Authorization: `BEARER ${token}`
@@ -35,7 +35,7 @@ export async function logoutApi(token: string): Promise<void> {
 }
 
 export async function meApi(token: string) : Promise<User> {
-  return apiFetch<User>('/auth/me', {
+  return apiFetch<User>('/Auth/me', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`
@@ -44,7 +44,7 @@ export async function meApi(token: string) : Promise<User> {
 }
 
 export async function deleteUserApi(token: string) : Promise<void> {
-  return apiFetch('/auth/me', {
+  return apiFetch('/Auth/me', {
     method: 'DELETE',
     headers: {
       Authorization: `BEARER ${token}`
@@ -53,7 +53,7 @@ export async function deleteUserApi(token: string) : Promise<void> {
 }
 
 export async function RefreshApi() : Promise<string | null> {
-  return await apiFetch('/auth/refresh', {
+  return await apiFetch('/Auth/refresh', {
     method: 'POST',
     credentials: 'include',
   })
