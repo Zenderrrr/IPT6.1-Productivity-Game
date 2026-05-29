@@ -38,7 +38,7 @@ export async function getLockedBadgesApi(): Promise<Badge[]> {
 }
 
 export async function getBadgeImgByIdApi(slug: string): Promise<string> {
-  const res = await fetch(`http://localhost:5165/uploads/badges/${slug}.svg`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/uploads/badges/${slug}.svg`, {
     credentials: 'include',
   })
 
