@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0-preview
+
+WORKDIR /app
+
+COPY Backend/FocusUp/*.csproj ./
+RUN dotnet restore
+
+COPY Backend/FocusUp/. ./
+COPY Database /app/database
+
+RUN dotnet publish -c Release -o out
+
+EXPOSE 8080
+
+CMD ["dotnet", "out/FocusUp.dll"]
