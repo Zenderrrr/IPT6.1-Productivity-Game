@@ -72,6 +72,45 @@ Benutzer werden für ihre Fortschritte belohnt und können ihre Produktivität a
 
 ---
 
+
+## Dokumentation
+
+Die Projektdokumentation befindet sich im Ordner `Documentation/` und beschreibt die Planung, Architektur und Umsetzung der Anwendung.
+
+### Analyse & Planung
+
+- [Projektbeschreibung](Documentation/0_project-name.md)
+- [Features](Documentation/1_features.md)
+- [XP-System](Documentation/2_xp-system.md)
+- [Streak-System](Documentation/3_streak-system.md)
+- [Level-System](Documentation/4_level-system.md)
+- [Use Cases](Documentation/5_use-cases.md)
+
+### Datenmodellierung
+
+- [Konzept Datenbank](Documentation/6_concept_db.md)
+- [ERM Beschreibung](Documentation/7_descripting_ERM.md)
+
+### UI & Frontend
+
+- [UI-Diagramm](Documentation/8_ui-diagram.md)
+- [Seitenstruktur](Documentation/9_page-structure.md)
+- [Page Style Entscheidung](Documentation/10_decide-pagestyle.md)
+- [Frontend Struktur](Documentation/11_frontend_dev_structure.md)
+
+### Backend
+
+- [Backend Übersicht](Documentation/12_overview_backend-endpoints.md)
+- [Backend Testing](Documentation/13_backend_testing.md)
+- [Badge Entscheidungen](Documentation/14_badge-decision.md)
+- [Unit- & Integrationstests](Documentation/15_backend_unit-integration-testing.md)
+
+### Deployment
+
+- [Deployment Dokumentation](Documentation/16_deployment_documentation.md)
+
+---
+
 ## Systemarchitektur
 
 ```text
