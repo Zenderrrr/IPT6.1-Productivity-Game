@@ -75,39 +75,39 @@ Benutzer werden für ihre Fortschritte belohnt und können ihre Produktivität a
 
 ## Dokumentation
 
-Die Projektdokumentation befindet sich im Ordner `Documentation/` und beschreibt die Planung, Architektur und Umsetzung der Anwendung.
+Die vollständige Projektdokumentation befindet sich im Ordner `Documentation/DocumentationPhases`.
 
 ### Analyse & Planung
 
-- [Projektbeschreibung](Documentation/0_project-name.md)
-- [Features](Documentation/1_features.md)
-- [XP-System](Documentation/2_xp-system.md)
-- [Streak-System](Documentation/3_streak-system.md)
-- [Level-System](Documentation/4_level-system.md)
-- [Use Cases](Documentation/5_use-cases.md)
+- [Projektbeschreibung](Documentation/DocumentationPhases/0_project-name.md)
+- [Features](Documentation/DocumentationPhases/1_features.md)
+- [XP-System](Documentation/DocumentationPhases/2_xp-system.md)
+- [Streak-System](Documentation/DocumentationPhases/3_streak-system.md)
+- [Level-System](Documentation/DocumentationPhases/4_level-system.md)
+- [Use Cases](Documentation/DocumentationPhases/5_use-cases.md)
 
-### Datenmodellierung
+### Datenbank
 
-- [Konzept Datenbank](Documentation/6_concept_db.md)
-- [ERM Beschreibung](Documentation/7_descripting_ERM.md)
+- [Datenbankkonzept](Documentation/DocumentationPhases/6_concept_db.md)
+- [ERM Beschreibung](Documentation/DocumentationPhases/7_descripting_ERM.md)
 
-### UI & Frontend
+### Frontend & UI
 
-- [UI-Diagramm](Documentation/8_ui-diagram.md)
-- [Seitenstruktur](Documentation/9_page-structure.md)
-- [Page Style Entscheidung](Documentation/10_decide-pagestyle.md)
-- [Frontend Struktur](Documentation/11_frontend_dev_structure.md)
+- [UI Diagramm](Documentation/DocumentationPhases/8_ui-diagram.md)
+- [Seitenstruktur](Documentation/DocumentationPhases/9_page-structure.md)
+- [Page Style Entscheidung](Documentation/DocumentationPhases/10_decide-pagestyle.md)
+- [Frontend Struktur](Documentation/DocumentationPhases/11_frontend_dev_structure.md)
 
 ### Backend
 
-- [Backend Übersicht](Documentation/12_overview_backend-endpoints.md)
-- [Backend Testing](Documentation/13_backend_testing.md)
-- [Badge Entscheidungen](Documentation/14_badge-decision.md)
-- [Unit- & Integrationstests](Documentation/15_backend_unit-integration-testing.md)
+- [Backend Endpoints Übersicht](Documentation/DocumentationPhases/12_overview_backend-endpoints.md)
+- [Backend Testing](Documentation/DocumentationPhases/13_backend_testing.md)
+- [Badge Entscheidungen](Documentation/DocumentationPhases/14_badge-decision.md)
+- [Unit- und Integrationstests](Documentation/DocumentationPhases/15_backend_unit-integration-testing.md)
 
 ### Deployment
 
-- [Deployment Dokumentation](Documentation/16_deployment_documentation.md)
+- [Deployment Dokumentation](Documentation/DocumentationPhases/16_deployment_documentation.md)
 
 ---
 
