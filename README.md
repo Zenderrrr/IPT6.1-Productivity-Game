@@ -151,7 +151,6 @@ Weitere Informationen:
 ### Backend
 
 * ASP.NET Core Web API
-* Entity Framework Core
 * JWT Authentication
 * SQLite
 
