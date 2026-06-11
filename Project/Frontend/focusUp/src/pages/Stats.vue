@@ -64,7 +64,7 @@ const values = computed(() => {
 const prodTrend = computed(() => {
   const arr = values.value ?? []
 
-  if(arr.length < 2) return 0
+  if (arr.length < 2) return 0
 
   const last = arr[arr.length - 1]
   const prev = arr[arr.length - 2]
@@ -99,13 +99,13 @@ const optionProductivity = computed(() => ({
 }))
 
 const totalTasksThisWeek = computed(() => {
-  return prodInfoInd.value?.reduce((i,item) => i + item.completedTasks, 0)
+  return prodInfoInd.value?.reduce((i, item) => i + item.completedTasks, 0)
 })
 
 const taskPerCategory = computed(() => {
   const map = new Map<string, number>()
 
-  for (const task of lastCompletedTasks.value ?? []){
+  for (const task of lastCompletedTasks.value ?? []) {
     const name = task.category?.name ?? 'Keine'
     map.set(name, (map.get(name) ?? 0) + 1)
   }
@@ -149,10 +149,10 @@ const optionDoughnut = computed(() => ({
 
 const accumulatedXpIncrease = computed(() => {
   let sum = 0
-  return (prodInfoInd.value ?? []).map(t => sum += t.xpGained)
+  return (prodInfoInd.value ?? []).map((t) => (sum += t.xpGained))
 })
 const increaseXpPerDay = computed(() => {
-  return (prodInfoInd.value ?? []).map(t => t.xpGained)
+  return (prodInfoInd.value ?? []).map((t) => t.xpGained)
 })
 const optionLine = computed(() => ({
   xAxis: {
@@ -164,15 +164,15 @@ const optionLine = computed(() => ({
       position: 'left',
       splitLine: {
         show: true,
-      }
+      },
     },
     {
       type: 'value',
       position: 'right',
       splitLine: {
         show: false,
-      }
-    }
+      },
+    },
   ],
   grid: {
     left: 20,
@@ -187,10 +187,10 @@ const optionLine = computed(() => ({
       type: 'line',
       smooth: true,
       lineStyle: {
-        color: '#0EA5E9'
+        color: '#0EA5E9',
       },
       itemStyle: {
-        color: '#0EA5E9'
+        color: '#0EA5E9',
       },
       yAxisIndex: 0,
     },
@@ -199,10 +199,10 @@ const optionLine = computed(() => ({
       type: 'line',
       smooth: true,
       lineStyle: {
-        color: '#14B8A6'
+        color: '#14B8A6',
       },
       itemStyle: {
-        color: '#14B8A6'
+        color: '#14B8A6',
       },
       yAxisIndex: 1,
     },
@@ -214,29 +214,27 @@ const week = Array.from({ length: 13 }, (_, i) => `W${i + 1}`)
 const days = ['Sa', 'Fr', 'Do', 'Mi', 'Di', 'Mo', 'So']
 
 const heatmapData = computed(() => {
-    const data = prodInfo91Days.value ?? []
+  const data = prodInfo91Days.value ?? []
 
-    if(data.length === 0) return []
+  if (data.length === 0) return []
 
-    const sorted = [...data].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    )
+  const sorted = [...data].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  )
 
-    const start = new Date(sorted[0].date)
+  const start = new Date(sorted[0].date)
 
-    return data.map(item => {
-      const date = new Date(item.date)
+  return data.map((item) => {
+    const date = new Date(item.date)
 
-      const diffDays = Math.floor(
-        (date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-      )
+    const diffDays = Math.floor((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
 
-      const week = Math.floor(diffDays / 7)
+    const week = Math.floor(diffDays / 7)
 
-      const day = date.getDay() === 0 ? 6 : date.getDay() - 1
+    const day = date.getDay() === 0 ? 6 : date.getDay() - 1
 
-      return [week, day, item.xpGained]
-    })
+    return [week, day, item.xpGained]
+  })
 })
 
 const optionHeatmap = computed(() => ({
@@ -276,13 +274,7 @@ const optionHeatmap = computed(() => ({
     left: 'center',
     bottom: '15%',
     inRange: {
-      color: [
-        '#f3f4f6',
-        '#ebf8f7',
-        '#96f7e4',
-        '#14B8A6',
-        '#0f766e',
-      ],
+      color: ['#f3f4f6', '#ebf8f7', '#96f7e4', '#14B8A6', '#0f766e'],
     },
   },
   series: [
@@ -317,7 +309,7 @@ const taskDoneTrend = computed(() => {
 
   if (previous7 === 0) return 0
 
-  return Math.round((((last7 - previous7) / previous7) * 100))
+  return Math.round(((last7 - previous7) / previous7) * 100)
 })
 
 const totalXpTrend = computed(() => {
@@ -387,27 +379,18 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NavAuth></NavAuth>
-  <main>
+  <NavAuth />
+
+  <main class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 xl:px-0 py-4">
     <GreetingsSection
       title="Deine Produktivität"
       subtitle="Sehe deine Statistiken ein und untersuche deine Stärken"
-    ></GreetingsSection>
+    />
 
     <!-- Choose time scaling-->
     <section class="flex items-center justify-start h-full gap-3">
-<!--      <div-->
-<!--        class="h-full flex items-center justify-center px-3 py-2 gap-4 bg-[var(&#45;&#45;surface-color)] border border-gray-200 rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
-<!--      >-->
-<!--        <button class="active px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Heute</button>-->
-<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Woche</button>-->
-<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Monat</button>-->
-<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Benutzerdefiniert</button>-->
-<!--        <div class="h-[25px] w-0.5 rounded-full bg-gray-100"></div>-->
-<!--        <button class="px-2 py-1 rounded-lg cursor-pointer hover:dark:bg-gray-100 transition duration-200">Alle Kategorien</button>-->
-<!--      </div>-->
       <div
-        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer text-md flex justify-center items-center gap-2 text-[var(--text-color-light)] border border-gray-300 rounded-lg px-2 py-3"
+        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer text-md flex justify-center items-center gap-2 text-[var(--text-color-light)] border border-gray-300 rounded-lg px-3 py-2"
       >
         <div class="flex justify-center items-center">
           <i class="fa-solid fa-arrow-up-from-bracket"></i>
@@ -419,7 +402,7 @@ onMounted(async () => {
     <section>
       <span class="subtitle">Übersicht</span>
 
-      <div class="grid grid-cols-4 gap-4 w-full mt-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full mt-3">
         <StatsCard
           title="Erledigte Task"
           svg="fa-solid fa-check"
@@ -531,16 +514,19 @@ onMounted(async () => {
     <section>
       <span class="subtitle">Verlauf</span>
 
-      <div class="grid grid-cols-6 gap-4 mt-3 max-h-[500px]">
-        <div class="col-span-4 base-element bg-[var(--surface-color)] h-[500px] flex flex-col">
-          <div class="flex items-start justify-between w-full">
+      <div class="grid grid-cols-1 xl:grid-cols-6 gap-4 mt-3">
+        <div
+          class="xl:col-span-4 base-element bg-[var(--surface-color)] h-[360px] sm:h-[420px] xl:h-[500px] flex flex-col"
+        >
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 w-full">
             <div class="flex flex-col">
               <span class="text-lg font-semibold">Produktivität über Zeit</span>
               <span class="text-sm text-[var(--text-color-light)]">Erledigte Tasks pro Tag</span>
             </div>
+
             <div
               v-if="prodTrend > 0"
-              class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
+              class="w-fit flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
             >
               <div class="flex justify-center items-center">
                 <i class="fa-solid fa-arrow-up"></i>
@@ -550,7 +536,7 @@ onMounted(async () => {
 
             <div
               v-if="prodTrend < 0"
-              class="flex items-center justify-center gap-2 text-sm text-red-500 bg-red-50 border border-red-500 rounded-full px-3 py-1.5"
+              class="w-fit flex items-center justify-center gap-2 text-sm text-red-500 bg-red-50 border border-red-500 rounded-full px-3 py-1.5"
             >
               <div class="flex justify-center items-center">
                 <i class="fa-solid fa-arrow-down"></i>
@@ -560,7 +546,7 @@ onMounted(async () => {
 
             <div
               v-if="prodTrend === 0"
-              class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
+              class="w-fit flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-full px-3 py-1.5"
             >
               <div class="flex justify-center items-center">
                 <i class="fa-solid fa-grip-lines"></i>
@@ -569,66 +555,55 @@ onMounted(async () => {
             </div>
           </div>
 
-          <div class="flex gap-5 mt-3">
-            <div
-              class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]"
-            >
+          <div class="flex flex-wrap gap-5 mt-3">
+            <div class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]">
               <div class="w-[12px] h-[12px] bg-[var(--primary-color)] rounded-sm"></div>
               <span>Tasks</span>
             </div>
-
-<!--            <div-->
-<!--              class="flex items-center justify-center gap-2 text-sm text-[var(&#45;&#45;text-color-light)]"-->
-<!--            >-->
-<!--              <div class="w-[12px] h-[12px] bg-gray-200 rounded-sm"></div>-->
-<!--              <span class="text-nowrap">Ziel (7/Tag)</span>-->
-<!--            </div>-->
           </div>
 
           <div class="flex-1 min-h-0 w-full">
-            <VChart class="w-full h-full" :option="optionProductivity" autoresize></VChart>
+            <VChart class="w-full h-full" :option="optionProductivity" autoresize />
           </div>
         </div>
-        <div class="col-span-2 base-element bg-[var(--surface-color)] flex flex-col">
+
+        <div
+          class="xl:col-span-2 base-element bg-[var(--surface-color)] h-[360px] sm:h-[420px] xl:h-[500px] flex flex-col"
+        >
           <div class="flex items-start justify-between w-full">
             <div class="flex flex-col">
               <span class="text-lg font-semibold">Kategorien</span>
-              <span class="text-sm text-[var(--text-color-light)]"
-                >Task Verteilung diese Woche</span
-              >
+              <span class="text-sm text-[var(--text-color-light)]">
+                Task Verteilung diese Woche
+              </span>
             </div>
           </div>
 
           <div class="flex-1 min-h-0 w-full">
-            <VChart class="w-full h-full" :option="optionDoughnut" autoresize></VChart>
+            <VChart class="w-full h-full" :option="optionDoughnut" autoresize />
           </div>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="base-element h-[350px] flex flex-col min-h-0">
-        <div class="flex items-start justify-between w-full">
+      <div class="base-element h-[360px] sm:h-[400px] flex flex-col min-h-0">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 w-full">
           <div class="flex flex-col">
             <span class="text-lg font-semibold">XP Verlauf</span>
-            <span class="text-sm text-[var(--text-color-light)]"
-              >Kumuliertes Wachstum und tägliche XP</span
-            >
+            <span class="text-sm text-[var(--text-color-light)]">
+              Kumuliertes Wachstum und tägliche XP
+            </span>
           </div>
-          <div
-            class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] rounded-full px-3 py-1.5"
-          >
-            <div class="flex gap-5 mt-3">
-              <div
-                class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]"
-              >
+
+          <div class="flex items-center justify-start md:justify-center gap-2 text-sm text-[var(--primary-color)] rounded-full">
+            <div class="flex flex-wrap gap-4 md:gap-5">
+              <div class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]">
                 <div class="w-[12px] h-[12px] bg-[var(--secondary-color)] rounded-sm"></div>
                 <span>Kumuliert</span>
               </div>
 
-              <div
-                class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]"
-              >
+              <div class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]">
                 <div class="w-[12px] h-[12px] bg-[var(--primary-color)] rounded-sm"></div>
                 <span>Täglich</span>
               </div>
@@ -637,27 +612,24 @@ onMounted(async () => {
         </div>
 
         <div class="flex-1 min-h-0 w-full">
-          <VChart class="w-full h-full" :option="optionLine" autoresize></VChart>
+          <VChart class="w-full h-full" :option="optionLine" autoresize />
         </div>
       </div>
     </section>
 
     <section>
-      <div class="base-element min-h-0 flex flex-col">
-        <div class="flex items-start justify-between w-full">
+      <div class="base-element min-h-0 flex flex-col overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 w-full">
           <div class="flex flex-col">
             <span class="text-lg font-semibold">Aktivitäts Heatmap</span>
             <span class="text-sm text-[var(--text-color-light)]">Letzte 91 Tage</span>
           </div>
-          <div
-            class="flex items-center justify-center gap-2 text-sm text-[var(--primary-color)] rounded-full px-3 py-1.5"
-          >
-            <div class="flex gap-5 mt-3">
-              <div
-                class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]"
-              >
+
+          <div class="flex items-center justify-start md:justify-center gap-2 text-sm text-[var(--primary-color)] rounded-full">
+            <div class="flex flex-wrap gap-3 md:gap-5">
+              <div class="flex items-center justify-center gap-2 text-sm text-[var(--text-color-light)]">
                 <span>Weniger</span>
-                <div class="flex gap-2 items-center justify-center">
+                <div class="flex gap-1.5 sm:gap-2 items-center justify-center">
                   <div class="w-[12px] h-[12px] bg-gray-100 rounded-sm"></div>
                   <div class="w-[12px] h-[12px] bg-[var(--primary-color-light)] rounded-sm"></div>
                   <div class="w-[12px] h-[12px] bg-teal-200 rounded-sm"></div>
@@ -670,8 +642,8 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div class="w-full" :style="{ aspectRatio: `${week.length} / ${days.length}` }">
-          <VChart class="w-full h-full" :option="optionHeatmap" autoresize></VChart>
+        <div class="w-full min-w-[520px] h-[260px] sm:h-[320px] mt-3">
+          <VChart class="w-full h-full" :option="optionHeatmap" autoresize />
         </div>
       </div>
     </section>
@@ -680,7 +652,7 @@ onMounted(async () => {
       <span class="subtitle">Insights</span>
 
       <div class="mt-3 flex items-center justify-center gap-4 w-full">
-        <InsightCardList :stats="statsStore.statsData ?? []"></InsightCardList>
+        <InsightCardList :stats="statsStore.statsData ?? []" />
       </div>
     </section>
 
@@ -688,63 +660,77 @@ onMounted(async () => {
       <span class="subtitle">Task-Log</span>
 
       <div class="base-element min-h-[350px] mt-3">
-        <div class="flex items-center justify-between w-full">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 w-full">
           <div class="flex flex-col items-start justify-center gap-1">
             <span class="font-semibold">Letzte erledigte Tasks</span>
-            <span v-if="statsStore.dashboardData?.lastCompletedTasks.length === 20" class="text-[var(--text-color-light)] text-sm"
-              >{{ statsStore.dashboardData?.lastCompletedTasks.length }} max. Tasks diese Woche</span
+            <span
+              v-if="statsStore.dashboardData?.lastCompletedTasks.length === 20"
+              class="text-[var(--text-color-light)] text-sm"
             >
-            <span v-if="(statsStore.dashboardData?.lastCompletedTasks.length ?? 0) < 20" class="text-[var(--text-color-light)] text-sm"
-            >{{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche</span
+              {{ statsStore.dashboardData?.lastCompletedTasks.length }} max. Tasks diese Woche
+            </span>
+            <span
+              v-if="(statsStore.dashboardData?.lastCompletedTasks.length ?? 0) < 20"
+              class="text-[var(--text-color-light)] text-sm"
             >
+              {{ statsStore.dashboardData?.lastCompletedTasks.length }} Tasks diese Woche
+            </span>
           </div>
+
           <RouterLink
             to="/allCompletedTasks"
-            class="hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
+            class="w-fit hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
           >
             <span>Alle anzeigen</span>
             <i class="fa-solid fa-angle-right"></i>
           </RouterLink>
         </div>
 
-        <table class="w-full mt-3 border-collapse">
-          <tr>
-            <th>Datum</th>
-            <th>Task</th>
-            <th>Kategorie</th>
-            <th>Dauer</th>
-            <th>XP</th>
-          </tr>
-          <tr v-for="lastTask in lastCompletedTasks" :key="lastTask.id" class="hover:bg-gray-50 bg-[var(--surface-color)]">
-            <td class="text-[var(--text-color-light)] text-sm">
-              {{ GetTimeFromNow(lastTask.createdAt) }}
-            </td>
-            <td class="font-medium text-sm">{{ lastTask.task.title }}</td>
-            <td>
-              <Tag
-                v-if="lastTask.category !== null && lastTask.category !== undefined"
-                class="inline"
-                :name="lastTask.category.name"
-                color-hex="#ebf8f7"
-                text-color-hex="#14B8A6"
-              ></Tag>
+        <div class="w-full overflow-x-auto mt-3">
+          <table class="min-w-[700px] border-collapse">
+            <tr>
+              <th>Datum</th>
+              <th>Task</th>
+              <th>Kategorie</th>
+              <th>Dauer</th>
+              <th>XP</th>
+            </tr>
 
-              <Tag
-                v-if="lastTask.category === null || lastTask.category === undefined"
-                class="inline"
-                name="Keine"
-                color-hex="#f9fafb"
-                text-color-hex="#99a1af"
-              ></Tag>
-            </td>
-            <td class="text-[var(--text-color-light)] text-sm">
-              {{ lastTask.task.durationMin }} min
-            </td>
-            <td class="font-semibold text-[var(--primary-color)] text-sm">
-              + {{ lastTask.xpAwarded }} XP
-            </td>
-          </tr>
-        </table>
+            <tr
+              v-for="lastTask in lastCompletedTasks"
+              :key="lastTask.id"
+              class="hover:bg-gray-50 bg-[var(--surface-color)]"
+            >
+              <td class="text-[var(--text-color-light)] text-sm">
+                {{ GetTimeFromNow(lastTask.createdAt) }}
+              </td>
+              <td class="font-medium text-sm">{{ lastTask.task.title }}</td>
+              <td>
+                <Tag
+                  v-if="lastTask.category !== null && lastTask.category !== undefined"
+                  class="inline"
+                  :name="lastTask.category.name"
+                  color-hex="#ebf8f7"
+                  text-color-hex="#14B8A6"
+                />
+
+                <Tag
+                  v-if="lastTask.category === null || lastTask.category === undefined"
+                  class="inline"
+                  name="Keine"
+                  color-hex="#f9fafb"
+                  text-color-hex="#99a1af"
+                />
+              </td>
+              <td class="text-[var(--text-color-light)] text-sm">
+                {{ lastTask.task.durationMin }} min
+              </td>
+              <td class="font-semibold text-[var(--primary-color)] text-sm">
+                + {{ lastTask.xpAwarded }} XP
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </section>
   </main>
