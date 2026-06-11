@@ -89,9 +89,9 @@ const nextLevelXP = computed(() => statsStore.dashboardData?.xpNext ?? 0)
       :key="newBadges[badgeUpdateCount]!.id"
       :badge-name="newBadges[badgeUpdateCount]!.name"
       :badge-description="newBadges[badgeUpdateCount]!.description"
-      svg-color=""
+      :svg-color="newBadges[badgeUpdateCount]!.primaryColor"
       badge-icon=""
-      background-badge-color=""
+      :background-badge-color="newBadges[badgeUpdateCount]!.secondaryColor"
     ></BadgeUpdate>
   </div>
 </template>
