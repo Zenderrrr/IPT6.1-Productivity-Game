@@ -456,21 +456,21 @@ function resetFilter(){
           </div>
 
           <!-- Task Details-->
-          <div class="base-element mt-4">
-            <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
-              >Task Details</span
-            >
-            <div
-              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(--text-color-light)]"
-            >
-              <div
-                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(--text-color-light)]"
-              >
-                <i class="fa-solid fa-list text-2xl"></i>
-                <span class="text-xs leading-5">Task auswählen für Details</span>
-              </div>
-            </div>
-          </div>
+<!--          <div class="base-element mt-4">-->
+<!--            <span class="uppercase text-[var(&#45;&#45;text-color-light)] text-sm font-semibold"-->
+<!--              >Task Details</span-->
+<!--            >-->
+<!--            <div-->
+<!--              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
+<!--            >-->
+<!--              <div-->
+<!--                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(&#45;&#45;text-color-light)]"-->
+<!--              >-->
+<!--                <i class="fa-solid fa-list text-2xl"></i>-->
+<!--                <span class="text-xs leading-5">Task auswählen für Details</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
           <!-- Today Insights-->
           <div class="base-element mt-4">
