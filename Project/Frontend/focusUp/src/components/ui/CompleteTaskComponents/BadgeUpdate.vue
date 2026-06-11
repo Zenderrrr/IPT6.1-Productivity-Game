@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import PopUpTaskCompletion from '@/components/ui/CompleteTaskComponents/PopUpTaskCompletion.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   badgeName: string
@@ -30,9 +31,10 @@ function onSubmit() {
 
         <!-- Badge icon-->
         <div
-          class="stamp z-1 relative w-[100px] h-[100px] flex justify-center items-center text-[50px] bg-orange-100 border border-b-orange-500 text-orange-500 rounded-full mt-5"
+          :style="{ background: `${props.backgroundBadgeColor}`, borderColor: `${props.svgColor}`, color: `${props.svgColor}` }"
+          class="stamp z-1 relative w-[100px] h-[100px] flex justify-center items-center text-[50px] rounded-full mt-5"
         >
-          <div class="absolute w-full h-full ping bg-orange-100 rounded-full z-0"></div>
+          <div :style="{ background: `${props.backgroundBadgeColor}` }" class="absolute w-full h-full ping rounded-full z-0"></div>
           <i class="fa-solid fa-fire z-20"></i>
         </div>
 
