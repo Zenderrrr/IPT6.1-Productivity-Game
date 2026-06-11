@@ -119,7 +119,7 @@ const currLvl = computed(() => dashboardInfo.value?.level)
 const xpCurr = computed(() => dashboardInfo.value?.xpCurrent)
 const xpNext = computed(() => dashboardInfo.value?.xpNext)
 const progressToNextLevel = computed(() =>
-  Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100)
+  Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100),
 )
 
 const streakCount = computed(() => dashboardInfo.value?.streakCount)
@@ -141,7 +141,7 @@ const tasksDoneWeek = computed(() =>
 const focusTimeWeek = computed(
   () =>
     Math.round(
-      (prodInfoWeek.value?.reduce((n, { timeSpent }) => n + timeSpent, 0) ?? 0) / 60 * 10,
+      ((prodInfoWeek.value?.reduce((n, { timeSpent }) => n + timeSpent, 0) ?? 0) / 60) * 10,
     ) / 10,
 )
 
@@ -169,7 +169,6 @@ onMounted(async () => {
     if (!isMounted) {
       return
     }
-
   } catch (e) {
     error.value = e ? e.message : 'Failed to fetch dashboard data'
   }
@@ -190,42 +189,41 @@ const showPopUpTask = ref<boolean>(false)
 
 async function submitTask(task: CreateTaskType) {
   taskStore.error = null
-  try{
+  try {
     await taskStore.createTask(task)
-  }catch(e){
+  } catch (e) {
     console.error(e)
   } finally {
-    if(!taskStore.error)
-      showPopUpTask.value = false
+    if (!taskStore.error) showPopUpTask.value = false
   }
 }
 </script>
 
 <template>
-  <CreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask"></CreateTask>
+  <CreateTask :is-shown="showPopUpTask" @cancel="showPopUpTask = false" @submit="submitTask" />
 
-  <NavAuth></NavAuth>
-  <main>
+  <NavAuth />
+
+  <main class="px-4 sm:px-6 lg:px-8">
     <!-- Greeting Section-->
     <GreetingsSection
       title="Willkommen zurück,"
       :user-name="authInfo?.username"
       subtitle="Du bist auf einem guten Weg, bleib dran!"
-    ></GreetingsSection>
+    />
 
     <!-- Card overview section-->
     <section>
-      <div class="grid grid-cols-4 gap-4 auto-rows-[150px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 auto-rows-[150px]">
         <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="totalXp">
-          <span
-            ><em class="text-[var(--accent-color)]">+{{ xpWeek }} XP</em> diese Woche</span
-          >
+          <span>
+            <em class="text-[var(--accent-color)]">+{{ xpWeek }} XP</em> diese Woche
+          </span>
         </StatsOverviewCard>
+
         <StatsOverviewCard svg="fa-solid fa-chart-line" stats-name="Level" :stats-value="currLvl">
           <div>
-            <div
-              class="w-full bg-[var(--background-color)] h-2 rounded-full overflow-hidden mb-2.5"
-            >
+            <div class="w-full bg-[var(--background-color)] h-2 rounded-full overflow-hidden mb-2.5">
               <div
                 :style="{ width: `${progressToNextLevel}%` }"
                 class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
@@ -234,6 +232,7 @@ async function submitTask(task: CreateTaskType) {
             <span>{{ xpCurr }} / {{ xpNext }} XP zum nächsten Level</span>
           </div>
         </StatsOverviewCard>
+
         <StatsOverviewCard svg="fa-solid fa-fire" stats-name="Streak" :stats-value="streakCount">
           <span>Tage in Folge</span>
           <div class="grid grid-cols-7 gap-2 mt-2">
@@ -241,32 +240,35 @@ async function submitTask(task: CreateTaskType) {
               v-for="i in 7"
               :key="i"
               class="h-1.5 bg-[var(--background-color)] rounded-full"
-              :class="((i <= today && i > today - (streakCount ?? 0))) ? 'streak-on' : 'streak-off' "
+              :class="i <= today && i > today - (streakCount ?? 0) ? 'streak-on' : 'streak-off'"
             ></div>
           </div>
         </StatsOverviewCard>
+
         <StatsOverviewCard
           svg="fa-solid fa-check"
           stats-name="Erledigte Tasks"
           :stats-value="tasksDone"
         >
-          <span
-            ><em class="text-[var(--accent-color)]">+{{ taskDoneToday }}</em> heute -
-            {{ tasksOpen }} offen</span
-          >
+          <span>
+            <em class="text-[var(--accent-color)]">+{{ taskDoneToday }}</em> heute -
+            {{ tasksOpen }} offen
+          </span>
         </StatsOverviewCard>
       </div>
     </section>
 
     <!-- Last completed tasks & quick actions-->
-    <section class="grid grid-cols-6 gap-4">
+    <section class="grid grid-cols-1 xl:grid-cols-6 gap-4">
       <!-- Title -->
-      <div class="box-hover-animation col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg">
-        <div class="flex items-center justify-between">
+      <div
+        class="box-hover-animation xl:col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg"
+      >
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
           <RouterLink
             to="/allCompletedTasks"
-            class="color-change-secondary-animation cursor-pointer flex items-center justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
+            class="color-change-secondary-animation cursor-pointer flex items-center justify-start sm:justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
@@ -277,19 +279,26 @@ async function submitTask(task: CreateTaskType) {
 
         <!-- Tasks -->
         <div class="grid grid-cols-1 grid-rows-5 gap-3 mt-4">
-            <StatsCompletedTask
-              v-if="!taskStore.loading"
-              v-for="task in lastCompletedTasks.slice(0, 5)" :key="task.id"
-              :title="task.title"
-              :date="task.createdAt"
-              :xp="task.xpAwarded"
-            ></StatsCompletedTask>
+          <StatsCompletedTask
+            v-if="!taskStore.loading"
+            v-for="task in lastCompletedTasks.slice(0, 5)"
+            :key="task.id"
+            :title="task.title"
+            :date="task.createdAt"
+            :xp="task.xpAwarded"
+          />
 
-          <PlaceholderLastComplTask v-if="taskStore.loading || lastCompletedTasks.length === 0" :key="i" v-for="i in 5"></PlaceholderLastComplTask>
+          <PlaceholderLastComplTask
+            v-if="taskStore.loading || lastCompletedTasks.length === 0"
+            v-for="i in 5"
+            :key="i"
+          />
         </div>
       </div>
 
-      <div class="box-hover-animation col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
+      <div
+        class="box-hover-animation xl:col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg"
+      >
         <h2 class="font-bold">Schnelle Aktionen</h2>
 
         <!-- Quick Actions-->
@@ -299,18 +308,19 @@ async function submitTask(task: CreateTaskType) {
             class="scale-animation-sm flex items-center justify-start mt-4 gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
-              class="w-[30px] h-[30px] flex items-center justify-center text-[var(--primary-color-white)] bg-white/20 backdrop-blur-2lg rounded-lg"
+              class="w-[30px] h-[30px] flex items-center justify-center text-[var(--primary-color-white)] bg-white/20 backdrop-blur-2lg rounded-lg shrink-0"
             >
               <i class="fa-solid fa-plus text-sm"></i>
             </div>
             <span class="font-semibold">Task erstellen</span>
           </div>
 
-          <RouterLink to="/tasks"
+          <RouterLink
+            to="/tasks"
             class="hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
-              class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-[var(--text-color-white)]"
+              class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-[var(--text-color-white)] shrink-0"
             >
               <i class="fa-solid fa-list-check text-sm"></i>
             </div>
@@ -319,74 +329,88 @@ async function submitTask(task: CreateTaskType) {
         </div>
 
         <!-- Stats Current Week-->
-        <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
-          >Diese Woche</span
-        >
-        <div class="grid grid-cols-2 grid-rows-2 gap-3 mt-4">
-          <CurrentWeekStats :stats-value="tasksDoneWeek" name="Tasks"></CurrentWeekStats>
-          <CurrentWeekStats :stats-value="focusTimeWeek" name="Fokus" digit="h"></CurrentWeekStats>
+        <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold">
+          Diese Woche
+        </span>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-3 mt-4">
+          <CurrentWeekStats :stats-value="tasksDoneWeek" name="Tasks" />
+          <CurrentWeekStats :stats-value="focusTimeWeek" name="Fokus" digit="h" />
           <CurrentWeekStats
             :stats-value="xpWeek"
             name="XP Gewonnen"
             digit="+"
             color-tailwind="text-[var(--primary-color)]"
-          ></CurrentWeekStats>
+          />
           <CurrentWeekStats
             :stats-value="79"
             name="Ziel erreicht"
             digit="%"
             color-tailwind="text-[var(--accent-color)]"
-          ></CurrentWeekStats>
+          />
         </div>
       </div>
     </section>
 
     <!-- Productivity over time -->
     <section class="box-hover-animation bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h2 class="font-bold text-lg tracking-wide">Produktivität über Zeit</h2>
-          <span class="font-semibold text-sm text-[var(--text-color-light)]"
-            >XP pro Tag</span
-          >
+          <span class="font-semibold text-sm text-[var(--text-color-light)]">XP pro Tag</span>
         </div>
+
         <div
-          class="flex items-center justify-end gap-4 text-[var(--text-color-light)] font-semibold text-sm"
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3 sm:gap-4 text-[var(--text-color-light)] font-semibold text-sm"
         >
           <div class="flex items-center justify-start gap-2">
-            <div class="w-[10px] h-[10px] rounded-full bg-[var(--primary-color)]"></div>
+            <div class="w-[10px] h-[10px] rounded-full bg-[var(--primary-color)] shrink-0"></div>
             <span>Tasks erledigt</span>
           </div>
 
           <div class="flex items-center justify-start gap-2">
-            <div class="w-[10px] h-[10px] rounded-full bg-[var(--primary-color-light)]"></div>
+            <div
+              class="w-[10px] h-[10px] rounded-full bg-[var(--primary-color-light)] shrink-0"
+            ></div>
             <span>Ziel</span>
           </div>
 
-          <div class="flex items-center justify-end gap-1.5">
+          <div class="flex items-center justify-start sm:justify-end gap-1.5">
             <button
               class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(0); chartDayLength = 14"
+              @click="
+                setActive(0);
+                chartDayLength = 14
+              "
               :class="{ chartActive: isActive(0) }"
-              >14T</button
             >
+              14T
+            </button>
             <button
               class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(1); chartDayLength = 30"
+              @click="
+                setActive(1);
+                chartDayLength = 30
+              "
               :class="{ chartActive: isActive(1) }"
-              >1M</button
             >
+              1M
+            </button>
             <button
               class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
-              @click="setActive(2); chartDayLength = 90"
+              @click="
+                setActive(2);
+                chartDayLength = 90
+              "
               :class="{ chartActive: isActive(2) }"
-              >3M</button
             >
+              3M
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="w-full h-[200px]">
+      <div class="w-full h-[220px] sm:h-[260px] mt-4">
         <VChart class="h-full w-full" :option="option" autoresize />
       </div>
     </section>
