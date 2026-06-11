@@ -166,7 +166,7 @@ const insights = computed<InsightType[]>(() => {
 </script>
 
 <template>
-  <div class="mt-3 grid grid-cols-3 gap-4 w-full min-h-[150px]">
+  <div class="mt-3 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 w-full min-h-[150px]">
     <InsightCard
       v-for="insight in insights.slice(0, 3)"
       class="h-full col-span-1"
