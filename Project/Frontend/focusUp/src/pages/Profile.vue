@@ -131,12 +131,12 @@ onMounted(async () => {
         </div>
       </div>
 
-      <button
-        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-sm px-4 py-2 bg-gray-100 rounded-xl border border-gray-200"
-      >
-        <i class="fa-solid fa-pen text-xs"></i>
-        <span>Profilbild bearbeiten</span>
-      </button>
+<!--      <button-->
+<!--        class="hover:border-[var(&#45;&#45;primary-color)] hover:text-[var(&#45;&#45;primary-color)] hover:bg-[var(&#45;&#45;primary-color-light)] transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-sm px-4 py-2 bg-gray-100 rounded-xl border border-gray-200"-->
+<!--      >-->
+<!--        <i class="fa-solid fa-pen text-xs"></i>-->
+<!--        <span>Profilbild bearbeiten</span>-->
+<!--      </button>-->
     </section>
 
     <!-- Badges-->
@@ -188,26 +188,26 @@ onMounted(async () => {
 
 <!--        <div class="w-full my-4 h-0.5 bg-gray-200"></div>-->
 
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center justify-start gap-4">
-            <div
-              class="flex items-center justify-center w-[40px] h-[40px] rounded-lg bg-[var(--secondary-color-light)] text-[var(--secondary-color)]"
-            >
-              <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="flex flex-col items-start justify-center gap-1">
-              <span class="font-semibold text-md">Passwort</span>
-              <span class="text-[var(--text-color-light)] text-sm"
-                >Wechse dein Passwort einfach & sicher</span
-              >
-            </div>
-          </div>
-          <div class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] hover:bg-[var(--primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">
-            <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>
-          </div>
-        </div>
+<!--        <div class="flex items-center justify-between gap-2">-->
+<!--          <div class="flex items-center justify-start gap-4">-->
+<!--            <div-->
+<!--              class="flex items-center justify-center w-[40px] h-[40px] rounded-lg bg-[var(&#45;&#45;secondary-color-light)] text-[var(&#45;&#45;secondary-color)]"-->
+<!--            >-->
+<!--              <i class="fa-solid fa-lock"></i>-->
+<!--            </div>-->
+<!--            <div class="flex flex-col items-start justify-center gap-1">-->
+<!--              <span class="font-semibold text-md">Passwort</span>-->
+<!--              <span class="text-[var(&#45;&#45;text-color-light)] text-sm"-->
+<!--                >Wechse dein Passwort einfach & sicher</span-->
+<!--              >-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="hover:border-[var(&#45;&#45;primary-color)] hover:text-[var(&#45;&#45;primary-color)] hover:bg-[var(&#45;&#45;primary-color-light)] transition duration-200 flex items-center justify-center border-2 border-gray-200 rounded-xl">-->
+<!--            <button class="px-4 py-2 text-sm font-semibold cursor-pointer">Ändern</button>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="w-full my-4 h-0.5 bg-gray-200"></div>
+<!--        <div class="w-full my-4 h-0.5 bg-gray-200"></div>-->
 
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center justify-start gap-4">
