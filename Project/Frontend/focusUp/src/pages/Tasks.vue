@@ -306,30 +306,30 @@ function resetFilter(){
   <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
   <CreateTask :on-submit="submitTask" :is-shown="showPopUpTask" @cancel="showPopUpTask = false"></CreateTask>
 
-  <div class="h-screen flex flex-col overflow-hidden min-h-[1050px]">
+  <div class="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden">
     <NavAuth></NavAuth>
-    <main class="xl:w-[80rem] flex-1 flex flex-col min-h-0 overflow-hidden">
+    <main class="w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-hidden">
       <GreetingsSection
         class="shrink-0"
         title="Meine Tasks"
         subtitle="Verwalte deine Aufgaben und bleib fokussiert!"
       ></GreetingsSection>
 
-      <div class="grid grid-cols-8 gap-4 flex-1 min-h-0 overflow-hidden">
-        <section class="col-span-6 flex flex-col overflow-hidden min-h-0">
+      <div class="grid grid-cols-1 lg:grid-cols-8 gap-4 flex-1 min-h-0 lg:overflow-hidden">
+        <section class="lg:col-span-6 flex flex-col min-h-0">
           <!-- search area-->
-          <div class="base-element grid grid-cols-[6fr_auto_auto] gap-2 shrink-0">
+          <div class="base-element grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 shrink-0">
             <div
               class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
             >
               <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
-              <input v-model="taskFilter" class="w-full outline-0" type="text" placeholder="Tasks suchen ..." />
+              <input v-model="taskFilter" class="w-full outline-0 bg-transparent" type="text" placeholder="Tasks suchen ..." />
             </div>
 
             <button
               @click="isFilterDate = !isFilterDate"
               :style="isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : '' "
-              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
+              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
               <span>nach Datum</span>
@@ -338,7 +338,7 @@ function resetFilter(){
             <button
               :style="submittedFilterTask !== null ? 'border-color:var(--primary-color); color:var(--primary-color)' : '' "
               @click="submittedFilterTask !== null ?  resetFilter() : filterShown = true"
-              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2)]"
+              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
@@ -346,7 +346,7 @@ function resetFilter(){
           </div>
 
           <!-- Categories-->
-          <div class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0">
+          <div class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0 overflow-x-auto pb-2">
             <Categories :can-be-remove="false" text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
             <Categories
               v-for="category in categoriesData ?? []"
@@ -358,19 +358,19 @@ function resetFilter(){
               @clicked="changeActiveCategory(category.id)"
               @remove="deleteCategory"
             ></Categories>
-            <div @click="showPopUpCategory = true" class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline">
+            <div @click="showPopUpCategory = true" class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline shrink-0">
               <span>Erstelle Kategorie</span>
             </div>
           </div>
 
           <!-- View choosing-->
           <div
-            class="flex items-center justify-evenly mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm shrink-0"
+            class="grid grid-cols-1 sm:grid-cols-3 mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm shrink-0"
           >
             <div
               @click="changeViewOption(1)"
               :class="viewOption === 1 ? 'activeView' : '' "
-              class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1"
+              class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
             >
               <span class="">Alle</span>
               <span
@@ -378,14 +378,14 @@ function resetFilter(){
                 >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
               >
             </div>
-            <div class="hover:bg-gray-100 duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
+            <div class="hover:bg-gray-100 duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
                 >{{ dashboardData?.tasksOpen ?? 0 }}</span
               >
             </div>
-            <div class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-1" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
+            <div class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
@@ -396,7 +396,7 @@ function resetFilter(){
 
           <!-- Tasks-->
           <div
-            class="scrollbar flex flex-1 flex-col justify-start mt-4 pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-0 "
+            class="scrollbar flex flex-1 flex-col justify-start mt-4 pr-0 lg:pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-[450px] lg:min-h-0"
           >
             <TasksComponent
               v-if="!taskStore.loading"
@@ -420,12 +420,12 @@ function resetFilter(){
             </TasksComponent>
 
             <div v-if="taskStore.loading || filteredTaskData.length === 0" class="flex flex-col items-center justify-center gap-3">
-              <PlaceholderTask v-for="i in 10"></PlaceholderTask>
+              <PlaceholderTask v-for="i in 10" :key="i"></PlaceholderTask>
             </div>
           </div>
         </section>
 
-        <section class="col-span-2">
+        <section class="lg:col-span-2 pb-4 lg:pb-0">
           <div
             class="flex items-center justify-center w-full base-element border-1 border-gray-200"
           >
@@ -441,9 +441,9 @@ function resetFilter(){
           <!-- To next level-->
           <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
             <span class="uppercase font-semibold">Bis zum nächsten Level</span>
-            <div class="flex items-center justify-between w-full mt-4 mb-2">
+            <div class="flex items-center justify-between w-full mt-4 mb-2 gap-2">
               <span>Lv. {{ dashboardData?.level }}</span>
-              <span class="text-[var(--text-color)] font-semibold"
+              <span class="text-[var(--text-color)] font-semibold text-right"
                 >{{ dashboardData?.xpCurrent }} / {{ dashboardData?.xpNext }} XP</span
               >
             </div>
@@ -477,7 +477,7 @@ function resetFilter(){
             <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
               >Heute</span
             >
-            <div class="flex items-center justify-center w-full gap-2 mt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-2 mt-2">
               <div
                 class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-gray-100"
               >
