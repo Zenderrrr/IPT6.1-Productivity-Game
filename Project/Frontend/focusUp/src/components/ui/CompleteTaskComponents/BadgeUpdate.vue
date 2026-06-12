@@ -22,7 +22,7 @@ function onSubmit() {
 
 <template>
   <PopUpTaskCompletion>
-    <div class="shake base-element min-w-[500px]">
+    <div class="shake base-element w-[92vw] max-w-[500px] max-h-[90vh] overflow-y-auto">
       <div class="flex flex-col justify-center items-center">
         <!-- Badge text-->
         <div class="appear w-full flex justify-center items-center gap-2 text-sm">
@@ -33,7 +33,7 @@ function onSubmit() {
         <!-- Badge icon-->
         <div
           :style="{ background: `${props.backgroundBadgeColor}`, borderColor: `${props.svgColor}`, color: `${props.svgColor}` }"
-          class="stamp z-1 relative w-[100px] h-[100px] p-5 flex justify-center items-center text-[50px] rounded-full mt-5"
+          class="stamp z-1 relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] p-5 flex justify-center items-center text-[45px] sm:text-[50px] rounded-full mt-5"
         >
           <div :style="{ background: `${props.backgroundBadgeColor}` }" class="absolute w-full h-full ping rounded-full z-0"></div>
           <div v-html="props.badgeIcon" class="z-20 w-full h-full"></div>
@@ -42,8 +42,8 @@ function onSubmit() {
         <div
           class="flex flex-col justify-center items-center gap-2 text-sm text-center mt-3 max-w-[400px]"
         >
-          <span style="--delay: 0.3s" class="appear text-xl font-semibold">{{ props.badgeName }}</span>
-          <p class="appear" style="--delay: 0.4s">
+          <span style="--delay: 0.3s" class="appear text-lg sm:text-xl font-semibold break-words">{{ props.badgeName }}</span>
+          <p class="appear break-words" style="--delay: 0.4s">
             {{ props.badgeDescription }}
           </p>
         </div>

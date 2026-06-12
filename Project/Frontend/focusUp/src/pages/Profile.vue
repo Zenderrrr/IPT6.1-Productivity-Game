@@ -95,41 +95,41 @@ onMounted(async () => {
     ></GreetingsSection>
 
     <!-- Profile Overview-->
-    <section
-      class="relative base-element flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 overflow-hidden border border-gray-200"
+<section
+  class="relative base-element flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 overflow-hidden border border-gray-200"
+>
+  <div
+    class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+  ></div>
+
+  <div class="flex flex-col sm:flex-row items-center sm:justify-start gap-4 w-full min-w-0">
+    <div
+      class="w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] shrink-0 border-4 border-[var(--primary-color)] rounded-full flex items-center justify-center bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)]"
     >
-      <div
-        class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
-      ></div>
+      <span class="text-3xl sm:text-4xl text-[var(--text-color-white)] font-semibold">{{
+        nameInitials
+      }}</span>
+    </div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-4 min-w-0">
-        <div
-          class="w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] shrink-0 border-4 border-[var(--primary-color)] rounded-full flex items-center justify-center bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)]"
-        >
-          <span class="text-3xl sm:text-4xl text-[var(--text-color-white)] font-semibold">{{
-            nameInitials
-          }}</span>
-        </div>
+    <div class="sm:ml-3 flex flex-col items-center sm:items-start justify-start gap-1 min-w-0 text-center sm:text-left">
+      <span class="text-xl sm:text-2xl font-semibold break-words">{{ userInfo?.username }}</span>
+      <span class="text-[var(--text-color-light)] text-sm break-all">{{ userInfo?.email }}</span>
 
-        <div class="sm:ml-3 flex flex-col items-start justify-start gap-1 min-w-0">
-          <span class="text-xl sm:text-2xl font-semibold break-words">{{ userInfo?.username }}</span>
-          <span class="text-[var(--text-color-light)] text-sm break-all">{{ userInfo?.email }}</span>
-
-          <div class="flex flex-wrap items-center justify-start gap-2 mt-3">
-            <Tag
-              :name="`Level ${dashboardInfo?.level}`"
-              color-hex="#ebf8f7"
-              text-color-hex="#0F172A"
-            ></Tag>
-            <Tag
-              v-if="(dashboardInfo?.streakCount ?? 0) > 0"
-              :name="`${dashboardInfo?.streakCount}-Tage-Streak`"
-              color-hex="#ebf8f7"
-              text-color-hex="#0F172A"
-            ></Tag>
-          </div>
-        </div>
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-3">
+        <Tag
+          :name="`Level ${dashboardInfo?.level}`"
+          color-hex="#ebf8f7"
+          text-color-hex="#0F172A"
+        ></Tag>
+        <Tag
+          v-if="(dashboardInfo?.streakCount ?? 0) > 0"
+          :name="`${dashboardInfo?.streakCount}-Tage-Streak`"
+          color-hex="#ebf8f7"
+          text-color-hex="#0F172A"
+        ></Tag>
       </div>
+    </div>
+  </div>
 
 <!--      <button-->
 <!--        class="hover:border-[var(&#45;&#45;primary-color)] hover:text-[var(&#45;&#45;primary-color)] hover:bg-[var(&#45;&#45;primary-color-light)] transition duration-200 cursor-pointer flex items-center justify-center gap-2 text-sm px-4 py-2 bg-gray-100 rounded-xl border border-gray-200"-->
@@ -137,7 +137,7 @@ onMounted(async () => {
 <!--        <i class="fa-solid fa-pen text-xs"></i>-->
 <!--        <span>Profilbild bearbeiten</span>-->
 <!--      </button>-->
-    </section>
+</section>
 
     <!-- Badges-->
     <section>

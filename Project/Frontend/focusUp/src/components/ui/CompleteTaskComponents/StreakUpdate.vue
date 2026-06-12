@@ -17,7 +17,7 @@ function onSubmit(){
 
 <template>
   <PopUpTaskCompletion>
-    <div class="shake base-element min-w-[500px]">
+    <div class="shake base-element w-[92vw] max-w-[500px] max-h-[90vh] overflow-y-auto">
       <div class="flex flex-col justify-center items-center">
 
         <!-- Streak Text-->
@@ -27,17 +27,17 @@ function onSubmit(){
         </div>
 
         <!-- Streak icon-->
-        <div class="stamp z-1 relative w-[100px] h-[100px] flex justify-center items-center text-[50px] bg-orange-100 border border-b-orange-500 text-orange-500 rounded-full mt-5">
+        <div class="stamp z-1 relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] flex justify-center items-center text-[45px] sm:text-[50px] bg-orange-100 border border-b-orange-500 text-orange-500 rounded-full mt-5">
           <div class="absolute w-full h-full ping bg-orange-100 rounded-full z-0"></div>
           <i class="fa-solid fa-fire z-20"></i>
         </div>
 
         <!-- Streak Count-->
         <div class="appear flex flex-col justify-center items-center">
-          <div class="relative h-[90px] w-full">
-            <span class="disappear text-[60px] font-bold absolute top-0 right-50% translate-x-[50%]">{{ props.streakCountAfter - 1
+          <div class="relative h-[90px] w-full min-w-[140px]">
+            <span class="disappear text-[52px] sm:text-[60px] font-bold absolute top-0 right-50% translate-x-[50%]">{{ props.streakCountAfter - 1
               }}</span>
-            <span class="streak-count text-[60px] font-bold">{{ props.streakCountAfter }}</span>
+            <span class="streak-count text-[52px] sm:text-[60px] font-bold">{{ props.streakCountAfter }}</span>
           </div>
           <span class="text-sm text-[var(--text-color-light)] font-semibold">Tage in Folge</span>
         </div>
