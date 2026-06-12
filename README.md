@@ -44,6 +44,8 @@ cd .\Project\
 ```
 - File umbennenen (./Project)
     .env.example -> .env
+- File umbennenen (./Project/Frontend/focusUp)
+    .env.example -> .env
 - File umbennen und Secret setzen (./Project/Backend/FocusUp)
     appsettings.example.json -> appsettings.json
 ```
