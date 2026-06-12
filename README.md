@@ -37,6 +37,15 @@ Bevor das Projekt gestartet wird, müssen folgende Programme installiert sein:
 ```
 git clone <repository-url> 
 cd <repository-name>
+cd .\Project\
+```
+
+### File anpassen
+```
+- File umbennenen (./Project)
+    .env.example -> .env
+- File umbennen und Secret setzen (./Project/Backend/FocusUp)
+    appsettings.example.json -> appsettings.json
 ```
 
 ### Starten mit Docker
@@ -143,6 +152,10 @@ Die vollständige Projektdokumentation befindet sich im Ordner `Documentation/Do
 - [UML Diagramm Entitäten](Documentation/Diagram/DB-Diagram/UML_Diagramm_Entity.png)
 - [UI Diagramm Repositories](Documentation/Diagram/DB-Diagram/UML_Diagramm_Repositories.png)
 - [UI Diagramm Services & Repositories](Documentation/Diagram/DB-Diagram/UML_Diagramm_Services&Repositories.png)
+- [(PAP)BenutzerLogin](Documentation/Diagram/Pap/(PAP)BenutzerLogin.png)
+- [(PAP)Level bestimmen](Documentation/Diagram/Pap/(PAP)Level%20bestimmen.png)
+- [(PAP)Task erledigen](Documentation/Diagram/Pap/(PAP)Task%20erledigen.png)
+- [(PAP)XP berechnen](Documentation/Diagram/Pap/(PAP)XP%20berechnen.png)
 - [Seitenstruktur](Documentation/DocumentationPhases/9_page-structure.md)
 - [Page Style Entscheidung](Documentation/DocumentationPhases/10_decide-pagestyle.md)
 - [Frontend Struktur](Documentation/DocumentationPhases/11_frontend_dev_structure.md)
@@ -223,6 +236,23 @@ Die Anwendung ist öffentlich über Railway erreichbar.
 Das Projekt wird automatisch über Railway deployed. Änderungen am Hauptbranch werden nach erfolgreichem Build automatisch veröffentlicht.
 
 ---
+
+## Troubleshooting
+
+### Erster Versuch:
+```
+docker compose down -v --remove-orphans
+docker compose up --build
+```
+
+### Wenn nicht funktioniert dann:
+```
+docker compose down -v --remove-orphans
+rm Database/productivity_game.sqlite
+docker compose up --build
+```
+Hinweis: Der Befehl `rm Database/productivity_game.sqlite` kann einen Fehler auslösen. In diesem Fall muss im Windows Defender die Berechtigung erteilt werden, damit die Datei gelöscht werden darf.
+
 
 ## Entwickler
 
