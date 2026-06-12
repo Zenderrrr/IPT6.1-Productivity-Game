@@ -234,19 +234,24 @@ const tasksForCompleteHandler = ref<TaskCompleteType[] | undefined>(undefined)
 async function completeTask() {
   getCheckedTasks()
 
-  const taskComplete : TaskCompleteType[] | undefined = []
-  for (const task of checkedTasks.value){
-    taskComplete.push(<TaskCompleteType>await taskStore.completeTask(task))
+  const taskComplete: TaskCompleteType[] = []
+
+  for (const task of checkedTasks.value) {
+    taskComplete.push(await taskStore.completeTask(task) as TaskCompleteType)
   }
 
   await taskStore.getAllTasks()
-  localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
 
+  await statsStore.productivity(1)
+  prodData.value = statsStore.productivityData
+
+  await statsStore.dashboard('1')
+
+  localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
   checkedTasks.value = []
+
   tasksForCompleteHandler.value = taskComplete
   taskCompleteKey.value++
-
-  tasksForCompleteHandler.value = taskComplete ?? []
   isTaskCompleteHandlerVisible.value = true
 }
 
