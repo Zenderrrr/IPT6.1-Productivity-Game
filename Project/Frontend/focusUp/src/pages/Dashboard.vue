@@ -223,7 +223,7 @@ const successRate = computed(() => {
 
   <NavAuth />
 
-  <main class="px-4 sm:px-6 lg:px-8">
+  <main class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Greeting Section-->
     <GreetingsSection
       title="Willkommen zurück,"
@@ -233,7 +233,7 @@ const successRate = computed(() => {
 
     <!-- Card overview section-->
     <section>
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 auto-rows-[150px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[150px]">
         <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="totalXp">
           <span>
             <em class="text-[var(--accent-color)]">+{{ xpWeek }} XP</em> diese Woche
@@ -278,10 +278,10 @@ const successRate = computed(() => {
     </section>
 
     <!-- Last completed tasks & quick actions-->
-    <section class="grid grid-cols-1 xl:grid-cols-6 gap-4">
+    <section class="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <!-- Title -->
       <div
-        class="box-hover-animation xl:col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg"
+        class="box-hover-animation lg:col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg"
       >
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
@@ -316,7 +316,7 @@ const successRate = computed(() => {
       </div>
 
       <div
-        class="box-hover-animation xl:col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg"
+        class="box-hover-animation lg:col-span-2 bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg"
       >
         <h2 class="font-bold">Schnelle Aktionen</h2>
 
@@ -352,7 +352,7 @@ const successRate = computed(() => {
           Diese Woche
         </span>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-3 mt-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 mt-4">
           <CurrentWeekStats :stats-value="tasksDoneWeek" name="Tasks" />
           <CurrentWeekStats :stats-value="focusTimeWeek" name="Fokus" digit="h" />
           <CurrentWeekStats
