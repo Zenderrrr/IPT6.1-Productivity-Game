@@ -66,14 +66,14 @@ const progress = computed(() => {
 <template>
   <PopUpTaskCompletion>
     <!-- Level text-->
-    <div class="base-element min-w-[500px]">
+    <div class="base-element w-[92vw] max-w-[500px] max-h-[90vh] overflow-y-auto">
       <div class="w-full flex justify-center items-center gap-2 text-sm">
         <i class="fa-solid fa-web-awesome"></i>
         <span class="uppercase">Level Belohnung</span>
       </div>
 
       <div class="flex flex-col justify-center items-center mt-5">
-        <span class="text-[75px] font-extrabold text-[var(--primary-color)] leading-20"
+        <span class="text-[48px] sm:text-[75px] font-extrabold text-[var(--primary-color)] leading-[3.5rem] sm:leading-20"
           >+ {{ displayedTaskXP }} XP</span
         >
         <span class="text-[var(--text-color-light)] text-sm">insgesamt verdient</span>
@@ -81,7 +81,7 @@ const progress = computed(() => {
 
       <div class="flex justify-between items-center gap-2 text-sm mt-3">
         <span class="font-semibold">Level {{ displayedLevel }}</span>
-        <span class="text-[var(--text-color-light)]"
+        <span class="text-[var(--text-color-light)] text-right"
           >{{ displayedXP }} / {{ displayedNextLevelXP }} XP</span
         >
       </div>

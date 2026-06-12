@@ -54,7 +54,7 @@ onMounted(async () => {
 
 <template>
   <PopUpTaskCompletion>
-    <div class="base-element min-w-[500px]">
+    <div class="base-element w-[92vw] max-w-[500px] max-h-[90vh] overflow-y-auto">
       <!-- XP Text-->
       <div
         style="--delay: 0.1s"
@@ -67,15 +67,15 @@ onMounted(async () => {
       <!-- Task item-->
       <div
         style="--delay: 1s"
-        class="appear w-full flex justify-start items-center gap-2 text-sm mt-5 bg-gray-50 px-4 py-2 rounded-lg border border-gray-100"
+        class="appear w-full flex justify-start items-center gap-2 text-sm mt-5 bg-gray-50 px-3 sm:px-4 py-2 rounded-lg border border-gray-100"
       >
         <div
-          class="flex justify-center items-center w-[40px] h-[40px] border border-[var(--primary-color)] bg-[var(--primary-color-light)] text-[var(--primary-color)] rounded-lg"
+          class="shrink-0 flex justify-center items-center w-[40px] h-[40px] border border-[var(--primary-color)] bg-[var(--primary-color-light)] text-[var(--primary-color)] rounded-lg"
         >
           <i class="fa-solid fa-bolt"></i>
         </div>
-        <div class="flex flex-col items-start justify-center text-sm">
-          <span class="font-semibold text-sm">{{ props.task.title }}</span>
+        <div class="flex flex-col items-start justify-center text-sm min-w-0">
+          <span class="font-semibold text-sm break-words">{{ props.task.title }}</span>
           <span class="text-xs text-[var(--text-color-light)]"
             >{{ status[props.task.difficulty] }} - {{ props.task.durationMin }} Min.</span
           >
@@ -84,7 +84,7 @@ onMounted(async () => {
 
       <div style="--delay: 2s" class="mt-6">
         <div class="appear flex flex-col gap-3 mt-3">
-          <div class="px-4 flex justify-between items-center gap-2 text-sm">
+          <div class="px-2 sm:px-4 flex justify-between items-center gap-2 text-sm">
             <div class="flex justify-center items-center gap-2 text-[var(--text-color)]">
               <i class="fa-solid fa-bolt"></i>
               <span>Basis XP</span>
@@ -99,7 +99,7 @@ onMounted(async () => {
         </div>
 
         <div style="--delay: 2.5s" class="appear flex flex-col gap-3 mt-3">
-          <div class="px-4 flex justify-between items-center gap-2 text-sm">
+          <div class="px-2 sm:px-4 flex justify-between items-center gap-2 text-sm">
             <div class="flex justify-center items-center gap-2 text-[var(--text-color)]">
               <i class="fa-regular fa-alarm-clock"></i>
               <span>Zeit Bonus</span>
@@ -114,7 +114,7 @@ onMounted(async () => {
         </div>
 
         <div style="--delay: 3s" class="appear flex flex-col gap-3 mt-3">
-          <div class="px-4 flex justify-between items-center gap-2 text-sm">
+          <div class="px-2 sm:px-4 flex justify-between items-center gap-2 text-sm">
             <div class="flex justify-center items-center gap-2 text-[var(--text-color)]">
               <i class="fa-solid fa-fire"></i>
               <span>Streak Bonus</span>
@@ -131,7 +131,7 @@ onMounted(async () => {
         </div>
 
         <div style="--delay: 3.5s" class="appear flex flex-col gap-3 mt-3">
-          <div class="px-4 flex justify-between items-center gap-2 text-sm">
+          <div class="px-2 sm:px-4 flex justify-between items-center gap-2 text-sm">
             <div class="flex justify-center items-center gap-2 text-[var(--text-color)]">
               <i class="fa-solid fa-rocket"></i>
               <span>Spezial Bonus</span>
@@ -150,7 +150,7 @@ onMounted(async () => {
 
       <div
         style="--delay: 4s"
-        class="appear my-4 flex justify-between items-center gap-2 px-4 py-2 rounded-lg border border-[var(--primary-color)] bg-[var(--primary-color-light)]"
+        class="appear my-4 flex justify-between items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border border-[var(--primary-color)] bg-[var(--primary-color-light)]"
       >
         <span class="font-semibold">Gesamt</span>
         <span class="text-[var(--primary-color)] font-semibold">{{ animateXP }} XP</span>
@@ -160,7 +160,7 @@ onMounted(async () => {
       <div style="--delay: 4.5s" class="appear w-full h-0.5 bg-gray-100 my-4"></div>
 
       <!-- Continue button-->
-      <div class="flex gap-2">
+      <div class="flex flex-col sm:flex-row gap-2">
         <div
           style="--delay: 5s"
           @click="onSubmit"
@@ -171,7 +171,7 @@ onMounted(async () => {
         <div
           style="--delay: 5s"
           @click="onSkip"
-          class="appear scale-animation-sm cursor-pointer rounded-lg text-nowrap px-5 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] flex justify-center items-center"
+          class="w-full sm:w-auto appear scale-animation-sm cursor-pointer rounded-lg text-nowrap px-5 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] flex justify-center items-center"
         >
           <button class="cursor-pointer">Skip</button>
         </div>
