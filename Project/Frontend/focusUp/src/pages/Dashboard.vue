@@ -163,6 +163,8 @@ onMounted(async () => {
     await statsStore.productivity(chartDayLength.value)
     prodInfoInd.value = statsStore.productivityData
 
+    await taskStore.getAllTasks()
+
     await authStore.me()
     authInfo.value = authStore.user
 
@@ -197,6 +199,23 @@ async function submitTask(task: CreateTaskType) {
     if (!taskStore.error) showPopUpTask.value = false
   }
 }
+
+// success for all task in percent
+const successRate = computed(() => {
+  const tasks = taskStore.allTasksData ?? []
+
+  const completedTasksWithDueDate = tasks.filter((task) => {
+    return task.completedAt && task.dueDate
+  })
+
+  if (completedTasksWithDueDate.length === 0) return 100
+
+  const completedInTime = completedTasksWithDueDate.filter((task) => {
+    return new Date(task.completedAt!) <= new Date(task.dueDate!)
+  })
+
+  return Math.round((completedInTime.length / completedTasksWithDueDate.length) * 100)
+})
 </script>
 
 <template>
@@ -343,8 +362,8 @@ async function submitTask(task: CreateTaskType) {
             color-tailwind="text-[var(--primary-color)]"
           />
           <CurrentWeekStats
-            :stats-value="79"
-            name="Ziel erreicht"
+            :stats-value="successRate"
+            name="Erfolgsquote"
             digit="%"
             color-tailwind="text-[var(--accent-color)]"
           />
