@@ -231,6 +231,7 @@ function isTaskChecked(taskId: number) {
 const isTaskCompleteHandlerVisible = ref<boolean>(false)
 const taskCompleteKey = ref<number>(0)
 const tasksForCompleteHandler = ref<TaskCompleteType[] | undefined>(undefined)
+
 async function completeTask() {
   getCheckedTasks()
 
@@ -240,19 +241,23 @@ async function completeTask() {
     taskComplete.push(await taskStore.completeTask(task) as TaskCompleteType)
   }
 
-  await taskStore.getAllTasks()
-
-  await statsStore.productivity(1)
-  prodData.value = statsStore.productivityData
-
-  await statsStore.dashboard('1')
-
   localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
   checkedTasks.value = []
 
   tasksForCompleteHandler.value = taskComplete
   taskCompleteKey.value++
   isTaskCompleteHandlerVisible.value = true
+}
+
+async function closeTaskCompleteHandler() {
+  isTaskCompleteHandlerVisible.value = false
+
+  await taskStore.getAllTasks()
+
+  await statsStore.productivity(1)
+  prodData.value = statsStore.productivityData
+
+  await statsStore.dashboard('1')
 }
 
 // show update task pop-up
@@ -300,7 +305,7 @@ function resetFilter(){
 <template>
   <Filter :is-shown="filterShown" :tasks="taskStore.allTasksData ?? []" :categories="categoryStore.categoriesData ?? []" @cancel="filterShown = false" @submit="submitFilter"></Filter>
 
-  <TaskCompleteHandler :key="taskCompleteKey" v-if="isTaskCompleteHandlerVisible" @close="isTaskCompleteHandlerVisible = false" :tasksCompleteArr="tasksForCompleteHandler ?? []"></TaskCompleteHandler>
+  <TaskCompleteHandler :key="taskCompleteKey" v-if="isTaskCompleteHandlerVisible" @close="closeTaskCompleteHandler" :tasksCompleteArr="tasksForCompleteHandler ?? []"></TaskCompleteHandler>
 
   <Transition name="popUp">
     <UpdateTaskComponent v-if="showPopUpUpdate && updateTask" :is-shown="showPopUpUpdate" :task="updateTask" @submit="submitUpdateTask" @cancel="closeWindow"></UpdateTaskComponent>
