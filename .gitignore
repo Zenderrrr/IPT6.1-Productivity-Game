@@ -35,3 +35,5 @@ appsettings.json
 
 Project/Backend/FocusUp/bin/Debug/net10.0/appsettings.json
 Project/Backend/FocusUp/appsettings.json
+
+*.sqlite
