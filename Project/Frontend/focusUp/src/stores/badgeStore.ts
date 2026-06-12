@@ -75,7 +75,7 @@ export const useBadgeStore = defineStore('badge', () => {
     }
   }
 
-  async function badgeImgById(name: string) : Promise<string | undefined> {
+  async function badgeImgByName(name: string) : Promise<string | undefined> {
     const nameSlug = slug(name)
     console.log(nameSlug)
     try{
@@ -85,5 +85,5 @@ export const useBadgeStore = defineStore('badge', () => {
     }
   }
 
-  return { allBadges: allBadge,loading,error,badgeData, badgeUnlocked, badgeUnlockedData, badgeLocked, badgeLockedData, badgeImgById}
+  return { allBadges: allBadge,loading,error,badgeData, badgeUnlocked, badgeUnlockedData, badgeLocked, badgeLockedData, badgeImgById: badgeImgByName}
 })
