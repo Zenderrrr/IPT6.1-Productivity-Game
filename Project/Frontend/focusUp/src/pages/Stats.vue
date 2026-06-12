@@ -387,17 +387,16 @@ onMounted(async () => {
       subtitle="Sehe deine Statistiken ein und untersuche deine Stärken"
     />
 
-    <!-- Choose time scaling-->
-    <section class="flex items-center justify-start h-full gap-3">
-      <div
-        class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-200 cursor-pointer text-md flex justify-center items-center gap-2 text-[var(--text-color-light)] border border-gray-300 rounded-lg px-3 py-2"
-      >
-        <div class="flex justify-center items-center">
-          <i class="fa-solid fa-arrow-up-from-bracket"></i>
-        </div>
-        <span>Export</span>
-      </div>
-    </section>
+<!--    <section class="flex items-center justify-start h-full gap-3">-->
+<!--      <div-->
+<!--        class="hover:border-[var(&#45;&#45;primary-color)] hover:text-[var(&#45;&#45;primary-color)] transition duration-200 cursor-pointer text-md flex justify-center items-center gap-2 text-[var(&#45;&#45;text-color-light)] border border-gray-300 rounded-lg px-3 py-2"-->
+<!--      >-->
+<!--        <div class="flex justify-center items-center">-->
+<!--          <i class="fa-solid fa-arrow-up-from-bracket"></i>-->
+<!--        </div>-->
+<!--        <span>Export</span>-->
+<!--      </div>-->
+<!--    </section>-->
 
     <section>
       <span class="subtitle">Übersicht</span>
