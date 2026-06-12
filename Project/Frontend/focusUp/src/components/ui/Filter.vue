@@ -154,7 +154,7 @@ function resetFilters(){
     <div class="h-[1px] w-full bg-gray-200 my-3"></div>
     <div>
       <span class="subtitle">Schnellfilter</span>
-      <div class="flex items-center justify-start gap-2 mt-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
         <div
           @click="
             isActive = 'today';
@@ -227,10 +227,10 @@ function resetFilters(){
       </button>
 
       <div :style="isExtended ? '' : 'display: none'">
-        <div class="mt-3 flex items-center justify-between gap-5">
+        <div class="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div>
             <span class="subtitle">Status</span>
-            <div class="flex items-center justify-center gap-2 mt-2">
+            <div class="flex flex-wrap items-center justify-start gap-2 mt-2">
               <DefaultButton
                 v-model="selectedStatus"
                 name="status"
@@ -254,7 +254,7 @@ function resetFilters(){
 
           <div>
             <span class="subtitle">Schwierigkeit</span>
-            <div class="flex items-center justify-center gap-2 mt-2">
+            <div class="flex flex-wrap items-center justify-start gap-2 mt-2">
               <DefaultButton
                 v-model="selectedDifficulty"
                 value="easy"
@@ -279,7 +279,7 @@ function resetFilters(){
 
         <div class="mt-3">
           <span class="subtitle">Kategorie</span>
-          <div class="flex items-center justify-start gap-2 mt-2">
+          <div class="flex flex-wrap items-center justify-start gap-2 mt-2">
             <DefaultButton
               v-for="category in props.categories"
               :key="category.id"
@@ -291,10 +291,10 @@ function resetFilters(){
           </div>
         </div>
 
-        <div class="mt-3 flex items-center justify-between gap-5">
+        <div class="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div>
             <span class="subtitle">Dauer</span>
-            <div class="flex items-center justify-center gap-2 mt-2">
+            <div class="flex flex-wrap items-center justify-start gap-2 mt-2">
               <DefaultButton
                 v-model="selectedLength"
                 value="<30"
@@ -318,7 +318,7 @@ function resetFilters(){
 
           <div>
             <span class="subtitle">Fälligkeit</span>
-            <div class="flex items-center justify-center gap-2 mt-2">
+            <div class="flex flex-wrap items-center justify-start gap-2 mt-2">
               <DefaultButton
                 v-model="selectedDueDate"
                 value="overdue"
@@ -343,29 +343,29 @@ function resetFilters(){
 
         <div class="mt-3">
           <span class="subtitle">Zeitraum</span>
-          <div class="flex items-center justify-center gap-2 mt-2">
+          <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2">
             <div
-              class="w-full cursor-pointer flex items-center justify-center gap-2 mt-2 px-4 py-2 text-sm rounded-lg border border-gray-200"
+              class="w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-lg border border-gray-200"
             >
               <input
                 v-model="selectedFromDate"
-                class="outline-none cursor-pointer w-full"
+                class="outline-none cursor-pointer w-full bg-transparent"
                 type="date"
               />
             </div>
 
             <div
-              class="h-full flex items-center justify-center text-sm text-[var(--text-color-light)]"
+              class="hidden sm:flex h-full items-center justify-center text-sm text-[var(--text-color-light)]"
             >
               <i class="fa-solid fa-arrow-right"></i>
             </div>
 
             <div
-              class="w-full cursor-pointer flex items-center justify-center gap-2 mt-2 px-4 py-2 text-sm rounded-lg border border-gray-200"
+              class="w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-lg border border-gray-200"
             >
               <input
                 v-model="selectedToDate"
-                class="outline-none cursor-pointer w-full"
+                class="outline-none cursor-pointer w-full bg-transparent"
                 type="date"
               />
             </div>
@@ -375,19 +375,19 @@ function resetFilters(){
 
       <div class="w-full h-[1px] bg-gray-200 rounded-full my-5"></div>
 
-      <div class="flex items-center justify-end gap-5">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
 
-        <div class="flex items-center justify-center gap-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 items-center justify-center gap-2 w-full sm:w-auto">
           <button
             @click="resetFilters"
-            class="hover:bg-red-100 hover:border-red-500 hover:text-red-500 transition duration-75 cursor-pointer px-2 py-1 text-[var(--text-color-light)] border border-gray-200 rounded-lg text-xs"
+            class="hover:bg-red-100 hover:border-red-500 hover:text-red-500 transition duration-75 cursor-pointer px-3 py-2 text-[var(--text-color-light)] border border-gray-200 rounded-lg text-xs"
           >
             Alles zurücksetzen
           </button>
 
           <button
             @click="onSubmit"
-            class="hover:bg-[var(--primary-color-light)] hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-75 cursor-pointer px-2 py-1 text-[var(--text-color-light)] border border-gray-200 rounded-lg text-xs"
+            class="hover:bg-[var(--primary-color-light)] hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-75 cursor-pointer px-3 py-2 text-[var(--text-color-light)] border border-gray-200 rounded-lg text-xs"
           >
             Anwenden
           </button>

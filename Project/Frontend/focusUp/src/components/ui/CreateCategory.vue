@@ -61,13 +61,13 @@ const colors = [
   <PopUpWindow title="Erstelle eine neue Kategorie" @cancel="cancel" :style="props.isShown ? '' : 'display: none' ">
 
     <!-- Inputs-->
-    <form @submit.prevent="submit" class="w-full flex flex-col gap-5 mt-6">
+    <form @submit.prevent="submit" class="w-full flex flex-col gap-4 sm:gap-5 mt-4 sm:mt-6">
       <div class="flex items-start justify-center flex-col gap-1.5">
         <label class="text-sm font-semibold ml-0.5" for="title">Name *</label>
         <input
           required
           v-model="name"
-          class="input-hover w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          class="input-hover w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)] text-sm sm:text-base"
           id="title"
           type="text"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
@@ -77,13 +77,14 @@ const colors = [
       <div class="flex items-start justify-center flex-col gap-1.5">
         <label class="text-sm font-semibold ml-0.5" for="title">Farbe *</label>
 
-        <div class="grid grid-cols-10 gap-1.5">
+        <div class="grid grid-cols-4 xs:grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-1.5 w-full">
           <div
             @click="chosenColor = color"
             :class="chosenColor === color ? 'category-active' : ''"
             v-for="color in colors"
+            :key="color"
             :style="{ backgroundColor: color }"
-            class="scale-animation-lg cursor-pointer border-2 border-transparent bg-[var(--primary-color)] rounded-lg w-[40px] h-[40px]"
+            class="scale-animation-lg cursor-pointer border-2 border-transparent bg-[var(--primary-color)] rounded-lg w-full aspect-square min-h-[36px] max-h-[40px]"
           >
             <div
               v-if="chosenColor === color"
@@ -100,7 +101,7 @@ const colors = [
         <input
           v-model="ownChosenColor"
           @change="chosenColor = ownChosenColor"
-          class="input-hover h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
+          class="input-hover h-[44px] sm:h-[50px] cursor-pointer w-full px-4 py-3 border border-gray-200 rounded-lg outline-[var(--primary-color)]"
           id="title"
           type="color"
           placeholder="zb. Hobby, Arbeit, Fitness, Lernen ..."
@@ -110,15 +111,17 @@ const colors = [
       <div class="h-0.5 bg-gray-100 w-full"></div>
 
       <!-- submit & cancel-->
-      <div class="w-full flex justify-end items-center gap-3">
+      <div class="w-full flex flex-col-reverse sm:flex-row justify-end items-stretch sm:items-center gap-2 sm:gap-3">
         <button
+          type="button"
           @click="cancel"
-          class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-75 cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold"
+          class="w-full sm:w-auto hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] transition duration-75 cursor-pointer px-4 py-2 bg-transparent border border-gray-200 rounded-lg text-[var(--text-color-light)] font-semibold text-sm sm:text-base"
         >
           Cancel
         </button>
         <button
-          class="scale-animation-sm cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold"
+          type="submit"
+          class="w-full sm:w-auto scale-animation-sm cursor-pointer px-4 py-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] border rounded-lg text-[var(--text-color-white)] font-semibold text-sm sm:text-base"
         >
           Kategorie erstellen
         </button>
@@ -130,7 +133,6 @@ const colors = [
 <style scoped>
 .category-active {
   border-color: oklch(55.1% 0.027 264.364);
-  width: 105%;
-  height: 105%;
+  transform: scale(1.05);
 }
 </style>
