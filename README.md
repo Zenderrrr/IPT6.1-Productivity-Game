@@ -6,7 +6,48 @@
 ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
 ![Railway](https://img.shields.io/badge/Hosted_on-Railway-0B0D0E)
-![Status](https://img.shields.io/badge/Status-In_Development-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+
+## Live Demo
+
+### [FocusUp Online](https://focusup.up.railway.app)
+
+## Preview
+
+![Landingpage](./Documentation/Diagram/Pages/landingpage.png)
+![Dashboard](./Documentation/Diagram/Pages/dashboard.png)
+
+## Get Started
+
+### Voraussetzungen
+
+Bevor das Projekt gestartet wird, müssen folgende Programme installiert sein:
+
+    - Git
+    - Node.js
+    - npm
+    - .NET SDK
+    - SQLite
+    - Docker und Docker Compose
+
+### Projekt klonen
+```
+git clone <repository-url> 
+cd <repository-name>
+```
+
+### Starten mit Docker
+Der einfachste Weg ist das Starten über Docker Compose.
+
+```
+docker compose up --build
+```
+
+Danach sind die Services erreichbar unter:
+```
+Frontend: http://localhost:5173 
+Backend: http://localhost:5165
+```
 
 ## Über das Projekt
 
@@ -90,10 +131,15 @@ Die vollständige Projektdokumentation befindet sich im Ordner `Documentation/Do
 
 - [Datenbankkonzept](Documentation/DocumentationPhases/6_concept_db.md)
 - [ERM Beschreibung](Documentation/DocumentationPhases/7_descripting_ERM.md)
+- [ER Diagramm](Documentation/Diagram/DB-Diagram/ER_Diagramm.png)
+- [ERM Diagramm](Documentation/Diagram/DB-Diagram/ERM_Diagramm.png)
 
 ### Frontend & UI
 
-- [UI Diagramm](Documentation/DocumentationPhases/8_ui-diagram.md)
+- [UML Beschreibung](Documentation/DocumentationPhases/8_uml-diagram.md)
+- [UML Diagramm Entitäten](Documentation/Diagram/DB-Diagram/UML_Diagramm_Entity.png)
+- [UI Diagramm Repositories](Documentation/Diagram/DB-Diagram/UML_Diagramm_Repositories.png)
+- [UI Diagramm Services & Repositories](Documentation/Diagram/DB-Diagram/UML_Diagramm_Services&Repositories.png)
 - [Seitenstruktur](Documentation/DocumentationPhases/9_page-structure.md)
 - [Page Style Entscheidung](Documentation/DocumentationPhases/10_decide-pagestyle.md)
 - [Frontend Struktur](Documentation/DocumentationPhases/11_frontend_dev_structure.md)
