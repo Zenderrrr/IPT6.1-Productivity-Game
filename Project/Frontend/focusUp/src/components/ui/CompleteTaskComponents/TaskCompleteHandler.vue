@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
 import XpUpdate from '@/components/ui/CompleteTaskComponents/XpUpdate.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import LevelIncrease from '@/components/ui/CompleteTaskComponents/LevelIncrease.vue'
 import BadgeUpdate from '@/components/ui/CompleteTaskComponents/BadgeUpdate.vue'
 import { useStatsStore } from '@/stores/statsStore.ts'
 import type { TaskCompleteType } from '@/types/taskComplete.ts'
+import { useBadgeStore } from '@/stores/badgeStore.ts'
 
 const props = defineProps<{
   tasksCompleteArr: TaskCompleteType[]
 }>()
-
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -23,8 +23,29 @@ function onStreakSubmit() {
 const tasks = computed(() => {
   return props.tasksCompleteArr.map((t: TaskCompleteType) => t?.task)
 })
-const newBadges = props.tasksCompleteArr.flatMap((t: TaskCompleteType) => t?.badges ?? [])
-const isStreakCountIncreased = props.tasksCompleteArr.some(t => t?.isStreakIncreased)
+const newBadges = computed(() =>
+  props.tasksCompleteArr.flatMap((t: TaskCompleteType) => t?.badges ?? []),
+)
+
+const badgeStore = useBadgeStore()
+const badgesWithImg = ref<any[]>([])
+
+async function getBadges() {
+  badgesWithImg.value = await Promise.all(
+    newBadges.value.map(async (badge) => ({
+      ...badge,
+      img: await badgeStore.badgeImgById(badge.name),
+    })),
+  )
+}
+
+watch(newBadges, async () => {
+    await getBadges()
+  },
+  { immediate: true },
+)
+
+const isStreakCountIncreased = props.tasksCompleteArr.some((t) => t?.isStreakIncreased)
 
 const step = ref<number>(isStreakCountIncreased ? 1 : 2)
 
@@ -32,7 +53,7 @@ const xpUpdateCount = ref<number>(0)
 const currentTask = computed(() => tasks.value[xpUpdateCount.value])
 
 function onXpSubmit() {
-  if(xpUpdateCount.value < tasks.value.length - 1) {
+  if (xpUpdateCount.value < tasks.value.length - 1) {
     xpUpdateCount.value += 1
     return
   }
@@ -45,7 +66,7 @@ function onLevelSubmit() {
 
 const badgeUpdateCount = ref<number>(0)
 function onClose() {
-  if(badgeUpdateCount.value < (newBadges.length ?? 0)) {
+  if (badgeUpdateCount.value < (newBadges.value.length ?? 0)) {
     badgeUpdateCount.value += 1
     return
   }
@@ -61,7 +82,12 @@ const nextLevelXP = computed(() => statsStore.dashboardData?.xpNext ?? 0)
 </script>
 
 <template>
-  <StreakUpdate v-if="step === 1 && isStreakCountIncreased" @submit="onStreakSubmit" :streak-count-after="props.tasksCompleteArr[0]?.streakCountAfter ?? 0" :streak-count-before="props.tasksCompleteArr[0]?.streakCountBefore ?? 0"></StreakUpdate>
+  <StreakUpdate
+    v-if="step === 1 && isStreakCountIncreased"
+    @submit="onStreakSubmit"
+    :streak-count-after="props.tasksCompleteArr[0]?.streakCountAfter ?? 0"
+    :streak-count-before="props.tasksCompleteArr[0]?.streakCountBefore ?? 0"
+  ></StreakUpdate>
 
   <div v-if="step === 2">
     <XpUpdate
@@ -84,14 +110,15 @@ const nextLevelXP = computed(() => statsStore.dashboardData?.xpNext ?? 0)
 
   <div v-if="step === 4">
     <BadgeUpdate
-      v-if="newBadges[badgeUpdateCount] !== null && newBadges[badgeUpdateCount] !== undefined"
+      v-if="badgesWithImg[badgeUpdateCount] !== null && badgesWithImg[badgeUpdateCount] !== undefined"
       @submit="onClose"
-      :key="newBadges[badgeUpdateCount]!.id"
-      :badge-name="newBadges[badgeUpdateCount]!.name"
-      :badge-description="newBadges[badgeUpdateCount]!.description"
-      :svg-color="newBadges[badgeUpdateCount]!.primaryColor"
-      badge-icon=""
-      :background-badge-color="newBadges[badgeUpdateCount]!.secondaryColor"
+      :key="badgesWithImg[badgeUpdateCount]!.id"
+      :badge-name="badgesWithImg[badgeUpdateCount]!.name"
+      :badge-description="badgesWithImg[badgeUpdateCount]!.description"
+      :svg-color="badgesWithImg[badgeUpdateCount]!.primaryColor"
+      :badge-icon="badgesWithImg[badgeUpdateCount]!.img"
+      :rarity="badgesWithImg[badgeUpdateCount]!.rarity"
+      :background-badge-color="badgesWithImg[badgeUpdateCount]!.secondaryColor"
     ></BadgeUpdate>
   </div>
 </template>

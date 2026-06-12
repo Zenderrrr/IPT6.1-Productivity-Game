@@ -8,6 +8,7 @@ const props = defineProps<{
   svgColor: String
   backgroundBadgeColor: String
   badgeIcon: String
+  rarity: String
 }>()
 
 const emit = defineEmits<{
@@ -32,10 +33,10 @@ function onSubmit() {
         <!-- Badge icon-->
         <div
           :style="{ background: `${props.backgroundBadgeColor}`, borderColor: `${props.svgColor}`, color: `${props.svgColor}` }"
-          class="stamp z-1 relative w-[100px] h-[100px] flex justify-center items-center text-[50px] rounded-full mt-5"
+          class="stamp z-1 relative w-[100px] h-[100px] p-5 flex justify-center items-center text-[50px] rounded-full mt-5"
         >
           <div :style="{ background: `${props.backgroundBadgeColor}` }" class="absolute w-full h-full ping rounded-full z-0"></div>
-          <i class="fa-solid fa-fire z-20"></i>
+          <div v-html="props.badgeIcon" class="z-20 w-full h-full"></div>
         </div>
 
         <div
