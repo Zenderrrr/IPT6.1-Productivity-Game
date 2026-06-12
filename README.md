@@ -12,6 +12,9 @@
 
 ### [FocusUp Online](https://focusup.up.railway.app)
 
+[Einführungsvideo (nicht auf Github einzeigbar! Downloaden zum ansehen.)](Documentation/Video/Preview_FocusUp.mp4)
+
+
 ## Preview
 
 ![Landingpage](./Documentation/Diagram/Pages/landingpage.png)
