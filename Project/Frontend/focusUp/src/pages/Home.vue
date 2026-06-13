@@ -2,6 +2,8 @@
 import { RouterLink } from 'vue-router'
 import Header from '../components/layout/Header.vue'
 import Footer from '../components/layout/Footer.vue'
+import { onMounted } from 'vue'
+import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
 
 const heroTasks = [
   { name: 'Morgenroutine Workout', xp: '+50 XP', completed: true },
@@ -113,6 +115,10 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
   active: index + 1 <= 29,
   highlight: index + 1 === 29,
 }))
+
+onMounted(() => {
+  applyUIMode()
+})
 </script>
 
 <template>
@@ -122,9 +128,7 @@ const streakDays = Array.from({ length: 31 }, (_, index) => ({
     <section id="hero-section" class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
-          <div class="hero-badge">
-            Jetzt in der öffentlichen Beta
-          </div>
+          <div class="hero-badge">Jetzt in der öffentlichen Beta</div>
 
           <h1 class="hero-title">
             Steigere deine

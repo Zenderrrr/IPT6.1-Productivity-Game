@@ -26,6 +26,7 @@ import type { TaskCompleteType } from '@/types/taskComplete.ts'
 import Filter from '@/components/ui/Filter.vue'
 import { storeToRefs } from 'pinia'
 import PlaceholderTask from '@/components/ui/PlaceholderTask.vue'
+import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
 
 
 // date
@@ -128,6 +129,8 @@ const { categoriesData } = storeToRefs(categoryStore)
 const authStore = useAuthStore()
 
 onMounted(async () => {
+  applyUIMode()
+
   try {
     getCheckedTasks()
     await taskStore.getAllTasks()
@@ -339,7 +342,7 @@ function resetFilter(){
             <button
               @click="isFilterDate = !isFilterDate"
               :style="isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : '' "
-              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
               <span>nach Datum</span>
@@ -348,7 +351,7 @@ function resetFilter(){
             <button
               :style="submittedFilterTask !== null ? 'border-color:var(--primary-color); color:var(--primary-color)' : '' "
               @click="submittedFilterTask !== null ?  resetFilter() : filterShown = true"
-              class="hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-gray-200 cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
@@ -441,7 +444,7 @@ function resetFilter(){
           >
             <button
               @click="showPopUpTask = true"
-              class="scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
+              class="select-none scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
             >
               <i class="fa-solid fa-plus"></i>
               <span>Neue Task erstellen</span>

@@ -25,6 +25,7 @@ import { useCategoryStore } from '@/stores/categoryStore.ts'
 import type { Productivity } from '@/types/productivity.ts'
 import categories from '@/components/ui/Categories.vue'
 import InsightCardList from '@/components/ui/InsightCardList.vue'
+import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
 
 use([
   CanvasRenderer,
@@ -359,6 +360,8 @@ async function getLastCompletedTasks() {
 }
 
 onMounted(async () => {
+  applyUIMode()
+
   try {
     await statsStore.dashboard('20')
     await getLastCompletedTasks()

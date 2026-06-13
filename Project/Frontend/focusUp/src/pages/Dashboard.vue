@@ -22,6 +22,7 @@ import CreateTask from '@/components/ui/CreateTask.vue'
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { useTaskStore } from '@/stores/taskStore.ts'
 import PlaceholderLastComplTask from '@/components/ui/PlaceholderLastComplTask.vue'
+import { applyUIMode, getUIMode, setUIMode } from '@/utils/modeUI.ts'
 
 // today
 const date = computed(() => {
@@ -147,6 +148,8 @@ const focusTimeWeek = computed(
 
 let isMounted = true
 onMounted(async () => {
+  applyUIMode()
+
   try {
     await statsStore.dashboard('20')
     dashboardInfo.value = statsStore.dashboardData
@@ -324,7 +327,7 @@ const successRate = computed(() => {
         <div class="mb-4">
           <div
             @click="showPopUpTask = true"
-            class="scale-animation-sm flex items-center justify-start mt-4 gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] rounded-xl px-4 py-4 cursor-pointer"
+            class="select-none scale-animation-sm flex items-center justify-start mt-4 gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
               class="w-[30px] h-[30px] flex items-center justify-center text-[var(--primary-color-white)] bg-white/20 backdrop-blur-2lg rounded-lg shrink-0"
@@ -336,10 +339,10 @@ const successRate = computed(() => {
 
           <RouterLink
             to="/tasks"
-            class="hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-gray-200 rounded-xl px-4 py-4 cursor-pointer"
+            class="group select-none hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)] transition duration-200 flex items-center justify-start mt-4 gap-2 bg-[var(--background-color)] border border-[var(--border-color)] rounded-xl px-4 py-4 cursor-pointer"
           >
             <div
-              class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-[var(--text-color-white)] shrink-0"
+              class="w-[30px] h-[30px] text-[var(--text-color)] group-hover:text-[var(--secondary-color)] flex items-center justify-center rounded-lg bg-[var(--surface-color)] shrink-0"
             >
               <i class="fa-solid fa-list-check text-sm"></i>
             </div>
@@ -387,16 +390,16 @@ const successRate = computed(() => {
             <span>Tasks erledigt</span>
           </div>
 
-          <div class="flex items-center justify-start gap-2">
-            <div
-              class="w-[10px] h-[10px] rounded-full bg-[var(--primary-color-light)] shrink-0"
-            ></div>
-            <span>Ziel</span>
-          </div>
+<!--          <div class="flex items-center justify-start gap-2">-->
+<!--            <div-->
+<!--              class="w-[10px] h-[10px] rounded-full bg-[var(&#45;&#45;primary-color-light)] shrink-0"-->
+<!--            ></div>-->
+<!--            <span>Ziel</span>-->
+<!--          </div>-->
 
           <div class="flex items-center justify-start sm:justify-end gap-1.5">
             <button
-              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-[var(--hover-light-color)] transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="
                 setActive(0);
                 chartDayLength = 14
@@ -406,7 +409,7 @@ const successRate = computed(() => {
               14T
             </button>
             <button
-              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-[var(--hover-light-color)] transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="
                 setActive(1);
                 chartDayLength = 30
@@ -416,7 +419,7 @@ const successRate = computed(() => {
               1M
             </button>
             <button
-              class="hover:dark:bg-gray-100 transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
+              class="hover:dark:bg-[var(--hover-light-color)] transition duration-200 cursor-pointer px-2.5 py-1 rounded-lg"
               @click="
                 setActive(2);
                 chartDayLength = 90

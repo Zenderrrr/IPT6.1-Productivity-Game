@@ -13,6 +13,7 @@ import type { Badge } from '@/types/badge.ts'
 import { useRouter } from 'vue-router'
 import DeleteTask from '@/components/ui/DeleteTask.vue'
 import DeleteUser from '@/components/ui/DeleteUser.vue'
+import { applyUIMode, setUIMode, toggleUIMode } from '@/utils/modeUI.ts'
 
 const authStore = useAuthStore()
 const statsStore = useStatsStore()
@@ -79,6 +80,8 @@ async function getBadges(){
 }
 
 onMounted(async () => {
+  applyUIMode()
+
   await badgeStore.allBadges()
   badges.value = await getBadges()
 })
@@ -104,7 +107,7 @@ onMounted(async () => {
 
   <div class="flex flex-col sm:flex-row items-center sm:justify-start gap-4 w-full min-w-0">
     <div
-      class="w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] shrink-0 border-4 border-[var(--primary-color)] rounded-full flex items-center justify-center bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)]"
+      class="select-none w-[110px] h-[110px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] shrink-0 border-4 border-[var(--primary-color)] rounded-full flex items-center justify-center bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)]"
     >
       <span class="text-3xl sm:text-4xl text-[var(--text-color-white)] font-semibold">{{
         nameInitials
@@ -217,18 +220,18 @@ onMounted(async () => {
               <i class="fa-solid fa-moon"></i>
             </div>
             <div class="flex flex-col items-start justify-center gap-1">
-              <span class="font-semibold text-md">Darkmode - Kommt bald</span>
+              <span class="font-semibold text-md">Darkmode</span>
               <span class="text-[var(--text-color-light)] text-sm"
                 >Wechse zwischen hellem und dunklem Modus</span
               >
             </div>
           </div>
-          <div class="w-full sm:w-fit cursor-not-allowed transition duration-200 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-xl">
-            <button class="w-full sm:w-auto cursor-not-allowed px-4 py-2 text-sm font-semibold">Ändern</button>
+          <div @click="toggleUIMode()" class="hover:border-[var(--primary-color)] hover:text-[var(--primary-color)] w-full sm:w-fit transition duration-200 flex items-center justify-center border-2 border-[var(--border-color)] bg-[var(--surface-color)] rounded-xl">
+            <button class="w-full sm:w-auto px-4 py-2 text-sm font-semibold">Ändern</button>
           </div>
         </div>
 
-        <div class="w-full my-4 h-0.5 bg-gray-200"></div>
+        <div class="my-4 divider"></div>
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div class="flex items-start sm:items-center justify-start gap-4">
@@ -244,13 +247,13 @@ onMounted(async () => {
               >
             </div>
           </div>
-          <div @click="logout" class="w-full sm:w-fit hover:bg-white transition duration-200 flex items-center justify-center border-2 border-red-300 bg-red-100 rounded-xl">
-            <button class="w-full sm:w-auto px-4 py-2 text-sm font-semibold cursor-pointer text-red-500">Logout</button>
+          <div @click="logout" class="hover:bg-red-500 hover:text-white hover:border-red-500 text-red-500 w-full sm:w-fit transition duration-200 flex items-center justify-center border-2 border-red-300 bg-red-100 rounded-xl">
+            <button class="w-full sm:w-auto px-4 py-2 text-sm font-semibold cursor-pointer">Logout</button>
           </div>
         </div>
       </div>
 
-      <div class="base-element border-2 border-gray-200 mt-4">
+      <div class="base-element border-2 border-[var(--border-color)] mt-4">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div class="flex items-start sm:items-center justify-start gap-4">
             <div
@@ -267,9 +270,9 @@ onMounted(async () => {
           </div>
           <div
             @click="isDeleteUserShown = true"
-            class="w-full sm:w-fit hover:bg-white transition duration-200 scale-animation-sm flex items-center justify-center border-2 border-red-300 rounded-xl bg-red-100"
+            class="w-full sm:w-fit hover:bg-red-500 hover:text-white hover:border-red-500 text-red-500 transition duration-200 scale-animation-sm flex items-center justify-center border-2 border-red-300 rounded-xl bg-red-100"
           >
-            <button class="w-full sm:w-auto cursor-pointer px-4 py-2 text-sm font-semibold text-red-500">
+            <button class="w-full sm:w-auto cursor-pointer px-4 py-2 text-sm font-semibold">
               Löschen
             </button>
           </div>
