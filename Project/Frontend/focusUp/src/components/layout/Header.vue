@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import Logo from '@/components/ui/Logo.vue'
 import { ref } from 'vue'
-import { setUIMode } from '@/utils/changeMode.ts'
+import { setUIMode } from '@/utils/modeUI.ts'
 
 const activeMode = ref<number>(0)
 function changeMode(modeNumber: number) {
