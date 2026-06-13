@@ -22,7 +22,7 @@ const isMenuOpen = ref(false)
 
 <template>
   <nav
-    class="sticky top-0 z-999 bg-[var(--surface-color)] border-b border-gray-200"
+    class="sticky top-0 z-999 bg-[var(--surface-color)] border border-transparent border-b-[var(--border-color)]"
   >
     <!-- Mobile -->
     <div class="md:hidden relative flex items-center justify-between px-4 py-4">
@@ -57,7 +57,7 @@ const isMenuOpen = ref(false)
     <Transition name="mobile-menu">
       <div
         v-if="isMenuOpen"
-        class="md:hidden border-t border-gray-200 bg-[var(--surface-color)]"
+        class="md:hidden border-t border-[var(--border-color)] bg-[var(--surface-color)]"
       >
         <div class="flex flex-col p-3 gap-2">
           <RouterLink
@@ -107,40 +107,42 @@ const isMenuOpen = ref(false)
         >
           <RouterLink
             to="/dashboard"
-            class="hover:bg-gray-100 transition duration-200 px-2.5 py-1.5 rounded-xl cursor-pointer"
+            class="hover:bg-[var(--hover-light-color)] transition duration-200 px-2.5 py-1.5 rounded-xl cursor-pointer"
           >
             Dashboard
           </RouterLink>
 
           <RouterLink
             to="/tasks"
-            class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
+            class="hover:bg-[var(--hover-light-color)] transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
           >
             Tasks
           </RouterLink>
 
           <RouterLink
             to="/stats"
-            class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
+            class="hover:bg-[var(--hover-light-color)] transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
           >
             Stats
           </RouterLink>
 
           <RouterLink
             to="/profile"
-            class="hover:bg-gray-100 transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
+            class="hover:bg-[var(--hover-light-color)] transition duration-200 px-2 py-1.5 rounded-xl cursor-pointer"
           >
             Profil
           </RouterLink>
         </ul>
       </div>
 
-      <div>
-        <p
-          class="text-sm bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--surface-color)] rounded-full w-[35px] h-[35px] flex justify-center items-center"
-        >
-          {{ nameInitials }}
-        </p>
+      <div class="flex items-center justify-center gap-5">
+        <div class="select-none">
+          <p
+            class="text-sm bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--surface-color)] rounded-full w-[35px] h-[35px] flex justify-center items-center"
+          >
+            {{ nameInitials }}
+          </p>
+        </div>
       </div>
     </div>
   </nav>
