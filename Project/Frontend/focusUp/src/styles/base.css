@@ -8,12 +8,41 @@ html{
   scroll-behavior: smooth;
 }
 
+html.dark {
+  --primary-color: #2DD4BF;
+  --primary-color-light: #134E4A;
+
+  --secondary-color: #38BDF8;
+  --secondary-color-light: rgba(56, 189, 248, 0.18);
+
+  --background-color: #020617;
+  --surface-color: #0F172A;
+
+  --text-color: #F8FAFC;
+  --text-color-white: #FFFFFF;
+  --text-color-light: #94A3B8;
+
+  --accent-color: #A3E635;
+
+  --border-color: var(--color-slate-800);
+
+  --hover-light-color: var(--color-slate-800);
+
+  --error-color: #EF4444;
+
+  --font-family: "Figtree";
+}
+
 body {
   background: var(--background-color);
   color: var(--text-color);
   font-family: var(--font-family), sans-serif;
 
   min-height: 100vh;
+}
+
+.divider{
+  @apply w-full h-0.5 bg-[var(--border-color)]
 }
 
 .gen-padding {
@@ -31,7 +60,7 @@ body {
 
 .base-element:hover {
   box-shadow: var(--shadow-xl);
-  border-color: oklch(98.5% 0.002 247.839);
+  /*border-color: oklch(98.5% 0.002 247.839);*/
 }
 
 section {
@@ -74,7 +103,7 @@ button {
 }
 
 .box-hover-animation{
-  @apply hover:shadow-xl hover:border-gray-100 transition duration-75 border-2 border-transparent
+  @apply hover:shadow-xl hover:border-[var(--border-color)] transition duration-75 border-2 border-transparent
 }
 
 .levitation-animation {
