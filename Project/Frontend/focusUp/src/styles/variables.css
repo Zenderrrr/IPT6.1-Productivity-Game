@@ -16,6 +16,10 @@
 
   --accent-color: #84CC16;
 
+  --border-color: var(--color-gray-200);
+
+  --hover-light-color: var(--color-gray-100);
+
   --error-color: #F44336;
 
   --font-family: "Figtree";
