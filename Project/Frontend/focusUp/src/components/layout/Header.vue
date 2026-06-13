@@ -1,10 +1,33 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import Logo from '@/components/ui/Logo.vue'
+import { ref } from 'vue'
+import { setUIMode } from '@/utils/changeMode.ts'
+
+const activeMode = ref<number>(0)
+function changeMode(modeNumber: number) {
+  activeMode.value = modeNumber
+  setUIMode(activeMode.value === 1)
+}
 </script>
 
 <template>
   <header class="sticky top-0 z-100 w-full border-b border-slate-200 bg-white/85 backdrop-blur-md">
+
+    <button v-if="activeMode === 0" @click="changeMode(1)" class="absolute top-20 bg-[var(--surface-color)] right-2 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-75 flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg">
+      <div class="flex items-center justify-center">
+        <i class="fa-regular fa-sun"></i>
+      </div>
+      <span>Light Mode</span>
+    </button>
+
+    <button v-if="activeMode === 1" @click="changeMode(0)" class="absolute top-20 bg-[var(--surface-color)] right-2 hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-75 flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg">
+      <div class="flex items-center justify-center">
+        <i class="fa-regular fa-moon"></i>
+      </div>
+      <span>Dark Mode</span>
+    </button>
+
     <div class="mx-auto w-full max-w-[1360px] px-10 max-[960px]:px-6">
       <div class="flex min-h-[72px] items-center justify-between">
         <logo link="/"></logo>
