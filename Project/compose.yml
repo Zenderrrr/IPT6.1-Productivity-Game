@@ -15,6 +15,7 @@ services:
     volumes:
       - ./Backend/FocusUp:/app
       - ./Database:/app/database
+      - sqlite-data:/app/Data
       - /app/bin
       - /app/obj
 
@@ -34,3 +35,6 @@ services:
       - /app/node_modules
     depends_on:
       - backend
+      
+volumes:
+  sqlite-data:
