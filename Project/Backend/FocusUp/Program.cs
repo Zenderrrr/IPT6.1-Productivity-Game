@@ -60,7 +60,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", polity =>
     {
-        polity.WithOrigins("http://localhost:5173", "https://focusup.up.railway.app").AllowAnyHeader().AllowAnyMethod();
+        polity.WithOrigins("http://localhost:5173", "https://www.focusup.ch").AllowAnyHeader().AllowAnyMethod();
         polity.AllowCredentials();
     });
 });
@@ -140,7 +140,7 @@ app.UseStaticFiles(new StaticFileOptions
 {
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "https://focusup.up.railway.app";
+        ctx.Context.Response.Headers["Access-Control-Allow-Origin"] = "https://www.focusup.ch";
         ctx.Context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
     }
 });
