@@ -10,7 +10,7 @@
 
 ## Live Demo
 
-### [FocusUp Online](https://focusup.up.railway.app)
+### [FocusUp Online](https://www.focusup.ch)
 
 [Einführungsvideo (nicht auf Github anzeigbar! Downloaden zum ansehen.)](Documentation/Video/Preview_FocusUp.mp4)
 
@@ -228,10 +228,6 @@ Weitere Informationen:
 ## Verfügbarkeit
 
 Die Anwendung ist öffentlich über Railway erreichbar.
-
-### Live Demo
-
-[FocusUp](https://focusup.up.railway.app)
 
 ### Deployment
 
