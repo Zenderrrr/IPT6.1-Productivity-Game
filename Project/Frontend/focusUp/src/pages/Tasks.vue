@@ -383,7 +383,7 @@ function resetFilter(){
             <div
               @click="changeViewOption(1)"
               :class="viewOption === 1 ? 'activeView' : '' "
-              class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+              class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
             >
               <span class="">Alle</span>
               <span
@@ -391,14 +391,14 @@ function resetFilter(){
                 >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
               >
             </div>
-            <div class="hover:bg-gray-100 duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
+            <div class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
                 >{{ dashboardData?.tasksOpen ?? 0 }}</span
               >
             </div>
-            <div class="hover:bg-gray-100 duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
+            <div class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
@@ -492,7 +492,7 @@ function resetFilter(){
             >
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-2 mt-2">
               <div
-                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-gray-100"
+                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
               >
                 <span class="text-[var(--accent-color)] text-2xl font-semibold">{{
                   taskDoneToday
@@ -500,7 +500,7 @@ function resetFilter(){
                 <span class="text-xs">Erledigt</span>
               </div>
               <div
-                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-gray-100"
+                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
               >
                 <span class="text-[var(--primary-color)] text-2xl font-semibold">{{ xpEarnedToday }}</span>
                 <span class="text-xs">XP verdient</span>
