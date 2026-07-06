@@ -8,14 +8,15 @@ import Stats from '@/pages/Stats.vue'
 import Profile from '@/pages/Profile.vue'
 import { useAuthStore } from '@/stores/authStore.ts'
 import AllCompletedTasks from '@/pages/AllCompletedTasks.vue'
+import Landingpage from '@/pages/Landingpage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      component: Home,
-      name: 'Home',
+      component: Landingpage,
+      name: 'Landingpage',
       meta: { requiresAuth: false },
     },
     {
