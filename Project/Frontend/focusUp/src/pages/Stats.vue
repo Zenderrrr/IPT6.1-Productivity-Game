@@ -212,7 +212,7 @@ const optionLine = computed(() => ({
 
 const prodInfo91Days = ref<Productivity[] | null>(null)
 const week = Array.from({ length: 13 }, (_, i) => `W${i + 1}`)
-const days = ['Sa', 'Fr', 'Do', 'Mi', 'Di', 'Mo', 'So']
+const days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
 const heatmapData = computed(() => {
   const data = prodInfo91Days.value ?? []
@@ -225,7 +225,7 @@ const heatmapData = computed(() => {
 
   const start = new Date(sorted[0].date)
 
-  return data.map((item) => {
+  return sorted.map((item) => {
     const date = new Date(item.date)
 
     const diffDays = Math.floor((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
@@ -236,6 +236,14 @@ const heatmapData = computed(() => {
 
     return [week, day, item.xpGained]
   })
+})
+
+const maxXpHeatmap = computed(() => {
+  const values = heatmapData.value.map((item) => item[2])
+
+  if (values.length === 0) return 10
+
+  return Math.max(...values, 10)
 })
 
 const optionHeatmap = computed(() => ({
@@ -268,7 +276,7 @@ const optionHeatmap = computed(() => ({
   },
   visualMap: {
     min: 0,
-    max: 10,
+    max: maxXpHeatmap.value,
     show: false,
     calculable: true,
     orient: 'horizontal',
@@ -286,7 +294,7 @@ const optionHeatmap = computed(() => ({
       itemStyle: {
         borderRadius: 4,
         borderWidth: 2,
-        borderColor: '#FFFFFF',
+        borderColor: 'transparent',
       },
       label: {
         show: false,
@@ -681,7 +689,7 @@ onMounted(async () => {
 
           <RouterLink
             to="/allCompletedTasks"
-            class="w-fit hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-gray-300 rounded-lg px-2 py-1 text-gray-500"
+            class="w-fit hover:bg-gray-100 transition duration-75 cursor-pointer flex items-center justify-center gap-1 border text-sm border-[var(--border-color)] rounded-lg px-2 py-1 text-[var(--text-color-light)]"
           >
             <span>Alle anzeigen</span>
             <i class="fa-solid fa-angle-right"></i>
@@ -701,7 +709,7 @@ onMounted(async () => {
             <tr
               v-for="lastTask in lastCompletedTasks"
               :key="lastTask.id"
-              class="hover:bg-gray-50 bg-[var(--surface-color)]"
+              class="hover:bg-[var(--hover-light-color)] bg-[var(--surface-color)]"
             >
               <td class="text-[var(--text-color-light)] text-sm">
                 {{ GetTimeFromNow(lastTask.createdAt) }}
@@ -762,8 +770,8 @@ th {
   color: var(--text-color-light);
   font-size: var(--text-sm);
   font-weight: normal;
-  border-top: 1px solid var(--color-gray-200);
-  background-color: var(--color-gray-100);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--background-color);
 }
 
 th:last-child,
@@ -780,7 +788,7 @@ td:first-child {
 
 td,
 th {
-  border-bottom: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--border-color);
   text-align: left;
   padding: 8px;
 }
