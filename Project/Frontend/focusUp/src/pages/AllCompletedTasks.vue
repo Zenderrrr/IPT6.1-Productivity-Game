@@ -90,8 +90,8 @@ th {
   color: var(--text-color-light);
   font-size: var(--text-sm);
   font-weight: normal;
-  border-top: 1px solid var(--color-gray-200);
-  background-color: var(--text-color-white);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--surface-color);
 }
 
 th:last-child,
@@ -108,7 +108,7 @@ td:first-child {
 
 td,
 th {
-  border-bottom: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--border-color);
   text-align: left;
   padding: 8px;
 }
