@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  title: string
-  description: string
-  fPoint: string
-  sPoint: string
-  tPoint: string
+  svg: string,
+  pColor: string,
+  sColor: string,
+  title: string,
+  description: string,
+  fPoint: string,
+  sPoint: string,
+  tPoint: string,
 }>()
 </script>
 
@@ -19,7 +22,7 @@ const props = defineProps<{
     <div
       class="text-xl flex items-center justify-center w-[45px] h-[45px] rounded-xl bg-[var(--primary-color-light)] text-[var(--primary-color)]"
     >
-      <i class="fa-regular fa-clipboard"></i>
+      <i :class="props.svg"></i>
     </div>
 
     <span class="font-bold text-[var(--text-color)] text-lg">{{ props.title }}</span>
