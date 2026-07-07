@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="p-8">
+  <section class="px-8 py-30">
     <div class="max-w-[1400px] mx-auto">
       <div class="text-center">
         <span class="uppercase text-[var(--primary-color)] text-sm font-semibold">{{
