@@ -22,7 +22,7 @@ const props = defineProps<{
     </div>
 
     <div
-      class="select-none w-full h-[180px] bg-[var(--background-color)] border border-[var(--border-color)] shadow-sm rounded-xl px-4 py-4"
+      class="select-none w-full max-w-[400px] h-[180px] bg-[var(--background-color)] border border-[var(--border-color)] shadow-sm rounded-xl px-4 py-4"
     >
       <slot></slot>
     </div>
