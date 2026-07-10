@@ -4,12 +4,12 @@ import SectionStruct from '@/components/ui/Landingpage/SectionStruct.vue'
 import Steps from '@/components/ui/Landingpage/Steps.vue'
 import Footer from '@/components/layout/Footer.vue'
 import Card from '@/components/ui/Landingpage/Card.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const isAtNextSection = ref(false)
 
 const handleScroll = () => {
-  const nextSection = document.querySelector('#next-section')
+  const nextSection = document.querySelector('.next-section')
   if (!nextSection) return
 
   isAtNextSection.value = window.scrollY >= nextSection.offsetTop - 80
@@ -23,14 +23,14 @@ function randomItem(items) {
 }
 
 function spawnEffect() {
-  const type = randomItem(['xp', 'xp', 'xp','xp','xp','xp', 'check', 'streak', 'badge'])
+  const type = randomItem(['xp', 'xp', 'xp', 'xp', 'xp', 'xp', 'check', 'streak', 'badge'])
 
   const effect = {
     id: Date.now() + Math.random(),
     type,
     left: Math.floor(Math.random() * 90) + 5,
     duration: Math.random() * 5 + 6,
-    class: 'text-teal-500'
+    class: 'text-teal-500',
   }
 
   if (type === 'xp') {
@@ -54,19 +54,108 @@ function spawnEffect() {
   effects.value.push(effect)
 
   setTimeout(() => {
-    effects.value = effects.value.filter(item => item.id !== effect.id)
+    effects.value = effects.value.filter((item) => item.id !== effect.id)
   }, effect.duration * 1000)
+}
+
+const tasks = [
+  ['Mathe lernen', 25],
+  ['Englisch-Vokabeln üben', 10],
+  ['Präsentation vorbereiten', 25],
+  ['Hausaufgaben erledigen', 25],
+  ['Lernzettel erstellen', 25],
+  ['Für eine Prüfung lernen', 50],
+  ['Zusammenfassung schreiben', 25],
+  ['Projektarbeit fortsetzen', 50],
+  ['E-Mails beantworten', 10],
+  ['Stundenplan organisieren', 10],
+
+  ['Inbox aufräumen', 10],
+  ['Tagesplanung erstellen', 10],
+  ['Fokus-Session abschliessen', 25],
+  ['Arbeitsplatz aufräumen', 10],
+  ['Tagesziele festlegen', 10],
+  ['Kalender aktualisieren', 10],
+  ['Notizen sortieren', 10],
+  ['Dokumente organisieren', 25],
+
+  ['30 Minuten Sport machen', 25],
+  ['10 Minuten meditieren', 10],
+  ['Spazieren gehen', 10],
+  ['Genug Wasser trinken', 10],
+  ['Dehnübungen machen', 10],
+  ['Workout abschliessen', 50],
+
+  ['Zimmer aufräumen', 25],
+  ['Wäsche waschen', 25],
+  ['Einkaufen gehen', 25],
+  ['Rechnung bezahlen', 10],
+  ['Freunde anrufen', 10],
+  ['Pflanzen giessen', 10],
+  ['Schreibtisch aufräumen', 10],
+]
+
+const cardCount = 3
+
+const currTasks = ref([
+  randomTask(),
+  randomTask(),
+  randomTask(),
+])
+
+const swapping = ref([false, false, false, false])
+const popping = ref([false, false, false, false])
+
+const timeoutIds = []
+
+function randomTask() {
+  return tasks[Math.floor(Math.random() * tasks.length)]
+}
+
+function randomDelay() {
+  return Math.random() * 8000 + 4000 // 4–8 Sekunden
+}
+
+function changeTask(index) {
+  swapping.value[index] = true
+
+  setTimeout(() => {
+    currTasks.value[index] = randomTask()
+    swapping.value[index] = false
+
+    popping.value[index] = true
+
+    setTimeout(() => {
+      popping.value[index] = false
+    }, 600)
+  }, 300)
+}
+
+function changeTaskLoop(index) {
+  changeTask(index)
+
+  timeoutIds[index] = setTimeout(() => {
+    changeTaskLoop(index)
+  }, randomDelay())
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   intervalId = setInterval(spawnEffect, 500)
   handleScroll()
+
+  for (let i = 0; i < cardCount; i++) {
+    timeoutIds[i] = setTimeout(() => {
+      changeTaskLoop(i)
+    }, randomDelay())
+  }
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   clearInterval(intervalId)
+
+  timeoutIds.forEach(id => clearTimeout(id))
 })
 </script>
 
@@ -88,8 +177,12 @@ onUnmounted(() => {
     <!--    </div>-->
 
     <div
-      :class="isAtNextSection ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0' : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto' "
-      class="z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
+      :class="
+        isAtNextSection
+          ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0'
+          : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto'
+      "
+      class="hidden md:block z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
     >
       <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
         <Logo class="bg-transparent" link="/"></Logo>
@@ -97,19 +190,19 @@ onUnmounted(() => {
           class="flex items-center justify-between gap-3 text-[var(--text-color-light)] font-medium"
         >
           <a
-            href="#"
-            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2"
-            >Funktionen</a
-          >
-          <a
-            href="#"
-            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2"
+            href="#prinzip"
+            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2 text-nowrap"
             >So funktioniert's</a
           >
           <a
-            href="#"
-            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2"
-            >Vorteile</a
+            href="#funktionen"
+            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2 text-nowrap"
+            >Funktionen</a
+          >
+          <a
+            href="#ablauf"
+            class="hover:bg-[var(--background-color)] hover:text-[var(--text-color)] transition duration-125 rounded-lg px-4 py-2 text-nowrap"
+            >Ablauf</a
           >
         </div>
         <div class="flex items-center justify-between gap-3">
@@ -127,12 +220,11 @@ onUnmounted(() => {
       </nav>
     </div>
 
-    <header class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-white via-sky-50 to-sky-100">
+    <header
+      class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-white via-sky-50 to-sky-100"
+    >
       <div
-        class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-[5]
-           h-[200rem] w-[200rem] -translate-x-1/2 rounded-full
-           bg-[radial-gradient(closest-side_at_50%_0%,rgba(255,255,255,0.95),rgba(224,242,254,0.9)_30%,rgba(191,219,254,0.75)_60%,rgba(165,199,246,0.6))]
-           shadow-[0_-30px_90px_rgba(125,211,252,0.55),0_-6px_24px_rgba(255,255,255,0.9),inset_0_40px_80px_rgba(255,255,255,0.9)]"
+        class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-[5] h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,rgba(255,255,255,0.95),rgba(224,242,254,0.9)_30%,rgba(191,219,254,0.75)_60%,rgba(165,199,246,0.6))] shadow-[0_-30px_90px_rgba(125,211,252,0.55),0_-6px_24px_rgba(255,255,255,0.9),inset_0_40px_80px_rgba(255,255,255,0.9)]"
       ></div>
 
       <div class="absolute inset-0 overflow-hidden pointer-events-none z-10">
@@ -142,16 +234,14 @@ onUnmounted(() => {
           class="absolute bottom-[-80px] rounded-full bg-white/70 shadow-lg backdrop-blur-md animate-float-up flex items-center gap-2 font-bold text-nowrap"
           :class="[
             effect.class,
-            effect.type === 'check' ? 'h-10 w-10 justify-center p-0' : 'px-5 py-2'
+            effect.type === 'check' ? 'h-10 w-10 justify-center p-0' : 'px-5 py-2',
           ]"
           :style="{
             left: effect.left + '%',
-            animationDuration: effect.duration + 's'
+            animationDuration: effect.duration + 's',
           }"
         >
-          <span v-if="effect.type === 'xp'">
-            +{{ effect.amount }} XP
-          </span>
+          <span v-if="effect.type === 'xp'"> +{{ effect.amount }} XP </span>
 
           <span v-else-if="effect.type === 'check'">
             <div class="flex items-center justify-center text-[var(--primary-color)]">
@@ -178,7 +268,7 @@ onUnmounted(() => {
       <div class="mx-auto max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
           <h1
-            class="z-15 text-[75px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
+            class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
           >
             Bring deine
             <span
@@ -187,23 +277,23 @@ onUnmounted(() => {
             >
             aufs nächste Level
           </h1>
-          <p class="text-[var(--text-color-light)] text-lg max-w-[550px] text-center">
+          <p class="lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center">
             Verwandle deine täglichen Aufgaben in messbaren Fortschritt. Sammle XP, schalte Level
             frei und baue Streaks auf, die dich wirklich am Laufen halten.
           </p>
-          <div class="flex items-center justify-between gap-5 mt-3">
+          <div class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-between gap-5 mt-3">
             <RouterLink
               to="/register"
-              class="z-15 hover:from-[var(--surface-color)] hover:to-[var(--surface-color)] hover:border-[var(--primary-color)] hover:shadow-xl hover:text-[var(--primary-color)] transition duration-100 border border-transparent flex items-center justify-center gap-2 rounded-2xl text-[var(--text-color-white)] text-lg font-semibold px-5 py-4 bg-linear-to-br from-[var(--primary-color)] shadow-lg to-[var(--secondary-color)]"
+              class="w-full sm:w-fit z-15 hover:from-[var(--surface-color)] hover:to-[var(--surface-color)] hover:border-[var(--primary-color)] hover:shadow-xl hover:text-[var(--primary-color)] transition duration-100 border border-transparent flex items-center justify-center gap-2 rounded-2xl text-[var(--text-color-white)] text-lg font-semibold px-5 py-4 bg-linear-to-br from-[var(--primary-color)] shadow-lg to-[var(--secondary-color)]"
             >
               <div class="flex items-center justify-center">
                 <i class="fa-solid fa-bolt"></i>
               </div>
-              <span>Konto jetzt erstellen</span>
+              <span class="text-nowrap">Konto jetzt erstellen</span>
             </RouterLink>
             <RouterLink
               to="/login"
-              class="z-15 hover:shadow-xl hover:border-[var(--text-color)] transition duration-100 flex items-center justify-center gap-2 bg-[var(--surface-color)] text-[var(--text-color)] text-lg px-5 py-4 rounded-2xl border border-[var(--border-color)] shadow-lg font-semibold"
+              class="w-full sm:w-fit z-15 hover:shadow-xl hover:border-[var(--text-color)] transition duration-100 flex items-center justify-center gap-2 bg-[var(--surface-color)] text-[var(--text-color)] text-lg px-5 py-4 rounded-2xl border border-[var(--border-color)] shadow-lg font-semibold"
             >
               <div class="flex items-center justify-center">
                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
@@ -214,20 +304,27 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3">
-        <div v-for="i in 3" class="z-20 flex w-fit items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)]">
-          <div class="flex items-center justify-center min-w-[25px] min-h-[25px] text-xs text-[var(--text-color-white)] bg-[var(--primary-color)] rounded-full shadow-sm">
+      <div class="hidden xl:grid mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3 overflow-hidden">
+        <div
+          v-for="(currTask, index) in currTasks"
+          :key="index"
+          class="task-card z-20 flex w-fit min-w-[0] xl:min-w-[400px] items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)] shadow-lg"
+          :class="{ 'swap-out': swapping[index], 'pop': popping[index] }"
+        >
+          <div
+            class="task-check flex items-center justify-center min-w-[25px] min-h-[25px] text-xs text-[var(--text-color-white)] bg-[var(--primary-color)] rounded-full shadow-sm"
+          >
             <i class="fa-solid fa-check"></i>
           </div>
-          <span class="font-bold text-md">Dokumentation abschliessen</span>
-          <span class="text-[var(--primary-color)] font-bold text-sm">+25 XP</span>
+          <span class="task-title font-bold text-md">{{ currTask![0] }}</span>
+          <span class="task-xp text-[var(--primary-color)] font-bold text-sm">+{{ currTask![1] }} XP</span>
         </div>
       </div>
     </header>
 
     <SectionStruct
-      id="next-section"
-      class="bg-[var(--surface-color)]"
+      id="prinzip"
+      class="next-section bg-[var(--surface-color)]"
       kicker="So funktioniert FocusUp"
       subtitle="Wir haben die motivierendsten Elemente aus Spielen wie Fortschritt, Belohnungen und Schwung genommen und auf deinen Alltag übertragen."
       title="Produktivität trifft Spielmechanik"
@@ -236,7 +333,7 @@ onUnmounted(() => {
         <div class="mt-5 flex flex-col h-full items-stretch gap-5">
           <div class="flex items-start justify-start gap-5">
             <div
-              class="w-[37px] h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
+              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
             >
               <span>1</span>
             </div>
@@ -251,7 +348,7 @@ onUnmounted(() => {
 
           <div class="flex items-start justify-start gap-5">
             <div
-              class="w-[37px] h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
+              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
             >
               <span>2</span>
             </div>
@@ -266,7 +363,7 @@ onUnmounted(() => {
 
           <div class="flex items-start justify-start gap-5">
             <div
-              class="w-[37px] h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
+              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
             >
               <span>3</span>
             </div>
@@ -280,17 +377,18 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl"></div>
+        <div class="hidden xl:block w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl"></div>
       </div>
     </SectionStruct>
 
     <SectionStruct
+      id="funktionen"
       title="Alles, was du brauchst, um im Flow zu bleiben"
       subtitle="Entwickelt für Menschen, die Ergebnisse wollen nicht nur eine weitere To-Do-Liste."
       kicker="Funktionen"
       class="p-8"
     >
-      <div class="grid grid-cols-3 gap-4 mt-8">
+      <div class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-8">
         <Card
           svg="fa-regular fa-clipboard"
           title="Intelligentes Aufgabenmanagement"
@@ -302,7 +400,7 @@ onUnmounted(() => {
         <Card
           svg="fa-regular fa-star"
           title="XP- & Level-System"
-          description="Jede erledigte Aufgabe bringt dir XP basierend auf ihrer Schwierigkeit. Mit steigender XP steigst du im Level auf — und schaltest neue Titel, Abzeichen und eine klare visuelle Darstellung deines Wachstums frei."
+          description="Jede erledigte Aufgabe bringt dir XP basierend auf ihrer Schwierigkeit. Mit steigender XP steigst du im Level auf und schaltest neue Titel, Abzeichen und eine klare visuelle Darstellung deines Wachstums frei."
           f-point="Dynamische XP"
           s-point="Level 1–100"
           t-point="Badges"
@@ -310,7 +408,7 @@ onUnmounted(() => {
         <Card
           svg="fa-solid fa-fire-flame-curved"
           title="Streak-System"
-          description="Beständigkeit zahlt sich aus. Erledige mindestens eine Aufgabe pro Tag, um deinen Streak zu halten. Je länger dein Streak, desto höher der XP-Multiplikator — bleib am Ball und sieh, wie sich dein Fortschritt vervielfacht."
+          description="Beständigkeit zahlt sich aus. Erledige mindestens eine Aufgabe pro Tag, um deinen Streak zu halten. Je länger dein Streak, desto höher der XP-Multiplikator bleib am Ball und sieh, wie sich dein Fortschritt vervielfacht."
           f-point="Tägliche Streaks"
           s-point="Multiplikator"
           t-point="Motivation"
@@ -319,15 +417,16 @@ onUnmounted(() => {
     </SectionStruct>
 
     <SectionStruct
+      id="ablauf"
       class="bg-[var(--surface-color)]"
       title="Drei einfache Schritte"
-      kicker="So funktioniert's"
-      subtitle="Starte in wenigen Minuten. Keine komplizierte Einrichtung einfach die App öffnen und losgehen."
+      kicker="Ablauf"
+      subtitle="Starte in wenigen Minuten. Keine komplizierte Einrichtung einfach die Website öffnen und losgehen."
     >
-      <div class="relative grid grid-cols-3 gap-4 mt-8">
-        <div class="absolute top-6 w-full flex justify-center items-center">
+      <div class="relative grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 mt-8">
+        <div class="hidden xl:block absolute top-6 left-[16.66%] right-[16.66%] flex justify-center items-center">
           <div
-            class="mx-auto w-[800px] h-[2px] bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+            class="mx-auto w-full h-[2px] bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
           ></div>
         </div>
 
@@ -440,26 +539,26 @@ onUnmounted(() => {
     <section
       class="w-full h-[600px] px-8 py-7 bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex flex-col items-center justify-center gap-2"
     >
-      <h2 class="text-[75px] text-[var(--text-color-white)] font-extrabold">
+      <h2 class="lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold">
         Starte deine Reise heute.
       </h2>
-      <span class="text-[var(--text-color-white)] text-lg max-w-[700px] text-center"
+      <span class="text-[var(--text-color-white)] text-lg xl:max-w-[700px] max-w-[500px] text-center"
         >Hör auf, Produktivität nur zu planen. Erstelle dein Konto in 30 Sekunden und erledige deine
         erste Aufgabe noch heute.</span
       >
-      <div class="flex items-center justify-center gap-4 mt-5">
+      <div class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-center gap-4 mt-5">
         <RouterLink
           to="/register"
-          class="hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+          class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
         >
           <div class="flex items-center justify-center">
             <i class="fa-solid fa-bolt"></i>
           </div>
-          <span>Konto jetzt erstellen</span>
+          <span class="text-nowrap">Konto jetzt erstellen</span>
         </RouterLink>
         <RouterLink
           to="/login"
-          class="hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+          class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
         >
           <div class="flex items-center justify-center">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>
@@ -502,5 +601,41 @@ onUnmounted(() => {
   animation-name: float-up;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
+}
+
+.task-title,
+.task-xp {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.task-card.swap-out .task-title,
+.task-card.swap-out .task-xp {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.task-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: linear-gradient(140deg, #34d399, #10b981);
+}
+
+.task-card.pop .task-check {
+  animation: checkPop 0.55s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0.3);
+  }
+
+  65% {
+    transform: scale(1.18);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
