@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import Logo from '@/components/ui/Logo.vue'
+
+const date = new Date()
 </script>
 
 <template>
@@ -34,7 +35,7 @@ import Logo from '@/components/ui/Logo.vue'
         <div
           class="justify-self-end text-right text-[14px] font-medium text-slate-400 max-[960px]:justify-self-center max-[960px]:text-center"
         >
-          © 2026 FocusUp - Sanjivan & Egor
+          © {{ date.getFullYear() }} FocusUp - Sanjivan & Egor
         </div>
       </div>
     </div>
