@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer.vue'
 import Card from '@/components/ui/Landingpage/Card.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+const isVisible = ref<boolean>(false)
 const isAtNextSection = ref(false)
 
 const handleScroll = () => {
@@ -97,11 +98,7 @@ const tasks = [
 
 const cardCount = 3
 
-const currTasks = ref([
-  randomTask(),
-  randomTask(),
-  randomTask(),
-])
+const currTasks = ref([randomTask(), randomTask(), randomTask()])
 
 const swapping = ref([false, false, false, false])
 const popping = ref([false, false, false, false])
@@ -139,7 +136,23 @@ function changeTaskLoop(index) {
   }, randomDelay())
 }
 
+let randomUiHeight = ref<number[]>([])
+
+function getRandomNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min)) + min
+}
+
+function updateRandomHeight() {
+  randomUiHeight.value = Array.from({ length: 7 }, () => getRandomNumber(15, 100))
+}
+
+let intervalRandomUIId = null
 onMounted(() => {
+  isVisible.value = true
+
+  updateRandomHeight()
+  intervalRandomUIId = setInterval(updateRandomHeight, 2000)
+
   window.addEventListener('scroll', handleScroll)
   intervalId = setInterval(spawnEffect, 500)
   handleScroll()
@@ -154,8 +167,9 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   clearInterval(intervalId)
+  clearInterval(intervalRandomUIId)
 
-  timeoutIds.forEach(id => clearTimeout(id))
+  timeoutIds.forEach((id) => clearTimeout(id))
 })
 </script>
 
@@ -177,11 +191,7 @@ onUnmounted(() => {
     <!--    </div>-->
 
     <div
-      :class="
-        isAtNextSection
-          ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0'
-          : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto'
-      "
+      :class="[isAtNextSection ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0' : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto', isVisible ? 'opacity-100' : 'opacity-0' ]"
       class="hidden md:block z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
     >
       <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
@@ -277,11 +287,15 @@ onUnmounted(() => {
             >
             aufs nächste Level
           </h1>
-          <p class="lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center">
+          <p
+            class="lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center"
+          >
             Verwandle deine täglichen Aufgaben in messbaren Fortschritt. Sammle XP, schalte Level
             frei und baue Streaks auf, die dich wirklich am Laufen halten.
           </p>
-          <div class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-between gap-5 mt-3">
+          <div
+            class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-between gap-5 mt-3"
+          >
             <RouterLink
               to="/register"
               class="w-full sm:w-fit z-15 hover:from-[var(--surface-color)] hover:to-[var(--surface-color)] hover:border-[var(--primary-color)] hover:shadow-xl hover:text-[var(--primary-color)] transition duration-100 border border-transparent flex items-center justify-center gap-2 rounded-2xl text-[var(--text-color-white)] text-lg font-semibold px-5 py-4 bg-linear-to-br from-[var(--primary-color)] shadow-lg to-[var(--secondary-color)]"
@@ -304,12 +318,14 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="hidden xl:grid mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3 overflow-hidden">
+      <div
+        class="hidden xl:grid mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3 overflow-hidden"
+      >
         <div
           v-for="(currTask, index) in currTasks"
           :key="index"
           class="task-card z-20 flex w-fit min-w-[0] xl:min-w-[400px] items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)] shadow-lg"
-          :class="{ 'swap-out': swapping[index], 'pop': popping[index] }"
+          :class="{ 'swap-out': swapping[index], pop: popping[index] }"
         >
           <div
             class="task-check flex items-center justify-center min-w-[25px] min-h-[25px] text-xs text-[var(--text-color-white)] bg-[var(--primary-color)] rounded-full shadow-sm"
@@ -317,7 +333,9 @@ onUnmounted(() => {
             <i class="fa-solid fa-check"></i>
           </div>
           <span class="task-title font-bold text-md">{{ currTask![0] }}</span>
-          <span class="task-xp text-[var(--primary-color)] font-bold text-sm">+{{ currTask![1] }} XP</span>
+          <span class="task-xp text-[var(--primary-color)] font-bold text-sm"
+            >+{{ currTask![1] }} XP</span
+          >
         </div>
       </div>
     </header>
@@ -377,7 +395,112 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="hidden xl:block w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl"></div>
+        <div
+          class="flex-col select-none hidden xl:flex w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl shadow-lg border border-[var(--border-color)] p-5"
+        >
+          <span class="uppercase font-bold text-[var(--text-color-light)] text-xs"
+            >Wöchentliche XP-Übersicht</span
+          >
+
+          <div class="grid grid-cols-7 min-h-[100px] h-[100px] gap-2 w-full items-end mt-5">
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                :style="{ height: `${randomUiHeight[0]}%` }"
+                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Mo</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                :style="{ height: `${randomUiHeight[1]}%` }"
+                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Di</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                :style="{ height: `${randomUiHeight[2]}%` }"
+                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Mi</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                :style="{ height: `${randomUiHeight[3]}%` }"
+                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Do</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                :style="{ height: `${randomUiHeight[4]}%` }"
+                class="col-span-1 rounded-t-lg bg-[var(--primary-color)] shadow-sm transition-all duration-500 ease-in-out"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Fr</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">Sa</span>
+            </div>
+
+            <div class="flex flex-col gap-1 text-center justify-end h-full">
+              <div
+                class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
+              ></div>
+              <span class="text-xs text-[var(--text-color-light)]">So</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 grid-rows-2 w-full flex-1 mt-4 gap-3">
+            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
+              <span class="uppercase text-[var(--text-color-light)] text-xs">Gesamt-Xp</span>
+              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">3.420</span>
+              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
+                <div class="flex items-center justify-center text-[10px]">
+                  <i class="fa-solid fa-arrow-up"></i>
+                </div>
+                <span>+14% diese Woche</span>
+              </div>
+            </div>
+
+            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
+              <span class="uppercase text-[var(--text-color-light)] text-xs">Erledigte Aufgaben</span>
+              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">42</span>
+              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
+                <div class="flex items-center justify-center text-[10px]">
+                  <i class="fa-solid fa-arrow-up"></i>
+                </div>
+                <span>+6 mehr als letzte Woche</span>
+              </div>
+            </div>
+
+            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
+              <span class="uppercase text-[var(--text-color-light)] text-xs">Aktuelles Level</span>
+              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">14</span>
+              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
+                <span>68% bis Level 21</span>
+              </div>
+            </div>
+
+            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
+              <span class="uppercase text-[var(--text-color-light)] text-xs">Bester Streak</span>
+              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">17</span>
+              <div class="gap-0.5 flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
+                <div class="flex items-center justify-center text-[10px]">
+                  <i class="fa-solid fa-trophy"></i>
+                </div>
+                <span>Persönlicher Rekord</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </SectionStruct>
 
@@ -424,7 +547,9 @@ onUnmounted(() => {
       subtitle="Starte in wenigen Minuten. Keine komplizierte Einrichtung einfach die Website öffnen und losgehen."
     >
       <div class="relative grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 mt-8">
-        <div class="hidden xl:block absolute top-6 left-[16.66%] right-[16.66%] flex justify-center items-center">
+        <div
+          class="hidden xl:block absolute top-6 left-[16.66%] right-[16.66%] flex justify-center items-center"
+        >
           <div
             class="mx-auto w-full h-[2px] bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
           ></div>
@@ -539,10 +664,13 @@ onUnmounted(() => {
     <section
       class="w-full h-[600px] px-8 py-7 bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex flex-col items-center justify-center gap-2"
     >
-      <h2 class="lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold">
+      <h2
+        class="lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold"
+      >
         Starte deine Reise heute.
       </h2>
-      <span class="text-[var(--text-color-white)] text-lg xl:max-w-[700px] max-w-[500px] text-center"
+      <span
+        class="text-[var(--text-color-white)] text-lg xl:max-w-[700px] max-w-[500px] text-center"
         >Hör auf, Produktivität nur zu planen. Erstelle dein Konto in 30 Sekunden und erledige deine
         erste Aufgabe noch heute.</span
       >
@@ -605,7 +733,9 @@ onUnmounted(() => {
 
 .task-title,
 .task-xp {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .task-card.swap-out .task-title,
@@ -622,7 +752,7 @@ onUnmounted(() => {
 }
 
 .task-card.pop .task-check {
-  animation: checkPop 0.55s cubic-bezier(.34, 1.56, .64, 1);
+  animation: checkPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes checkPop {
