@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup xmlns="http://www.w3.org/1999/html">
 import Logo from '@/components/ui/Logo.vue'
 import SectionStruct from '@/components/ui/Landingpage/SectionStruct.vue'
 import Steps from '@/components/ui/Landingpage/Steps.vue'
@@ -8,6 +8,21 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const isVisible = ref<boolean>(false)
 const isAtNextSection = ref(false)
+
+const titleWords = [
+  { text: "Bring"},
+  { text: "deine"},
+  { text: "Produktivität", gradient: true },
+  { text: "aufs" },
+  { text: "nächste" },
+  { text: "Level" },
+]
+
+const descriptionLines = [
+  { text: "Verwandle deine täglichen Aufgaben in messbaren Fortschritt."},
+  { text: "Sammle XP, schalte Level frei und baue Streaks auf, die dich wirklich"},
+  { text: "am Laufen halten."},
+]
 
 const handleScroll = () => {
   const nextSection = document.querySelector('.next-section')
@@ -191,7 +206,7 @@ onUnmounted(() => {
     <!--    </div>-->
 
     <div
-      :class="[isAtNextSection ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0' : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto', isVisible ? 'opacity-100' : 'opacity-0' ]"
+      :class="[isAtNextSection ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0' : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto', !isVisible ? 'opacity-0 scale-95' : 'opacity-100 scale-100' ]"
       class="hidden md:block z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
     >
       <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
@@ -277,43 +292,50 @@ onUnmounted(() => {
 
       <div class="mx-auto max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
-          <h1
-            class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
-          >
-            Bring deine
-            <span
-              class="bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] bg-clip-text text-transparent"
-              >Produktivität</span
-            >
-            aufs nächste Level
+          <h1 class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]">
+            <span v-for="(word, index) in titleWords" :key="index" class="mr-[0.75rem]">
+              <span class="inline-block transition-all duration-700 ease-in-out" :style="{ transitionDelay: `${index * 100}ms`}" :class="[ isVisible ? 'translate-0 rotate-0 opacity-100' : 'translate-y-[30px] rotate-3 opacity-0', word.gradient ? 'bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] bg-clip-text text-transparent' : 'text-[var(--text-color)]']">
+                {{ word.text}}
+              </span>
+            </span>
           </h1>
-          <p
-            class="lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center"
-          >
-            Verwandle deine täglichen Aufgaben in messbaren Fortschritt. Sammle XP, schalte Level
-            frei und baue Streaks auf, die dich wirklich am Laufen halten.
+
+          <p v-for="(line, index) in descriptionLines" :key="index" class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center">
+            <span :style="{ transitionDelay: `${index * 100 + 1000}ms` }" :class="!isVisible ? 'translate-y-full opacity-0' : 'translate-0 opacity-100' " class="inline-block overflow-hidden transition-all duration-800 ease-in-out">
+              {{ line.text }}
+            </span>
           </p>
           <div
             class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-between gap-5 mt-3"
           >
-            <RouterLink
-              to="/register"
-              class="w-full sm:w-fit z-15 hover:from-[var(--surface-color)] hover:to-[var(--surface-color)] hover:border-[var(--primary-color)] hover:shadow-xl hover:text-[var(--primary-color)] transition duration-100 border border-transparent flex items-center justify-center gap-2 rounded-2xl text-[var(--text-color-white)] text-lg font-semibold px-5 py-4 bg-linear-to-br from-[var(--primary-color)] shadow-lg to-[var(--secondary-color)]"
+            <div
+              class="transition-all duration-700 delay-100"
+              :class="!isVisible ? 'opacity-0 scale-95 translate-y-[20px]' : 'opacity-100 scale-100 translate-0' "
             >
-              <div class="flex items-center justify-center">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <span class="text-nowrap">Konto jetzt erstellen</span>
-            </RouterLink>
-            <RouterLink
-              to="/login"
-              class="w-full sm:w-fit z-15 hover:shadow-xl hover:border-[var(--text-color)] transition duration-100 flex items-center justify-center gap-2 bg-[var(--surface-color)] text-[var(--text-color)] text-lg px-5 py-4 rounded-2xl border border-[var(--border-color)] shadow-lg font-semibold"
+              <RouterLink
+                to="/register"
+                class="w-full sm:w-fit z-15 hover:from-[var(--surface-color)] hover:to-[var(--surface-color)] hover:border-[var(--primary-color)] hover:shadow-xl hover:text-[var(--primary-color)] transition duration-100 border border-transparent flex items-center justify-center gap-2 rounded-2xl text-[var(--text-color-white)] text-lg font-semibold px-5 py-4 bg-linear-to-br from-[var(--primary-color)] shadow-lg to-[var(--secondary-color)]"
+              >
+                <div class="flex items-center justify-center">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
+                <span class="text-nowrap">Konto jetzt erstellen</span>
+              </RouterLink>
+            </div>
+            <div
+              class="transition-all duration-700 delay-150"
+              :class="!isVisible ? 'opacity-0 scale-95 translate-y-[20px]' : 'opacity-100 scale-100 translate-0' "
             >
-              <div class="flex items-center justify-center">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i>
-              </div>
-              <span>Anmelden</span>
-            </RouterLink>
+              <RouterLink
+                to="/login"
+                class="w-full sm:w-fit z-15 hover:shadow-xl hover:border-[var(--text-color)] transition duration-100 flex items-center justify-center gap-2 bg-[var(--surface-color)] text-[var(--text-color)] text-lg px-5 py-4 rounded-2xl border border-[var(--border-color)] shadow-lg font-semibold"
+              >
+                <div class="flex items-center justify-center">
+                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                </div>
+                <span>Anmelden</span>
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
@@ -324,8 +346,9 @@ onUnmounted(() => {
         <div
           v-for="(currTask, index) in currTasks"
           :key="index"
-          class="task-card z-20 flex w-fit min-w-[0] xl:min-w-[400px] items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)] shadow-lg"
-          :class="{ 'swap-out': swapping[index], pop: popping[index] }"
+          class="task-card transition-all z-20 flex w-fit min-w-[0] xl:min-w-[400px] items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)] shadow-lg"
+          :style="{ transitionDuration: `${index * 800 + 1000}ms` }"
+          :class="{ 'swap-out': swapping[index], pop: popping[index], 'show-up-off': !isVisible, 'show-up-on': isVisible }"
         >
           <div
             class="task-check flex items-center justify-center min-w-[25px] min-h-[25px] text-xs text-[var(--text-color-white)] bg-[var(--primary-color)] rounded-full shadow-sm"
@@ -356,8 +379,8 @@ onUnmounted(() => {
               <span>1</span>
             </div>
             <div>
-              <span class="font-semibold">Erstelle Aufgaben</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-sm">
+              <span class="font-bold text-xl">Erstelle Aufgaben</span>
+              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
                 Teile deine Ziele in umsetzbare Aufgaben auf. Jede Aufgabe hat einen
                 Schwierigkeitsgrad, der bestimmt, wie viel XP du erhältst.
               </p>
@@ -371,8 +394,8 @@ onUnmounted(() => {
               <span>2</span>
             </div>
             <div>
-              <span class="font-semibold">Sammle XP und steige auf</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-sm">
+              <span class="font-bold text-xl">Sammle XP und steige auf</span>
+              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
                 Das Erledigen von Aufgaben belohnt dich mit Erfahrungspunkten. Fülle deine
                 XP-Leiste, um das nächste Level zu erreichen und neue Belohnungen freizuschalten.
               </p>
@@ -386,8 +409,8 @@ onUnmounted(() => {
               <span>3</span>
             </div>
             <div>
-              <span class="font-semibold">Baue unaufhaltsame Streaks auf</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-sm">
+              <span class="font-bold text-xl">Baue unaufhaltsame Streaks auf</span>
+              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
                 Bleib konsequent und baue tägliche Streaks auf. Verpasst du einen Tag, wird dein
                 Streak zurückgesetzt das hält dich motiviert, jeden Tag dabei zu bleiben.
               </p>
