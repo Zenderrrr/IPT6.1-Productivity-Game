@@ -82,6 +82,15 @@ button {
 
 
   /*Animations*/
+
+.show-up-off{
+  @apply opacity-0 translate-y-[20px]
+}
+
+.show-up-on{
+  @apply opacity-100 translate-y-0
+}
+
 .scale-animation-sm{
   @apply hover:scale-101 transition duration-75 ease-in-out
 }
