@@ -5,7 +5,7 @@ const date = new Date()
 </script>
 
 <template>
-  <footer class="w-full border-t border-slate-200 bg-[var(--surface-color)]">
+  <footer class="w-full border-t border-[var(--border-color)] bg-[var(--surface-color)]">
     <div class="mx-auto w-full max-w-[1360px] px-10 max-[960px]:px-6">
       <div
         class="grid min-h-[84px] grid-cols-[1fr_auto_1fr] items-center gap-5 max-[960px]:grid-cols-1 max-[960px]:justify-items-center max-[960px]:py-6"
@@ -19,13 +19,13 @@ const date = new Date()
         >
           <a
             href="#"
-            class="text-[14px] font-semibold text-slate-400 no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
+            class="text-[14px] font-semibold text-[var(--text-color-light)] no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
           >
             Impressum
           </a>
           <a
             href="#"
-            class="text-[14px] font-semibold text-slate-400 no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
+            class="text-[14px] font-semibold text-[var(--text-color-light)] no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
           >
             Datenschutz
           </a>
@@ -33,7 +33,7 @@ const date = new Date()
 
         <!-- Copy -->
         <div
-          class="justify-self-end text-right text-[14px] font-medium text-slate-400 max-[960px]:justify-self-center max-[960px]:text-center"
+          class="justify-self-end text-right text-[14px] font-medium text-[var(--text-color-light)] max-[960px]:justify-self-center max-[960px]:text-center"
         >
           © {{ date.getFullYear() }} FocusUp - Sanjivan & Egor
         </div>
