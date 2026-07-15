@@ -6,6 +6,9 @@ import Footer from '@/components/layout/Footer.vue'
 import Card from '@/components/ui/Landingpage/Card.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useElementVisible } from '@/utils/elementVisible.ts'
+import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
+
+const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
 const isVisible = ref<boolean>(false)
 const isAtNextSection = ref(false)
@@ -182,6 +185,9 @@ function updateRandomHeight() {
 
 let intervalRandomUIId = null
 onMounted(() => {
+  setUIMode(prefersDarkMode)
+  applyUIMode()
+
   isVisible.value = true
 
   updateRandomHeight()
