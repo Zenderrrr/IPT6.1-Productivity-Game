@@ -5,23 +5,42 @@ import Steps from '@/components/ui/Landingpage/Steps.vue'
 import Footer from '@/components/layout/Footer.vue'
 import Card from '@/components/ui/Landingpage/Card.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useElementVisible } from '@/utils/elementVisible.ts'
 
 const isVisible = ref<boolean>(false)
 const isAtNextSection = ref(false)
 
 const titleWords = [
-  { text: "Bring"},
-  { text: "deine"},
-  { text: "Produktivität", gradient: true },
-  { text: "aufs" },
-  { text: "nächste" },
-  { text: "Level" },
+  { text: 'Bring' },
+  { text: 'deine' },
+  { text: 'Produktivität', gradient: true },
+  { text: 'aufs' },
+  { text: 'nächste' },
+  { text: 'Level' },
 ]
 
 const descriptionLines = [
-  { text: "Verwandle deine täglichen Aufgaben in messbaren Fortschritt."},
-  { text: "Sammle XP, schalte Level frei und baue Streaks auf, die dich wirklich"},
-  { text: "am Laufen halten."},
+  { text: 'Verwandle deine täglichen Aufgaben in messbaren Fortschritt.' },
+  { text: 'Sammle XP, schalte Level frei und baue Streaks auf, die dich wirklich' },
+  { text: 'am Laufen halten.' },
+]
+
+const functionSectionText = [
+  {
+    title: 'Erstelle Aufgaben',
+    description:
+      'Teile deine Ziele in umsetzbare Aufgaben auf. Jede Aufgabe hat einen Schwierigkeitsgrad, der bestimmt, wie viel XP du erhältst.',
+  },
+  {
+    title: 'Sammle XP und steige auf',
+    description:
+      'Das Erledigen von Aufgaben belohnt dich mit Erfahrungspunkten. Fülle deine XP-Leiste, um das nächste Level zu erreichen und neue Belohnungen freizuschalten.',
+  },
+  {
+    title: 'Baue unaufhaltsame Streaks auf',
+    description:
+      'Bleib konsequent und baue tägliche Streaks auf. Verpasst du einen Tag, wird dein Streak zurückgesetzt das hält dich motiviert, jeden Tag dabei zu bleiben.',
+  },
 ]
 
 const handleScroll = () => {
@@ -179,6 +198,14 @@ onMounted(() => {
   }
 })
 
+const sectionFunctionElement = ref<HTMLElement | null>(null)
+const sectionProcessElement = ref<HTMLElement | null>(null)
+const sectionCTAElement = ref<HTMLElement | null>(null)
+
+const { isVisible: isVisibleFunctionSection } = useElementVisible(sectionFunctionElement)
+const { isVisible: isVisibleProcessSection } = useElementVisible(sectionProcessElement)
+const { isVisible: isVisibleCTASection } = useElementVisible(sectionCTAElement)
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   clearInterval(intervalId)
@@ -190,23 +217,13 @@ onUnmounted(() => {
 
 <template>
   <div class="w-full min-h-screen overflow-x-hidden">
-    <!--    <div class="z-999 fixed top-0 left-0 right-0 w-full bg-[var(&#45;&#45;surface-color)] border border-b-[var(&#45;&#45;border-color)] border-transparent shadow-xs">-->
-    <!--      <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">-->
-    <!--        <Logo link="/"></Logo>-->
-    <!--        <div class="flex items-center justify-between gap-3 text-[var(&#45;&#45;text-color-light)] font-medium">-->
-    <!--          <a href="#" class="hover:bg-[var(&#45;&#45;background-color)] hover:text-[var(&#45;&#45;text-color)] transition duration-125 rounded-lg px-4 py-2">Funktionen</a>-->
-    <!--          <a href="#" class="hover:bg-[var(&#45;&#45;background-color)] hover:text-[var(&#45;&#45;text-color)] transition duration-125 rounded-lg px-4 py-2">So funktioniert's</a>-->
-    <!--          <a href="#" class="hover:bg-[var(&#45;&#45;background-color)] hover:text-[var(&#45;&#45;text-color)] transition duration-125 rounded-lg px-4 py-2">Vorteile</a>-->
-    <!--        </div>-->
-    <!--        <div class="flex items-center justify-between gap-3">-->
-    <!--          <RouterLink to="/login" class="text-[var(&#45;&#45;text-color-light)] font-medium hover:bg-[var(&#45;&#45;background-color)] hover:text-[var(&#45;&#45;text-color)] transition duration-125 rounded-lg px-4 py-2">Anmelden</RouterLink>-->
-    <!--          <RouterLink to="/register" class="hover:text-transparent hover:bg-clip-text hover:border-[var(&#45;&#45;primary-color)] transition duration-125 border-2 border-transparent bg-linear-to-r from-[var(&#45;&#45;primary-color)] to-[var(&#45;&#45;secondary-color)] rounded-xl font-bold text-[var(&#45;&#45;text-color-white)] px-4 py-2">Registrieren</RouterLink>-->
-    <!--        </div>-->
-    <!--      </nav>-->
-    <!--    </div>-->
-
     <div
-      :class="[isAtNextSection ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0' : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto', !isVisible ? 'opacity-0 scale-95' : 'opacity-100 scale-100' ]"
+      :class="[
+        isAtNextSection
+          ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0'
+          : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto',
+        !isVisible ? 'opacity-0 scale-95' : 'opacity-100 scale-100',
+      ]"
       class="hidden md:block z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
     >
       <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
@@ -246,10 +263,10 @@ onUnmounted(() => {
     </div>
 
     <header
-      class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-white via-sky-50 to-sky-100"
+      class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
     >
       <div
-        class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-[5] h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,rgba(255,255,255,0.95),rgba(224,242,254,0.9)_30%,rgba(191,219,254,0.75)_60%,rgba(165,199,246,0.6))] shadow-[0_-30px_90px_rgba(125,211,252,0.55),0_-6px_24px_rgba(255,255,255,0.9),inset_0_40px_80px_rgba(255,255,255,0.9)]"
+        class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-5 h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,rgba(255,255,255,0.95),rgba(224,242,254,0.9)_30%,rgba(191,219,254,0.75)_60%,rgba(165,199,246,0.6))] shadow-[0_-30px_90px_rgba(125,211,252,0.55),0_-6px_24px_rgba(255,255,255,0.9),inset_0_40px_80px_rgba(255,255,255,0.9)]"
       ></div>
 
       <div class="absolute inset-0 overflow-hidden pointer-events-none z-10">
@@ -292,16 +309,37 @@ onUnmounted(() => {
 
       <div class="mx-auto max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
-          <h1 class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]">
+          <h1
+            class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
+          >
             <span v-for="(word, index) in titleWords" :key="index" class="mr-[0.75rem]">
-              <span class="inline-block transition-all duration-700 ease-in-out" :style="{ transitionDelay: `${index * 100}ms`}" :class="[ isVisible ? 'translate-0 rotate-0 opacity-100' : 'translate-y-[30px] rotate-3 opacity-0', word.gradient ? 'bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] bg-clip-text text-transparent' : 'text-[var(--text-color)]']">
-                {{ word.text}}
+              <span
+                class="inline-block transition-all duration-700 ease-in-out"
+                :style="{ transitionDelay: `${index * 100}ms` }"
+                :class="[
+                  isVisible
+                    ? 'translate-0 rotate-0 opacity-100'
+                    : 'translate-y-[30px] rotate-3 opacity-0',
+                  word.gradient
+                    ? 'bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] bg-clip-text text-transparent'
+                    : 'text-[var(--text-color)]',
+                ]"
+              >
+                {{ word.text }}
               </span>
             </span>
           </h1>
 
-          <p v-for="(line, index) in descriptionLines" :key="index" class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center">
-            <span :style="{ transitionDelay: `${index * 100 + 1000}ms` }" :class="!isVisible ? 'translate-y-full opacity-0' : 'translate-0 opacity-100' " class="inline-block overflow-hidden transition-all duration-800 ease-in-out">
+          <p
+            v-for="(line, index) in descriptionLines"
+            :key="index"
+            class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center"
+          >
+            <span
+              :style="{ transitionDelay: `${index * 100 + 1000}ms` }"
+              :class="!isVisible ? 'translate-y-full opacity-0' : 'translate-0 opacity-100'"
+              class="inline-block overflow-hidden transition-all duration-800 ease-in-out"
+            >
               {{ line.text }}
             </span>
           </p>
@@ -310,7 +348,11 @@ onUnmounted(() => {
           >
             <div
               class="transition-all duration-700 delay-100"
-              :class="!isVisible ? 'opacity-0 scale-95 translate-y-[20px]' : 'opacity-100 scale-100 translate-0' "
+              :class="
+                !isVisible
+                  ? 'opacity-0 scale-95 translate-y-[20px]'
+                  : 'opacity-100 scale-100 translate-0'
+              "
             >
               <RouterLink
                 to="/register"
@@ -324,7 +366,11 @@ onUnmounted(() => {
             </div>
             <div
               class="transition-all duration-700 delay-150"
-              :class="!isVisible ? 'opacity-0 scale-95 translate-y-[20px]' : 'opacity-100 scale-100 translate-0' "
+              :class="
+                !isVisible
+                  ? 'opacity-0 scale-95 translate-y-[20px]'
+                  : 'opacity-100 scale-100 translate-0'
+              "
             >
               <RouterLink
                 to="/login"
@@ -348,7 +394,12 @@ onUnmounted(() => {
           :key="index"
           class="task-card transition-all z-20 flex w-fit min-w-[0] xl:min-w-[400px] items-center justify-center gap-5 rounded-2xl bg-[var(--surface-color)] text-nowrap p-6 border border-[var(--border-color)] shadow-lg"
           :style="{ transitionDuration: `${index * 800 + 1000}ms` }"
-          :class="{ 'swap-out': swapping[index], pop: popping[index], 'show-up-off': !isVisible, 'show-up-on': isVisible }"
+          :class="{
+            'swap-out': swapping[index],
+            pop: popping[index],
+            'show-up-off': !isVisible,
+            'show-up-on': isVisible,
+          }"
         >
           <div
             class="task-check flex items-center justify-center min-w-[25px] min-h-[25px] text-xs text-[var(--text-color-white)] bg-[var(--primary-color)] rounded-full shadow-sm"
@@ -363,169 +414,166 @@ onUnmounted(() => {
       </div>
     </header>
 
-    <SectionStruct
-      id="prinzip"
-      class="next-section bg-[var(--surface-color)]"
-      kicker="So funktioniert FocusUp"
-      subtitle="Wir haben die motivierendsten Elemente aus Spielen wie Fortschritt, Belohnungen und Schwung genommen und auf deinen Alltag übertragen."
-      title="Produktivität trifft Spielmechanik"
-    >
-      <div class="flex items-start justify-start gap-8 mt-5">
-        <div class="mt-5 flex flex-col h-full items-stretch gap-5">
-          <div class="flex items-start justify-start gap-5">
+    <div ref="sectionFunctionElement">
+      <SectionStruct
+        id="prinzip"
+        class="next-section bg-[var(--surface-color)]"
+        kicker="So funktioniert FocusUp"
+        subtitle="Wir haben die motivierendsten Elemente aus Spielen wie Fortschritt, Belohnungen und Schwung genommen und auf deinen Alltag übertragen."
+        title="Produktivität trifft Spielmechanik"
+      >
+        <div class="flex items-start justify-start gap-8 mt-5">
+          <div class="mt-5 flex flex-col h-full items-stretch gap-5">
             <div
-              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
+              v-for="(func, index) in functionSectionText"
+              :key="index"
+              :class="!isVisibleFunctionSection ? 'show-up-off-xl' : 'show-up-on' "
+              :style="{ transitionDelay: `${index * 400}ms` }"
+              class="transition-all duration-500 flex items-start justify-start gap-5"
             >
-              <span>1</span>
-            </div>
-            <div>
-              <span class="font-bold text-xl">Erstelle Aufgaben</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
-                Teile deine Ziele in umsetzbare Aufgaben auf. Jede Aufgabe hat einen
-                Schwierigkeitsgrad, der bestimmt, wie viel XP du erhältst.
-              </p>
+              <div
+                class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
+              >
+                <span>{{ index + 1 }}</span>
+              </div>
+              <div>
+                <span class="font-bold text-xl">{{ func.title }}</span>
+                <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
+                  {{ func.description }}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="flex items-start justify-start gap-5">
-            <div
-              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
-            >
-              <span>2</span>
-            </div>
-            <div>
-              <span class="font-bold text-xl">Sammle XP und steige auf</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
-                Das Erledigen von Aufgaben belohnt dich mit Erfahrungspunkten. Fülle deine
-                XP-Leiste, um das nächste Level zu erreichen und neue Belohnungen freizuschalten.
-              </p>
-            </div>
-          </div>
-
-          <div class="flex items-start justify-start gap-5">
-            <div
-              class="min-w-[37px] min-h-[37px] rounded-xl bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex items-center justify-center text-[var(--text-color-white)] font-bold shadow-lg"
-            >
-              <span>3</span>
-            </div>
-            <div>
-              <span class="font-bold text-xl">Baue unaufhaltsame Streaks auf</span>
-              <p class="text-[var(--text-color-light)] max-w-[600px] text-lg">
-                Bleib konsequent und baue tägliche Streaks auf. Verpasst du einen Tag, wird dein
-                Streak zurückgesetzt das hält dich motiviert, jeden Tag dabei zu bleiben.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="flex-col select-none hidden xl:flex w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl shadow-lg border border-[var(--border-color)] p-5"
-        >
-          <span class="uppercase font-bold text-[var(--text-color-light)] text-xs"
-            >Wöchentliche XP-Übersicht</span
+          <div
+            :class="!isVisibleFunctionSection ? 'show-up-off-xl' : 'show-up-on' "
+            :style="{ transitionDelay: '1200ms' }"
+            class="transition-all duration-700 flex-col select-none hidden xl:flex w-[550px] h-[400px] bg-[var(--background-color)] rounded-2xl shadow-lg border border-[var(--border-color)] p-5"
           >
+            <span class="uppercase font-bold text-[var(--text-color-light)] text-xs"
+              >Wöchentliche XP-Übersicht</span
+            >
 
-          <div class="grid grid-cols-7 min-h-[100px] h-[100px] gap-2 w-full items-end mt-5">
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                :style="{ height: `${randomUiHeight[0]}%` }"
-                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Mo</span>
-            </div>
+            <div class="grid grid-cols-7 min-h-[100px] h-[100px] gap-2 w-full items-end mt-5">
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  :style="{ height: `${randomUiHeight[0]}%` }"
+                  class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Mo</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                :style="{ height: `${randomUiHeight[1]}%` }"
-                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Di</span>
-            </div>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  :style="{ height: `${randomUiHeight[1]}%` }"
+                  class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Di</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                :style="{ height: `${randomUiHeight[2]}%` }"
-                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Mi</span>
-            </div>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  :style="{ height: `${randomUiHeight[2]}%` }"
+                  class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Mi</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                :style="{ height: `${randomUiHeight[3]}%` }"
-                class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Do</span>
-            </div>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  :style="{ height: `${randomUiHeight[3]}%` }"
+                  class="col-span-1 rounded-t-lg bg-[var(--secondary-color)] shadow-sm transition-all duration-500 ease-in-out"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Do</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                :style="{ height: `${randomUiHeight[4]}%` }"
-                class="col-span-1 rounded-t-lg bg-[var(--primary-color)] shadow-sm transition-all duration-500 ease-in-out"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Fr</span>
-            </div>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  :style="{ height: `${randomUiHeight[4]}%` }"
+                  class="col-span-1 rounded-t-lg bg-[var(--primary-color)] shadow-sm transition-all duration-500 ease-in-out"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Fr</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">Sa</span>
-            </div>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">Sa</span>
+              </div>
 
-            <div class="flex flex-col gap-1 text-center justify-end h-full">
-              <div
-                class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
-              ></div>
-              <span class="text-xs text-[var(--text-color-light)]">So</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 grid-rows-2 w-full flex-1 mt-4 gap-3">
-            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
-              <span class="uppercase text-[var(--text-color-light)] text-xs">Gesamt-Xp</span>
-              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">3.420</span>
-              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
-                <div class="flex items-center justify-center text-[10px]">
-                  <i class="fa-solid fa-arrow-up"></i>
-                </div>
-                <span>+14% diese Woche</span>
+              <div class="flex flex-col gap-1 text-center justify-end h-full">
+                <div
+                  class="col-span-1 h-[5%] rounded-t-lg bg-[var(--secondary-color-light)] shadow-sm"
+                ></div>
+                <span class="text-xs text-[var(--text-color-light)]">So</span>
               </div>
             </div>
 
-            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
-              <span class="uppercase text-[var(--text-color-light)] text-xs">Erledigte Aufgaben</span>
-              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">42</span>
-              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
-                <div class="flex items-center justify-center text-[10px]">
-                  <i class="fa-solid fa-arrow-up"></i>
+            <div class="grid grid-cols-2 grid-rows-2 w-full flex-1 mt-4 gap-3">
+              <div
+                class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl"
+              >
+                <span class="uppercase text-[var(--text-color-light)] text-xs">Gesamt-Xp</span>
+                <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">3.420</span>
+                <div
+                  class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold"
+                >
+                  <div class="flex items-center justify-center text-[10px]">
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </div>
+                  <span>+14% diese Woche</span>
                 </div>
-                <span>+6 mehr als letzte Woche</span>
               </div>
-            </div>
 
-            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
-              <span class="uppercase text-[var(--text-color-light)] text-xs">Aktuelles Level</span>
-              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">14</span>
-              <div class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
-                <span>68% bis Level 21</span>
-              </div>
-            </div>
-
-            <div class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl">
-              <span class="uppercase text-[var(--text-color-light)] text-xs">Bester Streak</span>
-              <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">17</span>
-              <div class="gap-0.5 flex items-center justify-center text-[var(--primary-color)] text-xs font-bold">
-                <div class="flex items-center justify-center text-[10px]">
-                  <i class="fa-solid fa-trophy"></i>
+              <div
+                class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl"
+              >
+                <span class="uppercase text-[var(--text-color-light)] text-xs"
+                  >Erledigte Aufgaben</span
+                >
+                <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">42</span>
+                <div
+                  class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold"
+                >
+                  <div class="flex items-center justify-center text-[10px]">
+                    <i class="fa-solid fa-arrow-up"></i>
+                  </div>
+                  <span>+6 mehr als letzte Woche</span>
                 </div>
-                <span>Persönlicher Rekord</span>
+              </div>
+
+              <div
+                class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl"
+              >
+                <span class="uppercase text-[var(--text-color-light)] text-xs">Aktuelles Level</span>
+                <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">14</span>
+                <div
+                  class="flex items-center justify-center text-[var(--primary-color)] text-xs font-bold"
+                >
+                  <span>68% bis Level 21</span>
+                </div>
+              </div>
+
+              <div
+                class="p-4 flex flex-col justify-between items-start col-span-1 row-span-1 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl"
+              >
+                <span class="uppercase text-[var(--text-color-light)] text-xs">Bester Streak</span>
+                <span class="uppercase text-[var(--text-color)] text-3xl font-extrabold">17</span>
+                <div
+                  class="gap-0.5 flex items-center justify-center text-[var(--primary-color)] text-xs font-bold"
+                >
+                  <div class="flex items-center justify-center text-[10px]">
+                    <i class="fa-solid fa-trophy"></i>
+                  </div>
+                  <span>Persönlicher Rekord</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </SectionStruct>
+      </SectionStruct>
+    </div>
 
     <SectionStruct
       id="funktionen"
@@ -562,160 +610,170 @@ onUnmounted(() => {
       </div>
     </SectionStruct>
 
-    <SectionStruct
-      id="ablauf"
-      class="bg-[var(--surface-color)]"
-      title="Drei einfache Schritte"
-      kicker="Ablauf"
-      subtitle="Starte in wenigen Minuten. Keine komplizierte Einrichtung einfach die Website öffnen und losgehen."
-    >
-      <div class="relative grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 mt-8">
-        <div
-          class="hidden xl:block absolute top-6 left-[16.66%] right-[16.66%] flex justify-center items-center"
-        >
+    <div ref="sectionProcessElement">
+      <SectionStruct
+        id="ablauf"
+        class="bg-[var(--surface-color)]"
+        title="Drei einfache Schritte"
+        kicker="Ablauf"
+        subtitle="Starte in wenigen Minuten. Keine komplizierte Einrichtung einfach die Website öffnen und losgehen."
+      >
+        <div class="relative grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-8 mt-8">
           <div
-            class="mx-auto w-full h-[2px] bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
-          ></div>
-        </div>
-
-        <Steps
-          title="Erstelle deine Aufgaben"
-          :number="1"
-          description="Füge Aufgaben mit Namen, Kategorie und Schwierigkeitsgrad hinzu. Teile große Ziele in kleine, umsetzbare Schritte auf."
-        >
-          <div class="grid grid-cols-1 grid-rows-20 h-full gap-2">
-            <div
-              class="relative px-2 py-1 flex justify-end items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-7"
-            >
-              <div
-                class="flex items-center justify-center text-[var(--text-color-white)] text-sm w-[25px] h-[25px] bg-[var(--primary-color)] rounded-lg"
-              >
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <span
-                class="absolute inset-0 text-center flex items-center justify-center h-full text-[var(--text-color-light)] text-sm"
-                >Neue Aufgabe hinzufügen...</span
-              >
-            </div>
-
-            <div
-              class="px-2 py-1 flex justify-between items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-6"
-            >
-              <div class="w-[15px] h-[15px] border border-[var(--border-color)] rounded-sm"></div>
-              <span class="text-[var(--text-color)] text-sm">Morgen-Workout</span>
-              <span class="text-[var(--text-color-light)] text-xs">+50 XP</span>
-            </div>
-
-            <div
-              class="px-2 py-1 flex justify-between items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-6"
-            >
-              <div class="w-[15px] h-[15px] border border-[var(--border-color)] rounded-sm"></div>
-              <span class="text-[var(--text-color)] text-sm">Fokus-Arbeitsblock</span>
-              <span class="text-[var(--text-color-light)] text-xs">+80 XP</span>
-            </div>
-          </div>
-        </Steps>
-        <Steps
-          title="Erledige deine Aufgaben"
-          :number="2"
-          description="Hake Aufgaben ab, sobald du sie erledigt hast. Jede Erledigung wird erfasst und deine XP in Echtzeit aktualisiert."
-        >
-          <div class="grid grid-cols-1 grid-rows-20 h-full gap-2">
-            <div
-              class="px-2 py-1 flex justify-between items-center bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-lg w-full row-span-6"
-            >
-              <div
-                class="w-[15px] h-[15px] bg-[var(--primary-color)] rounded-full flex items-center justify-center text-[var(--text-color-white)] text-[8px]"
-              >
-                <i class="fa-solid fa-check -translate-x-[1px]"></i>
-              </div>
-              <span class="text-[var(--primary-color)] text-sm line-through">Morgen-Workout</span>
-              <span class="text-[var(--primary-color)] text-xs font-bold">+50 XP</span>
-            </div>
-
-            <div
-              class="px-2 py-1 flex justify-between items-center bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-lg w-full row-span-6"
-            >
-              <div
-                class="w-[15px] h-[15px] bg-[var(--primary-color)] rounded-full flex items-center justify-center text-[var(--text-color-white)] text-[8px]"
-              >
-                <i class="fa-solid fa-check -translate-x-[1px]"></i>
-              </div>
-              <span class="text-[var(--primary-color)] text-sm line-through"
-                >Fokus-Arbeitsblock</span
-              >
-              <span class="text-[var(--primary-color)] text-xs font-bold">+80 XP</span>
-            </div>
-
-            <div
-              class="w-full row-span-7 bg-[var(--secondary-color-light)] shadow-sm font-bold text-[var(--secondary-color)] rounded-lg flex items-center justify-center gap-2 text-sm"
-            >
-              <div class="flex items-center justify-center text-xs">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <span>+130 XP heute gesammelt</span>
-            </div>
-          </div>
-        </Steps>
-        <Steps
-          title="Sammle XP & steige auf"
-          :number="3"
-          description="Beobachte, wie sich deine Erfahrungsleiste füllt. Erreiche Meilensteine, steige auf und halte deinen Streak Tag für Tag am Leben."
-        >
-          <div
-            class="w-full h-full bg-[var(--text-color)] flex flex-col items-center justify-center gap-2 rounded-xl px-3 py-2"
+            :class="!isVisibleProcessSection ? 'left-[  0%] right-[100%]' : 'left-[16.66%] right-[16.66%]' "
+            class="transition-all duration-1000 ease-in-out hidden xl:block absolute top-6 left-[16.66%] right-[16.66%] flex justify-center items-center"
           >
             <div
-              class="w-[45px] h-[45px] flex items-center justify-center rounded-full bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] text-md"
-            >
-              <i class="fa-regular fa-star"></i>
-            </div>
-
-            <span class="uppercase font-bold text-[var(--text-color-light)] text-xs">Level Up</span>
-            <span class="font-bold text-[var(--text-color-white)] text-2xl">Level 15</span>
-
-            <div class="w-full h-[6px] rounded-full level-bg">
-              <div
-                class="w-[120px] h-full rounded-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
-              ></div>
-            </div>
+              class="mx-auto w-full h-[2px] bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+            ></div>
           </div>
-        </Steps>
-      </div>
-    </SectionStruct>
+
+          <Steps
+            title="Erstelle deine Aufgaben"
+            :number="1"
+            description="Füge Aufgaben mit Namen, Kategorie und Schwierigkeitsgrad hinzu. Teile große Ziele in kleine, umsetzbare Schritte auf."
+          >
+            <div class="grid grid-cols-1 grid-rows-20 h-full gap-2">
+              <div
+                class="relative px-2 py-1 flex justify-end items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-7"
+              >
+                <div
+                  class="flex items-center justify-center text-[var(--text-color-white)] text-sm w-[25px] h-[25px] bg-[var(--primary-color)] rounded-lg"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <span
+                  class="absolute inset-0 text-center flex items-center justify-center h-full text-[var(--text-color-light)] text-sm"
+                  >Neue Aufgabe hinzufügen...</span
+                >
+              </div>
+
+              <div
+                class="px-2 py-1 flex justify-between items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-6"
+              >
+                <div class="w-[15px] h-[15px] border border-[var(--border-color)] rounded-sm"></div>
+                <span class="text-[var(--text-color)] text-sm">Morgen-Workout</span>
+                <span class="text-[var(--text-color-light)] text-xs">+50 XP</span>
+              </div>
+
+              <div
+                class="px-2 py-1 flex justify-between items-center bg-[var(--surface-color)] border border-[var(--border-color)] rounded-lg w-full row-span-6"
+              >
+                <div class="w-[15px] h-[15px] border border-[var(--border-color)] rounded-sm"></div>
+                <span class="text-[var(--text-color)] text-sm">Fokus-Arbeitsblock</span>
+                <span class="text-[var(--text-color-light)] text-xs">+80 XP</span>
+              </div>
+            </div>
+          </Steps>
+          <Steps
+            title="Erledige deine Aufgaben"
+            :number="2"
+            description="Hake Aufgaben ab, sobald du sie erledigt hast. Jede Erledigung wird erfasst und deine XP in Echtzeit aktualisiert."
+          >
+            <div class="grid grid-cols-1 grid-rows-20 h-full gap-2">
+              <div
+                class="px-2 py-1 flex justify-between items-center bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-lg w-full row-span-6"
+              >
+                <div
+                  class="w-[15px] h-[15px] bg-[var(--primary-color)] rounded-full flex items-center justify-center text-[var(--text-color-white)] text-[8px]"
+                >
+                  <i class="fa-solid fa-check -translate-x-[1px]"></i>
+                </div>
+                <span class="text-[var(--primary-color)] text-sm line-through">Morgen-Workout</span>
+                <span class="text-[var(--primary-color)] text-xs font-bold">+50 XP</span>
+              </div>
+
+              <div
+                class="px-2 py-1 flex justify-between items-center bg-[var(--primary-color-light)] border border-[var(--primary-color)] rounded-lg w-full row-span-6"
+              >
+                <div
+                  class="w-[15px] h-[15px] bg-[var(--primary-color)] rounded-full flex items-center justify-center text-[var(--text-color-white)] text-[8px]"
+                >
+                  <i class="fa-solid fa-check -translate-x-[1px]"></i>
+                </div>
+                <span class="text-[var(--primary-color)] text-sm line-through"
+                  >Fokus-Arbeitsblock</span
+                >
+                <span class="text-[var(--primary-color)] text-xs font-bold">+80 XP</span>
+              </div>
+
+              <div
+                class="w-full row-span-7 bg-[var(--secondary-color-light)] shadow-sm font-bold text-[var(--secondary-color)] rounded-lg flex items-center justify-center gap-2 text-sm"
+              >
+                <div class="flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
+                <span>+130 XP heute gesammelt</span>
+              </div>
+            </div>
+          </Steps>
+          <Steps
+            title="Sammle XP & steige auf"
+            :number="3"
+            description="Beobachte, wie sich deine Erfahrungsleiste füllt. Erreiche Meilensteine, steige auf und halte deinen Streak Tag für Tag am Leben."
+          >
+            <div
+              class="w-full h-full bg-[#0F172A] flex flex-col items-center justify-center gap-2 rounded-xl px-3 py-2"
+            >
+              <div
+                class="w-[45px] h-[45px] flex items-center justify-center rounded-full bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] text-md"
+              >
+                <i class="fa-regular fa-star"></i>
+              </div>
+
+              <span class="uppercase font-bold text-[var(--text-color-light)] text-xs">Level Up</span>
+              <span class="font-bold text-[var(--text-color-white)] text-2xl">Level 15</span>
+
+              <div class="w-full h-[6px] rounded-full level-bg">
+                <div
+                  class="w-[120px] h-full rounded-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+                ></div>
+              </div>
+            </div>
+          </Steps>
+        </div>
+      </SectionStruct>
+    </div>
 
     <section
+      ref="sectionCTAElement"
       class="w-full h-[600px] px-8 py-7 bg-linear-to-br from-[var(--primary-color)] to-[var(--secondary-color)] flex flex-col items-center justify-center gap-2"
     >
       <h2
-        class="lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold"
+        :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' "
+        class="transition-all duration-700 lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold"
       >
         Starte deine Reise heute.
       </h2>
       <span
-        class="text-[var(--text-color-white)] text-lg xl:max-w-[700px] max-w-[500px] text-center"
+        :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' "
+        class="transition-all duration-700 delay-400 text-[var(--text-color-white)] text-lg xl:max-w-[700px] max-w-[500px] text-center"
         >Hör auf, Produktivität nur zu planen. Erstelle dein Konto in 30 Sekunden und erledige deine
         erste Aufgabe noch heute.</span
       >
       <div class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-center gap-4 mt-5">
-        <RouterLink
-          to="/register"
-          class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
-        >
-          <div class="flex items-center justify-center">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
-          <span class="text-nowrap">Konto jetzt erstellen</span>
-        </RouterLink>
-        <RouterLink
-          to="/login"
-          class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
-        >
-          <div class="flex items-center justify-center">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </div>
-          <span>Anmelden</span>
-        </RouterLink>
+        <div :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' " class="transition-all duration-700 delay-200">
+          <RouterLink
+            to="/register"
+            class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+          >
+            <div class="flex items-center justify-center">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <span class="text-nowrap">Konto jetzt erstellen</span>
+          </RouterLink>
+        </div>
+        <div :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' " class="transition-all duration-700 delay-200">
+          <RouterLink
+            to="/login"
+            class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+          >
+            <div class="flex items-center justify-center">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </div>
+            <span>Anmelden</span>
+          </RouterLink>
+        </div>
       </div>
     </section>
 
