@@ -40,13 +40,13 @@ onUnmounted(() => {
     <div class="max-w-[1400px] mx-auto">
       <div class="text-center">
         <span
-          :class="!isVisible ? 'opacity-0 -translate-y-[35px]' : 'opacity-100 translate-0'"
+          :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' "
           class="transition-all duration-700 uppercase text-[var(--primary-color)] text-sm font-semibold"
           >{{ props.kicker }}</span
         >
-        <h2 :class="!isVisible ? 'opacity-0 -translate-y-[35px]' : 'opacity-100 translate-0'" class="delay-100 transition-all duration-700 text-[40px] font-extrabold">{{ props.title }}</h2>
+        <h2 :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' " class="delay-100 transition-all duration-700 text-[40px] font-extrabold">{{ props.title }}</h2>
         <div class="w-full flex justify-center">
-          <p :class="!isVisible ? 'opacity-0 -translate-y-[35px]' : 'opacity-100 translate-0'" class="delay-200 transition-all duration-700 text-[var(--text-color-light)] text-md max-w-[600px]">
+          <p :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' " class="delay-200 transition-all duration-700 text-[var(--text-color-light)] text-md max-w-[600px]">
             {{ props.subtitle }}
           </p>
         </div>
