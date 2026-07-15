@@ -83,8 +83,12 @@ button {
 
   /*Animations*/
 
-.show-up-off{
+.show-up-off-md{
   @apply opacity-0 translate-y-[20px]
+}
+
+.show-up-off-xl{
+  @apply opacity-0 translate-y-[35px]
 }
 
 .show-up-on{
