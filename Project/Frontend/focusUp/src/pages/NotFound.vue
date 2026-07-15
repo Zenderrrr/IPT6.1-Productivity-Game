@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-
 import Logo from '@/components/ui/Logo.vue'
+import { onMounted } from 'vue'
+import { applyUIMode } from '@/utils/modeUI.ts'
+
+onMounted(async () => {
+  applyUIMode()
+})
 </script>
 
 <template>
