@@ -9,6 +9,7 @@ import Profile from '@/pages/Profile.vue'
 import { useAuthStore } from '@/stores/authStore.ts'
 import AllCompletedTasks from '@/pages/AllCompletedTasks.vue'
 import Landingpage from '@/pages/Landingpage.vue'
+import NotFound from '@/pages/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,12 @@ const router = createRouter({
       component: AllCompletedTasks,
       name: 'AllCompletedTasks',
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: NotFound,
+      name: 'NotFound',
+      meta: { requiresAuth: false },
     }
   ],
 })
