@@ -226,11 +226,15 @@ onUnmounted(() => {
     <div
       :class="[
         isAtNextSection
-          ? 'top-0 left-0 right-0 rounded-none max-w-full mx-0'
-          : 'top-5 left-5 right-5 rounded-3xl max-w-[1400px] mx-auto',
+          ? 'top-0 w-full max-w-full rounded-none'
+          : 'top-5 w-[calc(100%_-_2.5rem)] max-w-[1400px] rounded-3xl',
         !isVisible ? 'opacity-0 scale-95' : 'opacity-100 scale-100',
       ]"
-      class="hidden md:block z-999 fixed bg-white/60 backdrop-blur-md border border-b-[var(--border-color)] border-transparent shadow-xs min-h-[50px] transition-all duration-500 ease-in-out"
+      class="hidden md:block fixed left-1/2 -translate-x-1/2 origin-center
+         z-999 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md
+         border border-transparent border-b-[var(--border-color)]
+         shadow-xs min-h-[50px]
+         transition-all duration-500 ease-in-out"
     >
       <nav class="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between gap-4">
         <Logo class="bg-transparent" link="/"></Logo>
@@ -271,15 +275,14 @@ onUnmounted(() => {
     <header
       class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
     >
-      <div
-        class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-5 h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,rgba(255,255,255,0.95),rgba(224,242,254,0.9)_30%,rgba(191,219,254,0.75)_60%,rgba(165,199,246,0.6))] shadow-[0_-30px_90px_rgba(125,211,252,0.55),0_-6px_24px_rgba(255,255,255,0.9),inset_0_40px_80px_rgba(255,255,255,0.9)]"
-      ></div>
+      <div class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-5 h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,var(--surface-color),var(--primary-color-light)_30%,var(--secondary-color-light)_60%,color-mix(in_srgb,var(--secondary-color)_35%,var(--surface-color)))]
+         shadow-[0_-30px_90px_color-mix(in_srgb,var(--secondary-color)_45%,transparent),0_-6px_24px_color-mix(in_srgb,var(--surface-color)_90%,transparent),inset_0_40px_80px_color-mix(in_srgb,var(--surface-color)_90%,transparent)]" ></div>
 
       <div class="absolute inset-0 overflow-hidden pointer-events-none z-10">
         <span
           v-for="effect in effects"
           :key="effect.id"
-          class="absolute bottom-[-80px] rounded-full bg-white/70 shadow-lg backdrop-blur-md animate-float-up flex items-center gap-2 font-bold text-nowrap"
+          class="absolute bottom-[-80px] rounded-full bg-white/70 dark:bg-slate-900/90 shadow-lg backdrop-blur-md animate-float-up flex items-center gap-2 font-bold text-nowrap"
           :class="[
             effect.class,
             effect.type === 'check' ? 'h-10 w-10 justify-center p-0' : 'px-5 py-2',
@@ -313,7 +316,7 @@ onUnmounted(() => {
         </span>
       </div>
 
-      <div class="mx-auto max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
+      <div class="mx-auto z-20 max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
           <h1
             class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
