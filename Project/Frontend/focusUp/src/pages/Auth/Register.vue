@@ -37,7 +37,7 @@ async function register() {
 
     if (!authStore.loading && !authStore.error) await router.push('/dashboard')
   } catch (e) {
-    error.value = e ? e.message : 'Beim Registieren ist etwas schief gelaufen.'
+    error.value = e instanceof Error ? e.message : 'Beim Registieren ist etwas schief gelaufen.'
   }
 }
 

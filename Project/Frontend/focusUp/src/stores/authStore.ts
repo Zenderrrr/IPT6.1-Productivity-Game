@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = data.token
       localStorage.setItem('token', token.value ?? '')
     }catch(e){
-      error.value = e ? e.message : 'Unable to login'
+      error.value = e instanceof Error ? e.message : 'Unable to login'
     } finally {
       loading.value = false
     }
@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
     try{
       return await registerApi(username, email, password)
     }catch(e){
-      error.value = e ? e.message : 'Unable to register'
+      error.value = e instanceof Error ? e.message : 'Unable to register'
     } finally {
       if(!error.value){
         await login(username, password)
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
     try{
       userData.value = await meApi(token.value)
     }catch(e){
-      error.value = e ? e.message : 'Unable to get user informations'
+      error.value = e instanceof Error ? e.message : 'Unable to get user informations'
       token.value = null
       userData.value = null
       localStorage.removeItem('token')
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
     try{
       await deleteUserApi(token.value)
     }catch(e){
-      error.value = e ? e.message : 'Unable to delete user'
+      error.value = e instanceof Error ? e.message : 'Unable to delete user'
     }
   }
 
@@ -82,7 +82,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = null
       localStorage.removeItem('token')
     }catch(e){
-      error.value = e ? e.message : 'Unable to logout'
+      error.value = e instanceof Error ? e.message : 'Unable to logout'
     }
   }
 
@@ -93,7 +93,7 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.setItem('token', token.value ?? '')
     }catch (e){
       await logout()
-      error.value = e ? e.message : 'Unable to refresh'
+      error.value = e instanceof Error ? e.message : 'Unable to refresh'
 
       throw e
     }

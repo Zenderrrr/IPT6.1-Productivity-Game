@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import InsightCard from '@/components/ui/InsightCard.vue'
 import type { InsightType } from '@/types/insightType.ts'
-import { Stats } from '@/types/stats.ts'
+import { type Stats } from '@/types/stats.ts'
 import { computed } from 'vue'
 
 const props = defineProps<{

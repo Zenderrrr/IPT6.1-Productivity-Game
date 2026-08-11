@@ -8,7 +8,7 @@ import {
   updateCategoryApi,
 } from '@/api/category.api.ts'
 import type { Category } from '@/types/category.ts'
-import type { CreateCategory } from '@/types/createCategory.ts'
+import type { CreateCategoryType } from '@/types/createCategoryType.ts'
 
 export const useCategoryStore = defineStore('category', () => {
   const loading = ref<boolean>(false)
@@ -22,7 +22,7 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       categoriesData.value = await getAllCategoriesApi()
     }catch(e) {
-      error.value = e ? e.message : 'Failed to fetch categories'
+      error.value = e instanceof Error ? e.message : 'Failed to fetch categories'
     } finally {
       loading.value = false
     }
@@ -34,19 +34,19 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       return await getCategoryByIdApi(id)
     }catch(e) {
-      error.value = e ? e.message : 'Failed to fetch category by id'
+      error.value = e instanceof Error ? e.message : 'Failed to fetch category by id'
     } finally {
       loading.value = false
     }
   }
 
-  async function createCategory(category: CreateCategory) {
+  async function createCategory(category: CreateCategoryType) {
     loading.value = true
     error.value = null
     try {
       return await createCategoryApi(category)
     }catch(e) {
-      error.value = e ? e.message : 'Failed to create category'
+      error.value = e instanceof Error ? e.message : 'Failed to create category'
     } finally {
       loading.value = false
     }
@@ -58,7 +58,7 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await updateCategoryApi(category)
     }catch(e) {
-      error.value = e ? e.message : 'Failed to update category'
+      error.value = e instanceof Error ? e.message : 'Failed to update category'
     } finally {
       loading.value = false
     }
@@ -71,7 +71,7 @@ export const useCategoryStore = defineStore('category', () => {
 
       await deleteCategoryApi(id)
     }catch(e) {
-      error.value = e ? e.message : 'Failed to delete category'
+      error.value = e instanceof Error ? e.message : 'Failed to delete category'
     }
   }
 

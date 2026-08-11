@@ -33,7 +33,7 @@ export const useTaskStore = defineStore('task', () => {
         completedAt: t.completedAt ? new Date(t.completedAt) : undefined,
       }))
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch tasks'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch tasks'
     } finally {
       loading.value = false
     }
@@ -54,7 +54,7 @@ export const useTaskStore = defineStore('task', () => {
         completedAt: data.completedAt ? new Date(data.completedAt) : undefined,
       }
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch task by id'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch task by id'
     } finally{
       loading.value = false
     }
@@ -68,7 +68,7 @@ export const useTaskStore = defineStore('task', () => {
       await getAllTasks()
       return newTaskId
     }catch(e){
-      error.value = e ? e.message : 'Unable to create task'
+      error.value = e instanceof Error ? e.message : 'Unable to create task'
     }
   }
 
@@ -78,7 +78,7 @@ export const useTaskStore = defineStore('task', () => {
     try{
       return await updateTaskApi(taskId, task)
     }catch(e){
-      error.value = e ? e.message : 'Unable to update task'
+      error.value = e instanceof Error ? e.message : 'Unable to update task'
     } finally {
       if(!error.value){
         await getAllTasks()
@@ -91,7 +91,7 @@ export const useTaskStore = defineStore('task', () => {
     try{
       return await completeTaskApi(taskId)
     }catch(e){
-      error.value = e ? e.message : 'Unable to complete task'
+      error.value = e instanceof Error ? e.message : 'Unable to complete task'
     }
   }
 
@@ -103,7 +103,7 @@ export const useTaskStore = defineStore('task', () => {
 
       await deleteTaskApi(id)
     }catch(e){
-      error.value = e ? e.message : 'Unable to delete task'
+      error.value = e instanceof Error ? e.message : 'Unable to delete task'
     }
   }
 

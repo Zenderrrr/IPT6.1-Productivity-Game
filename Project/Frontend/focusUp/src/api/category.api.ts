@@ -1,6 +1,6 @@
 import { apiFetch } from '@/api/api.ts'
 import type { Category } from '@/types/category.ts'
-import type { CreateCategory } from '@/types/createCategory.ts'
+import type { CreateCategoryType } from '@/types/createCategoryType.ts'
 
 export async function getAllCategoriesApi() : Promise<Category[]> {
   return await apiFetch('/categories', {
@@ -20,7 +20,7 @@ export async function getCategoryByIdApi(id: number) : Promise<Category> {
   })
 }
 
-export async function createCategoryApi(category: CreateCategory) : Promise<number> {
+export async function createCategoryApi(category: CreateCategoryType) : Promise<number> {
   return await apiFetch(`/categories`, {
     method: 'POST',
     body: JSON.stringify(category),

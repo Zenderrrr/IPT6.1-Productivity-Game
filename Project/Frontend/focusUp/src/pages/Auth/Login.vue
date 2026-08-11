@@ -28,7 +28,7 @@ async function submit() {
       await router.push('/dashboard')
     }
   } catch (e) {
-    error.value = e.message ?? 'Anmeldung ist fehlgeschlagen.'
+    error.value = e instanceof Error ? e.message : 'Anmeldung ist fehlgeschlagen.'
   }
 }
 

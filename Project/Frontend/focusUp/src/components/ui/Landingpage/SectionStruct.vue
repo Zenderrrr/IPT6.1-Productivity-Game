@@ -15,6 +15,8 @@ let observer: IntersectionObserver
 onMounted(() => {
   observer = new IntersectionObserver(
     ([entry]) => {
+      if(entry == undefined) return false
+
       if (entry.isIntersecting) {
         isVisible.value = true
         observer.unobserve(entry.target)

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import PopUpWindow from '@/components/ui/PopUpWindow.vue'
 import { ref } from 'vue'
-import type { CreateCategory} from '@/types/createCategory.ts'
+import type { CreateCategoryType} from '@/types/createCategoryType.ts'
 
 const props = defineProps<{
   isShown: boolean,
 }>()
 
 const emit = defineEmits<{
-  (e: 'submit', category: CreateCategory): void
+  (e: 'submit', category: CreateCategoryType): void
   (e: 'cancel'): void
 }>()
 
@@ -29,7 +29,7 @@ function submit() {
     return
   }
 
-  const category: CreateCategory = {
+  const category: CreateCategoryType = {
     name: name.value,
     color: chosenColor.value,
   }

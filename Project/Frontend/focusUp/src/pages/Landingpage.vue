@@ -7,6 +7,8 @@ import Card from '@/components/ui/Landingpage/Card.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useElementVisible } from '@/utils/elementVisible.ts'
 import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
+import type { Effect } from '@/types/effect.ts'
+import type { EffectType } from '@/types/effectType.ts'
 
 const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
@@ -47,23 +49,23 @@ const functionSectionText = [
 ]
 
 const handleScroll = () => {
-  const nextSection = document.querySelector('.next-section')
+  const nextSection = document.querySelector<HTMLElement>('.next-section')
   if (!nextSection) return
 
   isAtNextSection.value = window.scrollY >= nextSection.offsetTop - 80
 }
 
-const effects = ref([])
-let intervalId = null
+const effects = ref<Effect[]>([])
+let intervalId : ReturnType<typeof setInterval> | null = null
 
-function randomItem(items) {
+function randomItem<T>(items : T[]) : T | undefined {
   return items[Math.floor(Math.random() * items.length)]
 }
 
 function spawnEffect() {
-  const type = randomItem(['xp', 'xp', 'xp', 'xp', 'xp', 'xp', 'check', 'streak', 'badge'])
+  const type = randomItem<EffectType>(['xp', 'xp', 'xp', 'xp', 'xp', 'xp', 'check', 'streak', 'badge'])
 
-  const effect = {
+  const effect : Effect = {
     id: Date.now() + Math.random(),
     type,
     left: Math.floor(Math.random() * 90) + 5,
@@ -140,7 +142,7 @@ const currTasks = ref([randomTask(), randomTask(), randomTask()])
 const swapping = ref([false, false, false, false])
 const popping = ref([false, false, false, false])
 
-const timeoutIds = []
+const timeoutIds : ReturnType<typeof setTimeout>[] | [] = []
 
 function randomTask() {
   return tasks[Math.floor(Math.random() * tasks.length)]
@@ -150,7 +152,7 @@ function randomDelay() {
   return Math.random() * 8000 + 4000 // 4–8 Sekunden
 }
 
-function changeTask(index) {
+function changeTask(index : number) {
   swapping.value[index] = true
 
   setTimeout(() => {
@@ -165,7 +167,7 @@ function changeTask(index) {
   }, 300)
 }
 
-function changeTaskLoop(index) {
+function changeTaskLoop(index : number) {
   changeTask(index)
 
   timeoutIds[index] = setTimeout(() => {
@@ -173,7 +175,7 @@ function changeTaskLoop(index) {
   }, randomDelay())
 }
 
-let randomUiHeight = ref<number[]>([])
+const randomUiHeight = ref<number[]>([])
 
 function getRandomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min
@@ -183,7 +185,7 @@ function updateRandomHeight() {
   randomUiHeight.value = Array.from({ length: 7 }, () => getRandomNumber(15, 100))
 }
 
-let intervalRandomUIId = null
+let intervalRandomUIId : ReturnType<typeof setInterval> | null = null
 onMounted(() => {
   setUIMode(prefersDarkMode)
   applyUIMode()
@@ -214,8 +216,15 @@ const { isVisible: isVisibleCTASection } = useElementVisible(sectionCTAElement)
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
-  clearInterval(intervalId)
-  clearInterval(intervalRandomUIId)
+  if(intervalId !== null){
+    clearInterval(intervalId)
+    intervalId = null
+  }
+
+  if(intervalRandomUIId !== null){
+    clearInterval(intervalRandomUIId)
+    intervalRandomUIId = null
+  }
 
   timeoutIds.forEach((id) => clearTimeout(id))
 })

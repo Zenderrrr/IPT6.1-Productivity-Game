@@ -2,9 +2,7 @@
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { computed, onMounted, ref } from 'vue'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
-import type { Category } from '@/types/category.ts'
 import PopUpWindow from '@/components/ui/PopUpWindow.vue'
-import createTask from '@/components/ui/CreateTask.vue'
 
 const props = defineProps<{
   isShown: boolean
@@ -20,7 +18,7 @@ const description = ref<string>('')
 const difficulty = ref<number | null>(null)
 const duration = ref<number | null>(null)
 const categoryId = ref<number | null>(null)
-const dueDate = ref<string | null>(null)
+const dueDate = ref<string | null | undefined>(null)
 
 const error = ref<string | null>(null)
 async function submit(){

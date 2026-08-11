@@ -86,7 +86,7 @@ onMounted(async () => {
     await categoryStore.getAllCategories()
     categoryData.value = categoryStore.categoriesData
   }catch(e){
-    error.value = e ? e.message : 'Unable to fetch categories'
+    error.value = e instanceof Error ? e.message : 'Unable to fetch categories'
   }
 })
 </script>

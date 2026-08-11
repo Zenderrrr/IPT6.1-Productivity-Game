@@ -114,30 +114,30 @@ function isActive(i: number) {
 }
 
 // dashboard data
-const totalXp = computed(() => dashboardInfo.value?.totalXp)
+const totalXp = computed(() => dashboardInfo.value?.totalXp ?? 0)
 
-const currLvl = computed(() => dashboardInfo.value?.level)
-const xpCurr = computed(() => dashboardInfo.value?.xpCurrent)
-const xpNext = computed(() => dashboardInfo.value?.xpNext)
+const currLvl = computed(() => dashboardInfo.value?.level ?? 0)
+const xpCurr = computed(() => dashboardInfo.value?.xpCurrent ?? 0)
+const xpNext = computed(() => dashboardInfo.value?.xpNext ?? 0)
 const progressToNextLevel = computed(() =>
   Math.floor((dashboardInfo.value?.progressToNextLevel ?? 0) * 100),
 )
 
-const streakCount = computed(() => dashboardInfo.value?.streakCount)
-const tasksDone = computed(() => dashboardInfo.value?.tasksDone)
-const tasksOpen = computed(() => dashboardInfo.value?.tasksOpen)
+const streakCount = computed(() => dashboardInfo.value?.streakCount ?? 0)
+const tasksDone = computed(() => dashboardInfo.value?.tasksDone ?? 0)
+const tasksOpen = computed(() => dashboardInfo.value?.tasksOpen ?? 0)
 
 const lastCompletedTasks = computed(() => dashboardInfo.value?.lastCompletedTasks ?? [])
 
 // stats data
-const xpWeek = computed(() => statsInfoWeek.value?.totalXp)
+const xpWeek = computed(() => statsInfoWeek.value?.totalXp ?? 0)
 
 const todayStatsDay = ref<Stats | null>(null)
 const taskDoneToday = computed(() => todayStatsDay.value?.tasksDone)
 
 // productivity data
 const tasksDoneWeek = computed(() =>
-  prodInfoWeek.value?.reduce((n, { completedTasks }) => n + completedTasks, 0),
+  prodInfoWeek.value?.reduce((n, { completedTasks }) => n + completedTasks, 0) ?? 0,
 )
 const focusTimeWeek = computed(
   () =>
@@ -175,7 +175,7 @@ onMounted(async () => {
       return
     }
   } catch (e) {
-    error.value = e ? e.message : 'Failed to fetch dashboard data'
+    error.value = e instanceof Error ? e.message : 'Failed to fetch dashboard data'
   }
 })
 
@@ -192,14 +192,18 @@ async function getProductivity(lengthDay: number) {
 const taskStore = useTaskStore()
 const showPopUpTask = ref<boolean>(false)
 
-async function submitTask(task: CreateTaskType) {
+async function submitTask(task: CreateTaskType) : Promise<boolean> {
   taskStore.error = null
   try {
     await taskStore.createTask(task)
+
+    if(taskStore.error) return false
+
+    showPopUpTask.value = false
+    return true
   } catch (e) {
     console.error(e)
-  } finally {
-    if (!taskStore.error) showPopUpTask.value = false
+    return false
   }
 }
 

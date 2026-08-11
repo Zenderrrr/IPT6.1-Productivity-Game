@@ -3,8 +3,6 @@ import { onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps<{
   svg: string
-  pColor: string
-  sColor: string
   title: string
   description: string
   fPoint: string
@@ -20,6 +18,8 @@ let observer: IntersectionObserver
 onMounted(() => {
   observer = new IntersectionObserver(
     ([entry]) => {
+      if(entry == undefined) return false
+
       if (entry.isIntersecting) {
         isVisible.value = true
         observer.unobserve(entry.target)

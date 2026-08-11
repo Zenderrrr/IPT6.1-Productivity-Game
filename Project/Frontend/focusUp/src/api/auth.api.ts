@@ -1,7 +1,9 @@
 import { apiFetch } from '@/api/api.ts'
 import type { User } from '@/types/user.ts'
+import type { LoginResponseType } from '@/types/loginResponseType.ts'
+import type { RefreshResponseType } from '@/types/refreshResponseType.ts'
 
-export async function loginApi(usernameOrEmail: string, password: string): Promise<void> {
+export async function loginApi(usernameOrEmail: string, password: string): Promise<LoginResponseType> {
   return apiFetch('/Auth/login', {
     method: 'POST',
     body: JSON.stringify({
@@ -52,7 +54,7 @@ export async function deleteUserApi(token: string) : Promise<void> {
   })
 }
 
-export async function RefreshApi() : Promise<string | null> {
+export async function RefreshApi() : Promise<RefreshResponseType> {
   return await apiFetch('/Auth/refresh', {
     method: 'POST',
     credentials: 'include',

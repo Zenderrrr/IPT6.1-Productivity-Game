@@ -38,7 +38,7 @@ export const useStatsStore = defineStore('stats', () => {
       }
 
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch dashboard'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch dashboard'
     } finally {
       loading.value = false
     }
@@ -51,7 +51,7 @@ export const useStatsStore = defineStore('stats', () => {
     try{
       statsData.value = await getStatsApi(rangeInDay, from, to)
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch stats'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch stats'
     } finally {
       loading.value = false
     }
@@ -70,7 +70,7 @@ export const useStatsStore = defineStore('stats', () => {
       }))
 
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch stats'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch stats'
     } finally {
       loading.value = false
     }

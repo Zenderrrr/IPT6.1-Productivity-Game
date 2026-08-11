@@ -1,4 +1,4 @@
-export type CreateCategory = {
+export type CreateCategoryType = {
   name: string,
   color: string,
 }

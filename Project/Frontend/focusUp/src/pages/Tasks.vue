@@ -8,26 +8,21 @@ import Tag from '@/components/ui/Tag.vue'
 import { useTaskStore } from '@/stores/taskStore.ts'
 import type { Task } from '@/types/task.ts'
 import { useStatsStore } from '@/stores/statsStore.ts'
-import type { Dashboard } from '@/types/dashboard.ts'
 import type { Productivity } from '@/types/productivity.ts'
 import CreateTask from '@/components/ui/CreateTask.vue'
 import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
-import type { Category } from '@/types/category.ts'
-import CreateCategory from '@/components/ui/CreateCategory.vue'
 import DeleteTask from '@/components/ui/DeleteTask.vue'
 import type { UpdateTask } from '@/types/updateTask.ts'
-import { status } from '@/utils/status.ts'
 import { useAuthStore } from '@/stores/authStore.ts'
 import UpdateTaskComponent from '@/components/ui/UpdateTaskComponent.vue'
-import StreakUpdate from '@/components/ui/CompleteTaskComponents/StreakUpdate.vue'
 import TaskCompleteHandler from '@/components/ui/CompleteTaskComponents/TaskCompleteHandler.vue'
 import type { TaskCompleteType } from '@/types/taskComplete.ts'
 import Filter from '@/components/ui/Filter.vue'
 import { storeToRefs } from 'pinia'
 import PlaceholderTask from '@/components/ui/PlaceholderTask.vue'
-import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
-
+import { applyUIMode } from '@/utils/modeUI.ts'
+import type { CreateCategoryType } from '@/types/createCategoryType.ts'
 
 // date
 const date = new Date()
@@ -45,51 +40,48 @@ const taskData = computed(() => taskStore.allTasksData)
 const taskFilter = ref<string>('')
 const isFilterDate = ref<boolean>(false)
 const filteredTaskData = computed(() => {
-  if(taskData.value === null) {
+  if (taskData.value === null) {
     return []
   }
 
-  let mappedTask = taskData.value.map(t => ({
+  let mappedTask = taskData.value.map((t) => ({
     ...t,
     category: t.categoryId ? getCategoryById(t.categoryId) : null,
   }))
 
-  mappedTask = mappedTask.filter(t => {
+  mappedTask = mappedTask.filter((t) => {
     return t.title.toLowerCase().includes(taskFilter.value.toLowerCase())
   })
 
-  if(whichIsActive.value !== 0) {
-    mappedTask = mappedTask.filter(t => {
+  if (whichIsActive.value !== 0) {
+    mappedTask = mappedTask.filter((t) => {
       return t.categoryId === whichIsActive.value
     })
   }
 
-  if(submittedFilterTask.value) {
-    const ids = new Set(submittedFilterTask.value.map(t => t.id))
-    mappedTask = mappedTask.filter(t => {
+  if (submittedFilterTask.value) {
+    const ids = new Set(submittedFilterTask.value.map((t) => t.id))
+    mappedTask = mappedTask.filter((t) => {
       return ids.has(t.id)
     })
   }
 
-  if(isFilterDate.value) {
+  if (isFilterDate.value) {
     mappedTask = mappedTask.sort((a, b) => {
-      if(!a.dueDate && !b.dueDate)
-        return 0
-      if(!a.dueDate)
-        return 1
-      if(!b.dueDate)
-        return -1
+      if (!a.dueDate && !b.dueDate) return 0
+      if (!a.dueDate) return 1
+      if (!b.dueDate) return -1
 
       return a.dueDate.getTime() - b.dueDate.getTime()
     })
   }
 
-  if(viewOption.value === 1){
+  if (viewOption.value === 1) {
     return mappedTask
-  } else if(viewOption.value === 2){
-    return mappedTask?.filter(t => t.status !== 3)
-  }else if(viewOption.value === 3){
-    return mappedTask?.filter(t => t.status === 3)
+  } else if (viewOption.value === 2) {
+    return mappedTask?.filter((t) => t.status !== 3)
+  } else if (viewOption.value === 3) {
+    return mappedTask?.filter((t) => t.status === 3)
   }
 
   return mappedTask
@@ -97,7 +89,7 @@ const filteredTaskData = computed(() => {
 
 // get category to task
 function getCategoryById(id: number) {
-  return categoriesData.value?.find(t => t.id === id) ?? null
+  return categoriesData.value?.find((t) => t.id === id) ?? null
 }
 
 const error = ref<string | null>(null)
@@ -139,12 +131,12 @@ onMounted(async () => {
     await statsStore.dashboard('1')
     await categoryStore.getAllCategories()
   } catch (e) {
-    error.value = e ? e.message : 'Failed to fetch task data'
+    error.value = e instanceof Error ? e.message : 'Failed to fetch task data'
   }
 })
 
 // which view option
-const viewOption = ref<number>(2);
+const viewOption = ref<number>(2)
 function changeViewOption(id: number) {
   viewOption.value = id
 }
@@ -152,14 +144,14 @@ function changeViewOption(id: number) {
 // show pop-up task
 const showPopUpTask = ref<boolean>(false)
 
-async function submitTask(task: CreateTask) : Promise<boolean> {
+async function submitTask(task: CreateTaskType): Promise<boolean> {
   taskStore.error = null
-  try{
+  try {
     await taskStore.createTask(task)
 
     showPopUpTask.value = false
     return true
-  }catch{
+  } catch {
     return false
   }
 }
@@ -167,22 +159,22 @@ async function submitTask(task: CreateTask) : Promise<boolean> {
 // show pop-up category
 const showPopUpCategory = ref<boolean>(false)
 
-async function submitCategory(category: Category) : Promise<void> {
-  try{
+async function submitCategory(category: CreateCategoryType): Promise<void> {
+  try {
     const categoryId = await categoryStore.createCategory(category)
 
-    if(categoryId !== null){
+    if (categoryId !== null) {
       showPopUpCategory.value = false
       await categoryStore.getAllCategories()
     }
-  }catch(e){
+  } catch (e) {
     console.error(e)
   }
 }
 
 // delete category
-async function deleteCategory(id: number) : Promise<void> {
-  await categoryStore.deleteCategory(id);
+async function deleteCategory(id: number): Promise<void> {
+  await categoryStore.deleteCategory(id)
 }
 
 // show delete pop-up
@@ -195,14 +187,14 @@ function showDeleteTask(taskId: number) {
 }
 
 const errorTask = ref<string | null>(null)
-async function submitDeleteTask(taskId: number) : Promise<void> {
+async function submitDeleteTask(taskId: number): Promise<void> {
   errorTask.value = null
-  try{
+  try {
     await taskStore.deleteTask(taskId)
-  }catch{
+  } catch {
     errorTask.value = taskStore.error
   } finally {
-    if(!errorTask.value){
+    if (!errorTask.value) {
       showPopUpDelete.value = false
     }
   }
@@ -213,22 +205,21 @@ const checkedTasks = ref<number[]>([])
 function changeCheckedTasks(taskId: number) {
   getCheckedTasks()
 
-  if(checkedTasks.value.some(t => t === taskId))
-    checkedTasks.value = checkedTasks.value.filter(t => t !== taskId)
-  else
-    checkedTasks.value.push(taskId)
+  if (checkedTasks.value.some((t) => t === taskId))
+    checkedTasks.value = checkedTasks.value.filter((t) => t !== taskId)
+  else checkedTasks.value.push(taskId)
 
   const string = JSON.stringify(checkedTasks.value)
   localStorage.setItem(`checkedTasks_${authStore.user?.id}`, string)
 }
 
-function getCheckedTasks(){
+function getCheckedTasks() {
   const data = localStorage.getItem(`checkedTasks_${authStore.user?.id}`)
-  checkedTasks.value =  Array.isArray(JSON.parse(data ?? '[]')) ? JSON.parse(data ?? '[]') : []
+  checkedTasks.value = Array.isArray(JSON.parse(data ?? '[]')) ? JSON.parse(data ?? '[]') : []
 }
 
 function isTaskChecked(taskId: number) {
-  return checkedTasks.value.some(t => t === taskId)
+  return checkedTasks.value.some((t) => t === taskId)
 }
 
 const isTaskCompleteHandlerVisible = ref<boolean>(false)
@@ -241,7 +232,7 @@ async function completeTask() {
   const taskComplete: TaskCompleteType[] = []
 
   for (const task of checkedTasks.value) {
-    taskComplete.push(await taskStore.completeTask(task) as TaskCompleteType)
+    taskComplete.push((await taskStore.completeTask(task)) as TaskCompleteType)
   }
 
   localStorage.removeItem(`checkedTasks_${authStore.user?.id}`)
@@ -267,7 +258,7 @@ async function closeTaskCompleteHandler() {
 const showPopUpUpdate = ref<boolean>(false)
 const updateTask = ref<Task | null>(null)
 
-function closeWindow(){
+function closeWindow() {
   showPopUpUpdate.value = false
   updateTask.value = null
 }
@@ -278,12 +269,12 @@ function showUpdateTask(task: Task) {
 }
 
 async function submitUpdateTask(taskId: number, task: UpdateTask) {
-  try{
+  try {
     await taskStore.updateTask(taskId, task)
-  } catch(e){
+  } catch (e) {
     console.error(e)
-  }finally {
-    if(taskStore.error === null) {
+  } finally {
+    if (taskStore.error === null) {
       showPopUpUpdate.value = false
     }
   }
@@ -294,34 +285,67 @@ const submittedFilterTask = ref<Task[] | null>(null)
 function submitFilter(tasks: Task[]) {
   filterShown.value = false
 
-  if(submittedFilterTask.value !== null){
+  if (submittedFilterTask.value !== null) {
     resetFilter()
   }
   submittedFilterTask.value = tasks
 }
 
-function resetFilter(){
+function resetFilter() {
   submittedFilterTask.value = null
 }
 </script>
 
 <template>
-  <Filter :is-shown="filterShown" :tasks="taskStore.allTasksData ?? []" :categories="categoryStore.categoriesData ?? []" @cancel="filterShown = false" @submit="submitFilter"></Filter>
+  <Filter
+    :is-shown="filterShown"
+    :tasks="taskStore.allTasksData ?? []"
+    :categories="categoryStore.categoriesData ?? []"
+    @cancel="filterShown = false"
+    @submit="submitFilter"
+  ></Filter>
 
-  <TaskCompleteHandler :key="taskCompleteKey" v-if="isTaskCompleteHandlerVisible" @close="closeTaskCompleteHandler" :tasksCompleteArr="tasksForCompleteHandler ?? []"></TaskCompleteHandler>
+  <TaskCompleteHandler
+    :key="taskCompleteKey"
+    v-if="isTaskCompleteHandlerVisible"
+    @close="closeTaskCompleteHandler"
+    :tasksCompleteArr="tasksForCompleteHandler ?? []"
+  ></TaskCompleteHandler>
 
   <Transition name="popUp">
-    <UpdateTaskComponent v-if="showPopUpUpdate && updateTask" :is-shown="showPopUpUpdate" :task="updateTask" @submit="submitUpdateTask" @cancel="closeWindow"></UpdateTaskComponent>
+    <UpdateTaskComponent
+      v-if="showPopUpUpdate && updateTask"
+      :is-shown="showPopUpUpdate"
+      :task="updateTask"
+      @submit="submitUpdateTask"
+      @cancel="closeWindow"
+    ></UpdateTaskComponent>
   </Transition>
   <Transition name="popUp">
-    <DeleteTask v-if="deleteTaskId" @cancel="showPopUpDelete = false" @confirm="submitDeleteTask" :task-id="deleteTaskId" :is-shown="showPopUpDelete"></DeleteTask>
+    <DeleteTask
+      v-if="deleteTaskId"
+      @cancel="showPopUpDelete = false"
+      @confirm="submitDeleteTask"
+      :task-id="deleteTaskId"
+      :is-shown="showPopUpDelete"
+    ></DeleteTask>
   </Transition>
-  <CreateCategory :is-shown="showPopUpCategory" @cancel="showPopUpCategory = false" @submit="submitCategory"></CreateCategory>
-  <CreateTask :on-submit="submitTask" :is-shown="showPopUpTask" @cancel="showPopUpTask = false"></CreateTask>
+  <CreateCategory
+    :is-shown="showPopUpCategory"
+    @cancel="showPopUpCategory = false"
+    @submit="submitCategory"
+  ></CreateCategory>
+  <CreateTask
+    :on-submit="submitTask"
+    :is-shown="showPopUpTask"
+    @cancel="showPopUpTask = false"
+  ></CreateTask>
 
   <div class="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden">
     <NavAuth></NavAuth>
-    <main class="w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-hidden">
+    <main
+      class="w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-hidden"
+    >
       <GreetingsSection
         class="shrink-0"
         title="Meine Tasks"
@@ -336,12 +360,19 @@ function resetFilter(){
               class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
             >
               <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
-              <input v-model="taskFilter" class="w-full outline-0 bg-transparent" type="text" placeholder="Tasks suchen ..." />
+              <input
+                v-model="taskFilter"
+                class="w-full outline-0 bg-transparent"
+                type="text"
+                placeholder="Tasks suchen ..."
+              />
             </div>
 
             <button
               @click="isFilterDate = !isFilterDate"
-              :style="isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : '' "
+              :style="
+                isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : ''
+              "
               class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
@@ -349,8 +380,12 @@ function resetFilter(){
             </button>
 
             <button
-              :style="submittedFilterTask !== null ? 'border-color:var(--primary-color); color:var(--primary-color)' : '' "
-              @click="submittedFilterTask !== null ?  resetFilter() : filterShown = true"
+              :style="
+                submittedFilterTask !== null
+                  ? 'border-color:var(--primary-color); color:var(--primary-color)'
+                  : ''
+              "
+              @click="submittedFilterTask !== null ? resetFilter() : (filterShown = true)"
               class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
             >
               <i class="fa-solid fa-filter"></i>
@@ -359,8 +394,17 @@ function resetFilter(){
           </div>
 
           <!-- Categories-->
-          <div class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0 overflow-x-auto pb-2">
-            <Categories :can-be-remove="false" text="Alle Kategorien" :is-active="whichIsActive === 0" @clicked="changeActiveCategory(0)"></Categories>
+          <div
+            class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0 overflow-x-auto pb-2"
+          >
+            <Categories
+              :id="0"
+              :can-be-remove="false"
+              text="Alle Kategorien"
+              :is-active="whichIsActive === 0"
+              @clicked="changeActiveCategory(0)"
+            ></Categories>
+
             <Categories
               v-for="category in categoriesData ?? []"
               :id="category.id"
@@ -371,7 +415,10 @@ function resetFilter(){
               @clicked="changeActiveCategory(category.id)"
               @remove="deleteCategory"
             ></Categories>
-            <div @click="showPopUpCategory = true" class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline shrink-0">
+            <div
+              @click="showPopUpCategory = true"
+              class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline shrink-0"
+            >
               <span>Erstelle Kategorie</span>
             </div>
           </div>
@@ -382,7 +429,7 @@ function resetFilter(){
           >
             <div
               @click="changeViewOption(1)"
-              :class="viewOption === 1 ? 'activeView' : '' "
+              :class="viewOption === 1 ? 'activeView' : ''"
               class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
             >
               <span class="">Alle</span>
@@ -391,14 +438,22 @@ function resetFilter(){
                 >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
               >
             </div>
-            <div class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(2)" :class="viewOption === 2 ? 'activeView' : '' ">
+            <div
+              class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+              @click="changeViewOption(2)"
+              :class="viewOption === 2 ? 'activeView' : ''"
+            >
               <span class="">Offen</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
                 >{{ dashboardData?.tasksOpen ?? 0 }}</span
               >
             </div>
-            <div class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2" @click="changeViewOption(3)" :class="viewOption === 3 ? 'activeView' : '' ">
+            <div
+              class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+              @click="changeViewOption(3)"
+              :class="viewOption === 3 ? 'activeView' : ''"
+            >
               <span class="">Erledigt</span>
               <span
                 class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
@@ -428,11 +483,24 @@ function resetFilter(){
               @delete="showDeleteTask(task.id)"
               @checked="changeCheckedTasks(task.id)"
             >
-              <Tag v-if="task.category !== null && task.status !== 3 && !isTaskChecked(task.id)" :name="task.category.name" :color-hex="task.category.color" text-color-hex="#FFFFFF"></Tag>
-              <Tag v-if="task.category !== null && (task.status === 3 || isTaskChecked(task.id))" :name="task.category.name" color-hex="#d1d5dc" text-color-hex="#FFFFFF"></Tag>
+              <Tag
+                v-if="task.category !== null && task.status !== 3 && !isTaskChecked(task.id)"
+                :name="task.category.name"
+                :color-hex="task.category.color"
+                text-color-hex="#FFFFFF"
+              ></Tag>
+              <Tag
+                v-if="task.category !== null && (task.status === 3 || isTaskChecked(task.id))"
+                :name="task.category.name"
+                color-hex="#d1d5dc"
+                text-color-hex="#FFFFFF"
+              ></Tag>
             </TasksComponent>
 
-            <div v-if="taskStore.loading || filteredTaskData.length === 0" class="flex flex-col items-center justify-center gap-3">
+            <div
+              v-if="taskStore.loading || filteredTaskData.length === 0"
+              class="flex flex-col items-center justify-center gap-3"
+            >
               <PlaceholderTask v-for="i in 10" :key="i"></PlaceholderTask>
             </div>
           </div>
@@ -469,21 +537,21 @@ function resetFilter(){
           </div>
 
           <!-- Task Details-->
-<!--          <div class="base-element mt-4">-->
-<!--            <span class="uppercase text-[var(&#45;&#45;text-color-light)] text-sm font-semibold"-->
-<!--              >Task Details</span-->
-<!--            >-->
-<!--            <div-->
-<!--              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
-<!--            >-->
-<!--              <div-->
-<!--                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(&#45;&#45;text-color-light)]"-->
-<!--              >-->
-<!--                <i class="fa-solid fa-list text-2xl"></i>-->
-<!--                <span class="text-xs leading-5">Task auswählen für Details</span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="base-element mt-4">-->
+          <!--            <span class="uppercase text-[var(&#45;&#45;text-color-light)] text-sm font-semibold"-->
+          <!--              >Task Details</span-->
+          <!--            >-->
+          <!--            <div-->
+          <!--              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
+          <!--            >-->
+          <!--              <div-->
+          <!--                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(&#45;&#45;text-color-light)]"-->
+          <!--              >-->
+          <!--                <i class="fa-solid fa-list text-2xl"></i>-->
+          <!--                <span class="text-xs leading-5">Task auswählen für Details</span>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
 
           <!-- Today Insights-->
           <div class="base-element mt-4">
@@ -502,13 +570,19 @@ function resetFilter(){
               <div
                 class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
               >
-                <span class="text-[var(--primary-color)] text-2xl font-semibold">{{ xpEarnedToday }}</span>
+                <span class="text-[var(--primary-color)] text-2xl font-semibold">{{
+                  xpEarnedToday
+                }}</span>
                 <span class="text-xs">XP verdient</span>
               </div>
             </div>
           </div>
 
-          <button v-if="checkedTasks.length > 0" @click="completeTask" class="scale-animation-sm border-2 flex items-center justify-center gap-2 uppercase border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+          <button
+            v-if="checkedTasks.length > 0"
+            @click="completeTask"
+            class="scale-animation-sm border-2 flex items-center justify-center gap-2 uppercase border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+          >
             <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
               <i class="fa-solid fa-clipboard-check"></i>
             </div>
@@ -521,7 +595,7 @@ function resetFilter(){
 </template>
 
 <style scoped>
-.searchbar:has(input:focus){
+.searchbar:has(input:focus) {
   border: 1px solid var(--primary-color);
 }
 

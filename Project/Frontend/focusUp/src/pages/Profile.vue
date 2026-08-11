@@ -42,7 +42,7 @@ onMounted(async () => {
     badgeUnlockedInfo.value = badgeStore.badgeUnlockedData
 
   } catch (e) {
-    error.value = e ? e.message : 'Failed to fetch user'
+    error.value = e instanceof Error ? e.message : 'Failed to fetch user'
   }
 })
 
@@ -149,7 +149,7 @@ onMounted(async () => {
         <div class="h-0.5 w-full bg-gray-200"></div>
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 auto-rows-[140px] gap-4 sm:gap-5 mt-4">
-        <Badges v-for="badge in updatedBadges" :key="badge.id" :checked="badgeUnlockedInfo?.some(t => t.id === badge.id)" :name="badge.name" :svg="badge.img ?? '' " :color-hex="badge.secondaryColor" :svg-color-hex="badge.primaryColor"></Badges>
+        <Badges v-for="badge in updatedBadges" :key="badge.id" :checked="badgeUnlockedInfo?.some(t => t.id === badge.id) ?? false" :name="badge.name" :svg="badge.img ?? '' " :color-hex="badge.secondaryColor" :svg-color-hex="badge.primaryColor"></Badges>
 
         <button @click="allVisible = !allVisible" class="badge text-center flex flex-col gap-2 justify-center items-center rounded-xl border-dashed border-2 border-[var(--primary-color)]">
           <div class="border border-[var(--primary-color)] flex justify-center items-center w-[45px] h-[45px] bg-[var(--primary-color-light)] text-[var(--primary-color)] rounded-lg">

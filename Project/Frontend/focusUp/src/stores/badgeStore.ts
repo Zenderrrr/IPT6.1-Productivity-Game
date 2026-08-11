@@ -29,7 +29,7 @@ export const useBadgeStore = defineStore('badge', () => {
       }))
     }
     catch(e){
-      error.value = e ? e.message : 'Unable to fetch badges'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch badges'
     } finally {
       loading.value = false
     }
@@ -42,8 +42,8 @@ export const useBadgeStore = defineStore('badge', () => {
     try{
       return await getBadgeByIdApi(id)
 
-    }catch{
-      error.value = e ? e.message : 'Unable to fetch badge by id'
+    }catch(e){
+      error.value = e instanceof Error ? e.message : 'Unable to fetch badge by id'
     } finally {
       loading.value = false
     }
@@ -56,7 +56,7 @@ export const useBadgeStore = defineStore('badge', () => {
     try{
       badgeUnlockedData.value = await getUnlockedBadgesApi()
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch unlocked badges'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch unlocked badges'
     } finally {
       loading.value = false
     }
@@ -69,7 +69,7 @@ export const useBadgeStore = defineStore('badge', () => {
     try{
       badgeLockedData.value = await getLockedBadgesApi()
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch locked badges'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch locked badges'
     } finally {
       loading.value = false
     }
@@ -81,7 +81,7 @@ export const useBadgeStore = defineStore('badge', () => {
     try{
       return await getBadgeImgByIdApi(nameSlug)
     }catch(e){
-      error.value = e ? e.message : 'Unable to fetch badge image'
+      error.value = e instanceof Error ? e.message : 'Unable to fetch badge image'
     }
   }
 

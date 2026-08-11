@@ -158,11 +158,6 @@ function changeChecked() {
   border: 2px solid var(--text-color-light);
 }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  //background-color: #ccc;
-}
-
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
   background-color: var(--accent-color);

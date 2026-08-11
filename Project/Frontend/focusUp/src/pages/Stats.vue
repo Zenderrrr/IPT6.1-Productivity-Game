@@ -70,6 +70,7 @@ const prodTrend = computed(() => {
   const last = arr[arr.length - 1]
   const prev = arr[arr.length - 2]
 
+  if(last === undefined || prev === undefined) return 0
   return last - prev
 })
 
@@ -223,7 +224,7 @@ const heatmapData = computed(() => {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   )
 
-  const start = new Date(sorted[0].date)
+  const start = new Date(sorted[0]!.date)
 
   return sorted.map((item) => {
     const date = new Date(item.date)
@@ -239,7 +240,7 @@ const heatmapData = computed(() => {
 })
 
 const maxXpHeatmap = computed(() => {
-  const values = heatmapData.value.map((item) => item[2])
+  const values = heatmapData.value.map((item) => item[2]).filter((value) : value is number => value !== undefined)
 
   if (values.length === 0) return 10
 
@@ -416,7 +417,7 @@ onMounted(async () => {
         <StatsCard
           title="Erledigte Task"
           svg="fa-solid fa-check"
-          :card-value="statsStore.dashboardData?.tasksDone"
+          :card-value="statsStore.dashboardData?.tasksDone ?? 0"
           primary-color="#14B8A6"
           secondary-color="#ebf8f7"
         >
@@ -444,7 +445,7 @@ onMounted(async () => {
         <StatsCard
           title="Gesamt XP"
           svg="fa-solid fa-bolt"
-          :card-value="statsStore.dashboardData?.totalXp"
+          :card-value="statsStore.dashboardData?.totalXp ?? 0"
           primary-color="#0EA5E9"
           secondary-color="rgba(189, 234, 255, 0.63)"
         >
@@ -500,7 +501,7 @@ onMounted(async () => {
         <StatsCard
           title="Aktuelle Streak"
           svg="fa-solid fa-meteor"
-          :card-value="statsStore.dashboardData?.streakCount"
+          :card-value="statsStore.dashboardData?.streakCount ?? 0"
           primary-color="oklch(83.7% 0.128 66.29)"
           secondary-color="oklch(95.4% 0.038 75.164)"
         >
@@ -662,7 +663,7 @@ onMounted(async () => {
       <span class="subtitle">Insights</span>
 
       <div class="mt-3 flex items-center justify-center gap-4 w-full">
-        <InsightCardList :stats="statsStore.statsData ?? []" />
+        <InsightCardList v-if="!statsStore.loading" :stats="statsStore.statsData!" />
       </div>
     </section>
 

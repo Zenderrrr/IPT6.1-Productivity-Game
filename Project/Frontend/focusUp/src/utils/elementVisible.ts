@@ -7,6 +7,7 @@ export function useElementVisible(element: Ref<HTMLElement | null>) {
 
   onMounted(() => {
     observer = new IntersectionObserver(([entry]) => {
+        if(!entry) return;
         isVisible.value = entry.isIntersecting
       },
       {
