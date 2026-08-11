@@ -4,8 +4,7 @@ services:
     build:
       context: ./Backend/FocusUp
       dockerfile: Dockerfile
-    working_dir: /app
-    command: dotnet watch run --project FocusUp.csproj --urls=http://0.0.0.0:8080
+      target: ${BUILD_TARGET}
     ports:
       - "5165:8080"
     environment:
@@ -15,24 +14,17 @@ services:
     volumes:
       - ./Backend/FocusUp:/app
       - ./Database:/app/database
-      - sqlite-data:/app/Data
-      - /app/bin
-      - /app/obj
+      # - ./Database:/app/database:ro
+      # - sqlite-data:/app/Data
 
   frontend:
     container_name: focusup-frontend
     build:
       context: ./Frontend/focusUp
       dockerfile: Dockerfile
-    working_dir: /app
-    command: npm run dev -- --host 0.0.0.0 --port 5173
+      target: ${BUILD_TARGET}
     ports:
-      - "5173:5173"
-    environment:
-      CHOKIDAR_USEPOLLING: "true"
-    volumes:
-      - ./Frontend/focusUp:/app
-      - /app/node_modules
+      - "5173:80"
     depends_on:
       - backend
       
