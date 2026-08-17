@@ -6,7 +6,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
 ![Railway](https://img.shields.io/badge/Hosted_on-Railway-0B0D0E)
-![Status](https://img.shields.io/badge/Status-In%20Development-brightgreen)
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 
 ## Live Demo
 
