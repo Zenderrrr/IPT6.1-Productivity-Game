@@ -11,6 +11,7 @@ import AllCompletedTasks from '@/pages/AllCompletedTasks.vue'
 import Landingpage from '@/pages/Landingpage.vue'
 import NotFound from '@/pages/NotFound.vue'
 import LegalNotice from '@/pages/LegalNotice.vue'
+import PrivacyPolicy from '@/pages/PrivacyPolicy.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -75,6 +76,12 @@ const router = createRouter({
       name: 'LegalNotice',
       meta: {requireAuth: false},
     },
+    {
+      path: '/privacy-policy',
+      component: PrivacyPolicy,
+      name: 'PrivacyPolicy',
+      meta: {requireAuth: false},
+    }
   ],
 })
 
