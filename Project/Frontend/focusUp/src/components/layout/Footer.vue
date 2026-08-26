@@ -17,18 +17,18 @@ const date = new Date()
         <div
           class="flex items-center justify-self-center gap-7 max-[960px]:flex-wrap max-[960px]:gap-[18px]"
         >
-          <a
-            href="#"
+          <RouterLink
+            to="/legal-notice"
             class="text-[14px] font-semibold text-[var(--text-color-light)] no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
           >
             Impressum
-          </a>
-          <a
-            href="#"
+          </RouterLink>
+          <RouterLink
+            to="/privacy-policy"
             class="text-[14px] font-semibold text-[var(--text-color-light)] no-underline transition-colors duration-200 hover:text-[var(--text-color)]"
           >
             Datenschutz
-          </a>
+          </RouterLink>
         </div>
 
         <!-- Copy -->
