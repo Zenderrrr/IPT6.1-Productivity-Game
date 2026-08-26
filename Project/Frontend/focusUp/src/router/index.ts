@@ -10,6 +10,7 @@ import { useAuthStore } from '@/stores/authStore.ts'
 import AllCompletedTasks from '@/pages/AllCompletedTasks.vue'
 import Landingpage from '@/pages/Landingpage.vue'
 import NotFound from '@/pages/NotFound.vue'
+import LegalNotice from '@/pages/LegalNotice.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,7 +68,13 @@ const router = createRouter({
       component: NotFound,
       name: 'NotFound',
       meta: { requiresAuth: false },
-    }
+    },
+    {
+      path: '/legal-notice',
+      component: LegalNotice,
+      name: 'LegalNotice',
+      meta: {requireAuth: false},
+    },
   ],
 })
 
