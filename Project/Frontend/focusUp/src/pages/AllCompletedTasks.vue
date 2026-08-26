@@ -6,6 +6,7 @@ import Tag from '@/components/ui/Tag.vue'
 import { useStatsStore } from '@/stores/statsStore.ts'
 import { useCategoryStore } from '@/stores/categoryStore.ts'
 import NavAuth from '@/components/layout/NavAuth.vue'
+import Loading from '@/components/ui/Loading.vue'
 
 const statsStore = useStatsStore()
 const tasksStore = useTaskStore()
@@ -39,7 +40,9 @@ async function getLastCompletedTasks() {
 <template>
   <NavAuth></NavAuth>
 
-  <main>
+  <Loading v-if="statsStore.loading"></Loading>
+
+  <main v-if="!statsStore.loading">
     <table class="w-full mt-3 border-collapse">
       <tr>
         <th>Datum</th>
