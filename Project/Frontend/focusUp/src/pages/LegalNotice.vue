@@ -36,54 +36,41 @@ onMounted(async () => {
       <div class="space-y-8 text-[var(--text-color-light)] text-lg leading-8">
         <section>
           <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3">
-            Lorem Ipsum
+            Betreiber
           </h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Sanjivan Selvarasa & Egor Biriukov <br>
+            FocusUp
           </p>
-        </section>
 
-        <section>
-          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3">
-            Lorem Ipsum
+          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3 mt-5">
+            Kontaktadresse
+          </h2>
+          <address class="not-italic">
+            Oberhofstrasse 41 <br>
+            6020 Emmenbrücke <br>
+            Schweiz
+          </address>
+
+          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3 mt-5">
+            Kontakt
+          </h2>
+          <a href="mailto:kontakt@focusup.ch">
+            E-Mail: kontakt@focusup.ch
+          </a>
+
+          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3 mt-5">
+            Verantwortung für den Inhalt
           </h2>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.
+            Sanjivan Selvarasa & Egor Biriukov
           </p>
-        </section>
 
-        <section>
-          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3">
-            Lorem Ipsum
+          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3 mt-5">
+            Hinweis
           </h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent
-            libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
-            imperdiet.
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3">
-            Lorem Ipsum
-          </h2>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui. Maecenas faucibus
-            mollis interdum. Aenean lacinia bibendum nulla sed consectetur.
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-[var(--text-color)] mb-3">
-            Lorem Ipsum
-          </h2>
-          <p>
-            Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu
-            leo. Donec ullamcorper nulla non metus auctor fringilla.
+            FocusUp ist in der laufenden Entwicklung.
           </p>
         </section>
       </div>
