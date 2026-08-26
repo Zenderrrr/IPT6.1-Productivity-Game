@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { deleteUserApi, loginApi, logoutApi, meApi, RefreshApi, registerApi } from '@/api/auth.api.ts'
 import { computed, ref } from 'vue'
 import type { User } from '@/types/user.ts'
+import { getUserError } from '@/utils/userError.ts'
 
 export const useAuthStore = defineStore('auth', () => {
   const loading = ref<boolean>(false)
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = data.token
       localStorage.setItem('token', token.value ?? '')
     }catch(e){
-      error.value = e instanceof Error ? e.message : 'Unable to login'
+      error.value = getUserError(e)
     } finally {
       loading.value = false
     }
@@ -33,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
     try{
       return await registerApi(username, email, password)
     }catch(e){
-      error.value = e instanceof Error ? e.message : 'Unable to register'
+      error.value = getUserError(e)
     } finally {
       if(!error.value){
         await login(username, password)
