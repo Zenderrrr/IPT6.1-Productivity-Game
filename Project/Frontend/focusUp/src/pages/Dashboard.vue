@@ -23,6 +23,7 @@ import type { CreateTaskType } from '@/types/createTaskType.ts'
 import { useTaskStore } from '@/stores/taskStore.ts'
 import PlaceholderLastComplTask from '@/components/ui/PlaceholderLastComplTask.vue'
 import { applyUIMode, getUIMode, setUIMode } from '@/utils/modeUI.ts'
+import Loading from '@/components/ui/Loading.vue'
 
 // today
 const date = computed(() => {
@@ -230,7 +231,9 @@ const successRate = computed(() => {
 
   <NavAuth />
 
-  <main class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 lg:px-8">
+  <Loading v-if="statsStore.loading"></Loading>
+
+  <main v-if="!statsStore.loading" class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Greeting Section-->
     <GreetingsSection
       title="Willkommen zurück,"

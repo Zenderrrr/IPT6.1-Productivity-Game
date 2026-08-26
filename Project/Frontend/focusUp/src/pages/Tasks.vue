@@ -23,6 +23,7 @@ import { storeToRefs } from 'pinia'
 import PlaceholderTask from '@/components/ui/PlaceholderTask.vue'
 import { applyUIMode } from '@/utils/modeUI.ts'
 import type { CreateCategoryType } from '@/types/createCategoryType.ts'
+import Loading from '@/components/ui/Loading.vue'
 
 // date
 const date = new Date()
@@ -343,7 +344,11 @@ function resetFilter() {
 
   <div class="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden">
     <NavAuth></NavAuth>
+
+    <Loading v-if="taskStore.loading"></Loading>
+
     <main
+      v-if="!taskStore.loading"
       class="w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-hidden"
     >
       <GreetingsSection

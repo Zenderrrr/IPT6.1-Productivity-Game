@@ -26,6 +26,7 @@ import type { Productivity } from '@/types/productivity.ts'
 import categories from '@/components/ui/Categories.vue'
 import InsightCardList from '@/components/ui/InsightCardList.vue'
 import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
+import Loading from '@/components/ui/Loading.vue'
 
 use([
   CanvasRenderer,
@@ -393,7 +394,11 @@ onMounted(async () => {
 <template>
   <NavAuth />
 
-  <main class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 xl:px-0 py-4">
+  <Loading v-if="statsStore.loading"></Loading>
+
+  <main
+    v-if="!statsStore.loading"
+    class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 xl:px-0 py-4">
     <GreetingsSection
       title="Deine Produktivität"
       subtitle="Sehe deine Statistiken ein und untersuche deine Stärken"

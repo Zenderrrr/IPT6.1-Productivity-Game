@@ -14,6 +14,7 @@ import { useRouter } from 'vue-router'
 import DeleteTask from '@/components/ui/DeleteTask.vue'
 import DeleteUser from '@/components/ui/DeleteUser.vue'
 import { applyUIMode, setUIMode, toggleUIMode } from '@/utils/modeUI.ts'
+import Loading from '@/components/ui/Loading.vue'
 
 const authStore = useAuthStore()
 const statsStore = useStatsStore()
@@ -91,7 +92,9 @@ onMounted(async () => {
   <DeleteUser :is-shown="isDeleteUserShown" @cancel="isDeleteUserShown = false" @confirm="onDeleteUser()"></DeleteUser>
   <NavAuth></NavAuth>
 
-  <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+  <Loading v-if="authStore.loading || badgeStore.loading"></Loading>
+
+  <main v-if="!authStore.loading && !badgeStore.loading" class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <GreetingsSection
       title="Mein Profil"
       subtitle="Sieh deinen Fortschritt, deine Badges und verwalte deinen Account"
