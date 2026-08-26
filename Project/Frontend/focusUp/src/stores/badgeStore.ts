@@ -77,7 +77,6 @@ export const useBadgeStore = defineStore('badge', () => {
 
   async function badgeImgByName(name: string) : Promise<string | undefined> {
     const nameSlug = slug(name)
-    console.log(nameSlug)
     try{
       return await getBadgeImgByIdApi(nameSlug)
     }catch(e){
