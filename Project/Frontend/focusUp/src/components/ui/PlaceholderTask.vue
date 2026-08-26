@@ -8,31 +8,31 @@
     <div class="h-full w-0.5 bg-transparent absolute top-0 left-0"></div>
 
     <label>
-      <input type="checkbox" class="w-[25px] h-[25px] appearance-none placeholder" />
+      <input type="checkbox" class="w-[25px] h-[25px] appearance-none placeholder bg-[var(--border-color)]!" />
       <span class="rounded-full"></span>
     </label>
 
     <div class="flex items-center justify-between w-full">
       <div class="flex flex-col items-start justify-center gap-2">
-        <div class="title placeholder w-11 h-5"></div>
-        <div class="placeholder w-100 h-4"></div>
+        <div class="title placeholder w-11 h-5 bg-[var(--border-color)]!"></div>
+        <div class="placeholder w-100 h-4 bg-[var(--border-color)]!"></div>
         <div class="mt-1 flex items-center justify-start gap-2">
           <!-- Tags-->
 
           <!-- Time-->
           <div
-            class="placeholder h-5 w-14 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]">
+            class="placeholder bg-[var(--border-color)]! h-5 w-14 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]">
           </div>
 
           <!-- Date-->
           <div
-            class="placeholder h-5 w-22 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+            class="placeholder bg-[var(--border-color)]! h-5 w-22 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
           >
           </div>
 
           <!-- XP-->
           <div
-            class="placeholder h-5 w-14 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+            class="placeholder bg-[var(--border-color)]! h-5 w-14 flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
           >
           </div>
         </div>
