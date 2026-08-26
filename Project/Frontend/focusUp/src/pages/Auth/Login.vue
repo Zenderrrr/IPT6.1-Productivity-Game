@@ -3,7 +3,8 @@ import Logo from '@/components/ui/Logo.vue'
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore.ts'
 import { useRouter } from 'vue-router'
-import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
+import { applyUIMode } from '@/utils/modeUI.ts'
+import { getUserError } from '@/utils/userError.ts'
 
 const isPasswordVisible = ref<boolean>(false)
 function showPassword() {
@@ -28,7 +29,7 @@ async function submit() {
       await router.push('/dashboard')
     }
   } catch (e) {
-    error.value = e instanceof Error ? e.message : 'Anmeldung ist fehlgeschlagen.'
+    error.value = e instanceof Error ? getUserError(e.message) : 'Anmeldung ist fehlgeschlagen.'
   }
 }
 
