@@ -97,7 +97,7 @@ const isMenuOpen = ref(false)
 
     <!-- Desktop -->
     <div
-      class="hidden md:flex justify-between items-center px-4 border-b border-gray-200"
+      class="hidden md:flex justify-between items-center px-4 border-b border-[var(--border-color)]"
     >
       <div class="flex items-center justify-between py-5 px-5">
         <Logo link="/dashboard" class="mr-9" />

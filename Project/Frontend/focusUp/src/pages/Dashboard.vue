@@ -70,6 +70,12 @@ const values = computed(() => {
   return prodInfoInd.value?.map((t) => t.xpGained)
 })
 
+function getCssVariables(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
+
+const borderColor = getCssVariables('--border-color')
+
 const option = computed(() => ({
   tooltip: {
     trigger: 'axis',
@@ -87,6 +93,11 @@ const option = computed(() => ({
   },
   yAxis: {
     type: 'value',
+    splitLine: {
+      lineStyle: {
+        color: borderColor,
+      }
+    }
   },
   series: [
     {
