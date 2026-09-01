@@ -65,12 +65,6 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/:pathMatch(.*)*',
-      component: NotFound,
-      name: 'NotFound',
-      meta: { requiresAuth: false },
-    },
-    {
       path: '/legal-notice',
       component: LegalNotice,
       name: 'LegalNotice',
@@ -81,7 +75,13 @@ const router = createRouter({
       component: PrivacyPolicy,
       name: 'PrivacyPolicy',
       meta: {requireAuth: false},
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: NotFound,
+      name: 'NotFound',
+      meta: { requiresAuth: false },
+    },
   ],
 })
 
