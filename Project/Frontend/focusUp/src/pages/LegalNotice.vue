@@ -2,6 +2,7 @@
 import Logo from '@/components/ui/Logo.vue'
 import { onMounted } from 'vue'
 import { applyUIMode } from '@/utils/modeUI.ts'
+import Footer from '@/components/layout/Footer.vue'
 
 onMounted(async () => {
   applyUIMode()
@@ -77,26 +78,6 @@ onMounted(async () => {
     </main>
 
     <!-- Footer -->
-    <footer class="w-full border-t border-[var(--border-color)]">
-      <div class="max-w-[1400px] mx-auto w-full px-5 py-8 flex items-center justify-between">
-        <Logo link="/" class="bg-transparent"></Logo>
-
-        <div class="flex items-center gap-5 text-sm text-[var(--text-color-light)]">
-          <RouterLink
-            to="/legal-notice"
-            class="hover:text-[var(--text-color)] transition-all duration-100"
-          >
-            Impressum
-          </RouterLink>
-
-          <RouterLink
-            to="/privacy-policy"
-            class="hover:text-[var(--text-color)] transition-all duration-100"
-          >
-            Datenschutz
-          </RouterLink>
-        </div>
-      </div>
-    </footer>
+    <Footer></Footer>
   </div>
 </template>
