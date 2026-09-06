@@ -39,14 +39,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full h-[100vh] bg-dots overflow-hidden">
+  <div class="w-full min-h-screen bg-dots overflow-x-hidden">
     <div class="sm:w-[600px] w-full sm:h-[600px] bg-primary-gradient"></div>
     <div
       class="absolute bottom-0 right-0 sm:w-[600px] w-full sm:h-[600px] bg-secondary-gradient"
     ></div>
 
     <!-- Login window-->
-    <div class="absolute top-0 left-0 flex items-center h-full w-full justify-center">
+    <div class="absolute top-0 left-0 flex items-center min-h-full w-full justify-center px-4 py-8">
       <div class="bg-[var(--surface-color)] base-element sm:w-[400px] w-full">
         <!-- Header -->
         <div class="flex items-center justify-between">
