@@ -96,6 +96,10 @@ router.beforeEach(async (to) => {
       }
   }
 
+  if(to.path === '/' && authStore.isAuth){
+    return '/dashboard'
+  }
+
   if (to.meta.requiresAuth && !authStore.isAuth) {
     return '/login'
   }
