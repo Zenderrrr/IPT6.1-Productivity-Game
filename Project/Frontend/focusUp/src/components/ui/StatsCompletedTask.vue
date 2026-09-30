@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="hover:bg-blue-50 duration-200 transition flex gap-2 justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-2xl"
+    class="hover:bg-[var(--secondary-color-light)] duration-200 transition flex gap-2 justify-between items-center bg-[var(--background-color)] px-4 py-3 rounded-2xl"
   >
     <div class="flex gap-4 items-center">
       <div
@@ -24,7 +24,7 @@ const props = defineProps<{
       </div>
     </div>
     <div
-      class="text-center text-[var(--primary-color)] bg-[var(--primary-color-light)] rounded-2xl px-2 py-1 text-xs font-semibold border border-[var(--primary-color)]"
+      class="select-none text-center text-[var(--primary-color)] bg-[var(--primary-color-light)] rounded-2xl px-2 py-1 text-xs font-semibold border border-[var(--primary-color)]"
     >
       + {{ props.xp }} XP
     </div>
