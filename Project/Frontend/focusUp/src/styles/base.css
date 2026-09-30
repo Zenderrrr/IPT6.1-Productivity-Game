@@ -130,7 +130,7 @@ button {
 }
 
 .box-hover-animation{
-  @apply hover:shadow-xl hover:border-[var(--border-color)] transition duration-75 border-2 border-transparent
+  @apply hover:shadow-xl transition duration-75 border-2 border-transparent
 }
 
 .levitation-animation {
