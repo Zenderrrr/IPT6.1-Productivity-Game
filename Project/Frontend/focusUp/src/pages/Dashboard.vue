@@ -254,7 +254,7 @@ const successRate = computed(() => {
 
     <!-- Card overview section-->
     <section>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[150px]">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-min">
         <StatsOverviewCard svg="fa-solid fa-star" stats-name="Gesamt XP" :statsValue="totalXp">
           <span>
             <em class="text-[var(--accent-color)]">+{{ xpWeek }} XP</em> diese Woche
@@ -269,7 +269,8 @@ const successRate = computed(() => {
                 class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
               ></div>
             </div>
-            <span>{{ xpCurr }} / {{ xpNext }} XP zum nächsten Level</span>
+            <span class="hidden md:block">{{ xpCurr }} / {{ xpNext }} XP zum nächsten Level</span>
+            <span class="block md:hidden">{{ xpCurr }} / {{ xpNext }} XP</span>
           </div>
         </StatsOverviewCard>
 
@@ -302,16 +303,25 @@ const successRate = computed(() => {
     <section class="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <!-- Title -->
       <div
-        class="box-hover-animation lg:col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg"
+        class="box-hover-animation order-2 lg:order-1 lg:col-span-4 bg-[var(--surface-color)] gen-padding rounded-2xl shadow-lg"
       >
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <h2 class="font-semibold text-lg">Letzte erledigte Tasks</h2>
+        <div class="flex justify-between gap-3">
+          <h2 class="font-semibold">Letzte erledigte Tasks</h2>
           <RouterLink
             to="/allCompletedTasks"
-            class="color-change-secondary-animation cursor-pointer flex items-center justify-start sm:justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
+            class="hidden sm:flex color-change-secondary-animation cursor-pointer items-center justify-start sm:justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
           >
             <span>Alle ansehen</span>
             <div>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </RouterLink>
+
+          <RouterLink
+            to="/allCompletedTasks"
+            class="flex sm:hidden color-change-secondary-animation cursor-pointer items-center justify-start sm:justify-center gap-1 text-[var(--primary-color)] text-sm font-semibold"
+          >
+            <div class="flex items-center justify-center border-2 border-[var(--primary-color)] w-[30px] h-[30px] rounded-full">
               <i class="fa-solid fa-arrow-right"></i>
             </div>
           </RouterLink>
@@ -373,7 +383,7 @@ const successRate = computed(() => {
           Diese Woche
         </span>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 mt-4">
+        <div class="grid grid-cols-2 lg:grid-cols-2 gap-3 mt-4">
           <CurrentWeekStats :stats-value="tasksDoneWeek" name="Tasks" />
           <CurrentWeekStats :stats-value="focusTimeWeek" name="Fokus" digit="h" />
           <CurrentWeekStats
@@ -393,10 +403,10 @@ const successRate = computed(() => {
     </section>
 
     <!-- Productivity over time -->
-    <section class="box-hover-animation bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <section class="hidden sm:block box-hover-animation bg-[var(--surface-color)] rounded-2xl gen-padding shadow-lg">
+      <div class="flex flex-row justify-between gap-4">
         <div>
-          <h2 class="font-bold text-lg tracking-wide">Produktivität über Zeit</h2>
+          <h2 class="font-bold tracking-wide">Produktivität über Zeit</h2>
           <span class="font-semibold text-sm text-[var(--text-color-light)]">XP pro Tag</span>
         </div>
 
