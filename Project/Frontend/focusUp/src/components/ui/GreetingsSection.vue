@@ -14,7 +14,7 @@ const month = new Intl.DateTimeFormat('de-CH', { month: 'long' }).format(date)
 
 <template>
   <section>
-    <header class="flex items-center justify-between">
+    <header class="sm:flex hidden items-center justify-between gap-5">
       <div>
         <h1 class="font-bold text-3xl tracking-wide">
           {{ props.title}}
@@ -23,7 +23,7 @@ const month = new Intl.DateTimeFormat('de-CH', { month: 'long' }).format(date)
         <p class="text-[var(--text-color-light)] mt-1"> {{ props.subtitle }}</p>
       </div>
       <div
-        class="text-[var(--text-color-light)] text-sm font-semibold px-2.5 py-1.5 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-full"
+        class="text-nowrap text-[var(--text-color-light)] text-sm font-semibold px-2.5 py-1.5 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-full"
       >
         {{ ` ${day}, ${formatTime(date.getDate())} ${month} ${date.getFullYear()}` }}
       </div>
