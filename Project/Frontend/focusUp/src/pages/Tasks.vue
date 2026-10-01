@@ -2,7 +2,7 @@
 import NavAuth from '@/components/layout/NavAuth.vue'
 import GreetingsSection from '@/components/ui/GreetingsSection.vue'
 import Categories from '@/components/ui/Categories.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import TasksComponent from '@/components/ui/TasksComponent.vue'
 import Tag from '@/components/ui/Tag.vue'
 import { useTaskStore } from '@/stores/taskStore.ts'
@@ -24,9 +24,20 @@ import PlaceholderTask from '@/components/ui/PlaceholderTask.vue'
 import { applyUIMode } from '@/utils/modeUI.ts'
 import type { CreateCategoryType } from '@/types/createCategoryType.ts'
 import Loading from '@/components/ui/Loading.vue'
+import { formatTime } from '@/utils/date.ts'
 
 // date
 const date = new Date()
+const day = new Intl.DateTimeFormat('de-CH', { weekday: 'long' }).format(date)
+const month = new Intl.DateTimeFormat('de-CH', { month: 'long' }).format(date)
+
+// window height
+const windowHeight = ref<number>(0)
+const SMALLWINDOWHEIGHT = 1000
+
+const updateWindowHeight = () => {
+  windowHeight.value = window.innerHeight
+}
 
 // categories logic
 const whichIsActive = ref<number>(0)
@@ -124,6 +135,9 @@ const authStore = useAuthStore()
 onMounted(async () => {
   applyUIMode()
 
+  updateWindowHeight()
+  window.addEventListener('resize', updateWindowHeight)
+
   try {
     getCheckedTasks()
     await taskStore.getAllTasks()
@@ -134,6 +148,10 @@ onMounted(async () => {
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Failed to fetch task data'
   }
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateWindowHeight)
 })
 
 // which view option
@@ -349,20 +367,292 @@ function resetFilter() {
 
     <main
       v-if="!taskStore.loading"
-      class="w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-hidden"
+      :style="windowHeight < SMALLWINDOWHEIGHT ? 'overflow-y:scroll' : 'overflow-y:hidden'"
+      class="deactivate-scrollbar w-full max-w-[80rem] mx-auto flex-1 flex flex-col min-h-0 px-4 sm:px-6 xl:px-0 py-4 lg:overflow-x-hidden"
     >
-      <GreetingsSection
-        class="shrink-0"
-        title="Meine Tasks"
-        subtitle="Verwalte deine Aufgaben und bleib fokussiert!"
-      ></GreetingsSection>
+      <div
+        class="flex flex-col flex-1 min-h-0 lg:overflow-hidden"
+        v-if="windowHeight > SMALLWINDOWHEIGHT"
+      >
+        <GreetingsSection
+          class="shrink-0"
+          title="Meine Tasks"
+          subtitle="Verwalte deine Aufgaben und bleib fokussiert!"
+        ></GreetingsSection>
 
-      <div class="grid grid-cols-1 lg:grid-cols-8 gap-4 flex-1 min-h-0 lg:overflow-hidden">
-        <section class="lg:col-span-6 flex flex-col min-h-0">
-          <!-- search area-->
-          <div class="base-element grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 shrink-0">
+        <div class="grid grid-cols-1 lg:grid-cols-8 gap-4 flex-1 min-h-0 lg:overflow-hidden">
+          <section class="lg:col-span-6 flex flex-col min-h-0">
+            <!-- search area-->
+            <div class="base-element grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 shrink-0">
+              <div
+                class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
+              >
+                <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
+                <input
+                  v-model="taskFilter"
+                  class="w-full outline-0 bg-transparent"
+                  type="text"
+                  placeholder="Tasks suchen ..."
+                />
+              </div>
+
+              <button
+                @click="isFilterDate = !isFilterDate"
+                :style="
+                  isFilterDate
+                    ? 'color:var(--primary-color); border-color:var(--primary-color)'
+                    : ''
+                "
+                class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              >
+                <i class="fa-solid fa-layer-group"></i>
+                <span>nach Datum</span>
+              </button>
+
+              <button
+                :style="
+                  submittedFilterTask !== null
+                    ? 'border-color:var(--primary-color); color:var(--primary-color)'
+                    : ''
+                "
+                @click="submittedFilterTask !== null ? resetFilter() : (filterShown = true)"
+                class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              >
+                <i class="fa-solid fa-filter"></i>
+                <span>Filter</span>
+              </button>
+            </div>
+
+            <!-- Categories-->
             <div
-              class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--background-color)] px-4 py-2 rounded-lg"
+              class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0 overflow-x-auto pb-2"
+            >
+              <Categories
+                :id="0"
+                :can-be-remove="false"
+                text="Alle Kategorien"
+                :is-active="whichIsActive === 0"
+                @clicked="changeActiveCategory(0)"
+              ></Categories>
+
+              <Categories
+                v-for="category in categoriesData ?? []"
+                :id="category.id"
+                :key="category.id"
+                :can-be-remove="true"
+                :text="category.name"
+                :isActive="whichIsActive === category.id"
+                @clicked="changeActiveCategory(category.id)"
+                @remove="deleteCategory"
+              ></Categories>
+              <div
+                @click="showPopUpCategory = true"
+                class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline shrink-0"
+              >
+                <span>Erstelle Kategorie</span>
+              </div>
+            </div>
+
+            <!-- View choosing-->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-3 mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm shrink-0"
+            >
+              <div
+                @click="changeViewOption(1)"
+                :class="viewOption === 1 ? 'activeView' : ''"
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+              >
+                <span class="">Alle</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
+                >
+              </div>
+              <div
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                @click="changeViewOption(2)"
+                :class="viewOption === 2 ? 'activeView' : ''"
+              >
+                <span class="">Offen</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ dashboardData?.tasksOpen ?? 0 }}</span
+                >
+              </div>
+              <div
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                @click="changeViewOption(3)"
+                :class="viewOption === 3 ? 'activeView' : ''"
+              >
+                <span class="">Erledigt</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ dashboardData?.tasksDone ?? 0 }}</span
+                >
+              </div>
+            </div>
+
+            <!-- Tasks-->
+            <div
+              class="deactivate-scrollbar! flex flex-1 flex-col justify-start mt-4 pr-0 lg:pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-[450px] lg:min-h-0"
+            >
+              <TasksComponent
+                v-if="!taskStore.loading"
+                v-for="task in filteredTaskData"
+                :key="task.id"
+                :task-title="task.title"
+                :task-description="task.description"
+                :timeMin="task.durationMin"
+                :date="task.dueDate"
+                :xp="task.xp"
+                :completed="task.status === 3"
+                :difficulty="task.difficulty"
+                :is-checked="isTaskChecked(task.id)"
+                :is-completed="task.status === 3"
+                @update="showUpdateTask(task)"
+                @delete="showDeleteTask(task.id)"
+                @checked="changeCheckedTasks(task.id)"
+              >
+                <Tag
+                  v-if="task.category !== null && task.status !== 3 && !isTaskChecked(task.id)"
+                  :name="task.category.name"
+                  :color-hex="task.category.color"
+                  text-color-hex="#FFFFFF"
+                ></Tag>
+                <Tag
+                  v-if="task.category !== null && (task.status === 3 || isTaskChecked(task.id))"
+                  :name="task.category.name"
+                  color-hex="#d1d5dc"
+                  text-color-hex="#FFFFFF"
+                ></Tag>
+              </TasksComponent>
+
+              <div
+                v-if="taskStore.loading || filteredTaskData.length === 0"
+                class="flex flex-col items-center justify-center gap-3"
+              >
+                <PlaceholderTask v-for="i in 10" :key="i"></PlaceholderTask>
+              </div>
+            </div>
+          </section>
+
+          <section class="lg:col-span-2 pb-4 lg:pb-0">
+            <div
+              class="flex items-center justify-center w-full base-element border-1 border-gray-200"
+            >
+              <button
+                @click="showPopUpTask = true"
+                class="select-none scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
+              >
+                <i class="fa-solid fa-plus"></i>
+                <span>Neue Task erstellen</span>
+              </button>
+            </div>
+
+            <!-- To next level-->
+            <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
+              <span class="uppercase font-semibold">Bis zum nächsten Level</span>
+              <div class="flex items-center justify-between w-full mt-4 mb-2 gap-2">
+                <span>Lv. {{ dashboardData?.level }}</span>
+                <span class="text-[var(--text-color)] font-semibold text-right"
+                  >{{ dashboardData?.xpCurrent }} / {{ dashboardData?.xpNext }} XP</span
+                >
+              </div>
+              <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  :style="{ width: `${levelProgress}%` }"
+                  class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Task Details-->
+            <!--          <div class="base-element mt-4">-->
+            <!--            <span class="uppercase text-[var(&#45;&#45;text-color-light)] text-sm font-semibold"-->
+            <!--              >Task Details</span-->
+            <!--            >-->
+            <!--            <div-->
+            <!--              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
+            <!--            >-->
+            <!--              <div-->
+            <!--                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(&#45;&#45;text-color-light)]"-->
+            <!--              >-->
+            <!--                <i class="fa-solid fa-list text-2xl"></i>-->
+            <!--                <span class="text-xs leading-5">Task auswählen für Details</span>-->
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--          </div>-->
+
+            <!-- Today Insights-->
+            <div class="base-element mt-4">
+              <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
+                >Heute</span
+              >
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-2 mt-2">
+                <div
+                  class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
+                >
+                  <span class="text-[var(--accent-color)] text-2xl font-semibold">{{
+                    taskDoneToday
+                  }}</span>
+                  <span class="text-xs">Erledigt</span>
+                </div>
+                <div
+                  class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
+                >
+                  <span class="text-[var(--primary-color)] text-2xl font-semibold">{{
+                    xpEarnedToday
+                  }}</span>
+                  <span class="text-xs">XP verdient</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              v-if="checkedTasks.length > 0"
+              @click="completeTask"
+              class="scale-animation-sm border-2 flex items-center justify-center gap-2 uppercase border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+            >
+              <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
+                <i class="fa-solid fa-clipboard-check"></i>
+              </div>
+              <span>Tasks abschliessen</span>
+            </button>
+          </section>
+        </div>
+      </div>
+
+      <div v-else>
+        <section class="flex flex-col gap-4">
+          <header class="sm:flex hidden items-center justify-between gap-5">
+            <div>
+              <h1 class="font-bold text-3xl tracking-wide">
+                Meine Tasks
+                <!--                <span class="text-[var(&#45;&#45;primary-color)]"> {{ props.userName }}</span>-->
+              </h1>
+            </div>
+            <div class="flex gap-2 items-center justify-center">
+              <div
+                class="text-nowrap text-[var(--text-color-light)] text-sm font-semibold px-2.5 py-1.5"
+              >
+                {{ ` ${day}, ${formatTime(date.getDate())} ${month} ${date.getFullYear()}` }}
+              </div>
+              <div class="flex items-center justify-center border-1 border-gray-200">
+                <button
+                  @click="showPopUpTask = true"
+                  class="select-none scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Neue Task</span>
+                </button>
+              </div>
+            </div>
+          </header>
+
+          <!-- search area-->
+          <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto_auto] gap-2 shrink-0">
+            <div
+              class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--surface-color)] border! border-[var(--border-color)]! px-4 py-2 rounded-lg"
             >
               <i class="fa-solid fa-magnifying-glass text-[var(--text-color-light)]"></i>
               <input
@@ -378,7 +668,7 @@ function resetFilter() {
               :style="
                 isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : ''
               "
-              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
               <span>nach Datum</span>
@@ -390,87 +680,99 @@ function resetFilter() {
                   ? 'border-color:var(--primary-color); color:var(--primary-color)'
                   : ''
               "
+              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            >
+              <span>Alle Kategorien</span>
+              <i class="fa-solid fa-angle-down"></i>
+            </button>
+
+            <button
+              :style="
+                submittedFilterTask !== null
+                  ? 'border-color:var(--primary-color); color:var(--primary-color)'
+                  : ''
+              "
               @click="submittedFilterTask !== null ? resetFilter() : (filterShown = true)"
-              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--background-color)] px-4 py-2"
+              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
             </button>
           </div>
 
-          <!-- Categories-->
-          <div
-            class="flex items-center justify-start mt-4 gap-2 min-h-0 shrink-0 overflow-x-auto pb-2"
-          >
-            <Categories
-              :id="0"
-              :can-be-remove="false"
-              text="Alle Kategorien"
-              :is-active="whichIsActive === 0"
-              @clicked="changeActiveCategory(0)"
-            ></Categories>
-
-            <Categories
-              v-for="category in categoriesData ?? []"
-              :id="category.id"
-              :key="category.id"
-              :can-be-remove="true"
-              :text="category.name"
-              :isActive="whichIsActive === category.id"
-              @clicked="changeActiveCategory(category.id)"
-              @remove="deleteCategory"
-            ></Categories>
+          <div class="flex gap-4 items-center justify-between">
+            <!-- View choosing-->
             <div
-              @click="showPopUpCategory = true"
-              class="scale-animation-sm shadow-lg bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-[var(--text-color-white)] border-[var(--primary-color)] cursor-pointer text-center px-3 py-2 text-sm border text-nowrap rounded-full inline shrink-0"
+              class="grid grid-cols-1 sm:grid-cols-3 gap-2 rounded-xl text-sm shrink-0 max-w-[320px]"
             >
-              <span>Erstelle Kategorie</span>
+              <div
+                @click="changeViewOption(1)"
+                :class="viewOption === 1 ? 'activeView' : ''"
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+              >
+                <span class="">Alle</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
+                >
+              </div>
+              <div
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                @click="changeViewOption(2)"
+                :class="viewOption === 2 ? 'activeView' : ''"
+              >
+                <span class="">Offen</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ dashboardData?.tasksOpen ?? 0 }}</span
+                >
+              </div>
+              <div
+                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                @click="changeViewOption(3)"
+                :class="viewOption === 3 ? 'activeView' : ''"
+              >
+                <span class="">Erledigt</span>
+                <span
+                  class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
+                  >{{ dashboardData?.tasksDone ?? 0 }}</span
+                >
+              </div>
+            </div>
+
+            <div class="flex gap-4 items-center justify-center">
+              <button
+                v-if="checkedTasks.length > 0"
+                @click="completeTask"
+                class="scale-animation-sm flex items-center justify-center gap-2 uppercase font-semibold text-sm cursor-pointer base-element w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+              >
+                <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
+                  <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+                <span>Tasks abschliessen</span>
+              </button>
+
+              <div class="base-element text-sm text-[var(--text-color-light)] shrink-0">
+                <div class="flex items-center justify-between w-full gap-2">
+                  <span>Lv. {{ dashboardData?.level }}</span>
+                  <span class="text-[var(--text-color)] font-semibold text-right"
+                    >{{ dashboardData?.xpCurrent }} / {{ dashboardData?.xpNext }} XP</span
+                  >
+                </div>
+                <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    :style="{ width: `${levelProgress}%` }"
+                    class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          <!-- View choosing-->
-          <div
-            class="grid grid-cols-1 sm:grid-cols-3 mt-4 gap-2 bg-[var(--surface-color)] shadow-lg rounded-xl p-2 text-sm shrink-0"
-          >
-            <div
-              @click="changeViewOption(1)"
-              :class="viewOption === 1 ? 'activeView' : ''"
-              class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
-            >
-              <span class="">Alle</span>
-              <span
-                class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
-                >{{ (dashboardData?.tasksDone ?? 0) + (dashboardData?.tasksOpen ?? 0) }}</span
-              >
-            </div>
-            <div
-              class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
-              @click="changeViewOption(2)"
-              :class="viewOption === 2 ? 'activeView' : ''"
-            >
-              <span class="">Offen</span>
-              <span
-                class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
-                >{{ dashboardData?.tasksOpen ?? 0 }}</span
-              >
-            </div>
-            <div
-              class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
-              @click="changeViewOption(3)"
-              :class="viewOption === 3 ? 'activeView' : ''"
-            >
-              <span class="">Erledigt</span>
-              <span
-                class="rounded-full px-2 py-0.5 bg-white/10 backdrop-blur-2xl border border-gray-200"
-                >{{ dashboardData?.tasksDone ?? 0 }}</span
-              >
-            </div>
-          </div>
-
+        <section>
           <!-- Tasks-->
-          <div
-            class="scrollbar flex flex-1 flex-col justify-start mt-4 pr-0 lg:pr-2 gap-3 overflow-y-auto overflow-x-hidden min-h-[450px] lg:min-h-0"
-          >
+          <div class="flex flex-col gap-3">
             <TasksComponent
               v-if="!taskStore.loading"
               v-for="task in filteredTaskData"
@@ -510,96 +812,20 @@ function resetFilter() {
             </div>
           </div>
         </section>
-
-        <section class="lg:col-span-2 pb-4 lg:pb-0">
-          <div
-            class="flex items-center justify-center w-full base-element border-1 border-gray-200"
-          >
-            <button
-              @click="showPopUpTask = true"
-              class="select-none scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full px-4 py-2 rounded-lg text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-md"
-            >
-              <i class="fa-solid fa-plus"></i>
-              <span>Neue Task erstellen</span>
-            </button>
-          </div>
-
-          <!-- To next level-->
-          <div class="base-element mt-4 text-sm text-[var(--text-color-light)]">
-            <span class="uppercase font-semibold">Bis zum nächsten Level</span>
-            <div class="flex items-center justify-between w-full mt-4 mb-2 gap-2">
-              <span>Lv. {{ dashboardData?.level }}</span>
-              <span class="text-[var(--text-color)] font-semibold text-right"
-                >{{ dashboardData?.xpCurrent }} / {{ dashboardData?.xpNext }} XP</span
-              >
-            </div>
-            <div class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                :style="{ width: `${levelProgress}%` }"
-                class="h-full bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] rounded-full"
-              ></div>
-            </div>
-          </div>
-
-          <!-- Task Details-->
-          <!--          <div class="base-element mt-4">-->
-          <!--            <span class="uppercase text-[var(&#45;&#45;text-color-light)] text-sm font-semibold"-->
-          <!--              >Task Details</span-->
-          <!--            >-->
-          <!--            <div-->
-          <!--              class="h-[150px] mt-2 flex justify-center items-center w-full rounded-lg text-[var(&#45;&#45;text-color-light)]"-->
-          <!--            >-->
-          <!--              <div-->
-          <!--                class="flex flex-col justify-center items-center text-center gap-3 h-full w-1/3 text-[var(&#45;&#45;text-color-light)]"-->
-          <!--              >-->
-          <!--                <i class="fa-solid fa-list text-2xl"></i>-->
-          <!--                <span class="text-xs leading-5">Task auswählen für Details</span>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-
-          <!-- Today Insights-->
-          <div class="base-element mt-4">
-            <span class="uppercase text-[var(--text-color-light)] text-sm font-semibold"
-              >Heute</span
-            >
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 w-full gap-2 mt-2">
-              <div
-                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
-              >
-                <span class="text-[var(--accent-color)] text-2xl font-semibold">{{
-                  taskDoneToday
-                }}</span>
-                <span class="text-xs">Erledigt</span>
-              </div>
-              <div
-                class="px-2 py-2 flex flex-col justify-center items-center w-full rounded-lg text-[var(--text-color-light)] bg-[var(--background-color)]"
-              >
-                <span class="text-[var(--primary-color)] text-2xl font-semibold">{{
-                  xpEarnedToday
-                }}</span>
-                <span class="text-xs">XP verdient</span>
-              </div>
-            </div>
-          </div>
-
-          <button
-            v-if="checkedTasks.length > 0"
-            @click="completeTask"
-            class="scale-animation-sm border-2 flex items-center justify-center gap-2 uppercase border-b-gray-200 font-semibold text-sm cursor-pointer base-element mt-4 w-full text-[var(--text-color-white)] !bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
-          >
-            <div class="flex items-center justify-center w-[25px] h-[25px] text-xl">
-              <i class="fa-solid fa-clipboard-check"></i>
-            </div>
-            <span>Tasks abschliessen</span>
-          </button>
-        </section>
       </div>
     </main>
   </div>
 </template>
 
 <style scoped>
+.deactivate-scrollbar {
+  scrollbar-width: none;
+}
+
+.deactivate-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .searchbar:has(input:focus) {
   border: 1px solid var(--primary-color);
 }
