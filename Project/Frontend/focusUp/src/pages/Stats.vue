@@ -668,7 +668,7 @@ onMounted(async () => {
       <span class="subtitle">Insights</span>
 
       <div class="mt-3 flex items-center justify-center gap-4 w-full">
-        <InsightCardList v-if="!statsStore.loading" :stats="statsStore.statsData!" />
+        <InsightCardList v-if="!statsStore.loading && statsStore.statsData !== null" :stats="statsStore.statsData!" />
       </div>
     </section>
 
