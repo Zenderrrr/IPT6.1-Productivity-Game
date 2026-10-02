@@ -25,6 +25,7 @@ import { applyUIMode } from '@/utils/modeUI.ts'
 import type { CreateCategoryType } from '@/types/createCategoryType.ts'
 import Loading from '@/components/ui/Loading.vue'
 import { formatTime } from '@/utils/date.ts'
+import CreateCategory from '@/components/ui/CreateCategory.vue'
 
 // date
 const date = new Date()
@@ -312,6 +313,16 @@ function submitFilter(tasks: Task[]) {
 
 function resetFilter() {
   submittedFilterTask.value = null
+}
+
+// Category change small windows
+function handleCategoryChange(event: Event) {
+  const select = event.target as HTMLSelectElement
+
+  if(select.value === 'new') {
+    showPopUpCategory.value = true
+    select.value = ''
+  }
 }
 </script>
 
@@ -649,8 +660,17 @@ function resetFilter() {
             </div>
           </header>
 
+          <div class="sm:hidden z-999 fixed bottom-0 left-0 m-4 w-[50px] h-[50px] flex items-center justify-center">
+            <button
+              @click="showPopUpTask = true"
+              class="select-none scale-animation-sm cursor-pointer flex justify-center items-center gap-2 bg-linear-to-r from-[var(--primary-color)] to-[var(--secondary-color)] w-full h-full px-4 py-2 rounded-2xl text-[var(--text-color-white)] text-nowrap font-semibold border border-gray-200 text-xl"
+            >
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+
           <!-- search area-->
-          <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto_auto] gap-2 shrink-0">
+          <div class="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_auto_auto] gap-2 shrink-0">
             <div
               class="searchbar input-hover-default flex items-center justify-start gap-2 bg-[var(--surface-color)] border! border-[var(--border-color)]! px-4 py-2 rounded-lg"
             >
@@ -668,23 +688,21 @@ function resetFilter() {
               :style="
                 isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : ''
               "
-              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+              class="hidden md:flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
               <span>nach Datum</span>
             </button>
 
-            <button
-              :style="
-                submittedFilterTask !== null
-                  ? 'border-color:var(--primary-color); color:var(--primary-color)'
-                  : ''
-              "
-              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            <select
+              @change="handleCategoryChange"
+              name="categories"
+              class="outline-0 hidden md:flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
-              <span>Alle Kategorien</span>
-              <i class="fa-solid fa-angle-down"></i>
-            </button>
+              <option value="">Alle Kategorien</option>
+              <option v-for="category in categoriesData ?? []" :key="category.id" :value="category.name">{{ category.name }}</option>
+              <option value="new">Neue Kategorie</option>
+            </select>
 
             <button
               :style="
@@ -693,22 +711,30 @@ function resetFilter() {
                   : ''
               "
               @click="submittedFilterTask !== null ? resetFilter() : (filterShown = true)"
-              class="select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+              class="hidden md:flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
               <i class="fa-solid fa-filter"></i>
               <span>Filter</span>
             </button>
+
+            <button
+              class="md:hidden w-full select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            >
+              <i class="fa-solid fa-filter"></i>
+              <span class="hidden sm:block">Filter & Sortieren</span>
+              <span class="block sm:hidden">Filter</span>
+            </button>
           </div>
 
-          <div class="flex gap-4 items-center justify-between">
+          <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <!-- View choosing-->
             <div
-              class="grid grid-cols-1 sm:grid-cols-3 gap-2 rounded-xl text-sm shrink-0 max-w-[320px]"
+              class="grid grid-cols-3 gap-2 rounded-xl text-sm shrink-0 max-w-[320px]"
             >
               <div
                 @click="changeViewOption(1)"
                 :class="viewOption === 1 ? 'activeView' : ''"
-                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                class="hover:border-[var(--border-color)] border border-transparent hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
               >
                 <span class="">Alle</span>
                 <span
@@ -717,7 +743,7 @@ function resetFilter() {
                 >
               </div>
               <div
-                class="hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                class="hover:border-[var(--border-color)] border border-transparent hover:bg-[var(--hover-light-color)] duration-200 transition bg-transparent cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
                 @click="changeViewOption(2)"
                 :class="viewOption === 2 ? 'activeView' : ''"
               >
@@ -728,7 +754,7 @@ function resetFilter() {
                 >
               </div>
               <div
-                class="hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
+                class="hover:border-[var(--border-color)] border border-transparent hover:bg-[var(--hover-light-color)] duration-200 transition cursor-pointer flex items-center justify-center gap-2 w-full rounded-xl px-4 py-2"
                 @click="changeViewOption(3)"
                 :class="viewOption === 3 ? 'activeView' : ''"
               >
@@ -740,7 +766,7 @@ function resetFilter() {
               </div>
             </div>
 
-            <div class="flex gap-4 items-center justify-center">
+            <div class="hidden sm:flex gap-4 items-center justify-center">
               <button
                 v-if="checkedTasks.length > 0"
                 @click="completeTask"
@@ -839,6 +865,7 @@ function resetFilter() {
 .activeView {
   background-color: var(--primary-color);
   color: var(--text-color-white);
+  border-color: var(--primary-color);
 }
 
 .inactiveView {
