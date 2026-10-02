@@ -324,6 +324,8 @@ function handleCategoryChange(event: Event) {
     select.value = ''
   }
 }
+
+const filterAndSort = ref<boolean>(false)
 </script>
 
 <template>
@@ -718,11 +720,48 @@ function handleCategoryChange(event: Event) {
             </button>
 
             <button
+              @click="filterAndSort = !filterAndSort"
               class="md:hidden w-full select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer flex items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
-              <i class="fa-solid fa-filter"></i>
+              <i class="fa-solid fa-sliders"></i>
               <span class="hidden sm:block">Filter & Sortieren</span>
               <span class="block sm:hidden">Filter</span>
+            </button>
+          </div>
+
+          <div v-if="filterAndSort" class="grid grid-cols-3 gap-2">
+            <button
+              @click="isFilterDate = !isFilterDate"
+              :style="
+                isFilterDate ? 'color:var(--primary-color); border-color:var(--primary-color)' : ''
+              "
+              class="flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            >
+              <i class="fa-solid fa-layer-group"></i>
+              <span>nach Datum</span>
+            </button>
+
+            <select
+              @change="handleCategoryChange"
+              name="categories"
+              class="outline-0 flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            >
+              <option value="">Alle Kategorien</option>
+              <option v-for="category in categoriesData ?? []" :key="category.id" :value="category.name">{{ category.name }}</option>
+              <option value="new">Neue Kategorie</option>
+            </select>
+
+            <button
+              :style="
+                submittedFilterTask !== null
+                  ? 'border-color:var(--primary-color); color:var(--primary-color)'
+                  : ''
+              "
+              @click="submittedFilterTask !== null ? resetFilter() : (filterShown = true)"
+              class="flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
+            >
+              <i class="fa-solid fa-filter"></i>
+              <span>Filter</span>
             </button>
           </div>
 
