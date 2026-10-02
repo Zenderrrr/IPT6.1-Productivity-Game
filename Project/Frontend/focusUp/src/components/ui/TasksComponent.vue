@@ -54,7 +54,7 @@ function changeChecked() {
 
     <label class="container -translate-y-2.5">
       <input @click="changeChecked" type="checkbox" :checked="isChecked" :disabled="props.isCompleted" />
-      <span class="checkmark rounded-2xl" :style="{ backgroundColor: props.isCompleted ? 'oklch(87.2% 0.01 258.338)' : '' }"></span>
+      <span class="checkmark rounded-2xl" :style="{ backgroundColor: props.isCompleted ? 'var(--text-color-light)' : '' }"></span>
     </label>
 
     <div class="flex items-center justify-between w-full">
@@ -74,7 +74,7 @@ function changeChecked() {
 
           <!-- Time-->
           <div
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <i class="fa-regular fa-clock"></i>
             <span>{{ props.timeMin }} Min.</span>
@@ -83,7 +83,7 @@ function changeChecked() {
           <!-- Date-->
           <div
             v-if="props.date !== null && props.date !== undefined"
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <i class="fa-regular fa-calendar"></i>
             <span>{{ `${formatTime(props.date.getDate())}. ${month}.` }}</span>
@@ -91,7 +91,7 @@ function changeChecked() {
 
           <!-- XP-->
           <div
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold bg-gray-100 text-[var(--text-color-light)]"
+            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <span class="text-[var(--primary-color)]">+ {{ props.xp }} XP</span>
           </div>
@@ -111,7 +111,7 @@ function changeChecked() {
 
 <style scoped>
 .checked {
-  background-color: oklch(96.7% 0.003 264.542);
+  background-color: var(--hover-light-color);
 }
 
 .checked .title {
