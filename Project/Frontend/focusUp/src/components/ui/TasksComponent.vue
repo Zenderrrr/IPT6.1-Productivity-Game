@@ -48,19 +48,31 @@ function changeChecked() {
 <template>
   <div
     :class="isChecked ? 'checked' : 'unchecked'"
-    class="min-h-[120px] shrink-0 group hover:!border-[var(--primary-color)] transition-all duration-100 overflow-hidden relative border-1 border-transparent cursor-pointer base-element w-full flex items-center justify-start gap-4"
+    class="flex flex-col sm:flex-row min-h-[120px] shrink-0 group hover:!border-[var(--primary-color)] transition-all duration-100 overflow-hidden relative border-1 border-transparent cursor-pointer base-element w-full items-center justify-start gap-4"
   >
     <div class="h-full w-0.5 group-hover:bg-[var(--primary-color)] transition-all duration-100 bg-transparent absolute top-0 left-0"></div>
 
-    <label class="container -translate-y-2.5">
+    <div class="sm:hidden flex items-center justify-start gap-3 w-full">
+      <label class="inline container -translate-y-2.5">
+        <input @click="changeChecked" type="checkbox" :checked="isChecked" :disabled="props.isCompleted" />
+        <span class="checkmark rounded-2xl" :style="{ backgroundColor: props.isCompleted ? 'var(--text-color-light)' : '' }"></span>
+      </label>
+
+      <div class="flex flex-col items-start justify-center">
+        <span class="title font-semibold truncate">{{ props.taskTitle }}</span>
+        <span class="text-[var(--text-color-light)] text-sm line-clamp-2 sm:line-clamp-1">{{ props.taskDescription }}</span>
+      </div>
+    </div>
+
+    <label class="hidden sm:inline container -translate-y-2.5">
       <input @click="changeChecked" type="checkbox" :checked="isChecked" :disabled="props.isCompleted" />
       <span class="checkmark rounded-2xl" :style="{ backgroundColor: props.isCompleted ? 'var(--text-color-light)' : '' }"></span>
     </label>
 
     <div class="flex items-center justify-between w-full">
       <div class="flex flex-col items-start justify-center">
-        <span class="title font-semibold">{{ props.taskTitle }}</span>
-        <span class="text-[var(--text-color-light)] text-sm">{{ props.taskDescription }}</span>
+        <span class="hidden sm:block title font-semibold truncate">{{ props.taskTitle }}</span>
+        <span class="hidden sm:block text-[var(--text-color-light)] text-sm line-clamp-2 sm:line-clamp-1">{{ props.taskDescription }}</span>
         <div class="mt-1 flex items-center justify-start gap-2">
           <!-- Tags-->
           <slot></slot>
@@ -74,7 +86,7 @@ function changeChecked() {
 
           <!-- Time-->
           <div
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
+            class="text-nowrap flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <i class="fa-regular fa-clock"></i>
             <span>{{ props.timeMin }} Min.</span>
@@ -83,7 +95,7 @@ function changeChecked() {
           <!-- Date-->
           <div
             v-if="props.date !== null && props.date !== undefined"
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
+            class="text-nowrap flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <i class="fa-regular fa-calendar"></i>
             <span>{{ `${formatTime(props.date.getDate())}. ${month}.` }}</span>
@@ -91,7 +103,7 @@ function changeChecked() {
 
           <!-- XP-->
           <div
-            class="flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
+            class="text-nowrap flex gap-1 items-center justify-center rounded-lg px-2 py-1 text-xs font-semibold text-[var(--text-color-light)]"
           >
             <span class="text-[var(--primary-color)]">+ {{ props.xp }} XP</span>
           </div>
@@ -125,7 +137,6 @@ function changeChecked() {
 
 /* Customize the label (the container) */
 .container {
-  display: inline;
   position: relative;
   padding-left: 35px;
   margin: 0;
