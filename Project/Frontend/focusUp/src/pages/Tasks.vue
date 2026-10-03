@@ -319,9 +319,19 @@ function resetFilter() {
 function handleCategoryChange(event: Event) {
   const select = event.target as HTMLSelectElement
 
+  if(select.value === '') {
+    changeActiveCategory(0)
+    return
+  }
+
   if(select.value === 'new') {
     showPopUpCategory.value = true
     select.value = ''
+  }
+
+  for (const category of categoriesData.value ?? []){
+    if (category.name === select.value)
+      changeActiveCategory(category.id)
   }
 }
 
@@ -729,7 +739,7 @@ const filterAndSort = ref<boolean>(false)
             </button>
           </div>
 
-          <div v-if="filterAndSort" class="grid grid-cols-3 gap-2">
+          <div v-if="filterAndSort" class="grid grid-cols-3 gap-2 md:hidden">
             <button
               @click="isFilterDate = !isFilterDate"
               :style="
@@ -738,7 +748,8 @@ const filterAndSort = ref<boolean>(false)
               class="flex select-none hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] transition duration-200 border border-[var(--border-color)] cursor-pointer items-center justify-center text-nowrap gap-2 rounded-lg text-[var(--text-color)] bg-[var(--surface-color)] px-4 py-2"
             >
               <i class="fa-solid fa-layer-group"></i>
-              <span>nach Datum</span>
+              <span class="hidden sm:block">nach Datum</span>
+              <span class="block sm:hidden">Datum</span>
             </button>
 
             <select
