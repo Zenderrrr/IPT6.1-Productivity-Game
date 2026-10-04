@@ -225,9 +225,10 @@ onMounted(() => {
             </div>
 
             <div class="flex flex-col items-end justify-center mt-2 mb-3">
-              <a
+              <RouterLink
+                to="/forgot-password"
                 class="hover:text-[var(--primary-color)] transition duration-200 text-xs text-[var(--secondary-color)] font-semibold cursor-pointer"
-                >Passwort vergessen?</a
+                >Passwort vergessen?</RouterLink
               >
             </div>
             <button
