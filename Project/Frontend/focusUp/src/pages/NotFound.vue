@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import Logo from '@/components/ui/Logo.vue'
 import { onMounted } from 'vue'
 import { applyUIMode } from '@/utils/modeUI.ts'
+import DefaultNav from '@/components/layout/DefaultNav.vue'
 
 onMounted(async () => {
   applyUIMode()
@@ -10,24 +10,7 @@ onMounted(async () => {
 
 <template>
   <div class="bg-linear-to-b min-h-screen from-[var(--surface-color)] to-[var(--secondary-color-light)]">
-    <div class="w-full h-fit">
-      <nav class="flex items-center justify-between max-w-[1400px] mx-auto w-full py-5">
-        <Logo link="/" class="bg-transparent"></Logo>
-
-        <div class="flex items-center justify-between gap-2">
-          <RouterLink to="/register" class="hover:text-[var(--text-color)] hover:border-[var(--text-color)] transition-all duration-100 text-sm px-3 py-2 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl text-[var(--text-color-light)] font-semibold">
-            Registrieren
-          </RouterLink>
-
-          <RouterLink to="/login" class="hover:text-[var(--text-color)] hover:border-[var(--text-color)] flex items-center justify-center gap-2 text-sm px-3 py-2 bg-[var(--surface-color)] border border-[var(--border-color)] rounded-xl text-[var(--text-color-light)] font-semibold">
-            <div class="flex items-center justify-center">
-              <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            </div>
-            Anmelden
-          </RouterLink>
-        </div>
-      </nav>
-    </div>
+    <DefaultNav></DefaultNav>
 
     <div class="w-full h-fit flex flex-col gap-2 items-center justify-between">
       <h1 class="flex items-center justify-center gap-4 text-[14rem] leading-50 font-extrabold text-[var(--text-color)] text-center">
@@ -57,7 +40,7 @@ onMounted(async () => {
         <span>4</span>
       </h1>
 
-      <h2 class="text-[2.5rem] leading-13 font-extrabold max-w-[650px] text-center">Diese Seite hat ihren Fokus verloren.</h2>
+      <h2 class="text-[2.5rem] leading-13 font-extrabold max-w-[650px] text-center">Diese Seite hat deinen Fokus verloren.</h2>
 
       <p class="text-[var(--text-color-light)] text-lg max-w-[450px] text-center mt-2">Die gesuchte Seite existiert nicht, wurde verschoben oder ist nicht mehr verfügbar. Kehre zurück und setze deinen Fortschritt fort.</p>
     </div>
