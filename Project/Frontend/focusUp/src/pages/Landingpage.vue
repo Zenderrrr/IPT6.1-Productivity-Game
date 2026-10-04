@@ -759,7 +759,7 @@ onUnmounted(() => {
     >
       <h2
         :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' "
-        class="transition-all duration-700 lg:text-[75px] text-[55px] text-center text-[var(--text-color-white)] font-extrabold"
+        class="transition-all duration-700 lg:text-[56px] text-[38px] text-center text-[var(--text-color-white)] font-extrabold"
       >
         Starte deine Reise heute.
       </h2>
