@@ -49,13 +49,13 @@ onUnmounted(() => {
         class="group-hover:block transition duration-100 hidden absolute top-0 left-0 right-0 h-[3px] bg-[var(--primary-color)]"
       ></div>
 
-      <div
-        class="text-xl flex items-center justify-center w-[45px] h-[45px] rounded-xl bg-[var(--primary-color-light)] text-[var(--primary-color)]"
-      >
+      <div class="flex items-center gap-4">
+        <div class="text-xl flex items-center justify-center min-w-[45px] w-[45px] h-[45px] rounded-xl bg-[var(--primary-color-light)] text-[var(--primary-color)]">
         <i :class="props.svg"></i>
-      </div>
+        </div>
 
-      <span class="font-bold text-[var(--text-color)] text-lg">{{ props.title }}</span>
+        <span class="font-bold text-[var(--text-color)] text-lg">{{ props.title }}</span>
+      </div>
       <p class="text-[var(--text-color-light)] text-md">{{ props.description }}</p>
       <div class="mt-3">
         <span
