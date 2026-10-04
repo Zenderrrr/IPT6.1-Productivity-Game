@@ -328,7 +328,7 @@ onUnmounted(() => {
       <div class="mx-auto z-20 max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
           <h1
-            class="z-15 sm:text-[75px] text-[60px] font-extrabold leading-19 text-[var(--text-color)] text-center max-w-[750px]"
+            class="z-15 sm:text-[75px] text-[60px] max-[375px]:text-[36px] font-extrabold leading-19 max-[375px]:leading-11 text-[var(--text-color)] text-center max-w-[750px]"
           >
             <span v-for="(word, index) in titleWords" :key="index" class="mr-[0.75rem]">
               <span
@@ -351,7 +351,7 @@ onUnmounted(() => {
           <p
             v-for="(line, index) in descriptionLines"
             :key="index"
-            class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-w-[550px] text-center"
+            class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-[375px]:text-sm max-w-[550px] text-center"
           >
             <span
               :style="{ transitionDelay: `${index * 100 + 1000}ms` }"
