@@ -769,11 +769,11 @@ onUnmounted(() => {
         >Hör auf, Produktivität nur zu planen. Erstelle dein Konto in 30 Sekunden und erledige deine
         erste Aufgabe noch heute.</span
       >
-      <div class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-center gap-4 mt-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 w-full sm:w-fit gap-4 mt-5">
         <div :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' " class="transition-all duration-700 delay-200">
           <RouterLink
             to="/register"
-            class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+            class="w-full hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
           >
             <div class="flex items-center justify-center">
               <i class="fa-solid fa-bolt"></i>
@@ -784,7 +784,7 @@ onUnmounted(() => {
         <div :class="!isVisibleCTASection ? 'show-up-off-xl' : 'show-up-on' " class="transition-all duration-700 delay-200">
           <RouterLink
             to="/login"
-            class="w-full sm:w-fit hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
+            class="w-full hover:border-[var(--text-color)] hover:shadow-2xl transition duration-100 border-2 border-transparent px-7 py-3 rounded-xl shadow-sm font-bold bg-[var(--surface-color)] flex items-center justify-center gap-2"
           >
             <div class="flex items-center justify-center">
               <i class="fa-solid fa-arrow-right-to-bracket"></i>
