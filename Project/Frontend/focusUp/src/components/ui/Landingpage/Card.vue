@@ -57,17 +57,17 @@ onUnmounted(() => {
         <span class="font-bold text-[var(--text-color)] text-lg">{{ props.title }}</span>
       </div>
       <p class="text-[var(--text-color-light)] text-md">{{ props.description }}</p>
-      <div class="mt-3">
+      <div class="mt-3 flex flex-wrap gap-2">
         <span
-          class="mr-2 text-xs px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
+          class="text-xs text-nowrap px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
           >{{ props.fPoint }}</span
         >
         <span
-          class="mr-2 text-xs px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
+          class="text-xs text-nowrap px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
           >{{ props.sPoint }}</span
         >
         <span
-          class="mr-2 text-xs px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
+          class="text-xs text-nowrap px-2 py-1 bg-[var(--background-color)] border border-[var(--border-color)] rounded-full font-bold text-[var(--text-color-light)]"
         >
           {{ props.tPoint }}</span
         >
