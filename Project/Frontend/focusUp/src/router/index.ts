@@ -12,6 +12,8 @@ import Landingpage from '@/pages/Landingpage.vue'
 import NotFound from '@/pages/NotFound.vue'
 import LegalNotice from '@/pages/LegalNotice.vue'
 import PrivacyPolicy from '@/pages/PrivacyPolicy.vue'
+import ForgotPassword from '@/pages/Auth/ForgotPassword.vue'
+import ResetPassword from '@/pages/Auth/ResetPassword.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +34,18 @@ const router = createRouter({
       path: '/register',
       component: Register,
       name: 'Register',
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/reset-password?token=',
+      name: 'reset',
+      component: ResetPassword,
       meta: { requiresAuth: false },
     },
     {
