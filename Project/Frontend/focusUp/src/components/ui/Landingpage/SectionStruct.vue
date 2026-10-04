@@ -38,7 +38,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section ref="sectionRef" class="px-8 py-30">
+  <section ref="sectionRef" class="px-8 py-16">
     <div class="max-w-[1400px] mx-auto">
       <div class="text-center">
         <span
