@@ -282,7 +282,7 @@ onUnmounted(() => {
     </div>
 
     <header
-      class="relative z-20 pt-[150px] h-screen border border-transparent border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
+      class="relative z-20 pt-[150px] h-screen border-b border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
     >
       <div class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-5 h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,var(--surface-color),var(--primary-color-light)_30%,var(--secondary-color-light)_60%,color-mix(in_srgb,var(--secondary-color)_35%,var(--surface-color)))]
          shadow-[0_-30px_90px_color-mix(in_srgb,var(--secondary-color)_45%,transparent),0_-6px_24px_color-mix(in_srgb,var(--surface-color)_90%,transparent),inset_0_40px_80px_color-mix(in_srgb,var(--surface-color)_90%,transparent)]" ></div>
