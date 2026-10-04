@@ -46,7 +46,7 @@ onUnmounted(() => {
           class="transition-all duration-700 uppercase text-[var(--primary-color)] text-sm font-semibold"
           >{{ props.kicker }}</span
         >
-        <h2 :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' " class="delay-100 transition-all duration-700 text-[40px] font-extrabold">{{ props.title }}</h2>
+        <h2 :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' " class="delay-100 transition-all duration-700 text-[28px] sm:text-[34px] font-extrabold">{{ props.title }}</h2>
         <div class="w-full flex justify-center">
           <p :class="!isVisible ? 'show-up-off-xl' : 'show-up-on' " class="delay-200 transition-all duration-700 text-[var(--text-color-light)] text-md max-w-[600px]">
             {{ props.subtitle }}
