@@ -405,7 +405,7 @@ onUnmounted(() => {
       </div>
 
       <div
-        class="hidden xl:grid mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3 overflow-hidden"
+        class="task-cards hidden xl:grid mx-auto w-full max-w-[1400px] px-5 py-15 grid grid-cols-3 overflow-hidden"
       >
         <div
           v-for="(currTask, index) in currTasks"
@@ -865,6 +865,12 @@ onUnmounted(() => {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@media (max-height: 800px) {
+  .task-cards {
+    display: none;
   }
 }
 </style>
