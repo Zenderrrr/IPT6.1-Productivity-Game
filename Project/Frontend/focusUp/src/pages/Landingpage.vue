@@ -363,7 +363,7 @@ onUnmounted(() => {
             </span>
           </p>
           <div
-            class="flex sm:flex-row flex-col w-full sm:w-fit items-center justify-between gap-5 mt-3"
+            class="flex sm:flex-row flex-col w-fit items-stretch sm:items-center items-center justify-between gap-5 mt-3"
           >
             <div
               class="transition-all duration-700 delay-100"
