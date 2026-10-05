@@ -282,7 +282,7 @@ onUnmounted(() => {
     </div>
 
     <header
-      class="relative z-20 pt-[120px] h-screen border-b border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
+      class="relative z-20 pt-[90px] md:pt-[120px] min-h-screen border-b border-b-[var(--border-color)] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[var(--surface-color)] via-[var(--primary-color-light)] to-[var(--secondary-color)]"
     >
       <div class="pointer-events-none absolute left-1/2 bottom-[-172rem] z-5 h-[200rem] w-[200rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side_at_50%_0%,var(--surface-color),var(--primary-color-light)_30%,var(--secondary-color-light)_60%,color-mix(in_srgb,var(--secondary-color)_35%,var(--surface-color)))]
          shadow-[0_-30px_90px_color-mix(in_srgb,var(--secondary-color)_45%,transparent),0_-6px_24px_color-mix(in_srgb,var(--surface-color)_90%,transparent),inset_0_40px_80px_color-mix(in_srgb,var(--surface-color)_90%,transparent)]" ></div>
@@ -328,7 +328,7 @@ onUnmounted(() => {
       <div class="mx-auto z-20 max-w-[1400px] flex items-center justify-center gap-[20px] p-8">
         <div class="flex flex-col justify-center items-center gap-4">
           <h1
-            class="z-15 sm:text-[75px] text-[60px] max-[375px]:text-[36px] font-extrabold leading-19 max-[375px]:leading-11 text-[var(--text-color)] text-center max-w-[750px]"
+            class="z-15 text-[36px] leading-[2.75rem] min-[400px]:text-[60px] min-[400px]:leading-19 sm:text-[75px] font-extrabold text-[var(--text-color)] text-center max-w-[750px]"
           >
             <span v-for="(word, index) in titleWords" :key="index" class="mr-[0.75rem]">
               <span
@@ -351,7 +351,7 @@ onUnmounted(() => {
           <p
             v-for="(line, index) in descriptionLines"
             :key="index"
-            class="leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 text-lg max-[375px]:text-sm max-w-[550px] text-center"
+            class="text-sm leading-5 min-[400px]:text-lg min-[400px]:leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 max-w-[550px] text-center"
           >
             <span
               :style="{ transitionDelay: `${index * 100 + 1000}ms` }"
