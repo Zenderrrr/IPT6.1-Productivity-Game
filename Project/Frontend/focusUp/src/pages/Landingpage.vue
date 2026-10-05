@@ -351,7 +351,8 @@ onUnmounted(() => {
           <p
             v-for="(line, index) in descriptionLines"
             :key="index"
-            class="text-sm leading-5 min-[400px]:text-lg min-[400px]:leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 max-w-[550px] text-center"
+            :class="index > 0 ? 'max-sm:-mt-4' : ''"
+            class="text-sm leading-5 min-[400px]:text-lg min-[400px]:leading-6 sm:leading-4 lg:text-[var(--text-color-light)] text-[var(--text-color)] z-15 sm:z-0 max-w-[550px] text-center"
           >
             <span
               :style="{ transitionDelay: `${index * 100 + 1000}ms` }"
