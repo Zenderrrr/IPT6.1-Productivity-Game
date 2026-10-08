@@ -1,6 +1,8 @@
+using FocusUp.Application.Services.Auth;
 using FocusUp.Common.Exceptions;
 using FocusUp.Infrastructure.Repositories;
 using System;
+using System.Data.Common;
 
 namespace FocusUp.Application.Services
 {
@@ -23,7 +25,12 @@ namespace FocusUp.Application.Services
             _userRepository.Update(user);
         }
 
-        public void ChangePassword(int userId, string newPasswordHash) => _userRepository.UpdatePassword(userId, newPasswordHash);
+        public void ChangePassword(int userId, string newPassword, DbTransaction transaction)
+        {
+            string newPasswordHash = new PasswordHasher().PasswordHashing(newPassword);
+
+            _userRepository.UpdatePassword(userId, newPasswordHash, transaction);
+        }
 
         public void DeleteUser(int userId) => _userRepository.Delete(userId);
 
