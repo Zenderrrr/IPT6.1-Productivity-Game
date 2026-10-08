@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using System;
+using System.Data.Common;
 
 namespace FocusUp.Infrastructure.Repositories
 {
@@ -148,20 +149,30 @@ namespace FocusUp.Infrastructure.Repositories
             return true;
         }
 
-        public void UpdatePassword(int userId, string passwordHash)
+        public void UpdatePassword(int userId, string passwordHash, DbTransaction transaction)
         {
-            var connection = _dbConnection.GetConnection();
+            var connection = transaction.Connection ?? throw new InvalidOperationException("Keine aktive Transaktion");
             using var cmd = connection.CreateCommand();
+            cmd.Transaction = transaction;
 
             cmd.CommandText = $@"UPDATE {_tableName}
-                                 SET password_hash = @password_hash, updated_at = @updated_at
-                                 WHERE id = @id";
+                                 SET password_hash = @password_hash, updated_at = CURRENT_TIMESTAMP
+                                 WHERE id = @user_id";
 
-            cmd.Parameters.AddWithValue("@password_hash", passwordHash);
-            cmd.Parameters.AddWithValue("@updated_at", DateTime.Now);
-            cmd.Parameters.AddWithValue("@id", userId);
+            var hashParameter = cmd.CreateParameter();
+            hashParameter.ParameterName = "@password_hash";
+            hashParameter.Value = passwordHash;
+            cmd.Parameters.Add(hashParameter);
 
-            cmd.ExecuteNonQuery();
+            var userParameter = cmd.CreateParameter();
+            userParameter.ParameterName = "@user_id";
+            userParameter.Value = userId;
+            cmd.Parameters.Add(userParameter);
+
+            if(cmd.ExecuteNonQuery() != 1)
+            {
+                throw new InvalidOperationException("Benutzer konnte nicht geändert werden.");
+            }
         }
 
         private static User MapToUser(SqliteDataReader reader)
