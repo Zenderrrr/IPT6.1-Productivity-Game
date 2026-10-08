@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace FocusUp.Controllers
 {
@@ -169,6 +170,25 @@ namespace FocusUp.Controllers
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
+        }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword([FromBody] ForgotPasswordRequest request)
+        {
+            var user = _userRepository.GetByEmail(request.Email);
+
+            if(user != null)
+            {
+                string token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+
+
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword()
+        {
+
         }
     }
 }
