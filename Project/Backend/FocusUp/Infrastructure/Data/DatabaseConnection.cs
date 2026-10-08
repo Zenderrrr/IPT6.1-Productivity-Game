@@ -70,6 +70,27 @@ public class DatabaseConnection
         return cmd.ExecuteScalar();
     }
 
+    public SqliteConnection CreateOpenConnection()
+    {
+        var connection = new SqliteConnection(_connectionString);
+
+        try
+        {
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = "PRAGMA foreign_keys = ON;";
+            command.ExecuteNonQuery();
+
+            return connection;
+        }
+        catch
+        {
+            connection.Dispose();
+            throw;
+        }
+    }
+
     public bool TestConnection()
     {
         try
