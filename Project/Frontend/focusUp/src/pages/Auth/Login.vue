@@ -184,7 +184,7 @@ onMounted(() => {
               <input
                 class="input-hover-default bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="email"
-                type="text"
+                type="email"
                 placeholder="max@beispiel.ch"
                 required
                 v-model="usernameOrEmail"
