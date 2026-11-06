@@ -10,10 +10,30 @@ using static System.Threading.Tasks.Task;
 using System.Text;
 using FocusUp.Infrastructure.Data;
 using Microsoft.AspNetCore.StaticFiles;
+using FocusUp.Infrastructure.Workers;
+using System.Threading.RateLimiting;
+using FocusUp.Application.Interfaces;
+using Resend;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+var resendApiKey = builder.Configuration["Resend:ApiKey"];
+
+if (string.IsNullOrEmpty(resendApiKey))
+{
+    throw new InvalidOperationException("Die Konfiguration Resend:ApiKey fehlt.");
+}
+
+builder.Services.AddHttpClient<ResendClient>();
+
+builder.Services.Configure<ResendClientOptions>(options =>
+{
+    options.ApiToken = resendApiKey;
+});
+
+builder.Services.AddTransient<IResend, ResendClient>();
 
 var databaseConnection = DatabaseConnection.GetInstance(connectionString);
 
@@ -108,6 +128,30 @@ builder.Services.AddScoped<XPEventRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<UserRefreshTokenRepository>();
 
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddScoped<PasswordResetTokenRepository>();
+builder.Services.AddScoped<PasswordResetService>();
+builder.Services.AddSingleton<PasswordResetQueue>();
+builder.Services.AddHostedService<PasswordResetWorkers>();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("password-reset", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+                context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 10,
+                    Window = TimeSpan.FromMinutes(1),
+                    QueueLimit = 0,
+                    AutoReplenishment = true,
+                }
+            )
+    );
+});
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -150,6 +194,8 @@ app.UseSwaggerUI();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 
