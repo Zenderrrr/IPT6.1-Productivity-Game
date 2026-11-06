@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
-import { deleteUserApi, loginApi, logoutApi, meApi, RefreshApi, registerApi } from '@/api/auth.api.ts'
+import { deleteUserApi, ForgotPasswordApi, loginApi, logoutApi, meApi, RefreshApi, registerApi, ResetPasswordApi } from '@/api/auth.api.ts'
 import { computed, ref } from 'vue'
 import type { User } from '@/types/user.ts'
 import { getUserError } from '@/utils/userError.ts'
+import type { ResetPasswordRequest } from '@/types/resetPasswordRequest.ts'
+import type { ForgotPasswortRequest } from '@/types/forgotPasswortRequest.ts'
 
 export const useAuthStore = defineStore('auth', () => {
   const loading = ref<boolean>(false)
@@ -102,5 +104,23 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { token, loading, error, login, me, user: userData, isAuth, register, logout, deleteUser, refresh}
+  async function forgotPassword(forgotPasswort: ForgotPasswortRequest){
+    try{
+      return await ForgotPasswordApi(forgotPasswort)
+    }catch (e){
+      error.value = e instanceof Error ? e.message : 'Unable to send forgotPassword api'
+      throw e
+    }
+  }
+
+  async function resetPassword(resetRequest: ResetPasswordRequest){
+    try{
+      return await ResetPasswordApi(resetRequest)
+    }catch (e){
+      error.value = e instanceof Error ? e.message : 'Unable to reset password'
+      throw e
+    }
+  }
+
+  return { token, loading, error, login, me, user: userData, isAuth, register, logout, deleteUser, refresh, forgotPassword, resetPassword}
 });
