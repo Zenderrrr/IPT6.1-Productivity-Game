@@ -11,6 +11,7 @@ services:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
+      Resend__ApiKey: ${RESEND_API_KEY}
     volumes:
       - ./Backend/FocusUp:/app
       - ./Database:/app/database
