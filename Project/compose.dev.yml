@@ -11,6 +11,7 @@ services:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ConnectionStrings__DefaultConnection: ${CONNECTION_STRING}
+      Resend__ApiKey: ${RESEND_API_KEY}
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
     volumes:
       - ./Backend/FocusUp:/app
@@ -19,6 +20,8 @@ services:
     container_name: focusup-frontend
     build: 
       target: development
+      context: ./Frontend/FocusUp
+      dockerfile: Dockerfile
     volumes:
       - ./Frontend/focusUp:/app
       - /app/node_modules
