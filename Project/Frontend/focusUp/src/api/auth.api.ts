@@ -2,6 +2,8 @@ import { apiFetch } from '@/api/api.ts'
 import type { User } from '@/types/user.ts'
 import type { LoginResponseType } from '@/types/loginResponseType.ts'
 import type { RefreshResponseType } from '@/types/refreshResponseType.ts'
+import type { ResetPasswordRequest } from '@/types/resetPasswordRequest.ts'
+import type { ForgotPasswortRequest } from '@/types/forgotPasswortRequest.ts'
 
 export async function loginApi(usernameOrEmail: string, password: string): Promise<LoginResponseType> {
   return apiFetch('/Auth/login', {
@@ -58,5 +60,19 @@ export async function RefreshApi() : Promise<RefreshResponseType> {
   return await apiFetch('/Auth/refresh', {
     method: 'POST',
     credentials: 'include',
+  })
+}
+
+export async function ResetPasswordApi(resetRequest: ResetPasswordRequest) : Promise<void>{
+  return await apiFetch('/Auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(resetRequest)
+  })
+}
+
+export async function ForgotPasswordApi(forgotPasswort: ForgotPasswortRequest) : Promise<void> {
+  return await apiFetch('/Auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify(forgotPasswort)
   })
 }
