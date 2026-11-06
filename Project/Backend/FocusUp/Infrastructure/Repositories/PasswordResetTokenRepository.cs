@@ -70,7 +70,7 @@ namespace FocusUp.Infrastructure.Repositories
             claim.CommandText = $@"
                                 UPDATE {_tableName}
                                 SET used_at = @now
-                                WHERE token_hash = @token_hash AND used_at = null AND expires_at > @now;
+                                WHERE token_hash = @token_hash AND used_at IS null AND expires_at > @now;
                                 ";
 
             claim.Parameters.AddWithValue("@now", now);
