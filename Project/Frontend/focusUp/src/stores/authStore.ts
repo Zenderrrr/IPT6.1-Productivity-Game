@@ -78,12 +78,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      await logoutApi(token.value)
+      if(token.value)
+        await logoutApi(token.value)
+    }catch(e){
+      error.value = e instanceof Error ? e.message : 'Unable to logout'
+    }finally {
       userData.value = null
       token.value = null
       localStorage.removeItem('token')
-    }catch(e){
-      error.value = e instanceof Error ? e.message : 'Unable to logout'
     }
   }
 

@@ -51,5 +51,6 @@ export async function apiFetch<T>(endpoint: string, options?: RequestInit): Prom
     throw new Error(`ERROR: ${res.status}: ${text}`)
   }
 
-  return res.json();
+  const body = await res.text()
+  return body.trim() ? (JSON.parse(body) as T) : (undefined as T)
 }

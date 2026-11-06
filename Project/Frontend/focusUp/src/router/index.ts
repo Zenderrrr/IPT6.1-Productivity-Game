@@ -102,7 +102,7 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
-  if (!authStore.user && !authStore.token) {
+  if (!authStore.user && authStore.token) {
     try{
         await authStore.me()
       }catch(err){
