@@ -184,7 +184,7 @@ onMounted(() => {
               <input
                 class="input-hover-default bg-[var(--background-color)] w-full rounded-lg px-4 py-2 border border-gray-200 outline-[var(--primary-color)]"
                 id="email"
-                type="email"
+                type="text"
                 placeholder="max@beispiel.ch"
                 required
                 v-model="usernameOrEmail"
@@ -261,12 +261,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.bg-dots {
-  background-image: radial-gradient(gray 0.1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: center;
-}
-
 .bg-primary-gradient {
   background: linear-gradient(
     to bottom right,
