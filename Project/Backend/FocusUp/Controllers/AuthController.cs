@@ -3,8 +3,10 @@ using FocusUp.Application.Services;
 using FocusUp.Application.Services.Auth;
 using FocusUp.Domain.Models;
 using FocusUp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
@@ -18,12 +20,14 @@ namespace FocusUp.Controllers
         private readonly AuthService _authService;
         private readonly UserRepository _userRepository;
         private readonly JwtTokenService _jwtTokenService;
+        private readonly PasswordResetService _passwordResetService;
 
-        public AuthController(AuthService authService, UserRepository userRepository, JwtTokenService jwtTokenService)
+        public AuthController(AuthService authService, UserRepository userRepository, JwtTokenService jwtTokenService, PasswordResetService passwordResetService)
         {
             _authService = authService;
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
+            _passwordResetService = passwordResetService;
         }
 
         [HttpPost("register")]
@@ -32,12 +36,12 @@ namespace FocusUp.Controllers
             try
             {
                 int userId = _authService.Register(registerRequest.Username, registerRequest.Email, registerRequest.Password);
-                return StatusCode(201, userId );
+                return StatusCode(201, userId);
             }
             catch (InvalidDataException)
             {
                 return Conflict();
-            }catch(Exception)
+            } catch (Exception)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
@@ -95,14 +99,14 @@ namespace FocusUp.Controllers
             var userIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? throw new UnauthorizedAccessException();
 
             User? user = _userRepository.GetById(int.Parse(userIdClaim));
-            if(user == null) return NotFound();
+            if (user == null) return NotFound();
 
             try
             {
                 _userRepository.Delete(user.Id);
                 return Ok();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return StatusCode(500, "An unexpected error has occurred.");
             }
@@ -123,7 +127,7 @@ namespace FocusUp.Controllers
 
 
             var user = _userRepository.GetById(dbToken.UserId);
-            if(user == null)
+            if (user == null)
                 return Unauthorized();
 
             var newAccessToken = _jwtTokenService.CreateToken(user);
@@ -172,23 +176,46 @@ namespace FocusUp.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [EnableRateLimiting("password-reset")]
         [HttpPost("forgot-password")]
         public IActionResult ForgotPassword([FromBody] ForgotPasswordRequest request)
         {
-            var user = _userRepository.GetByEmail(request.Email);
-
-            if(user != null)
+            if (!_passwordResetService.RequestReset(request.Email))
             {
-                string token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
-
-
+                return StatusCode(503, new
+                {
+                    message = "Bitte versuche es später erneut."
+                });
             }
+
+            return Ok(
+                    new
+                    {
+                        message = "Falls ein Konto mit der E-Mail-Adresse existiert, erhälst du einen Link zum zurücksetzen."
+                    }
+                );
         }
 
+        [AllowAnonymous]
+        [EnableRateLimiting("password-reset")]
         [HttpPost("reset-password")]
-        public IActionResult ResetPassword()
+        public IActionResult ResetPassword([FromBody] ResetPasswordRequest request)
         {
+            bool success = _passwordResetService.ResetPassword(request.Token, request.NewPassword);
 
+            if (!success)
+            {
+                return BadRequest(new
+                {
+                    message = "Der Link ist ungültig oder abgelaufen."
+                });
+            }
+
+            return Ok(new
+            {
+                message = "Dein Passwort wurde geändert."
+            });
         }
     }
 }
