@@ -312,12 +312,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.bg-dots {
-  background-image: radial-gradient(gray 0.1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: center;
-}
-
 .bg-primary-gradient {
   background: linear-gradient(
     to bottom right,
