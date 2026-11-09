@@ -53,14 +53,21 @@ async function logout() {
   await router.push('/login')
 }
 
-async function onDeleteUser(){
-  try{
-    await authStore.deleteUser()
+async function onDeleteUser() {
+  if (await authStore.deleteUser()) {
     await router.push('/login')
-  }catch{}
+  } else {
+    deleteUserError.value = 'Der Account konnte nicht gelöscht werden.'
+  }
+}
+
+function cancelDeleteUser() {
+  isDeleteUserShown.value = false
+  deleteUserError.value = null
 }
 
 const isDeleteUserShown = ref<boolean>(false)
+const deleteUserError = ref<string | null>(null)
 
 const allVisible = ref<boolean>(false)
 const badges = ref<Badge[] | null>(null)
@@ -89,7 +96,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <DeleteUser :is-shown="isDeleteUserShown" @cancel="isDeleteUserShown = false" @confirm="onDeleteUser()"></DeleteUser>
+  <DeleteUser :is-shown="isDeleteUserShown" :error="deleteUserError" @cancel="cancelDeleteUser" @confirm="onDeleteUser"></DeleteUser>
   <NavAuth></NavAuth>
 
   <Loading v-if="authStore.loading || badgeStore.loading"></Loading>
