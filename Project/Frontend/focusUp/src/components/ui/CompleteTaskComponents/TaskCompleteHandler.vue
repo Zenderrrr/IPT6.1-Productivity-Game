@@ -61,12 +61,17 @@ function onXpSubmit() {
 }
 
 function onLevelSubmit() {
+  if (newBadges.value.length === 0) {
+    emit('close')
+    return
+  }
+
   step.value = 4
 }
 
 const badgeUpdateCount = ref<number>(0)
 function onClose() {
-  if (badgeUpdateCount.value < (newBadges.value.length ?? 0)) {
+  if (badgeUpdateCount.value + 1 < newBadges.value.length) {
     badgeUpdateCount.value += 1
     return
   }
