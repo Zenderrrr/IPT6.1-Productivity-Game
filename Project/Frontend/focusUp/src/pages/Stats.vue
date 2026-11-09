@@ -704,47 +704,50 @@ onMounted(async () => {
 
         <div class="w-full overflow-x-auto mt-3">
           <table class="min-w-[700px] border-collapse">
-            <tr>
-              <th>Datum</th>
-              <th>Task</th>
-              <th>Kategorie</th>
-              <th>Dauer</th>
-              <th>XP</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Task</th>
+                <th>Kategorie</th>
+                <th>Dauer</th>
+                <th>XP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="lastTask in lastCompletedTasks"
+                :key="lastTask.id"
+                class="hover:bg-[var(--hover-light-color)] bg-[var(--surface-color)]"
+              >
+                <td class="text-[var(--text-color-light)] text-sm">
+                  {{ GetTimeFromNow(lastTask.createdAt) }}
+                </td>
+                <td class="font-medium text-sm">{{ lastTask.task?.title || lastTask.title || 'Task nicht verfügbar' }}</td>
+                <td>
+                  <Tag
+                    v-if="lastTask.category !== null && lastTask.category !== undefined"
+                    class="inline"
+                    :name="lastTask.category.name"
+                    color-hex="#ebf8f7"
+                    text-color-hex="#14B8A6"
+                  />
 
-            <tr
-              v-for="lastTask in lastCompletedTasks"
-              :key="lastTask.id"
-              class="hover:bg-[var(--hover-light-color)] bg-[var(--surface-color)]"
-            >
-              <td class="text-[var(--text-color-light)] text-sm">
-                {{ GetTimeFromNow(lastTask.createdAt) }}
-              </td>
-              <td class="font-medium text-sm">{{ lastTask.task.title }}</td>
-              <td>
-                <Tag
-                  v-if="lastTask.category !== null && lastTask.category !== undefined"
-                  class="inline"
-                  :name="lastTask.category.name"
-                  color-hex="#ebf8f7"
-                  text-color-hex="#14B8A6"
-                />
-
-                <Tag
-                  v-if="lastTask.category === null || lastTask.category === undefined"
-                  class="inline"
-                  name="Keine"
-                  color-hex="#f9fafb"
-                  text-color-hex="#99a1af"
-                />
-              </td>
-              <td class="text-[var(--text-color-light)] text-sm">
-                {{ lastTask.task.durationMin }} min
-              </td>
-              <td class="font-semibold text-[var(--primary-color)] text-sm">
-                + {{ lastTask.xpAwarded }} XP
-              </td>
-            </tr>
+                  <Tag
+                    v-if="lastTask.category === null || lastTask.category === undefined"
+                    class="inline"
+                    name="Keine"
+                    color-hex="#f9fafb"
+                    text-color-hex="#99a1af"
+                  />
+                </td>
+                <td class="text-[var(--text-color-light)] text-sm">
+                  {{ lastTask.task ? `${lastTask.task.durationMin} min` : '–' }}
+                </td>
+                <td class="font-semibold text-[var(--primary-color)] text-sm">
+                  + {{ lastTask.xpAwarded }} XP
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
