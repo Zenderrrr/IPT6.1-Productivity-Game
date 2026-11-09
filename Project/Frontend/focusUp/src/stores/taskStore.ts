@@ -99,9 +99,8 @@ export const useTaskStore = defineStore('task', () => {
     error.value = null
 
     try{
-      allTasksData.value = allTasksData.value?.filter(t => t.id !== id) ?? [];
-
       await deleteTaskApi(id)
+      allTasksData.value = allTasksData.value?.filter(t => t.id !== id) ?? []
     }catch(e){
       error.value = e instanceof Error ? e.message : 'Unable to delete task'
     }
