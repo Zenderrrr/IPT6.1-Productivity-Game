@@ -16,6 +16,7 @@ import {
   LegendComponent,
   VisualMapComponent,
   TitleComponent,
+  type TooltipComponentOption,
 } from 'echarts/components'
 import { LegacyGridContainLabel } from 'echarts/features'
 import { useTaskStore } from '@/stores/taskStore.ts'
@@ -27,6 +28,7 @@ import categories from '@/components/ui/Categories.vue'
 import InsightCardList from '@/components/ui/InsightCardList.vue'
 import { applyUIMode, setUIMode } from '@/utils/modeUI.ts'
 import Loading from '@/components/ui/Loading.vue'
+import { activityHeatmapDays, buildActivityHeatmap } from '@/utils/activityHeatmap'
 
 use([
   CanvasRenderer,
@@ -46,6 +48,7 @@ use([
 const statsStore = useStatsStore()
 const tasksStore = useTaskStore()
 const categoryStore = useCategoryStore()
+const loadingStatistics = ref(true)
 
 const statsLast14Days = ref<Stats | null>(null)
 const statsLast7Days = ref<Stats | null>(null)
@@ -212,45 +215,29 @@ const optionLine = computed(() => ({
   ],
 }))
 
-const prodInfo91Days = ref<Productivity[] | null>(null)
-const week = Array.from({ length: 13 }, (_, i) => `W${i + 1}`)
-const days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
-
-const heatmapData = computed(() => {
-  const data = prodInfo91Days.value ?? []
-
-  if (data.length === 0) return []
-
-  const sorted = [...data].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-  )
-
-  const start = new Date(sorted[0]!.date)
-
-  return sorted.map((item) => {
-    const date = new Date(item.date)
-
-    const diffDays = Math.floor((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
-
-    const week = Math.floor(diffDays / 7)
-
-    const day = date.getDay() === 0 ? 6 : date.getDay() - 1
-
-    return [week, day, item.xpGained]
-  })
+const heatmapProductivity = ref<Productivity[]>([])
+const heatmapFailed = ref(false)
+const heatmap = computed(() => buildActivityHeatmap(heatmapProductivity.value, new Date()))
+const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+const heatmapDateFormat = new Intl.DateTimeFormat('de-CH', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  timeZone: 'UTC',
 })
 
-const maxXpHeatmap = computed(() => {
-  const values = heatmapData.value.map((item) => item[2]).filter((value) : value is number => value !== undefined)
+const formatHeatmapTooltip: TooltipComponentOption['formatter'] = (params) => {
+  if (Array.isArray(params)) return ''
 
-  if (values.length === 0) return 10
-
-  return Math.max(...values, 10)
-})
+  const cell = heatmap.value.cells[params.dataIndex]
+  return cell ? `${heatmapDateFormat.format(cell.date)} · ${cell.value[2]} XP` : ''
+}
 
 const optionHeatmap = computed(() => ({
   tooltip: {
     position: 'top',
+    confine: true,
+    formatter: formatHeatmapTooltip,
   },
   grid: {
     left: 20,
@@ -261,7 +248,7 @@ const optionHeatmap = computed(() => ({
   },
   xAxis: {
     type: 'category',
-    data: week,
+    data: heatmap.value.weeks,
     splitArea: {
       show: true,
     },
@@ -271,14 +258,16 @@ const optionHeatmap = computed(() => ({
   },
   yAxis: {
     type: 'category',
-    data: days,
+    data: weekdays,
+    inverse: true,
     splitArea: {
       show: true,
     },
   },
   visualMap: {
     min: 0,
-    max: maxXpHeatmap.value,
+    max: heatmap.value.maxXp,
+    dimension: 2,
     show: false,
     calculable: true,
     orient: 'horizontal',
@@ -292,7 +281,7 @@ const optionHeatmap = computed(() => ({
     {
       name: 'Aktivitätsmap',
       type: 'heatmap',
-      data: heatmapData.value,
+      data: heatmap.value.cells.map(({ value }) => value),
       itemStyle: {
         borderRadius: 4,
         borderWidth: 2,
@@ -385,19 +374,24 @@ onMounted(async () => {
     await statsStore.productivity(7)
     prodInfoInd.value = statsStore.productivityData
 
-    await statsStore.productivity(91)
-    prodInfo91Days.value = statsStore.productivityData
-  } catch {}
+    await statsStore.productivity(activityHeatmapDays)
+    heatmapFailed.value = Boolean(statsStore.error)
+    heatmapProductivity.value = heatmapFailed.value ? [] : (statsStore.productivityData ?? [])
+  } catch {
+    heatmapFailed.value = true
+  } finally {
+    loadingStatistics.value = false
+  }
 })
 </script>
 
 <template>
   <NavAuth />
 
-  <Loading v-if="statsStore.loading"></Loading>
+  <Loading v-if="loadingStatistics"></Loading>
 
   <main
-    v-if="!statsStore.loading"
+    v-else
     class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 xl:px-0 py-4">
     <GreetingsSection
       title="Deine Produktivität"
@@ -638,7 +632,7 @@ onMounted(async () => {
         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 w-full">
           <div class="flex flex-col">
             <span class="text-lg font-semibold">Aktivitäts Heatmap</span>
-            <span class="text-sm text-[var(--text-color-light)]">Letzte 91 Tage</span>
+            <span class="text-sm text-[var(--text-color-light)]">Letzte {{ activityHeatmapDays }} Tage</span>
           </div>
 
           <div class="flex items-center justify-start md:justify-center gap-2 text-sm text-[var(--primary-color)] rounded-full">
@@ -658,8 +652,16 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div class="w-full min-w-[520px] h-[260px] sm:h-[320px] mt-3">
-          <VChart class="w-full h-full" :option="optionHeatmap" autoresize />
+        <p v-if="heatmapFailed" role="alert" class="mt-3 text-sm text-[var(--error-color)]">
+          Die Heatmap konnte nicht geladen werden.
+        </p>
+        <p v-else-if="heatmap.cells.length === 0" class="mt-3 text-sm text-[var(--text-color-light)]">
+          Keine Aktivitätsdaten vorhanden.
+        </p>
+        <div class="mt-3 w-full overflow-x-auto" role="region" aria-label="Aktivitäts-Heatmap" tabindex="0">
+          <div class="h-[260px] min-w-[520px] sm:h-[320px]">
+            <VChart class="h-full w-full" :option="optionHeatmap" autoresize />
+          </div>
         </div>
       </div>
     </section>
