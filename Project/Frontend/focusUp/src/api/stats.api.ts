@@ -25,7 +25,9 @@ export async function getStatsApi(rangeInDay?: number, from?: Date, to?: Date ):
   })
 }
 
-export async function getProductivityApi(rangeInDay?: number, from?: Date, to?: Date ): Promise<Productivity[]> {
+type ProductivityResponse = Omit<Productivity, 'date'> & { date: string }
+
+export async function getProductivityApi(rangeInDay?: number, from?: Date, to?: Date ): Promise<ProductivityResponse[]> {
   const params = new URLSearchParams({ rangeInDays: rangeInDay?.toString() ?? '', from: from?.toString() ?? '', to: to?.toString() ?? ''})
 
   return apiFetch(`/stats/productivity?${params}`, {
