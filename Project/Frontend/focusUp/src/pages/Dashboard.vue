@@ -158,6 +158,7 @@ const focusTimeWeek = computed(
     ) / 10,
 )
 
+const loadingDashboard = ref(true)
 let isMounted = true
 onMounted(async () => {
   applyUIMode()
@@ -188,6 +189,8 @@ onMounted(async () => {
     }
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Failed to fetch dashboard data'
+  } finally {
+    loadingDashboard.value = false
   }
 })
 
@@ -207,9 +210,8 @@ const showPopUpTask = ref<boolean>(false)
 async function submitTask(task: CreateTaskType) : Promise<boolean> {
   taskStore.error = null
   try {
-    await taskStore.createTask(task)
-
-    if(taskStore.error) return false
+    const taskId = await taskStore.createTask(task)
+    if (taskId === undefined) return false
 
     showPopUpTask.value = false
     return true
@@ -242,9 +244,9 @@ const successRate = computed(() => {
 
   <NavAuth />
 
-  <Loading v-if="statsStore.loading"></Loading>
+  <Loading v-if="loadingDashboard"></Loading>
 
-  <main v-if="!statsStore.loading" class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 lg:px-8">
+  <main v-else class="w-full max-w-[80rem] mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Greeting Section-->
     <GreetingsSection
       title="Willkommen zurück,"
