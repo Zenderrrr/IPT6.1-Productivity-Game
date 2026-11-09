@@ -167,7 +167,8 @@ const showPopUpTask = ref<boolean>(false)
 async function submitTask(task: CreateTaskType): Promise<boolean> {
   taskStore.error = null
   try {
-    await taskStore.createTask(task)
+    const taskId = await taskStore.createTask(task)
+    if (taskId === undefined) return false
 
     showPopUpTask.value = false
     return true
@@ -183,7 +184,7 @@ async function submitCategory(category: CreateCategoryType): Promise<void> {
   try {
     const categoryId = await categoryStore.createCategory(category)
 
-    if (categoryId !== null) {
+    if (categoryId !== undefined) {
       showPopUpCategory.value = false
       await categoryStore.getAllCategories()
     }
@@ -206,17 +207,10 @@ function showDeleteTask(taskId: number) {
   deleteTaskId.value = taskId
 }
 
-const errorTask = ref<string | null>(null)
 async function submitDeleteTask(taskId: number): Promise<void> {
-  errorTask.value = null
-  try {
-    await taskStore.deleteTask(taskId)
-  } catch {
-    errorTask.value = taskStore.error
-  } finally {
-    if (!errorTask.value) {
-      showPopUpDelete.value = false
-    }
+  await taskStore.deleteTask(taskId)
+  if (!taskStore.error) {
+    showPopUpDelete.value = false
   }
 }
 
