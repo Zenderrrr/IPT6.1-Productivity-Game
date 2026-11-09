@@ -15,6 +15,9 @@ const email = ref<string>('')
 const error = ref<string>('')
 const success = ref<string>('')
 async function sendForgotPassword() {
+  error.value = ''
+  success.value = ''
+
   const forgotPasswort : ForgotPasswortRequest = {
     email: email.value
   }
