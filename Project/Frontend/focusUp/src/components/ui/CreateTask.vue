@@ -48,6 +48,7 @@ async function submit(){
   }
 
   const success = await props.onSubmit(task)
+  error.value = success ? null : 'Die Task konnte nicht gespeichert werden.'
   if(success){
     title.value = ''
     description.value = ''
