@@ -3,6 +3,7 @@ import PopUpWindow from '@/components/ui/PopUpWindow.vue'
 
 const props = defineProps<{
   isShown: boolean,
+  error?: string | null,
 }>()
 
 const emit = defineEmits<{
@@ -21,6 +22,7 @@ function confirm() {
 
 <template>
   <PopUpWindow :style="props.isShown ? '' : 'display: none' " @cancel="cancel" title="Willst du deinen Account wirklich löschen?">
+    <p v-if="props.error" role="alert" class="mt-4 text-sm text-[var(--error-color)]">{{ props.error }}</p>
     <div class="w-full flex justify-center items-center my-6">
       <button @click="confirm" class="scale-animation-sm hover:bg-transparent transition duration-100 cursor-pointer px-4 py-2 bg-red-100 border border-red-500 text-red-500 rounded-lg">Endgültig Löschen</button>
     </div>
