@@ -11,35 +11,26 @@ export function GetTimeFromNow(date: Date) : string {
   // Total number of hours in the difference
   const totalHours = Math.floor(totalMinutes / 60);
 
-  // Total number of days in the difference
-  const totalDays = Math.floor(totalHours / 24);
-
-  // Getting the number of seconds left in one minute
-  const remSeconds = totalSeconds % 60;
-
-  // Getting the number of minutes left in one hour
-  const remMinutes = totalMinutes % 60;
-
   if(totalMinutes < 60) {
     return `Vor ${totalMinutes} min`;
   }
   if(totalHours < 24) {
-    return `Vor ${totalHours} min`;
+    return `Vor ${totalHours} h`;
   }
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
-  if(date.getDate() === yesterday.getDate()) {
+  if(date.toDateString() === yesterday.toDateString()) {
     return `Gestern, ${getTime(date)}`;
   }
 
   if(date.getFullYear() === now.getFullYear()) {
-    return `Am ${date.getDay()}. ${date.toLocaleString('de-CH', { month: 'long'})} - ${getTime(date)}`;
+    return `Am ${date.getDate()}. ${date.toLocaleString('de-CH', { month: 'long'})} - ${getTime(date)}`;
   }
 
   else{
-    return `${date.getFullYear()}, ${date.getDay()}. ${date.toLocaleString('de-CH', { month: 'long'})} - ${getTime(date)}`;
+    return `${date.getFullYear()}, ${date.getDate()}. ${date.toLocaleString('de-CH', { month: 'long'})} - ${getTime(date)}`;
   }
 }
 
