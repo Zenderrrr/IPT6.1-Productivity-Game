@@ -64,14 +64,23 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function deleteUser() {
-    if(token.value == null) {
-      return
-    }
-    try{
+    if (!token.value) return false
+
+    error.value = null
+    try {
       await deleteUserApi(token.value)
-    }catch(e){
+      clearSession()
+      return true
+    } catch (e) {
       error.value = e instanceof Error ? e.message : 'Unable to delete user'
+      return false
     }
+  }
+
+  function clearSession() {
+    userData.value = null
+    token.value = null
+    localStorage.removeItem('token')
   }
 
   async function logout(){
@@ -85,9 +94,7 @@ export const useAuthStore = defineStore('auth', () => {
     }catch(e){
       error.value = e instanceof Error ? e.message : 'Unable to logout'
     }finally {
-      userData.value = null
-      token.value = null
-      localStorage.removeItem('token')
+      clearSession()
     }
   }
 
