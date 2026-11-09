@@ -208,6 +208,7 @@ onMounted(() => {
               />
 
               <button
+                type="button"
                 @click="isPasswordVisible = true"
                 v-if="!showPassword()"
                 class="hover:text-[var(--primary-color)] transition duration-200 absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"
@@ -216,6 +217,7 @@ onMounted(() => {
               </button>
 
               <button
+                type="button"
                 @click="isPasswordVisible = false"
                 v-if="showPassword()"
                 class="hover:text-[var(--primary-color)] absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"

@@ -27,6 +27,14 @@ const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
 async function sendPasswordReset(){
+  error.value = null
+  success.value = null
+
+  if (!token) {
+    error.value = 'Der Link ist ungültig oder abgelaufen.'
+    return
+  }
+
   if(password.value != confirmPassword.value){
     error.value = 'Die beiden Passwörter stimmen nicht überein.'
     return
@@ -89,6 +97,7 @@ async function sendPasswordReset(){
                 />
 
                 <button
+                  type="button"
                   @click="isPasswordVisible = true"
                   v-if="!showPassword()"
                   class="hover:text-[var(--primary-color)] transition duration-200 absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"
@@ -97,6 +106,7 @@ async function sendPasswordReset(){
                 </button>
 
                 <button
+                  type="button"
                   @click="isPasswordVisible = false"
                   v-if="showPassword()"
                   class="hover:text-[var(--primary-color)] absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"
@@ -122,6 +132,7 @@ async function sendPasswordReset(){
                 />
 
                 <button
+                  type="button"
                   @click="isConfirmPasswordVisible = true"
                   v-if="!showConfirmPassword()"
                   class="hover:text-[var(--primary-color)] transition duration-200 absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"
@@ -130,6 +141,7 @@ async function sendPasswordReset(){
                 </button>
 
                 <button
+                  type="button"
                   @click="isConfirmPasswordVisible = false"
                   v-if="showConfirmPassword()"
                   class="hover:text-[var(--primary-color)] absolute right-0 top-4.5 px-3 py-3 text-[var(--text-color-light)] cursor-pointer"
