@@ -66,7 +66,8 @@ export const useStatsStore = defineStore('stats', () => {
 
       productivityData.value = data.map(t => ({
         ...t,
-        date: new Date(t.date)
+        // The API date identifies a calendar day, independent of the browser time zone.
+        date: new Date(`${t.date.slice(0, 10)}T00:00:00`)
       }))
 
     }catch(e){
