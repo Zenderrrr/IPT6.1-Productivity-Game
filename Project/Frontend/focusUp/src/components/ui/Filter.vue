@@ -50,13 +50,14 @@ watch(filter, (newValue, oldValue) => {
 
 function onSubmit() : void {
   let filteredTasks: Task[] = props.tasks
+  const now = new Date()
+  const isDueToday = (task: Task) =>
+    task.dueDate?.toDateString() === now.toDateString() && !task.completedAt
 
   if(isActive.value !== ''){
 
     if(isActive.value === 'today'){
-      filteredTasks = filteredTasks.filter(t => {
-        return t.dueDate === new Date()
-      })
+      filteredTasks = filteredTasks.filter(isDueToday)
     }
 
     else if(isActive.value === 'highXp'){
@@ -107,31 +108,33 @@ function onSubmit() : void {
     if(selectedDueDate.value === 'overdue')
       filteredTasks = filteredTasks.filter((t) => {
         if(t.dueDate === null || t.dueDate === undefined) return false
-        return t.dueDate <= new Date() && t.completedAt === undefined
+        return t.dueDate <= now && t.completedAt === undefined
       })
 
     if(selectedDueDate.value === 'today'){
-      filteredTasks = filteredTasks.filter((t) => {
-        if(t.dueDate === null || t.dueDate === undefined) return false
-        return t.dueDate === new Date() && t.completedAt === undefined
-      })
+      filteredTasks = filteredTasks.filter(isDueToday)
     }
 
     if(selectedDueDate.value === 'week'){
+      const weekStart = new Date(now)
+      weekStart.setHours(0, 0, 0, 0)
+      weekStart.setDate(weekStart.getDate() - ((weekStart.getDay() + 6) % 7))
+      const nextWeekStart = new Date(weekStart)
+      nextWeekStart.setDate(nextWeekStart.getDate() + 7)
+
       filteredTasks = filteredTasks.filter((t) => {
-        if(t.dueDate === null || t.dueDate === undefined) return false
-        return t.dueDate >= new Date() && t.completedAt === undefined
+        return t.dueDate && t.dueDate >= weekStart && t.dueDate < nextWeekStart && !t.completedAt
       })
     }
   }
 
   if (selectedFromDate.value !== null && selectedToDate.value !== null) {
-    const fromDate = new Date(selectedFromDate.value)
-    const toDate = new Date(selectedToDate.value)
+    const fromDate = new Date(`${selectedFromDate.value}T00:00:00`)
+    const endDate = new Date(`${selectedToDate.value}T00:00:00`)
+    endDate.setDate(endDate.getDate() + 1)
 
     filteredTasks = filteredTasks.filter((t) => {
-      if (t.dueDate === null || t.dueDate === undefined) return false
-      return t.dueDate >= fromDate && t.dueDate <= toDate
+      return t.dueDate && t.dueDate >= fromDate && t.dueDate < endDate
     })
   }
 
